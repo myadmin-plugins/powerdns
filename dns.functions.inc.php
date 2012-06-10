@@ -705,7 +705,7 @@
 		$dbh_city = mysql_connect('66.45.228.79', 'dns', 'python');
 		mysql_select_db('dns', $dbh_city);
 		mysql_query("insert into changes values (NULL, '" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($ip) . "', '" . mysql_real_escape_string($host) . "')", $dbh_city);
-		billingd_log("Reverse DNS $ip => $host", __line__, __file__);
+		//billingd_log("Reverse DNS $ip => $host", __line__, __file__);
 		if (mysql_affected_rows($dbh_city) == 1)
 		{
 			return true;
