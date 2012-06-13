@@ -113,7 +113,7 @@
 	function get_dns_domain($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin')
@@ -152,7 +152,7 @@
 		{
 			return false;
 		}
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$result = mysql_query("select * from records where domain_id='$domain_id'", $dbh);
@@ -184,7 +184,7 @@
 	{
 		$domain_id = intval($domain_id);
 		$record_id = intval($record_id);
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		if (get_dns_domain($domain_id) !== false)
 		{
@@ -234,7 +234,7 @@
 		}
 		$ttl = mysql_real_escape_string($ttl);
 		$prio = mysql_real_escape_string($prio);
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$query = "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ($domain_id,'$name','$content','$type','$ttl','$prio')";
 		mysql_query($query, $dbh);
@@ -282,7 +282,7 @@
 		}
 		$ttl = mysql_real_escape_string($ttl);
 		$prio = mysql_real_escape_string($prio);
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date=now() where domain_id='$domain_id' and id='$record_id'";
 		mysql_query($query, $dbh);
@@ -308,7 +308,7 @@
 	function delete_dns_domain($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		if (get_dns_domain($domain_id) !== false)
 		{
@@ -331,7 +331,7 @@
 	function dns_editor()
 	{
 		page_title('DNS Editor');
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
@@ -478,7 +478,7 @@
 	function dns_delete()
 	{
 		page_title('Delete DNS Record');
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = mysql_real_escape_string($GLOBALS['tf']->variables->request['id']);
@@ -521,7 +521,7 @@
 	{
 		$return['status'] = 'error';
 		$return['status_text'] = '';
-		$dbh = mysql_connect('209.159.155.28', 'poweradmin', 'xxxxxxxxxx');
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$db = clone $GLOBALS['tf']->db;
@@ -645,7 +645,7 @@
 		$table->add_field('&nbsp;');
 		$table->add_field('cdns1.interserver.net');
 		$table->add_field('&nbsp;');
-		$table->add_field('209.159.155.28');
+		$table->add_field(POWERADMIN_HOST);
 		$table->add_row();
 		$table->add_field('Secondary DNS');
 		$table->add_field('&nbsp;');
