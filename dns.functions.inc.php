@@ -695,7 +695,7 @@
 	 */
 	function reverse_dns($ip, $host)
 	{
-		if (!valid_domain($host))
+		if (!valid_hostname($host))
 		{
 			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 			return false;
