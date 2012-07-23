@@ -76,7 +76,7 @@
 				$headers .= "MIME-Version: 1.0" . EMAIL_NEWLINE;
 				$headers .= "Content-type: text/html; charset=iso-8859-1" . EMAIL_NEWLINE;
 				$headers .= "From: " . TITLE . " <" . EMAIL_FROM . ">" . EMAIL_NEWLINE;
-				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
+//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
 				$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
 				$email .= 'login as root and type:<br>   pear install Net/DNS<br>to fix<br>';
 				admin_mail($subject, $email, $headers);
