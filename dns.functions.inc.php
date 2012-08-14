@@ -577,7 +577,7 @@
 		if ($result)
 		{
 			$domain_id = mysql_insert_id($dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','localhost detain@interserver.net " . date('Ymd') . "01','SOA',86400,NULL)", $dbh);
+			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','localhost dns@interserver.net " . date('Ymd') . "01','SOA',86400,NULL)", $dbh);
 			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','cdns1.interserver.net','NS',86400,NULL)", $dbh);
 			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','cdns2.interserver.net','NS',86400,NULL)", $dbh);
 			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','cdns3.interserver.net','NS',86400,NULL)", $dbh);
