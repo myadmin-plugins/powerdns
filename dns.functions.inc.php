@@ -618,8 +618,6 @@
 				'ttl' => 86400,
 				'prio' => NULL
 			)), $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . 
-			$domain_id . ",'" . $domain . "','" . $ip . "','A',120,NULL)", $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => '*.'.$domain,
