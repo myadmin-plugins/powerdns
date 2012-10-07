@@ -222,21 +222,20 @@
 		{
 			return false;
 		}
-		$name = mysql_real_escape_string($name);
-		$type = mysql_real_escape_string($type);
 		if ($type == 'SPF')
 		{
-			$content = mysql_real_escape_string(stripslashes('\"' . $content . '\"'));
+			$content = '\"'.$content.'\"';
 		}
-		else
-		{
-			$content = mysql_real_escape_string($content);
-		}
-		$ttl = mysql_real_escape_string($ttl);
-		$prio = mysql_real_escape_string($prio);
 		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
-		$query = "INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES ($domain_id,'$name','$content','$type','$ttl','$prio')";
+		$query = make_insert_query('records', array(
+			'domain_id' => $domain_id,
+			'name' => $name,
+			'content' => $content,
+			'type' => $type,
+			'ttl' => $ttl,
+			'prio' => $prio
+		));
 		mysql_query($query, $dbh);
 		$id = mysql_insert_id($dbh);
 		update_soa_serial($domain_id);
@@ -540,9 +539,7 @@
 		$module = get_module_name($module);
 		$settings = get_module_settings($module);
 		$data = $GLOBALS['tf']->accounts->read($custid);
-		$domain = mysql_real_escape_string($domain);
-		$ip = mysql_real_escape_string($ip);
-		$result = mysql_query("select * from domains where name='$domain'", $dbh);
+		$result = mysql_query("select * from domains where name='".mysql_real_escape_string($domain)."'", $dbh);
 		if ($result)
 		{
 			if (mysql_num_rows($result) > 0)
@@ -572,19 +569,81 @@
 			$return['status_text'] = 'Invalid IP Address';
 			return $return;
 		}
-		$query = "INSERT INTO domains (name, type, account) values ('" . $domain . "', 'MASTER', '" . $custid . "');";
+		$query = make_insert_query('domains', array(
+			'name' => $domain,
+			'type' => 'MASTER',
+			'account' => $custid
+		));
 		$result = mysql_query($query, $dbh);
 		if ($result)
 		{
 			$domain_id = mysql_insert_id($dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','localhost dns@interserver.net " . date('Ymd') . "01','SOA',86400,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','cdns1.interserver.net','NS',86400,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','cdns2.interserver.net','NS',86400,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','cdns3.interserver.net','NS',86400,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','" . $ip . "','A',120,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'*." . $domain . "','" . $ip . "','A',120,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'localhost." . $domain . "','127.0.0.1','A',120,NULL)", $dbh);
-			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . $domain_id . ",'" . $domain . "','mail." . $domain . "','MX',120,25)", $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => $domain,
+				'content' => 'localhost dns.interserver.net '.date('Ymd').'01',
+				'type' => 'SOA',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => $domain,
+				'content' => 'cdns1.interserver.net',
+				'type' => 'NS',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => $domain,
+				'content' => 'cdns2.interserver.net',
+				'type' => 'NS',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => $domain,
+				'content' => 'cdns3.interserver.net',
+				'type' => 'NS',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => $domain,
+				'content' => $ip,
+				'type' => 'A',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query("INSERT INTO records (domain_id, name, content, type,ttl,prio) VALUES (" . 
+			$domain_id . ",'" . $domain . "','" . $ip . "','A',120,NULL)", $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => '*.'.$domain,
+				'content' => $ip,
+				'type' => 'A',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => 'localhost.'.$domain,
+				'content' => '127.0.0.1',
+				'type' => 'A',
+				'ttl' => 86400,
+				'prio' => NULL
+			)), $dbh);
+			mysql_query(make_insert_query('records', array(
+				'domain_id' => $domain_id,
+				'name' => $domain,
+				'content' => 'mail.'.$domain,
+				'type' => 'MX',
+				'ttl' => 86400,
+				'prio' => 25
+			)), $dbh);
 			$return['status'] = 'ok';
 			$return['status_text'] = 'Domain ' . $domain . ' Added!';
 		}
@@ -704,7 +763,12 @@
 		global $dbh_city;
 		$dbh_city = mysql_connect('66.45.228.79', 'dns', 'python');
 		mysql_select_db('dns', $dbh_city);
-		mysql_query("insert into changes values (NULL, '" . mysql_real_escape_string($username) . "', '" . mysql_real_escape_string($ip) . "', '" . mysql_real_escape_string($host) . "')", $dbh_city);
+		mysql_query(make_insert_query('changes', array(
+			'id' => NULL,
+			'username' => $username,
+			'ip' => $ip,
+			'hostname' => $host
+		)), $dbh_city);
 		//billingd_log("Reverse DNS $ip => $host", __line__, __file__);
 		if (mysql_affected_rows($dbh_city) == 1)
 		{
