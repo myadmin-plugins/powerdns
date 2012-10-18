@@ -14,7 +14,7 @@
 	/**
 	 * max domains hosted on our dns server per client
 	 */
-	define('MAX_DNS_DOMAINS', 10);
+	define('MAX_DNS_DOMAINS', 20);
 
 	/**
 	 * get_hostname()
