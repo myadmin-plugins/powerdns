@@ -422,7 +422,14 @@
 					$table->add_field($record['type']);
 					$table->add_field($record['content']);
 					$table->add_field($record['ttl']);
-					$table->add_field($record['prio']);
+					if (in_array($record['type'], array('MX','SRV')))
+					{
+						$table->add_field($record['prio']);
+					}
+					else
+					{
+						$table->add_field();
+					}
 					if ($record['type'] != 'SOA')
 					{
 						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1', 'Delete'));
