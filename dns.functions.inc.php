@@ -410,7 +410,7 @@
 					}
 					$sel .= "</select>\n";
 					$table->add_field($sel);
-					$table->add_field($table->make_input('content', $record['content'], 25));
+					$table->add_field($table->make_input('content', htmlentities($record['content']), 25));
 					$table->add_field($table->make_input('ttl', $record['ttl'], 5));
 					$table->add_field($table->make_input('prio', $record['prio'], 3));
 					$table->add_field($table->make_submit('Update') . $table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, '<input type=button value=Cancel>'));
