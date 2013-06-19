@@ -328,7 +328,7 @@
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
-		$types = array('A' => 'Point To', 'MX' => 'Send Mail To');
+		$types = array('A' => 'Point To IP', 'CNAME' => 'Points To Hostname', 'MX' => 'Send Mail To');
 		$table = new TFTable;
 		$domain = get_dns_domain($domain_id);
 		if ($domain !== false)
@@ -395,7 +395,6 @@
 					$table->add_hidden('update', $record['id']);
 					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." . $domain['name'] . "</td></tr></table>");
 					$sel = "<select name=\"type\">\n";
-					$types = array('A' => 'Point To', 'MX' => 'Send Mail To');
 					foreach ($types as $type_available => $type_desc)
 					{
 						if ($type_available == $record["type"])
@@ -419,13 +418,9 @@
 				else
 				{
 					$table->add_field($record['name']);
-					if ($record['type'] == 'A')
+					if (isset($types[$record['type']]))
 					{
-						$type = 'Points To';
-					}
-					elseif ($record['type'] == 'MX')
-					{
-						$type = 'Mail Goes To';
+						$type = $types[$record['type']];
 					}
 					$table->add_field($type);
 					$table->add_field($record['content']);
@@ -469,6 +464,8 @@
 				$sel .= "</select>\n";
 				$table->add_field($sel);
 				$table->add_field($table->make_input('content', '', 25));
+				$table->add_hidden('ttl', 86400);
+				$table->add_hidden('prio', '');
 				//$table->add_field($table->make_input('ttl', '86400', 5));
 				//$table->add_field($table->make_input('prio', '', 3));
 				$table->add_field($table->make_submit('Add Record'));
@@ -480,6 +477,7 @@
 		{
 			add_output('There was an error with the query, or you dont have access to that domain or it doesnt exist');
 		}
+		add_output($table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
 		add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 	}
 
@@ -634,6 +632,7 @@
 		{
 			add_output('There was an error with the query, or you dont have access to that domain or it doesnt exist');
 		}
+		add_output($table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, 'Go To Basic DNS Editor') . '<br>');
 		add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 	}
 
