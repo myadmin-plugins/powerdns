@@ -695,6 +695,8 @@
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
+		$dbh2 = mysql_connect('66.45.228.248', 'poweradmin', POWERADMIN_PASSWORD);
+		$dbh3 = mysql_connect('173.214.160.195', 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$db = clone $GLOBALS['tf']->db;
@@ -748,10 +750,18 @@
 			'type' => 'MASTER',
 			'account' => $custid
 		));
+		$query2 = make_insert_query('domains', array(
+			'name' => $domain,
+			'master' => POWERADMIN_HOST,
+			'type' => 'SLAVE',
+			'account' => 'admin'
+		));
 		$result = mysql_query($query, $dbh);
 		if ($result)
 		{
 			$domain_id = mysql_insert_id($dbh);
+			mysql_query($query2, $dbh2);
+			mysql_query($query2, $dbh3);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
