@@ -34,21 +34,22 @@
 	 */
 	function get_hostname($ip)
 	{
-		@include_once ('Net/DNS.php');
+		@include_once ('Net/DNS2.php');
 		global $cached_zones;
 		$parts = explode('.', $ip);
 		$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
-		if (class_exists('Net_DNS_Resolver'))
+		if (class_exists('Net_DNS2_Resolver'))
 		{
-			$resolver = new Net_DNS_Resolver();
-			$resolver->nameservers = array('66.45.228.79');
+			$resolver = new Net_DNS2_Resolver(array('nameservers' => array('66.45.228.79')));
+			//$resolver->nameservers = array('66.45.228.79');
 			if (!isset($cached_zones[$zone]))
 			{
 				$tzone = array();
-				$response = $resolver->axfr($zone);
-				if (count($response))
+				$response = $resolver->query($zone, 'AXFR');
+				//billingd_log(print_r($response, true));
+				if (count($response->answer))
 				{
-					foreach ($response as $rr)
+					foreach ($response->answer as $rr)
 					{
 						if ($rr->type == 'PTR')
 						{
