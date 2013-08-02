@@ -79,7 +79,7 @@
 //				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
 				$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
 				$email .= 'login as root and type:<br>   pear install Net/DNS<br>to fix<br>';
-				admin_mail($subject, $email, $headers);
+				admin_mail($subject, $email, $headers, false, 'admin_email_problems.tpl');
 				$GLOBALS['tf']->session->appsession('emailed_no_net_dns', 1);
 			}
 			if (!isset($cached_zones[$zone]))
