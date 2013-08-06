@@ -716,6 +716,16 @@
 		$module = get_module_name($module);
 		$settings = get_module_settings($module);
 		$data = $GLOBALS['tf']->accounts->read($custid);
+		if (!valid_domain($domain))
+		{
+			$return['status_text'] = 'Invalid Domain Name';
+			return $return;
+		}
+		if (!valid_ip($ip))
+		{
+			$return['status_text'] = 'Invalid IP Address';
+			return $return;
+		}
 		$result = mysql_query("select * from domains where name='".mysql_real_escape_string($domain)."'", $dbh);
 		if ($result)
 		{
@@ -736,15 +746,23 @@
 				return $return;
 			}
 		}
-		if (!valid_domain($domain))
+		if (!$GLOBALS['tf']->ima == 'admin')
 		{
-			$return['status_text'] = 'Invalid Domain Name';
-			return $return;
-		}
-		if (!valid_ip($ip))
-		{
-			$return['status_text'] = 'Invalid IP Address';
-			return $return;
+			$tldsize = sizeof($tlds);
+			for ($x = 0; $x < $tldsize; $x++)
+			{
+				if (preg_match('/\.' . $tlds[$x] . '$/i', $domain))
+				{
+					$tld = $tlds[$x];
+					$tdomain = str_replace('.'.$tld, '', $domain);
+					if (strpos($tdomain, '.') === false)
+					{
+						$return['status_text'] = 'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry';
+						return $return;
+					}
+					break;
+				}
+			}
 		}
 		$query = make_insert_query('domains', array(
 			'name' => $domain,
