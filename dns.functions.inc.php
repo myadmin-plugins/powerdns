@@ -960,6 +960,10 @@
 			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 			return false;
 		}
+		if (strpos($host, '_') !== false )
+		{
+			dialog('Invalid Character _',  'The _ character is not allowed in reverse DNS entries');
+		}
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
 		global $dbh_city;
 		$dbh_city = mysql_connect('66.45.228.79', 'dns', 'python');
