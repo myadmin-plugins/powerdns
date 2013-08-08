@@ -784,7 +784,7 @@
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
-				'content' => 'localhost dns.interserver.net '.date('Ymd').'01',
+				'content' => 'cdns1.interserver.net. dns.interserver.net '.date('Ymd').'01',
 				'type' => 'SOA',
 				'ttl' => 86400,
 				'prio' => NULL
