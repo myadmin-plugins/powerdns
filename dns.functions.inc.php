@@ -270,6 +270,8 @@
 		{
 			return false;
 		}
+		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
+		mysql_select_db('poweradmin', $dbh);
 		$name = mysql_real_escape_string($name);
 		$type = mysql_real_escape_string($type);
 		if ($type == 'SPF')
@@ -282,8 +284,6 @@
 		}
 		$ttl = mysql_real_escape_string($ttl);
 		$prio = mysql_real_escape_string($prio);
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
 		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date=now() where domain_id='$domain_id' and id='$record_id'";
 		mysql_query($query, $dbh);
 		update_soa_serial($domain_id);
@@ -884,8 +884,8 @@
 
 		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1)
 		{
-			$domain = trim(mysql_real_escape_string($GLOBALS['tf']->variables->request['domain']));
-			$ip = trim(mysql_real_escape_string($GLOBALS['tf']->variables->request['ip']));
+			$domain = trim($db->real_escape($GLOBALS['tf']->variables->request['domain']));
+			$ip = trim($db->real_escape($GLOBALS['tf']->variables->request['ip']));
 			$result = add_dns_domain($domain, $ip);
 			add_output($result['status_text']);
 		}
