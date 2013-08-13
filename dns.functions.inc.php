@@ -735,7 +735,7 @@
 				return $return;
 			}
 		}
-		if (!$GLOBALS['tf']->ima == 'admin')
+		if ($GLOBALS['tf']->ima != 'admin')
 		{
 			$query = "select count(*) from domains where domains.account='$custid'";
 			$result = mysql_query($query, $dbh);
@@ -746,22 +746,30 @@
 				return $return;
 			}
 		}
-		if (!$GLOBALS['tf']->ima == 'admin')
+		if ($GLOBALS['tf']->ima != 'admin')
 		{
+			$tlds = get_known_tlds();
 			$tldsize = sizeof($tlds);
+			$found_tld = false;
 			for ($x = 0; $x < $tldsize; $x++)
 			{
-				if (preg_match('/\.' . $tlds[$x] . '$/i', $domain))
+				if (preg_match('/\.' . str_replace('.', '\.', $tlds[$x]) . '$/i', $domain))
 				{
+					$found_tld = true;
 					$tld = $tlds[$x];
 					$tdomain = str_replace('.'.$tld, '', $domain);
-					if (strpos($tdomain, '.') === false)
+					if (strpos($tdomain, '.') !== false)
 					{
 						$return['status_text'] = 'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry';
 						return $return;
 					}
 					break;
 				}
+			}
+			if ($found_tld == false)
+			{
+				$return['status_text'] = 'This domain does not appear to have a valid TLD';
+				return $return;
 			}
 		}
 		$query = make_insert_query('domains', array(
