@@ -6,7 +6,7 @@
 	 * @version $Revision$
 	 * @copyright 2012
 	 * @package MyAdmin
-	 * @category DNS 
+	 * @category DNS
 	 */
 
 	include (dirname(__file__) . '/pdns.functions.inc.php');
@@ -27,10 +27,10 @@
 	 * clients with multiple vlans and potentially tons of IPs, thats a TON of queries to
 	 * be making normally to get all the reverse dns settings for them from city, but this way
 	 * it will only be a couple queries no matter how many ips.   It also caches all results.
-	 * 
+	 *
 	 * @see API
 	 * @param string $ip IP Address
-	 * @return string|false Hostname 
+	 * @return string|false Hostname
 	 */
 	function get_hostname($ip)
 	{
@@ -107,7 +107,7 @@
 	 * get_dns_domain()
 	 * Gets the DNS Entry for a given domain id.
 	 *
-	 * @see API 
+	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
@@ -140,8 +140,8 @@
 	 * get_dns_records()
 	 * To be used in combination with {@}get_dns_domain
 	 * This gets all the records for a given domain.
-	 * @todo add in some custid check here will have to do a join w/ the domains table. 
-	 * 
+	 * @todo add in some custid check here will have to do a join w/ the domains table.
+	 *
 	 * @see API
 	 * @param int $domain_id The ID of the domain in question.
 	 * @return array|false Either an array containing some information about the domain or false on failure.
@@ -175,7 +175,7 @@
 	/**
 	 * delete_dns_record()
 	 * deletes a single dns record from a domain
-	 * 
+	 *
 	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
 	 * @param integer $record_id The ID of the domains record to remove.
@@ -200,9 +200,9 @@
 
 	/**
 	 * add_dns_record()
-	 * Adds a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number 
+	 * Adds a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
 	 * after the update so you dont need to worry about that.
-	 * 
+	 *
 	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
 	 * @param string $name the hostname being set on the dns record.
@@ -245,9 +245,9 @@
 
 	/**
 	 * update_dns_record()
-	 * Updte a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number 
+	 * Updte a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
 	 * after the update so you dont need to worry about that.
-	 * 
+	 *
 	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
 	 * @param integer $record_id The ID of the record to update
@@ -300,7 +300,7 @@
 	/**
 	 * delete_dns_record()
 	 * deletes a domain from the system
-	 * 
+	 *
 	 * @see API
 	 * @param int $domain_id The ID of the domain in question.
 	 * @return bool will return true if it succeeded, or false if there was some type of error.
@@ -491,7 +491,7 @@
 	/**
 	 * dns_editor()
 	 * The DNS Editor
-	 * 
+	 *
 	 * @return void
 	 */
 	function dns_editor()
@@ -646,7 +646,7 @@
 	/**
 	 * dns_delete()
 	 * deletes a domain from the DNS server
-	 * 
+	 *
 	 * @return
 	 */
 	function dns_delete()
@@ -682,10 +682,10 @@
 	/**
 	 * add_dns_domain()
 	 * adds a new domain into our system.
-	 * 
+	 *
 	 * status will be "ok" if it added, or "error" if there was any problems
-	 * status_text will contain a description of the problem if any. 
-	 * 
+	 * status_text will contain a description of the problem if any.
+	 *
 	 * @see API
 	 * @param string $domain domain name to host
 	 * @param string $ip ip address to assign it to.
@@ -866,7 +866,7 @@
 
 	/**
 	 * dns_manager()
-	 * 
+	 *
 	 * @return
 	 */
 	function dns_manager()
@@ -933,7 +933,7 @@
 
 	/**
 	 * dns_resolvers()
-	 * 
+	 *
 	 * @return
 	 */
 	function dns_resolvers()
@@ -956,9 +956,9 @@
 	/**
 	 * reverse_dns()
 	 * sets up reverse dns for a given IP address.
-	 * 
+	 *
 	 * @param string $ip the ip address you want reverse changed for.
-	 * @param string $host the hostname youd you want to set DNS on the IP to.  
+	 * @param string $host the hostname youd you want to set DNS on the IP to.
 	 * @return bool true if it was able to make the requested changes, false if it wasnt.
 	 */
 	function reverse_dns($ip, $host)
