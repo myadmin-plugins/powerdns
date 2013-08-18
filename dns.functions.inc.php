@@ -284,7 +284,7 @@
 		}
 		$ttl = mysql_real_escape_string($ttl);
 		$prio = mysql_real_escape_string($prio);
-		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date=now() where domain_id='$domain_id' and id='$record_id'";
+		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date='".mysql_now()."' where domain_id='$domain_id' and id='$record_id'";
 		mysql_query($query, $dbh);
 		update_soa_serial($domain_id);
 		if (mysql_affected_rows($dbh) == 1)
