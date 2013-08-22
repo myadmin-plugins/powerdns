@@ -77,7 +77,7 @@
 				$headers .= "MIME-Version: 1.0" . EMAIL_NEWLINE;
 				$headers .= "Content-type: text/html; charset=iso-8859-1" . EMAIL_NEWLINE;
 				$headers .= "From: " . TITLE . " <" . EMAIL_FROM . ">" . EMAIL_NEWLINE;
-//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
+				//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
 				$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
 				$email .= 'login as root and type:<br>   pear install Net/DNS<br>to fix<br>';
 				admin_mail($subject, $email, $headers, false, 'admin_email_problems.tpl');
@@ -225,7 +225,7 @@
 		}
 		if ($type == 'SPF')
 		{
-			$content = '\"'.$content.'\"';
+			$content = '\"' . $content . '\"';
 		}
 		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		mysql_select_db('poweradmin', $dbh);
@@ -235,8 +235,7 @@
 			'content' => $content,
 			'type' => $type,
 			'ttl' => $ttl,
-			'prio' => $prio
-		));
+			'prio' => $prio));
 		mysql_query($query, $dbh);
 		$id = mysql_insert_id($dbh);
 		update_soa_serial($domain_id);
@@ -284,7 +283,7 @@
 		}
 		$ttl = mysql_real_escape_string($ttl);
 		$prio = mysql_real_escape_string($prio);
-		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date='".mysql_now()."' where domain_id='$domain_id' and id='$record_id'";
+		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date='" . mysql_now() . "' where domain_id='$domain_id' and id='$record_id'";
 		mysql_query($query, $dbh);
 		update_soa_serial($domain_id);
 		if (mysql_affected_rows($dbh) == 1)
@@ -329,7 +328,10 @@
 		mysql_select_db('poweradmin', $dbh);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
-		$types = array('A' => 'Point To IP', 'CNAME' => 'Points To Hostname', 'MX' => 'Send Mail To');
+		$types = array(
+			'A' => 'Point To IP',
+			'CNAME' => 'Points To Hostname',
+			'MX' => 'Send Mail To');
 		$table = new TFTable;
 		$domain = get_dns_domain($domain_id);
 		if ($domain !== false)
@@ -432,7 +434,7 @@
 					$table->add_field($type);
 					$table->add_field($record['content']);
 					//$table->add_field($record['ttl']);
-					if (in_array($record['type'], array('MX','SRV')))
+					if (in_array($record['type'], array('MX', 'SRV')))
 					{
 						//$table->add_field($record['prio']);
 					}
@@ -589,7 +591,7 @@
 					$table->add_field($record['type']);
 					$table->add_field($record['content']);
 					$table->add_field($record['ttl']);
-					if (in_array($record['type'], array('MX','SRV')))
+					if (in_array($record['type'], array('MX', 'SRV')))
 					{
 						$table->add_field($record['prio']);
 					}
@@ -726,7 +728,7 @@
 			$return['status_text'] = 'Invalid IP Address';
 			return $return;
 		}
-		$result = mysql_query("select * from domains where name='".mysql_real_escape_string($domain)."'", $dbh);
+		$result = mysql_query("select * from domains where name='" . mysql_real_escape_string($domain) . "'", $dbh);
 		if ($result)
 		{
 			if (mysql_num_rows($result) > 0)
@@ -757,7 +759,7 @@
 				{
 					$found_tld = true;
 					$tld = $tlds[$x];
-					$tdomain = str_replace('.'.$tld, '', $domain);
+					$tdomain = str_replace('.' . $tld, '', $domain);
 					if (strpos($tdomain, '.') !== false)
 					{
 						$return['status_text'] = 'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry';
@@ -775,14 +777,12 @@
 		$query = make_insert_query('domains', array(
 			'name' => $domain,
 			'type' => 'MASTER',
-			'account' => $custid
-		));
+			'account' => $custid));
 		$query2 = make_insert_query('domains', array(
 			'name' => $domain,
 			'master' => POWERADMIN_HOST,
 			'type' => 'SLAVE',
-			'account' => 'admin'
-		));
+			'account' => 'admin'));
 		$result = mysql_query($query, $dbh);
 		if ($result)
 		{
@@ -792,67 +792,59 @@
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
-				'content' => 'cdns1.interserver.net. dns.interserver.net '.date('Ymd').'01',
+				'content' => 'cdns1.interserver.net. dns.interserver.net ' . date('Ymd') . '01',
 				'type' => 'SOA',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns1.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns2.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns3.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => $ip,
 				'type' => 'A',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
-				'name' => '*.'.$domain,
+				'name' => '*.' . $domain,
 				'content' => $ip,
 				'type' => 'A',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
-				'name' => 'localhost.'.$domain,
+				'name' => 'localhost.' . $domain,
 				'content' => '127.0.0.1',
 				'type' => 'A',
 				'ttl' => 86400,
-				'prio' => NULL
-			)), $dbh);
+				'prio' => NULL)), $dbh);
 			mysql_query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
-				'content' => 'mail.'.$domain,
+				'content' => 'mail.' . $domain,
 				'type' => 'MX',
 				'ttl' => 86400,
-				'prio' => 25
-			)), $dbh);
+				'prio' => 25)), $dbh);
 			$return['status'] = 'ok';
 			$return['status_text'] = 'Domain ' . $domain . ' Added!';
 		}
@@ -968,9 +960,9 @@
 			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 			return false;
 		}
-		if (strpos($host, '_') !== false )
+		if (strpos($host, '_') !== false)
 		{
-			dialog('Invalid Character _',  'The _ character is not allowed in reverse DNS entries');
+			dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
 		}
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
 		global $dbh_city;
@@ -980,8 +972,7 @@
 			'id' => NULL,
 			'username' => $username,
 			'ip' => $ip,
-			'hostname' => $host
-		)), $dbh_city);
+			'hostname' => $host)), $dbh_city);
 		//billingd_log("Reverse DNS $ip => $host", __line__, __file__);
 		if (mysql_affected_rows($dbh_city) == 1)
 		{

@@ -9,14 +9,13 @@
 	 * @category DNS 
 	 */
 
-if (!function_exists('_'))
-{
-	function _($text)
+	if (!function_exists('_'))
 	{
-		return $text;
+		function _($text)
+		{
+			return $text;
+		}
 	}
-}
-
 
 	include (INCLUDE_ROOT . '/database/class.db_mdb2.functions.inc.php');
 	//	include(INCLUDE_ROOT . '/dns/poweradmin/inc/database.inc.php');
