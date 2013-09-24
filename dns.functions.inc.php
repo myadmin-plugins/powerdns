@@ -47,7 +47,19 @@
 				if (!isset($cached_zones[$zone]))
 				{
 					$tzone = array();
-					$response = $resolver->query($zone, 'AXFR');
+					try {
+						$response = $resolver->query($zone, 'AXFR');
+					} catch(Net_DNS2_Exception $e) {
+                        //echo "::query() failed: ", $e->getMessage(), "\n";
+                        $host = gethostbyaddr($ip);
+						if ($host != $ip)
+						{
+							$cached_zones[$zone][$ip] = $host;
+							unset($host);
+							return $cached_zones[$zone][$ip];
+						}
+                        return false;
+					}
 					//billingd_log(print_r($response, true));
 					if (count($response->answer))
 					{
