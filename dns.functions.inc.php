@@ -34,12 +34,12 @@
 	 */
 	function get_hostname($ip)
 	{
+		global $cached_zones;
+		$parts = explode('.', $ip);
+		$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
 		if (is_local_ip($ip))
 		{
 			@include_once ('Net/DNS2.php');
-			global $cached_zones;
-			$parts = explode('.', $ip);
-			$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
 			if (class_exists('Net_DNS2_Resolver'))
 			{
 				$resolver = new Net_DNS2_Resolver(array('nameservers' => array('66.45.228.79')));
