@@ -752,6 +752,11 @@
 			$return['status_text'] = 'Invalid IP Address';
 			return $return;
 		}
+		if ($ip == '209.159.155.28')
+		{
+			$return['status_text'] = 'I think you meant to add your VPS IP, not the DNS servers IP.';
+			return $return;
+		}
 		$result = mysql_query("select * from domains where name='" . mysql_real_escape_string($domain) . "'", $dbh);
 		if ($result)
 		{
