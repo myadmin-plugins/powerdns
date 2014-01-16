@@ -721,6 +721,7 @@
 	{
 		$return['status'] = 'error';
 		$return['status_text'] = '';
+		$domain = strtolower($domain);
 		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
 		$dbh2 = mysql_connect('66.45.228.248', 'poweradmin', POWERADMIN_PASSWORD);
 		$dbh3 = mysql_connect('173.214.160.195', 'poweradmin', POWERADMIN_PASSWORD);
