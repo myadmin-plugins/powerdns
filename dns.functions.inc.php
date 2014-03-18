@@ -623,14 +623,14 @@
 					{
 						$table->add_field();
 					}
-					if ($record['type'] != 'SOA')
-					{
+					//if ($record['type'] != 'SOA')
+					//{
 						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1', 'Delete'));
-					}
-					else
-					{
-						$table->add_field();
-					}
+					//}
+					//else
+					//{
+						//$table->add_field();
+					//}
 					$table->add_row();
 				}
 			}
