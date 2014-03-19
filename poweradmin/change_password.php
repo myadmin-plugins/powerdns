@@ -1,9 +1,11 @@
 <?php
 
 /*  Poweradmin, a friendly web-based admin tool for PowerDNS.
- *  See <https://rejo.zenger.nl/poweradmin> for more details.
+ *  See <http://www.poweradmin.org> for more details.
  *
  *  Copyright 2007-2010  Rejo Zenger <rejo@zenger.nl>
+ *  Copyright 2010-2014  Poweradmin Development Team
+ *      <http://www.poweradmin.org/credits.html>
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,10 +21,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * Script that handles user password changes
+ *
+ * @package     Poweradmin
+ * @copyright   2007-2010 Rejo Zenger <rejo@zenger.nl>
+ * @copyright   2010-2014 Poweradmin Development Team
+ * @license     http://opensource.org/licenses/GPL-3.0 GPL
+ */
 require_once("inc/toolkit.inc.php");
 
-if(isset($_POST['submit']) && $_POST['submit']) {
-	change_user_pass($_POST);
+if (isset($_POST['submit']) && $_POST['submit']) {
+    change_user_pass($_POST);
 }
 
 include_once("inc/header.inc.php");
@@ -52,4 +62,3 @@ echo "     </table>\n";
 echo "    </form>\n";
 
 include_once("inc/footer.inc.php");
-?>

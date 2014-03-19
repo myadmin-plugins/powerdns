@@ -1,15 +1,16 @@
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
-  username varchar(16) NOT NULL,
-  password varchar(34) NOT NULL,
+  username varchar(64) NOT NULL,
+  password varchar(128) NOT NULL,
   fullname varchar(255) NOT NULL,
   email varchar(255) NOT NULL,
   description text NOT NULL,
   perm_templ integer default 0,
-  active smallint default 0
+  active smallint default 0,
+  use_ldap smallint default 0
 );
 
-INSERT INTO users (username, password, fullname, email, description, perm_templ, active) VALUES ('admin','21232f297a57a5a743894a0e4a801fc3','Administrator','admin@example.net','Administrator with full rights.',1,1);
+INSERT INTO users (username, password, fullname, email, description, perm_templ, active, use_ldap) VALUES ('admin','21232f297a57a5a743894a0e4a801fc3','Administrator','admin@example.net','Administrator with full rights.',1,1,0);
 
 CREATE TABLE perm_items (
   id SERIAL PRIMARY KEY,
@@ -59,7 +60,8 @@ CREATE TABLE zones (
   id SERIAL PRIMARY KEY,
   domain_id integer default 0,
   owner integer default 0,
-  comment text
+  comment text,
+  zone_templ_id integer NOT NULL
 );
 
 CREATE INDEX zone_domain_owner ON zones(domain_id, owner);

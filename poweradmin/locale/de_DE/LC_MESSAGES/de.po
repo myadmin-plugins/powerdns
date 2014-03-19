@@ -3,7 +3,7 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
+
 msgid ""
 msgstr ""
 "Project-Id-Version: poweradmin 2.0.3\n"
@@ -402,9 +402,13 @@ msgstr "Session ist abgelaufen, bitte erneut einloggen."
 msgid "Authentication failed!"
 msgstr "Authentifizierung fehlgeschlagen!"
 
-#: inc/auth.inc.php:89 inc/auth.inc.php:95 inc/auth.inc.php:105
-msgid "Login"
+#: inc/auth.inc.php:89
+msgid "Log in"
 msgstr "Anmeldung"
+
+#: inc/auth.inc.php:104
+msgid "Go"
+msgstr "OK"
 
 #: inc/auth.inc.php:129
 msgid "You have logged out."
@@ -526,7 +530,7 @@ msgstr "Ung&uuml;ltige(s) Argument(e) zur Funktion %s angegeben"
 #: inc/error.inc.php:58
 #, php-format
 msgid "Invalid argument(s) given to function %s %s"
-msgstr "Ung&uuml;ltige(s) Argument(e) zur Funktion %s $s angegeben"
+msgstr "Ung&uuml;ltige(s) Argument(e) zur Funktion %s %s angegeben"
 
 #: inc/error.inc.php:59
 msgid "Unknown error."
@@ -654,7 +658,7 @@ msgid "The permission template has been deleted successfully."
 msgstr "Die Berechtigungsvorlage wurde erfolgreich gel&ouml;scht."
 
 #: inc/record.inc.php:270
-msgid "You are trying to delete the SOA record. If are not allowed to remove it, unless you remove the entire zone."
+msgid "You are trying to delete the SOA record. You are not allowed to remove it, unless you remove the entire zone."
 msgstr "Sie versuchen den SOA Eintrag zu l&ouml;schen. Solange Sie nicht die gesamte Zone l&ouml;schen, sind Sie hierf&uuml;r nicht berechtigt."
 
 #: inc/record.inc.php:603
@@ -742,8 +746,8 @@ msgid "The alternative for this installer is a manual installation. Refer to the
 msgstr "Die ALternative zu diesem Installer ist die manuelle Installation. Folgen Sie in diesem Fall den entsprechenden Anweisungen auf der Webseite poweradmin.org."
 
 #: index.php:30
-msgid "Finally, if you see any errors during the installation process, a problem report would be appreciated. You can report problems (and ask for help) on the poweradmin-users mailinglist."
-msgstr "Abschlie&szlig;end eine Bitte: Wenn Sie w&auml;hrend der Installation einen Fehler feststellen sollten, dann w&auml;re ein entsprechender Fehlerreport begr&uuml;&szlig;enswert. Sie k&ouml;nnen Problemberichte und Hilfe-Anfragen in der poweradmin-users Mailingliste berichten bzw. stellen."
+msgid "Finally, if you see any errors during the installation process, a problem report would be appreciated. You can report problems (and ask for help) on the <a href=\"http://groups.google.com/group/poweradmin\" target=\"blank\">poweradmin</a> mailinglist."
+msgstr "Abschlie&szlig;end eine Bitte: Wenn Sie w&auml;hrend der Installation einen Fehler feststellen sollten, dann w&auml;re ein entsprechender Fehlerreport begr&uuml;&szlig;enswert. Sie k&ouml;nnen Problemberichte und Hilfe-Anfragen in der <a href=\"http://groups.google.com/group/poweradmin\" target=\"blank\">poweradmin</a> Mailingliste berichten bzw. stellen."
 
 #: index.php:33
 msgid "Do you want to proceed now?"

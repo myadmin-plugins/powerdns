@@ -1,0 +1,4808 @@
+commit 612032feb05661e4977acb6deb5c01a5d8d589b3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 13 21:12:27 2014 +0200
+
+    Fixes #60 - list zones beginning with underscore
+
+commit a7b3f1458e58275adff0ae6efa860a020b289959
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Mar 10 22:56:21 2014 +0200
+
+    Updated PowerDNS schema files.
+
+commit ead631cb86afa17387cfa852a6fb137792b4aef9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Mar 10 22:35:47 2014 +0200
+
+    Fixes #145 - Updated TLD list
+
+commit 6051fd2dc87b1af6081a532240711b7276b9e88c
+Merge: 8e20240 e9364a9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Mar 10 20:26:14 2014 +0200
+
+    Merge branch 'poweradmin-innodb-conversion' of https://github.com/luismottacampos/poweradmin
+
+commit e9364a98f86abdfbe393ab1a201bbb75701fbbff
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Sun Mar 9 20:27:31 2014 +0100
+
+    Third round of comments
+
+commit 2f0ab50629e7473448dc037d90282c6b1fc05488
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Sun Mar 9 19:58:54 2014 +0100
+
+    Incorporating second round of comments from Edmondas
+
+commit 61375c1c9b14d37da01500b345ecc9f671ce6b5e
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Sun Mar 9 19:48:47 2014 +0100
+
+    Incorporating comments from Edmondas
+
+commit 8e20240b3f680b29e3a21a33bc0b56cce31e540b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Mar 8 18:52:41 2014 +0200
+
+    Removed redundant closing tag
+
+commit 0d49c88fb4cec09e99f5d9bdea233efd93f34fd7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Mar 8 17:58:08 2014 +0200
+
+    Increase version number
+
+commit 24c303b8298d26ae3fb4514871c9ff6419557d23
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Mar 8 17:55:23 2014 +0200
+
+    Removed redundant closing tag
+
+commit 1b9f1c2a95233c68cba108867881c0d87e8bd566
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Mar 8 17:22:03 2014 +0200
+
+    Reformatted source code
+
+commit 935d96dec9c9b76e455b6fcc79ab3d5a0f1eebcb
+Merge: 6a40dc0 ff01815
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Sat Mar 8 16:06:21 2014 +0100
+
+    Merge branch 'poweradmin-innodb-conversion' of github.com:luismottacampos/poweradmin into poweradmin-innodb-conversion
+    
+    Conflicts:
+    	sql/poweradmin-mysql-db-structure.sql
+    	sql/powerdns-dnssec-mysql-db-structure.sql
+    	sql/powerdns-mysql-innodb-migration-script.sql
+
+commit 6a40dc0cf1a6c89288eb087dd9d483cdabcf8114
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Sat Mar 8 14:04:16 2014 +0100
+
+    PowerAdmin InnoDB Migration
+    
+    This change makes PowerAdmin work with InnoDB alone, a much better
+    option in terms of data-safety and database management.
+
+commit ff018150a8ccb60747d8a77e80fd8be236d24cee
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Sat Mar 8 14:04:16 2014 +0100
+
+    PowerAdmin InnoDB Migration
+    
+    This change makes PowerAdmin work with InnoDB alone, a much better
+    option in terms of data-safety and database management.
+
+commit db10ea6c8347e98309c84061953f537001333944
+Merge: 6c835a9 ac85f8f
+Author: Edmondas <eg@fbsd.lt>
+Date:   Fri Mar 7 14:18:00 2014 +0200
+
+    Merge pull request #144 from luismottacampos/small-mysql-innodb-sql-improvements
+    
+    Small MySQL InnoDB Improvements
+
+commit ac85f8f124ca1e95aaa5d6e2054d0bd39e5b24ac
+Author: Luis Motta Campos <lucampos@ebay.com>
+Date:   Fri Mar 7 12:42:20 2014 +0100
+
+    Small MySQL InnoDB Improvements
+    
+    When insterting data on InnoDB tables there's no need to lock it. Just
+    wrap your DML in transactional statements and you're good.
+
+commit 6c835a916bc916c2b4f187bc40e6dad1eff5113f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 6 22:41:28 2014 +0200
+
+    Fixes #79 - It was not possible to add HINFO records, because regular expression was incorrect
+
+commit 9731ac8dfe42f67d011058f486f7fb3a9b01d67f
+Merge: fa27e10 3e71aed
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 6 21:24:35 2014 +0200
+
+    Merge branch 'master' of https://github.com/poweradmin/poweradmin
+
+commit fa27e10b5b8bcdde29ed97be8d0aeb071349ae7c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 6 21:16:42 2014 +0200
+
+    Let installer creates config which uses PDO by default, MDB2 support will be droped soon.
+
+commit d1ef2c367e43aeda3c36d2bc4cbaf7ce979d4513
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 6 21:09:40 2014 +0200
+
+    Hide php warning
+
+commit 8aba6bfcdfd6de5de5cc4167d758c62c99fab414
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 6 20:51:04 2014 +0200
+
+    Updated mailing list address which can be seen on installer step 2
+
+commit 3e71aedbbc5439d1ff9c234a2fc7eabaa9b8d165
+Merge: beeb90d c7824cd
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Mar 5 19:40:59 2014 +0200
+
+    Merge pull request #143 from m0rcq/master
+    
+    * enable proper database port handling
+
+commit c7824cd33bdcba4918832cb9bcabb7512a5216a1
+Author: jack argirov <jack@dromo.org>
+Date:   Wed Mar 5 17:12:39 2014 +0000
+
+    * enable proper database port handling
+
+commit beeb90d70f253dd37604895681327d8621754961
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Mar 5 06:21:51 2014 +0200
+
+    Improvement for #32 - By default don't be so strict about existing top level TLDs.
+
+commit b349767d124f35b53f0c4f9fdc80efaad3637573
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Mar 2 14:06:31 2014 +0200
+
+    Updated message files.
+
+commit f8ed3b9fd5596354149f85eed9cbcbb6dacc2a88
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Mar 2 08:44:50 2014 +0200
+
+    Updated references to bug tracking system.
+
+commit cb1cfa86c0229d29d88405a10fd8b565b2a086e8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Mar 2 08:19:58 2014 +0200
+
+    Updated link to config file documentation
+
+commit 63c93bebcec20bd2105166e81000b0d8c17260c1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Feb 27 22:21:53 2014 +0200
+
+    Fixes #52 - Content field for template records can't be empty
+
+commit 8e6bb2cbfa6a47ce8f6059975936598f553b49b3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Feb 27 21:26:31 2014 +0200
+
+    Solution for #126 - force UTF-8 encoding in case if http server was configured for different charset
+
+commit efaaed9d697b824db1c917cce370ac24d2a0e96b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Feb 27 07:49:27 2014 +0200
+
+    Fixes #48 - Wrong type used for quoting SQL parameter, that can cause error while changing username
+
+commit 563c069ef795461317f4c9a2f21ccaae3823147f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 26 23:08:57 2014 +0200
+
+    Fixes #23 - Added configuration variable to control creation of top level TLDs
+
+commit f5de51df581928fd55be59d74f122dddca752d7e
+Author: Stefan Bühler <stbuehler@web.de>
+Date:   Mon Sep 23 17:41:23 2013 +0200
+
+    always display current record type in drop down list, even if not in the list of supported types. some more htmlspecialchars and SPF/... sanitizing fixes too
+
+commit 38e958bce6379b0a2fc995f908aefa4497ecac0a
+Author: Stefan Bühler <stbuehler@web.de>
+Date:   Mon Sep 23 15:09:01 2013 +0200
+
+    add SPF content sanitizing to edit_record.php (same as edit.php and edit_zone_templ.php)
+
+commit 77002f5c4b9bf6ec7c791e33d4bbf691e848b073
+Author: Stefan Bühler <stbuehler@web.de>
+Date:   Mon Sep 23 17:22:24 2013 +0200
+
+    Add basic support for more record types
+
+commit b15e7ea0ad76693366f095768bd06abc646717d3
+Author: Stefan Bühler <stbuehler@web.de>
+Date:   Mon Sep 23 15:31:07 2013 +0200
+
+    if pdnssec_command is set use it to rectify all zones - pdns needs this for all zones if dnssec is enabled
+
+commit f4972dd2359b3e967bec252e63242079b040f9ae
+Author: Stefan Bühler <stbuehler@web.de>
+Date:   Mon Sep 23 17:42:09 2013 +0200
+
+    fix undefined var in bulk_registration.php
+
+commit bc2663ff2fb50c8f1696dbfa3a3f580a8e0470a1
+Author: Ryan Petris <ryan@petris.tel>
+Date:   Mon Sep 2 20:10:02 2013 -0400
+
+    * Use htmlspecialchars when populating input values.
+
+commit 5a41160285524556df76cb17986b8835cc29b5c4
+Author: Ryan Petris <ryan@petris.tel>
+Date:   Mon Sep 2 20:09:21 2013 -0400
+
+    * Don't validate CURL, MBOXFW, and NAPTR records as SPF records.
+    * Remove unnecessary comment about validating a record as SPF.
+    * Move validation for LOC records above the list of unvalidated records.
+
+commit a4ac0d86dc8c75c7f0c570d8fb4b8c5ea194755c
+Author: Lev Cherednikov <lev.cherednikov@nbn-holding.ru>
+Date:   Wed May 8 17:35:32 2013 +0400
+
+    Optimize function show_pages (pagination)
+
+commit 040143f49551fa49b683c098638165816dcb2798
+Author: Lev Cherednikov <lev.cherednikov@nbn-holding.ru>
+Date:   Tue May 7 18:40:13 2013 +0400
+
+    Add default secondary sort by name in zones, records list (fixes #62)
+
+commit 0fa76b8272bc40913721472574fbe273d72f902a
+Author: Lev Cherednikov <lev.cherednikov@nbn-holding.ru>
+Date:   Tue May 7 17:30:44 2013 +0400
+
+    Fix sort  by count_record in list zones
+
+commit 88f51cd637192333b3a2535174be3af708b48407
+Merge: 97c4b95 8f5b7c8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Feb 25 19:48:58 2014 +0200
+
+    Merge branch 'master' of https://github.com/poweradmin/poweradmin
+
+commit 97c4b950bd420aa512ecac5bf39e499993b36b7d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Feb 25 19:47:12 2014 +0200
+
+    Minor refactoring - renamed authentication function
+
+commit 8f5b7c84bf79c4f23b70826b59dd8ceb7ebf08af
+Merge: 05889de e789943
+Author: Edmondas <eg@fbsd.lt>
+Date:   Thu Feb 20 15:45:54 2014 +0200
+
+    Merge pull request #141 from alexjfisher/master
+    
+    Add ability to debug ldap connections.
+
+commit e789943e93d14a9d5f105606bf8c305160d303d0
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Thu Feb 20 12:34:07 2014 +0000
+
+    Add ability to debug ldap connections.
+    
+    This can be very useful when debugging certificate issues
+    when using using ldaps (secure ldap).
+
+commit 05889dee39bc2b6c1c865634e03932e1ffc5e299
+Merge: 49a6580 b5d795b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Feb 20 12:25:22 2014 +0200
+
+    Merge branch 'issue131' of https://github.com/alexjfisher/poweradmin
+
+commit 49a6580bc716889f2b778f58ac7e7953af66fa15
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 19 23:16:29 2014 +0200
+
+    Updated insert statement after added ldap support
+
+commit e933acd76360bacfd2f7181225e6cfac6fbf4664
+Merge: ff52bdb ec0a60f
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Feb 19 23:04:02 2014 +0200
+
+    Merge pull request #140 from alexjfisher/issue132
+    
+    Stop LDAP users from trying to change their own passwords.
+
+commit ff52bdbcbbf5e5ada37df96760105ae333f552dc
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 19 22:51:27 2014 +0200
+
+    Display LDAP checkbox only if ldap is enabled from config
+
+commit 195019a02a11f6033dc4794203061de83eb91655
+Merge: a148ce4 0de2c9f
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Feb 19 22:30:46 2014 +0200
+
+    Merge pull request #129 from neatbasis/master
+    
+    Fix is_valid_rr_cname_name behaviour
+
+commit a148ce4cbc8ab29000cdbdc54a2122221a1c33fd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 19 21:23:22 2014 +0200
+
+    Added sqlite migration file (just in case)
+
+commit b83d8e595b9fb0d9b184efaec513fe89d8b1a372
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 19 21:19:11 2014 +0200
+
+    Updated insert statement for sqlite database required after added ldap field.
+
+commit 7521562765bb93861368620cc835ee12f5540dca
+Merge: 3bceb1f f89b4da
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Feb 19 19:48:28 2014 +0200
+
+    Merge pull request #139 from alexjfisher/ldap-sql-changes
+    
+    Ldap sql changes
+
+commit 3bceb1f6907c20684a50aa7f2683e5c70121bb15
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 19 19:44:37 2014 +0200
+
+    Introduced ldap_use config variable, this protects current users from fatal failure after upgrade if they forget to update database
+
+commit ec0a60fbababcd04e90efb08193cd140b7af75be
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 16:10:45 2014 +0000
+
+    Only display links to changing your own password if you're not an ldap user.
+
+commit b5d795b46490c49fbe2810f0301831c2c8a9e044
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 15:55:24 2014 +0000
+
+    Implement setting of the use_ldap flag when using the users.php interface.
+
+commit 109541f671d28cd45ac279edde62c0e6055e5419
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 14:57:59 2014 +0000
+
+    Only uberusers should have the option of modifying the use_ldap flag.
+    
+    Other users will now only have Yes/No displayed.
+
+commit f89b4da6b9d1cf5f24ac7b1a12ce18c194e710fc
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 14:42:49 2014 +0000
+
+    Add SQL scripts for updating to poweradmin 2.1.7
+    
+    I'm not sure if there have been other schema changes that also need adding.
+    I've only done mysql and postgresql.
+
+commit 03de00fc424c5c7e186cf1744714fa69941a3fff
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 14:27:57 2014 +0000
+
+    Add extra use_ldap column into users tables.
+
+commit 4df34dd10267faab4a3f2f644047c99d71d65b46
+Merge: 82fd1d6 6bea73b
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Feb 19 15:28:10 2014 +0200
+
+    Merge pull request #137 from alexjfisher/master
+    
+    Trivial fixes.
+
+commit 6bea73b8e1e351ddebbd3c36dcaac82723d843aa
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 12:54:04 2014 +0000
+
+    Fix mis-spelling of 'domain'
+
+commit d2ce08c3d37d912dc3b388e63dd70b02973a8ee2
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 12:53:06 2014 +0000
+
+    Fix broken link.
+
+commit 82fd1d64f0eca26c63de38777d2e4ab3e182cf60
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 19 14:19:12 2014 +0200
+
+    Changed all links to project site, because now it is hosted at GitHub and no SSL is available
+
+commit 906a4f1fffbbea87a491e07bfc0eaedbc80a09ee
+Merge: fd309de ba26146
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Feb 19 13:39:26 2014 +0200
+
+    Merge pull request #130 from alexjfisher/master
+    
+    Added initial LDAP support
+
+commit ba261465461c887cabfb9629b207be8ddce1b0f8
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 10:44:38 2014 +0000
+
+    Remove unused global variable not used in this function.
+
+commit 860be50b7a5eacb7774bb0ab473e913ad305ed1a
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Wed Feb 19 10:43:11 2014 +0000
+
+    Refactor to remove 'Arrow Anti-pattern'
+
+commit 56e2708a6b6ed03dbe494c0fe172af96a98d2cbe
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Tue Feb 18 18:04:51 2014 +0000
+
+    Display use_ldap flag in user management.
+    
+    Code for actually editing this boolean still needs writing.
+
+commit 2b4880b007a2e9377d9fb7b457d5da6f409b78e0
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Tue Feb 18 17:44:20 2014 +0000
+
+    Implement LDAPAuthenticate function.
+
+commit 48267664b628e1dc8e93a881fe3b9021720b55b4
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Tue Feb 18 16:05:37 2014 +0000
+
+    Add function to check if user is an LDAP user.
+
+commit a0ea78b0f06d403f93441f81ed8f01915020b662
+Author: Alex Fisher <alex@alexfisher.me.uk>
+Date:   Tue Feb 18 15:51:22 2014 +0000
+
+    Move internal authentication code to new function.
+    
+    This is in preparation of adding LDAP based authentication.
+
+commit 0de2c9feec1820250e01eb26a2544e5f87c44183
+Author: Sebastian Mäki <sebastian@tico.fi>
+Date:   Thu Feb 13 09:14:28 2014 +0200
+
+    Fix is_valid_rr_cname_name behaviour
+
+commit fd309de6dc27cee151031398c846805e855043d9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Feb 13 00:28:30 2014 +0200
+
+    Added id column and now it is possible to order zone records by id
+
+commit 902d406f37dd4524d1a350b51c9cfc9b96085e99
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Feb 13 00:04:19 2014 +0200
+
+    Script to rebuild TLD list moved to poweradmin-script repository
+
+commit ab31e531c358aa305503fe7a23cad6db28df85a4
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Feb 12 23:32:37 2014 +0200
+
+    Fixed spelling typo. Also added missing file mentioned in #22.
+
+commit 1464da51b349a04e7a914e919cb4a329dc61934c
+Author: John <john@ibiblio.org>
+Date:   Tue Dec 11 16:42:08 2012 -0500
+
+    Fix limit/offset bug in PDOCommon.class.php
+
+commit da35349c0693413cc354e21dbfc682c45d588652
+Author: John <john@ibiblio.org>
+Date:   Fri Dec 7 09:38:01 2012 -0500
+
+    Remove duplicate list_permission_templates from users.inc.php
+
+commit 83f9ae40e1bd9e802d638ebdac14f27355724433
+Author: Lubomir Host <lubomir.host@gmail.com>
+Date:   Sun Nov 4 01:21:37 2012 +0100
+
+    Order of records fields - Name, Type, Content, Prio, TTL
+
+commit 47e95ce9a17ef6007dfb54677c17c451daf79c19
+Author: Lubomir Host <lubomir.host@gmail.com>
+Date:   Sun Nov 4 00:46:33 2012 +0100
+
+    Add zone name to links edit and delete - ude friendly history in user browser.
+
+commit 665876c787ed720492933797600e3a8d8e261651
+Author: Lubomir Host <lubomir.host@gmail.com>
+Date:   Sun Nov 4 00:03:44 2012 +0100
+
+    Fields order on edit record page - Name, Type, Content, Priority, TTL
+
+commit 1c4fa7fa2787c53445bfe376aa31d5c30a5ad55b
+Merge: 48a49b6 d20b797
+Author: Edmondas <eg@fbsd.lt>
+Date:   Tue Feb 11 23:29:30 2014 +0200
+
+    Merge pull request #113 from wpaesen/mysqli_ssl
+    
+    Added configuration option to connect using SSL when using mysqli driver
+
+commit 48a49b67e0c1d13d89b9f0c3ad7547c868df4e31
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Feb 11 22:13:36 2014 +0200
+
+    Fixes #112 - Removed dependency on PDO::rowCount, this fixes SQLite support
+
+commit 801966aa2277b97076c875996cb7f88a926006ae
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Feb 9 15:01:27 2014 +0200
+
+    Removed duplicated code
+
+commit d301fe5ef830d5b59b77b675fb89deec964a61af
+Author: Mark Constable <markc@renta.net>
+Date:   Wed Oct 17 20:58:03 2012 +1000
+
+    Make a start on adding SQLite to the installer
+
+commit 5d1ec55883e3929666b0f86be069cb197f1e2868
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jan 25 21:56:08 2014 +0200
+
+    Fix for PHP 5.4.x - PEAR::setErrorHandling() is not marked as static
+
+commit c5b08ab07608056d76006d7f5a1205005420c54d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jan 25 21:51:09 2014 +0200
+
+    Fixes #122 - Added .test, .example, .invalid, .localhost to valid TLDs list
+
+commit dc168f41499447b90defbcb2e3ea6662c30c9fb3
+Merge: bef7456 8e18f88
+Author: Edmondas <eg@fbsd.lt>
+Date:   Tue Jan 14 12:59:41 2014 -0800
+
+    Merge pull request #51 from pmknutsen/master
+    
+    Implementation of Issue #22 Language selection on the logon screen
+
+commit bef7456f588d472f5782241323650c5996ea97cd
+Merge: 508a8ce 7888235
+Author: Edmondas <eg@fbsd.lt>
+Date:   Tue Jan 14 12:54:21 2014 -0800
+
+    Merge pull request #124 from gvangool/update-tlds
+    
+    Update TLDs
+
+commit 508a8ce7f74a1517adca132fac676bba71df14da
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jan 14 22:44:40 2014 +0200
+
+    Removed unused docblock
+
+commit ef3694a9e0789c376eaac78064833ad4f0add40a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jan 14 20:52:16 2014 +0200
+
+    Improved DocBlocks
+
+commit d1fd30f93c3030b5229c73d8f820dadbbe94fc13
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jan 14 20:19:50 2014 +0200
+
+    Minor improvement to redirection after login
+
+commit 74d432e94ed9306680244716accadddc0f398b40
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 21:41:54 2014 +0200
+
+    PHP_SELF replaced with SCRIPT_NAME
+
+commit d24489f73074e70bfaaa0944973f79c6720e614d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 20:43:21 2014 +0200
+
+    Changed DocBlock package name
+
+commit 56e3f7f953d721762dcf2bc7b7a915c35506bc51
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 15:40:08 2014 +0200
+
+    $_SERVER['PHP_SELF'] changed to more secure $_SERVER['SCRIPT_NAME']
+
+commit b15eeecb55a61d92c54687c236a1af9d850c65bf
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 15:23:41 2014 +0200
+
+    Added missing phpdoc tags
+
+commit 8191f99b2b275954852ca8388f029a9e7e909ac5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 14:32:11 2014 +0200
+
+    Added missing phpdoc tags.
+
+commit af87f322e4997e0d8905439a0aa48b88d42809d8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 12:21:51 2014 +0200
+
+    Added more directories to ignore from phpdoc
+
+commit 8af922c73584cf687f7da6de0767386268a18038
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 11:32:41 2014 +0200
+
+    Updated copyright and credits link
+
+commit 8e685bb6df9b6d0d6f221e76aeac65f9ae17167b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 11:29:14 2014 +0200
+
+    Fixes to phpdoc configuration.
+
+commit 1edfa0e848c10348a603fb2c7084a459dd2a1b13
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jan 12 11:27:46 2014 +0200
+
+    Added docs directory to git ignore list.
+
+commit 89c64dba16443a61a07b67ba3aee9a13e13d41c9
+Author: Eric Miller <internetjanitor@gmail.com>
+Date:   Mon Jul 16 09:05:30 2012 -0400
+
+    Include query string args in login redirect.
+
+commit 5e0ee761c6f58cecc07d7e5d92c5aaa8add31f2a
+Author: Eric Miller <internetjanitor@gmail.com>
+Date:   Mon Jul 16 08:41:00 2012 -0400
+
+    Redirect to accessed page on login rather than index.
+
+commit 6fedd652fb1cc3ed7108377063f1ce488ec60ab0
+Author: Eric Miller <internetjanitor@gmail.com>
+Date:   Mon Jul 16 08:30:13 2012 -0400
+
+    Added auto-wildcard and auto-reverse search options to search page
+
+commit 2cc2ba9a5e8cf2037c852dad8e64d1496ea98071
+Author: Eric Miller <internetjanitor@gmail.com>
+Date:   Mon Jul 16 08:29:32 2012 -0400
+
+    Added documentation for functions
+
+commit d3685db491cea783a307f806ce228156d402ff1a
+Author: Eric Miller <internetjanitor@gmail.com>
+Date:   Thu Jul 12 18:15:03 2012 -0400
+
+    Added documentation for functions
+
+commit c8257797530c2b4542ca47b278fb06cf1c65de6b
+Author: Eric Miller <internetjanitor@gmail.com>
+Date:   Wed Jul 11 14:00:37 2012 -0400
+
+    Added phpdoc documentation
+
+commit 71ea6c378225d99f928a18b038d49adc97e206f9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jan 11 21:29:47 2014 +0200
+
+    Removed trailing space.
+
+commit 78882356dcdab919b730eecf54c5ec446d4c79c6
+Author: Gert Van Gool <gertvangool@gmail.com>
+Date:   Sun Nov 24 17:48:20 2013 +0100
+
+    Adds script to get a PHP array with all valid gTLDs
+
+commit 6ea7347cd0d132e872a5d671f61daa9d8f8ad69f
+Author: Gert Van Gool <gertvangool@gmail.com>
+Date:   Sun Nov 24 17:48:00 2013 +0100
+
+    Updates with all valid gTLDs
+
+commit d20b797d6ae8e08ba55803bd57a88928414594f9
+Author: Wouter Paesen <wouter@blue-gate.be>
+Date:   Sun Aug 25 22:18:20 2013 +0200
+
+    Added configuration option to connect using SSL when using mysqli driver
+
+commit 8e18f8822479037bede66ad95f8cf8d63e47b869
+Author: Per Magne Knutsen <pmknutsen@gmail.com>
+Date:   Tue Feb 5 23:24:33 2013 -0800
+
+    Implementation of Issue #22 'Language selection on the logon screen'
+
+commit 8c8267cfb1231958e1d275bc7f6fb89a004a8030
+Author: Edmondas Girkantas <edmondas@datalogistiikka.fi>
+Date:   Tue Nov 13 08:26:00 2012 +0200
+
+    Added FIXME note that setlocale can fail in one case
+
+commit 55e161729da36e2a23bb935c98e04ae7909b504d
+Author: Edmondas Girkantas <edmondas@datalogistiikka.fi>
+Date:   Tue Nov 13 08:09:53 2012 +0200
+
+    Added option to use Norwegian (Bokmål) language during installation
+
+commit 9178a624b60560ad3813828c3f2868f51363c0ae
+Author: Edmondas Girkantas <edmondas@datalogistiikka.fi>
+Date:   Tue Nov 13 07:48:15 2012 +0200
+
+    Various fixes to dynamic dns client - don't use external services, allow to control verboseness and etc.
+
+commit b8c1bdd19351080d64b81c0c06ec389d362606b4
+Author: Edmondas Girkantas <edmondas@datalogistiikka.fi>
+Date:   Fri Nov 9 08:11:50 2012 +0200
+
+    Sync translations from Transifex
+
+commit 9e5e964867b2d3e4bc2b40848d26da0946a93cb8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Sep 30 23:45:54 2012 +0300
+
+    Update IP address only a requested A record (not all existing in that zone).
+
+commit 3b1411de6335ca58becf1a9a102f1ebaff318209
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Sep 30 23:24:06 2012 +0300
+
+    Deprecated function split() replaced with preg_split()
+
+commit e3f10fe7b26abec65f3d26e1cca0cc105ef75e87
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Sep 28 09:07:56 2012 +0300
+
+    Temporary fix for issue #38, dynamic_update.php now should work with PDO layer
+
+commit 271b9886fa75e25f122cdac6481f61916fed07e7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Sep 28 09:07:07 2012 +0300
+
+    Use hostip service to lookup global ip, whatismyip requires additional fixes
+
+commit 27c19530a5bf2cd8478ffbc1496625b5e79fab5a
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Fri Aug 3 13:15:47 2012 +0200
+
+    Fix for Issue#25
+
+commit fcc0909bb08acd5f32623b8fdb129e0d91042f40
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Thu Aug 2 13:48:13 2012 +0200
+
+    Powerdns uses only lowercase characters at records table for names [1].
+    DBMS which are aware of case sensitiveness (Postgres, Oracle) run into
+    trouble, because poweradmin will allow to insert uppercase characters
+    and powerdns will not serve them. This patch fixes this behavior, by
+    converting records to lowercase.
+    
+    Take a look at powerdns documentation [1]: for postgres they have
+    following constraint:
+    CONSTRAINT c_lowercase_name CHECK (((name)::text = lower((name)::text)))
+    
+    [1] http://doc.powerdns.com/generic-mypgsql-backends.html#idp8866576
+
+commit 83acd0a7bc28b158c76ec994cc376d15f8c295f3
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Wed Aug 1 16:06:27 2012 +0200
+
+    this patch prevents a deadlock in postgres if dnssec+reverse-records
+    are insterted at the same time. poweradmin uses autocommit, which
+    is to slow to update records-table. This patch introduces transactions,
+    which prevents this kind of deadlocks. Transactions are already used
+    e.g. update_zone_records and delete_domains
+
+commit aea95b0857a9ac38fe9be01586067ed5515dd0a8
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Thu Jul 19 18:25:34 2012 +0200
+
+    fix for issue#29
+
+commit 00a8b1635b570fae01c1f1c0a813f89dac3b6b89
+Merge: d1e870e e1a40f9
+Author: Edmondas <eg@fbsd.lt>
+Date:   Sat Aug 18 01:28:51 2012 -0700
+
+    Merge pull request #28 from stasic/master
+    
+    Fixes an issue when lastInsertId() returns the sequence value of trigger.
+
+commit e1a40f919d65bf671485214dde0644fe279917dd
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Wed Jul 11 14:20:28 2012 +0200
+
+    when using MDB2 mysql and pgsql are equal. i had an issue with triggers
+    and pgsql, $db_mdb2->lastInsertId() was used and returned me the sequence
+    value of the trigger. with this patch i get the *right* sequence value
+
+commit d1e870e81ecd2973f694e6761095232925e32044
+Merge: e7971f5 12594d4
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed Jun 27 09:43:47 2012 -0700
+
+    Merge pull request #26 from evharten/master
+    
+    Use custom header OR predefined header text, not both at the same time.
+
+commit 12594d46cd437a87318487bc514707353ae65562
+Author: Evert van Harten <evharten@evert-imac.capelle.evertje.net>
+Date:   Sun Jun 24 09:06:48 2012 +0200
+
+    Use custom header, or predefined header as text, but not both.
+
+commit e7971f5bf76fe05b3b0cdd0c9b3b07a83393e26e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jun 21 09:58:20 2012 +0300
+
+    perform "pdnssec secure-zone" for every new zone (if pdnssec_usage = true)
+
+commit 404a3cb2534aaed6c75af9663f82b407307ab63b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 18 20:35:42 2012 +0300
+
+    Display memory consumption and page loading time. It will be used to compare with refactored version.
+
+commit 259edf28ea699ed0871332496f085eba23cd1e8e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 9 09:48:16 2012 +0300
+
+    removed debug output, updated error messages
+
+commit a0fc203d6a252145eea8e249f4db976c4aed885c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 9 09:44:07 2012 +0300
+
+    updated DNSSEC related error messages
+
+commit b43a8b047a2e19c310679575ffe8853afd678de4
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 8 23:45:02 2012 +0300
+
+    updated Oracle db schema
+
+commit 267f755245247ec62406d9153ec818442ca6a39c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 8 23:43:45 2012 +0300
+
+    added DNSSEC SQL files for MySQL and PostgreSQL
+
+commit 364c431ea771e2298bed9e408f676699320b3000
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 8 23:35:00 2012 +0300
+
+    call do_rectify_zone() only when DNSSEC support is enabled, that way during upgrade users wil have less troubles.
+
+commit e8b99b9501935fd3bde07a549a47b9fe5692bb10
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 8 23:24:09 2012 +0300
+
+    introduced new configuration variable dnssec_use, which by default will be disabled until this feature will be completely done and tested
+
+commit 389ebf9f04e1deec226eb996401d14d8cd9bf59c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 8 23:16:29 2012 +0300
+
+    there's no need to initialise variable
+
+commit f3e5c3ea7209ebdcb4a38b8a8324a5c4f3f0e627
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 8 23:07:12 2012 +0300
+
+    restored error message which was removed by previous pull request, this return code is still used by edit.php script
+
+commit 97e332120df9f61cd44ec574c0e5fcce28ccb8dc
+Merge: 6b94612 111282f
+Author: Edmondas <eg@fbsd.lt>
+Date:   Thu Jun 7 22:25:32 2012 -0700
+
+    Merge pull request #24 from stasic/pdnssec
+    
+    Pdnssec
+
+commit 111282f19ce04a153e580c63cf5b031634321dbd
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Wed Jun 6 11:05:05 2012 +0200
+
+    added error messages
+
+commit 685180a82cb53432556158c5b212220b31c82ebb
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Fri Jun 1 11:06:27 2012 +0200
+
+    unintentionally removed a "="
+
+commit b6892dfb0fc1c54826fae7da17c775d5bac5746d
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Fri Jun 1 10:55:30 2012 +0200
+
+    FEATURE: pdnssec enabled domains
+    If a Domain is dnssec enabled, or uses features as
+    e.g. ALSO-NOTIFY, ALLOW-AXFR-FROM, TSIG-ALLOW-AXFR
+    following has to be executed
+    pdnssec rectify-zone $domain
+    todo:
+      change install: - add pdnssec_command in config.inc.php
+                      - add "GRANT SELECT on domainmetadata to poweradmin"
+
+commit 6b94612b3263b5d6dceec6ddd81c72f2a7992de7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 26 12:35:04 2012 +0300
+
+    fixes #20 - when deleting user template display success status only when no user uses that template
+
+commit b48e2b43d14998020933c55e2867adba9ee41836
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 26 11:53:44 2012 +0300
+
+    check if zone template has records before adding them to newly created zone
+
+commit f264d2b124c7c95efc62019c76fdd4bdcc5164d5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 26 11:36:00 2012 +0300
+
+    fixes #21 - PHP notice was shown after user removal
+
+commit aa8a68ac167385e38167207701571bcf7364c0d3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri May 11 16:46:19 2012 +0300
+
+    use md file extension for README file
+
+commit 207cc415020ed2e6ef5ac69f5caabd04c7024654
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed May 2 23:11:07 2012 +0300
+
+    fixes #14 - use OFFSET clause to limit query results
+
+commit 53b441b5a0aca1abfcd3ed2d6734000ad6af23a0
+Merge: 9810b4b f6b973c
+Author: Edmondas <eg@fbsd.lt>
+Date:   Wed May 2 11:28:40 2012 -0700
+
+    Merge pull request #13 from fdammeke/master
+    
+    Fixed the multiple succes messages on a zone edit
+
+commit 9810b4bf3de1390a4af53db4b9f3b6ba15b87a65
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed May 2 21:07:32 2012 +0300
+
+    do not use SQL LIMIT when trying to have all the domains displayed, fixes issue reported by Lucian http://goo.gl/9b3ac
+
+commit f6b973c184177c694a5c5dfde0cac073f96d30f1
+Author: fdammeke <fabian.dammekens@cegeka.be>
+Date:   Wed May 2 18:46:58 2012 +0200
+
+    Added an error message for unsuccesful zone edits.
+
+commit 4502e7be4c967489e4334e32e003350c2077c2a0
+Author: fdammeke <fabian.dammekens@cegeka.be>
+Date:   Wed May 2 18:46:14 2012 +0200
+
+    Only print success at the end of a succesful zone edit.
+
+commit fa3d6a2473c1364f7c8508616b3f1b5fc9e2c83b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Apr 24 22:43:28 2012 +0300
+
+    reformated code of verify_permission() function
+
+commit 0bdf6b160407d29b444af43222982cd9d91600fc
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Apr 24 21:13:16 2012 +0300
+
+    added checking wether zone_name variable has value in template editing screen
+
+commit ae30770cfa8a3c95d87a4a491fd0ba12bd251ced
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Apr 24 20:35:07 2012 +0300
+
+    added note about unused permission level
+
+commit d823b0c16b17ebc005c3420fde51d592ab3669a1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Apr 24 19:29:57 2012 +0300
+
+    minor changes to UI - make comments textarea shorter and also use smaller font for normal text in some places
+
+commit 326c3552e5ce04c9b3602097c91ab250594426a2
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Apr 24 18:05:07 2012 +0300
+
+    fixed an issue when administrator is automatically added as an owner to every edited zone (also duplicated records are created in zones table)
+
+commit f40d7d156220b386de41d208719612abe8feac72
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Apr 24 12:40:26 2012 +0300
+
+    fixes #11 - lastInsertId() calls must be used differently in case of MDB2 & PostgreSQL
+
+commit 6a5d584181de1d61b7fb61238d87379b3fbb0a0e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Apr 23 23:33:29 2012 +0300
+
+    use proper variables in getting error message from PEAR
+
+commit f2d134548c369d5c2ad1fecbc8cd9b3d94d391f3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Apr 23 23:27:02 2012 +0300
+
+    call quote() only once, otherwise query will be incorrect for PDO
+
+commit e5b44f5e81370950a5fb0d169562a8ac361024a7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Apr 23 23:26:04 2012 +0300
+
+    let default offset in sql statements will be 0
+
+commit 3b6afbd45cbba92d73e7252935b1898b47457c43
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Apr 23 22:27:15 2012 +0300
+
+    use correct variable for getting error message from MDB2 PEAR
+
+commit cc4b6e2b1f13056c48e9c97e20a7dc4f5651b12e
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Mon Apr 23 20:46:10 2012 +0300
+
+    default value of priority must be 0 for all non MX and SRV records.
+
+commit 3b7e303b46355c8f6f4deed06b98265c8a1de686
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Mon Apr 23 20:33:19 2012 +0300
+
+    do not try to update serial number if it doesn't exists in selected for editing zone.
+
+commit 44fb2b27e86bbd3f869b52d9594f2d50dfb04d66
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Apr 23 08:03:14 2012 +0300
+
+    do proper quoting of parameters in sql statements
+
+commit 5a8bee733a379001275a436bdf1112bc2b9df411
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 18 22:12:14 2012 +0300
+
+    Disable reset password functionality, because of improper implementation.
+
+commit 1478f86441fb66cf7de91e52f79f4e35201bdf59
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 18 21:19:44 2012 +0300
+
+    changed order of input fields in installer's 3rd step, database type will be displayed before db hostname field, also db hostname will have default 127.0.0.1 value.
+
+commit f0b74a7dbe8f572d0ec6c5dcca2cd6b12fbf2053
+Merge: 2d2aca9 1a769e2
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 18 21:13:41 2012 +0300
+
+    Merge branch 'master' of github.com:poweradmin/poweradmin
+
+commit 2d2aca92d148985959e24d1b1992b540eca9af3e
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 18 21:10:46 2012 +0300
+
+    do not use predefined values for autoincrement fields in sql statements during installation, otherwise there will be an issue during creation of new user or permission template on PostgreSQL.
+
+commit 1a769e2251d25746fcd8d2be4a34ecad067bcef9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Apr 18 09:11:14 2012 +0300
+
+    Display (or save) db_layer setting for configuration file in the last step of installation.
+
+commit 645bc618b39eaf3d681b0df0539291b0cc0cabb7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Apr 18 00:41:49 2012 +0300
+
+    updated powerdns schemas according to PowerDNS documentation http://doc.powerdns.com/generic-mypgsql-backends.html
+
+commit 1a6ba00ca0bd864c1b92f49f6d5f774571221590
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Apr 18 00:28:27 2012 +0300
+
+    fixed wrong permission checks that causes SQL errors when PDO+PostgreSQL is used
+
+commit 8d1c9863583736a6d92608275a0179a0310194d9
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 17 22:02:01 2012 +0300
+
+    Display additional GRANT statements for PostgreSQL sequences during Poweradmin installation.
+
+commit 9abc6b82f7bd7580fe450db7d4a799368beaba0e
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 17 21:30:21 2012 +0300
+
+    prevent browsers from saving data entered into installer's password fields.
+
+commit f5498a4922938c8a9876d6fdadb496edc4bd3626
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Apr 16 23:58:42 2012 +0300
+
+    added SQL file for PostgreSQL, to increase size of some fields in users table
+
+commit 7f47cb3fafa4208599351e12fe12798437affe43
+Merge: db52e50 129335e
+Author: Edmondas <eg@fbsd.lt>
+Date:   Mon Apr 16 12:00:35 2012 -0700
+
+    Merge pull request #10 from stasic/format_table
+    
+    Reformatted html-table; td is now narrow -> better for small dispays
+
+commit db52e50e28f6697d2a2a81acac2b180baa4dada8
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Mon Apr 16 21:41:38 2012 +0300
+
+    removed debugging line added in the last commit.
+
+commit 129335eaf61fbe1fbc23b67c08e84f47fb5dace7
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Mon Apr 16 16:34:14 2012 +0200
+
+    Reformatted html-table; narrow td is now narrow -> better for small displays
+
+commit f5edf5d98b630149e43fa356e474f33e9504df91
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Thu Apr 12 22:42:36 2012 +0300
+
+    TTN 468 - added protection from XSS attacks
+
+commit 031b67603006e376bd0ccbfac580825c1a8a015b
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Thu Apr 12 21:54:46 2012 +0300
+
+    added required function and include file for displaying error messages properly
+
+commit 8b846dca8b25b7d25c4e57d71e4926ee20745759
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 10 21:56:39 2012 +0300
+
+    other similar fixes to lastInsertId() usage, related to #9 issue
+
+commit 69dd6a831b0e4a2ac63883be7123985cf405ab67
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 10 21:37:59 2012 +0300
+
+    fixes #9 - lastInsertId() must be used differently depending on db layer and type
+
+commit 10085acedf9add02579bb9a138295d264f7f4866
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Thu Apr 5 00:01:03 2012 +0300
+
+    minor fix to db layer checking algorithm.
+
+commit 453273d3833fb8d54082ce7d1bd5857467f95ce7
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 4 22:55:36 2012 +0300
+
+    Fixes TTN 445 - No double quotes around TXT record in database
+
+commit ca9a568eb260ea2bce5f36aebf8b29326f3d0839
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 4 00:37:22 2012 +0300
+
+    top level domain list updated according to official IANA list, http://data.iana.org/TLD/tlds-alpha-by-domain.txt
+
+commit c0e96d48af4176823b312b9f5d32f2a6fea3d950
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Apr 4 00:08:22 2012 +0300
+
+    Dissallow to add top level domains (i.e. com). Zone name must be at least second level domain (i.e. example.com).
+
+commit 8af58bbd2e5072f9dbcdb77a99dd3d4e896148d7
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 3 23:47:37 2012 +0300
+
+    display "Add also reverse record" checkbox in "Add record to zone" view.
+
+commit af3aceb30c23b4dcaa8e8c99c65aedccd14a0dcb
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 3 08:18:56 2012 +0300
+
+    Fixes #1 - The full domain name may not exceed a total length of 253 characters.
+
+commit 0f776c0969a87a7c5064ee1a17991c1903d77715
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 3 08:13:51 2012 +0300
+
+    Revert "#2 - The full domain name may not exceed a total length of 253 characters."
+    
+    This reverts commit 21396c4556ac2d1614b9f465a5cdf1397cf5f7b8.
+
+commit 21396c4556ac2d1614b9f465a5cdf1397cf5f7b8
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Apr 3 07:44:39 2012 +0300
+
+    #2 - The full domain name may not exceed a total length of 253 characters.
+
+commit 7813de0d74b22ccbe5c6b9a06d3bbfd76b495ae7
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Mon Apr 2 23:32:23 2012 +0300
+
+    minor fixes to the last patch.
+
+commit daeb8419961ac8e1c26f0ee910a6e990ed4bef75
+Merge: 0818d72 a1d8e37
+Author: Edmondas <eg@fbsd.lt>
+Date:   Mon Apr 2 11:04:57 2012 -0700
+
+    Merge pull request #8 from stasic/rev-patch
+    
+    If A- or AAAA- records are added, then also the PTR-Record can be created.
+
+commit a1d8e37ce348d9376e03772c2cd7a6d081d89317
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Mon Apr 2 15:14:18 2012 +0200
+
+    fixed issues 3/3 reported by eg
+
+commit 19369c5bdeed0f95f07b5696599db1cff4159210
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Mon Apr 2 11:13:23 2012 +0200
+
+    fixed issues 2/3 reported by eg
+
+commit 0818d72eaa82dbec22bf04c44ab419d337de69d4
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Sat Mar 31 22:34:57 2012 +0300
+
+    ignore empty lines when doing bulk import.
+
+commit e95d4229f3296ea9b87f89120d88b5363619e244
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Sat Mar 31 22:08:30 2012 +0300
+
+    added hostname check when adding a zone(s) from bulk registration screen.
+
+commit 1c10be5b65bd70cd896c4eb11654a97fbb859ca3
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Sat Mar 31 22:05:33 2012 +0300
+
+    added hostname check when adding a master zone(s).
+
+commit 377078bb242cb7086838f2e2cf6b14706687816c
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Sat Mar 31 20:40:55 2012 +0300
+
+    #3: show correct domain owner, previously all displayed owners were the same (e.g. admin)
+
+commit 262af62e63cc718c838cf29aa0f4060d1d7e3f92
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Fri Mar 30 23:30:19 2012 +0300
+
+    #3: Added temporary workaround to solve sorting issue. For the same reason disabled sorting by priority in search results screen. Proper fix requires big refactoring.
+
+commit ff0a9473e594e801b7be1a54b167ef19278f8011
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Fri Mar 30 15:18:38 2012 +0200
+
+    check if reverse-zone exists
+
+commit 57f4b4e93cbecf3c5d3662c8b7e5f03bbf7595be
+Author: Arsen Stasic <arsen.stasic@gmail.com>
+Date:   Thu Feb 9 14:48:10 2012 +0100
+
+    rev-patch: if A- or AAAA-Records are added, also the PTR-Record can be
+    added automatically
+
+commit 701abe1a63ba06322c074b7c41a7122be83c6330
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Mar 28 19:56:27 2012 +0300
+
+    added missing dot
+
+commit 7705506bad2e0e6832a2aa6f16e614756527747d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Mar 28 14:30:05 2012 +0300
+
+    minor fixes to PDO layer, added installer support for PostgreSQL and PDO
+
+commit 53995288e5f44089bc98a83abbbf0ac2449eee78
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Mar 28 13:34:47 2012 +0300
+
+    implemented missing methods in PDO layer, now installer has support for MySQL+PDO
+
+commit 2a228584d123b5d4dc42f538fe8bdb8bd34f37ca
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Mar 27 18:34:03 2012 +0300
+
+    load PDOLayer class after PDO was auto-selected as primary db abstraction library
+
+commit f26e39340ba66a1c952ece184864119702f77e4d
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Tue Mar 27 00:16:19 2012 +0300
+
+    Implemented auto-selection of db abstraction layer during first run. Now it will not fail if MDB2 was not found but PDO exists on the system.
+
+commit 4c04f3a51089183968e996787c3c15923abbdc5f
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Mon Mar 26 22:45:16 2012 +0300
+
+    ignore PhpStorm project directory
+
+commit ed6f24ad908c94ee15514b454657beca366ca851
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 13:17:24 2012 +0200
+
+    ignore scripts & tests directories
+
+commit 30efbbb808edf5d3994d971671e6603c87a9a9ca
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 13:03:02 2012 +0200
+
+    localisation templates were moved to locale directory, license to the root
+
+commit 45599404c6418aa4412658b1e023ba284f32e973
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 12:56:45 2012 +0200
+
+    unit testing sample configuration file was moved to poweradmin-tests repository
+
+commit 87fd77d010547ca1d355b45292c9775dd137bd5b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 12:56:33 2012 +0200
+
+    ignore netbeans project files
+
+commit ecfb99d21da4601163c7824143c01e155fb0a86f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 12:41:37 2012 +0200
+
+    tests were moved to separate repository as they don't have to be in release file
+
+commit 8d8a53057ce01c2886659fdf9fb41e5d09d15073
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 12:39:15 2012 +0200
+
+    ignore NetBeans private directory
+
+commit 55781320f341b9be4a07167586be99d94339d15f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 23 12:37:03 2012 +0200
+
+    scripts used for administrative task were moved to separate repository poweradmin-scripts
+
+commit 3619c0c1d468e51bf1970e5d36d18e760ad722b4
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Mar 10 14:00:24 2012 +0200
+
+    TTN#466: set codeset for gettext domain
+
+commit f84de9e13716ee3bf18c87df7be149760af49b8f
+Merge: 8ea8633 63ab3b9
+Author: Edmondas <eg@fbsd.lt>
+Date:   Fri Feb 24 11:34:47 2012 -0800
+
+    Merge pull request #7 from mzch/master
+    
+    Updated Japanese translation
+
+commit 8ea863325c2c58bb338578071510a55984c9a54b
+Merge: 7b71ca1 623b487
+Author: Edmondas <eg@fbsd.lt>
+Date:   Fri Feb 24 11:05:28 2012 -0800
+
+    Merge pull request #5 from ZyanKLee/master
+    
+    added semicolons at line endings of sql/poweradmin-mysql-update-to-2.1.6.sql
+
+commit 63ab3b9e2c078ddd431295ab0a3fec16951e6355
+Author: Koichi MATSUMOTO <mzch@mac.com>
+Date:   Fri Feb 24 01:45:06 2012 +0900
+
+    correct 'Delete record in zone' message for being translatable
+    
+    correct 'Delete record in zone' message for being translatable
+
+commit ba5877084d254c4f1a507a6f22ff0e7202de43ef
+Author: Koichi MATSUMOTO <mzch@mac.com>
+Date:   Thu Feb 23 20:04:57 2012 +0900
+
+    Added translations in bulk registration
+    
+    Added translations in bulk registration
+
+commit f57a5c8c843c8003c75ce54ff50ea8b70dcde0a5
+Author: Koichi MATSUMOTO <mzch@mac.com>
+Date:   Thu Feb 23 19:42:59 2012 +0900
+
+    Updated translation
+    
+    Updated new translations and deleted an extra file.
+
+commit 623b487505800e7dae7dbc8cc69c246459f075cb
+Author: Phillip Scholz <zyanklee+github@gmail.com>
+Date:   Thu Feb 16 13:57:33 2012 +0100
+
+    added semicolons at line endings of sql/poweradmin-mysql-update-to-2.1.6.sql
+
+commit 7b71ca1b9a0d30e983a58c73a5681950859bb402
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Fri Feb 10 09:50:30 2012 +0200
+
+    another fix to search engine - admin-like users now will be able to get the list of all domains on search results page.
+
+commit 30876b1792a3e89babea118b04656b614146e4fa
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Fri Feb 10 09:39:10 2012 +0200
+
+    fixed search engine - owner column was not displayed for admin like users.
+
+commit cdc4edec9bc7ec5bfae2fc983d133bb87b4b7d0b
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Thu Feb 9 23:46:36 2012 +0200
+
+    TTN #451: restored code, which removes old records during template change. This resolves also GH #4.
+
+commit efc7ccf85109129a498ba9618e0ba3371d14cd3c
+Author: Edmondas Girkantas <ext-edmondas.girkantas@nokia.com>
+Date:   Wed Feb 8 09:05:24 2012 +0200
+
+    updated copyright year in all files
+
+commit cf0a3bc66f66f975b8dd6535fd924d45ad7e35ae
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Nov 11 18:04:27 2011 +0200
+
+    created new function for checking if supermaster exists with specified ns name
+
+commit b2651e9f0c1366f0dfd6105e9a8e75ce56475ec9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Nov 11 17:38:02 2011 +0200
+
+    implemented supermaster removal based on ip and name
+
+commit 8b92dc41bd494fb32adb646c2137d1f3186a1a05
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 10 09:34:03 2011 +0200
+
+    allow to add supermasters with the same ip
+
+commit 519e711bbb803343d6fc825edf77985e5dfbd641
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 15:58:57 2011 +0200
+
+    updated Japanese translation
+
+commit 05ce6d45fb5e203355436d23e2f6930b2a02eccf
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 15:46:41 2011 +0200
+
+    updated Lithuanian translation
+
+commit 9261cdaa10c278560a93ec7633a137c35888961b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 15:35:07 2011 +0200
+
+    updated Lithuanian translation
+
+commit f2ba270cef374c42af0853062d4617976c859fa7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 14:38:33 2011 +0200
+
+    updated Russian translation
+
+commit fad6f20ab32114e480e751a7525703b0854d9c1d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 14:38:00 2011 +0200
+
+    updated Russian translation
+
+commit 9b76a735cd90660a0484050af4286223348486ec
+Author: eg <eg@eg-Latitude-D430.(none)>
+Date:   Sat Nov 5 14:16:23 2011 +0200
+
+    updated Dutch localisation files
+
+commit 6d6139b1b73507fb39db38fdd084de416458e0d6
+Author: eg <eg@eg-Latitude-D430.(none)>
+Date:   Sat Nov 5 14:12:46 2011 +0200
+
+    added Czech localisation files
+
+commit 4958c79eb7ef8c6f360139ac1572824fa8f3cc8e
+Author: eg <eg@eg-Latitude-D430.(none)>
+Date:   Sat Nov 5 13:49:27 2011 +0200
+
+    updated Japanase translation
+
+commit 590b87d46b272926470f817f6b9051c591ddc985
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 11:59:06 2011 +0200
+
+    do not call setlocale() when en_EN is selected
+
+commit 6e0cf8f4cdf91b091d88ac1efd347b96dcf4ff3b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Nov 5 11:52:35 2011 +0200
+
+    display error message if setlocale() failed
+
+commit 8d44052cb5abb3d4d7b35006119fab724e2a7620
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Nov 4 11:19:23 2011 +0200
+
+    added Turkish translations
+
+commit 93003e6ea9eed93d7cf92d5dd2e4c947bc51f24c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 3 20:48:02 2011 +0200
+
+    added poweradmin logo, it used for github organization
+
+commit 91ed38f1482d2e2b4cc962ceaee782dcb092021c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 23:49:57 2011 +0200
+
+    all sql files were moved to appropriate directory
+
+commit f6af587aadb701f5217831e639c0736340895d52
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 23:49:42 2011 +0200
+
+    removed empty line
+
+commit 55ccddffb99e1d8cac902d6ddec8c0e3a54c84e2
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 23:42:56 2011 +0200
+
+    TTN#454 - username field extended to 64 bytes and password to 128 (for SHA512 hashes)
+
+commit 9e882e83b34e2b11d82f6803283ba31ce06735b8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 23:27:19 2011 +0200
+
+    TTN#456 - allow to add multiple master ip addresses to slave zones
+
+commit db7877496c74663b34af05db68a3a60cac6a109e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 23:10:49 2011 +0200
+
+    TTN#457 - allow to add ipv6 style reverse ptr records
+
+commit 1b55ea93aab8b19ecb85afa67085d6c59d9f0780
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 20:40:37 2011 +0200
+
+    updated git ignore file
+
+commit 5259dd715851ee0ed8e87685d0cf3434c545f48b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 2 10:22:55 2011 +0200
+
+    removed meaningless files, which just make troubles when doing release
+
+commit 5b86d378bb9adefc2ac544490eedc441932b6f5c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Oct 31 22:53:46 2011 +0200
+
+    updated MDB2 interface wrapper, extended PDOCommon class with some additional class/methods
+
+commit 52887b0cae34d645a4afee28b9e451f8c0c553fd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Oct 31 22:50:58 2011 +0200
+
+    added updated MDB2 interface wrapper by Aldo Gonzalez (http://www.totalaldo.com/blog/?p=186)
+
+commit cd431de017ea62bd4082aa16d91e4d02f6acf4a1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Oct 31 08:58:57 2011 +0200
+
+    implemented sql queries debugging
+
+commit c39c51da836dece46afa59bd08e97b76ad377cb2
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Oct 31 08:47:44 2011 +0200
+
+    implemented extended PDO class which implements MDB2 functionality
+
+commit b1137714f6a27c9b46edd8aa60eaa404cd7dca18
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Oct 31 21:36:25 2011 +0200
+
+    updated project description
+
+commit da7eb277281a5966b7ef2dfb5d3c869dcb693b4b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Oct 31 21:32:50 2011 +0200
+
+    added readme file
+
+commit fa0d7da8096b40ffdccbe3a0c88152cbf0816a00
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Oct 29 03:34:01 2011 +0300
+
+    make master type default in zones bulk registration
+
+commit 07e0ee3490d0fe3ea3e38bbdb0e1f46089203a9f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Oct 29 03:26:11 2011 +0300
+
+    show user templates sorted by name in "add user" and "permission template" views
+
+commit 0d2cba90626d53712790aeac040a6c089af80d5d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Oct 29 03:20:56 2011 +0300
+
+    fixed search query, now user will see only his domains
+
+commit 6ff3a215eb56a87b802f4ef725e0e7a2f0dfe628
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Oct 28 18:42:29 2011 +0300
+
+    fixed wrong credits url in copyright text
+
+commit 7f526b3f2f5ea0376b5e8973fcfa34b8874782c6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Oct 28 17:30:08 2011 +0300
+
+    updated test case because of changes in r633 - default type for new master zone was native and now it is master
+
+commit d96c6a7305237876ab008209b5c7e802c777e034
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Oct 27 01:19:47 2011 +0300
+
+    added inc/config.inc.php to gitignore list
+
+commit 29dd574362840b64c14310f6dbea5a4fa71fa3e2
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Oct 6 20:32:16 2011 +0300
+
+    create sqlite db file outside the web root
+
+commit 3f622f41d601947e590e905305bd7322f84cfd13
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Oct 6 20:14:53 2011 +0300
+
+    fixed check condition for sqlite3 db file
+
+commit 668a89c43e9335af436c14ac0804a0d68292b97a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Aug 12 20:03:30 2011 +0000
+
+    fix for the last commit - when "active" checkbox is disabled, then user can be locked
+
+commit d8edb4777ec47f99ede22f14723c8cc24076eb2e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Aug 12 15:54:12 2011 +0000
+
+    disallow normal users and superuser delete & disable themselves
+
+commit e8fcb1e14c070b8b3cd5ae09ee68cf8b93c07f01
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Aug 10 06:44:06 2011 +0000
+
+    allow pass zone ownership to other user when existing owner is under removal
+
+commit 120a76c4f8818ba984431e285942cdb000da0a06
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Aug 10 06:37:52 2011 +0000
+
+    zone can be without zone template, therefore handle such situation
+
+commit 230cde6638c0d9a944f404918b3319e19d5d7a7e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Aug 8 16:27:29 2011 +0000
+
+    show info message if zones was sucessessfully updated, do not show comment field if it has zero value
+
+commit 25b471d3a85030738535fa2b5143e5d22002c26f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Aug 8 06:46:02 2011 +0000
+
+    TTN #453 - If further owner is added to a zone, then keep also zone_template_id
+
+commit 3021c4e0850f96add6dff62e2582ab597ac31f9c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Aug 2 10:34:49 2011 +0000
+
+    show info messsage if permission template was added successfully, fixed minor warning when no permission was selected during creation
+
+commit 18ba1c1c8d961d861918d37784a76e3ed07d8ea3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Aug 1 12:24:36 2011 +0000
+
+    added missing brace
+
+commit 3ebbeb019de5e367b09cb6e07df91c99e034b4bb
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Aug 1 10:41:48 2011 +0000
+
+    source code/html output cleanup
+
+commit 18f8585c25edda44f5cad6aef01180024bb45696
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 26 20:01:35 2011 +0000
+
+    added experimental sqlite3 database support
+
+commit f5cd77a5474f529a91b3b51a97628ffb2cc819b5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 26 12:39:06 2011 +0000
+
+    added possibility to create sqlite3 db using this script
+
+commit c75f704cbd6397a7c15ce3e840fd68e997b0d75c
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jul 24 20:29:33 2011 +0000
+
+    Undo r639, bad update
+
+commit 72775ab3c2820b12411ddad2d7e7a2fd575f03b8
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jul 24 20:26:08 2011 +0000
+
+    FIX TTN452
+
+commit a8246cc2148e74b0811e62fa5df71d835e159235
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Jul 23 15:15:40 2011 +0000
+
+    FIX TTN449 - Delete zone template records as well as the template
+
+commit 2400551c627a020ef1502cdf7755cea8e0f03863
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jul 20 21:05:44 2011 +0000
+
+    updated session_key generation function (added more characters and increased length)
+
+commit d36ad0c5ebf903a913ff2112a88310bfe4f6baf6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jul 20 20:52:05 2011 +0000
+
+    renamed cryptokey to session_key, otherwise it's easy to think that this variable is related to dnssec
+
+commit 7a57d8653b6c8fee05c64b0e7f31b09817817809
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 19 08:28:01 2011 +0000
+
+    make "master" zone type as default, because "native" confuses people and "master" option is used more oftenly during deployment
+
+commit 70eb28fb684ff53f5082a9303b00f0561c2fcb20
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 16 21:13:14 2011 +0000
+
+    #451 - don't remove existing records if user decides to change zone template
+
+commit 7bfbb0fb8dd3be6eb702197ef23828c5bbed3fe5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 16 21:04:16 2011 +0000
+
+    show 0 in records column if that zone has no records
+
+commit b0104b1b23c9795616ff81a205d72a6e8db6aea0
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 16 09:11:54 2011 +0000
+
+    use gettext function for localisation of usage note
+
+commit 35aed9ac31fb7673d3808b21f0222ac7df4ca8b0
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 16 09:08:53 2011 +0000
+
+    #359 - implemented mass zone registration
+
+commit 389988a887483b7a91c253a2ced26c730d10e0bd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 16 08:01:28 2011 +0000
+
+    do nothing after change of zone template if it has no records
+
+commit 39ffffdb1fc6c76e92ba9beb58860cb1e31327e9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jul 14 21:51:40 2011 +0000
+
+    added support for another global ip lookup service
+
+commit 5bb0f2eabb1b46887c378b0fb7cfd17e00f0bc7f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 22:50:47 2011 +0000
+
+    added php scripts for testing connectivity with Oracle DB
+
+commit 812dea87616365b9ae8ba373121735bb8656091e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 22:44:06 2011 +0000
+
+    do not use semicolon at the end of query, this will fail with Oracle DB
+
+commit ab5e06b0faa742202775fb4a310812cc64cd49c9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 22:41:18 2011 +0000
+
+    added oci8 (oracle) database type
+
+commit d526a6694572b4fcb66b9ba8aa9f9c49bb77ee3b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 22:22:19 2011 +0000
+
+    #384 - added oracle database scheme files
+
+commit e7898e5e0f0ea96f4015b9a2f054d4d796d19d0f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 21:44:24 2011 +0000
+
+    #407: show error message if cryptokey has default value
+
+commit a63e97962a93256e54702eebea050d05cb672dfa
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 21:10:45 2011 +0000
+
+    allow to use SSL secured urls in dynamic update script
+
+commit 177328bffca35bf3e9042fd7a050bdbbe2e3a222
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 20:55:41 2011 +0000
+
+    removed code used in debugging
+
+commit e830ec8b3380cc0a9914434c36f43033ad6c6a39
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 20:52:53 2011 +0000
+
+    applied patch from TTN #450, made source code & functionality cleanup
+
+commit 12f46b0294a85049577c7ab3f2b7dc8b8a79fcae
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jul 12 12:56:26 2011 +0000
+
+    TTN #407 - added generation of random cryptokey in installer
+
+commit dfd7d12735ded1a168439f069b2c9da4c0698b13
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jul 11 08:04:44 2011 +0000
+
+    updated regression test for bug #412, implemented removal of zone template
+
+commit e1cf94b2ff857f2e8ced73104c83a929554c7725
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jul 10 22:51:02 2011 +0000
+
+    added initial regression test for bug #412
+
+commit 84e67cb1ee4394de7f88dc307977bcf144a0ac8e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jul 10 22:49:39 2011 +0000
+
+    use proper names for test case methods
+
+commit 5eee85ea3a4d7b533f5bce7d851ee331bfe3f786
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jul 10 22:00:23 2011 +0000
+
+    FIX TTN418 - Double SOA update on delete record
+
+commit 7e5a7fd91fce32df26fa466283e7a51be90a90b1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 9 20:52:38 2011 +0000
+
+    added php script which can increment SOA serial in all zones
+
+commit 831bf797c36d801832ff4b1427e47728b1a18519
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 9 20:11:01 2011 +0000
+
+    test file (and class name) must have "Test" keyword in it's name
+
+commit 953293570411ac7803143abf29db219e54337468
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 9 19:47:49 2011 +0000
+
+    added regression test for #446
+
+commit fa3b2f6dbc9257a0245a93bd4ca0fe4681ac45ff
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 9 06:59:39 2011 +0000
+
+    show login error and logout info message only once
+
+commit 4c0aca64f28562969b37e15e473cb4efb46bce3f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 8 20:50:05 2011 +0000
+
+    "Emailaddress" replaced to "Email address"
+
+commit 824995d1d4b9760d58ce4b28cfb6abcbb1ff72df
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 8 18:41:36 2011 +0000
+
+    added script which helps to create sqlite db for poweradmin
+
+commit d359d8f27fcf9304f6f6abb3ecfb6d680e1c42bd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 8 13:51:49 2011 +0000
+
+    added SQL debugging feature which can be enabled from config.inc.php ($db_debug = true)
+
+commit e596bed509b5c76de4244c393910248d4d6b4028
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 1 09:33:08 2011 +0000
+
+    reverting changes made in r589 - patch from #448 will break normal functionality in reverse zones
+
+commit 0cae695756fd5b17dcd893109605fae8f190fe4a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 29 13:23:58 2011 +0000
+
+    #446 - Quotes not escaped properly, that cause the textbox to appear empty
+
+commit 480387d9869e1064802de2c7ae4efd0096e29341
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 29 05:17:41 2011 +0000
+
+    try to use tag/branch name for version if version.inc.php not available
+
+commit 87c626c32c1e59bb654e4e3ff22f964794445236
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 29 05:08:34 2011 +0000
+
+    added checking if svn executable exists on the system
+
+commit 17188c58c17feced1ed559c609c93f7b28a19061
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 29 05:00:18 2011 +0000
+
+    fixed release building from current directory, added more path patterns to ignore
+
+commit 84c34e765d23637d6c27477c8e7414076133189f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 23:32:59 2011 +0000
+
+    release creation script doesn't work on Mac OS X
+
+commit e75a67edd886e05132d117fde256b4d37b1dae6f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 23:17:43 2011 +0000
+
+    allow to create release file from provided svn branch/tag
+
+commit e19dff0ef2bdf9bf4343c274483ab4a1a697c4d6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 22:16:53 2011 +0000
+
+    #440 - added initial version of script which helps to create release file
+
+commit 3197b2965aef96f8598886e18e54a16e29585fff
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 19:06:23 2011 +0000
+
+    update test for PTR editing
+
+commit 5f25b24f2d852bcb7a6a0ccb56b210a45efe54cb
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 16:26:36 2011 +0000
+
+    initial (unfinished) version for the first regression test
+
+commit d2cc7d381df9109cae1b0d2fff9a8aee1e4d8fec
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 16:17:34 2011 +0000
+
+    removed empty directory
+
+commit 7c7ef4df95cd11a74a12807c4d9578f4bc4b3385
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 12:33:46 2011 +0000
+
+    added test case sceleton for BUG#448
+
+commit c229a68a5f81b69e41e7b86f4cc98f331140c96c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 12:32:25 2011 +0000
+
+    added brief description on how to run existing tests
+
+commit a3b0f3fe8bbf67c2bf37f3525bcb5641c11566d5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 28 11:40:43 2011 +0000
+
+    #448 - do not add zone name to the end of PTR record (fixes PTR editing issue)
+
+commit 0e2fb7a267859391ae8ef1fde88e203d27d53739
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 20:38:23 2011 +0000
+
+    added test cases for zone searching
+
+commit f2d0514363163a72b1bf9a22d03fe61d450ec611
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 20:23:41 2011 +0000
+
+    move zone removal testing function to common lib
+
+commit 1159f13f972872d65319adeb1ddbac65fa660a6a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 20:14:16 2011 +0000
+
+    restore some test cases, move zone removal to common functions, added directory for regression tests
+
+commit 0275c464cf35219361fa2c5a93250ef4e0499452
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 20:07:40 2011 +0000
+
+    added user password changing test case
+
+commit a020be78f3c21459464bea335ada7044829d8f0c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 06:23:55 2011 +0000
+
+    added supermaster addon/removal testing
+
+commit a26d1fbc02fabbac6cbd76c3af53b56a5ec5314a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 06:02:07 2011 +0000
+
+    added master zone addon/removal testing
+
+commit b85a167e2bf8a25194f77ec78e36f43cd34de869
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 05:03:49 2011 +0000
+
+    test case renamed to more appropriate name, added logout test
+
+commit 290f2100a864e0178273971ed35dee976d2487a9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 27 04:54:17 2011 +0000
+
+    added user login test
+
+commit 4f081a5829cf324a486e1477b12b54064f6b416b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 18 06:34:16 2011 +0000
+
+    small fixes for sqlite support
+
+commit 92d6adb05ecf784b94a502129fd662618f0a592e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 17 16:23:35 2011 +0000
+
+    added initial sqlite support
+
+commit e069f73abdda0cfe99d4cab9f0470ae5e11663ae
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 17 16:21:11 2011 +0000
+
+    added default values to sqlite scheme
+
+commit 6b4fa30e3da53ff0d7fc5ba386e3beccefe3c25e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 17 15:14:53 2011 +0000
+
+    added initial sqlite scheme file with poweradmin tables
+
+commit 55a5bfb17d27594d5bf0a17e01264295591e6204
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jun 17 15:11:59 2011 +0000
+
+    change version number, prepare for 2.1.6 release
+
+commit 6c5bfdf2b83bf2f2e9dd4ecec0cd04a26f0d15a5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jun 16 17:57:56 2011 +0000
+
+    added phpunit configuration file, updated sample test, now it uses constants from config
+
+commit 2a98c15f9665e0338ae1cb801473563e94f630a6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jun 16 06:16:51 2011 +0000
+
+    minor changes in test case name
+
+commit 866af1f43d86491570b3dcd787eb753e5d133897
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jun 16 05:47:01 2011 +0000
+
+    renamed existing component tests to more accurate name
+
+commit 230520830f32865ed2e5047938bf1afc5d857aa4
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jun 16 05:42:30 2011 +0000
+
+    move Dns related tests to dedicated directory
+
+commit 969346f60aa1be3997253f103107863ff91993a6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jun 16 05:39:57 2011 +0000
+
+    added directories for functional tests, created first test
+
+commit d98306091b5104a46ba93b7282d26e25f7ed5906
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 21:54:08 2011 +0000
+
+    various fixes to make msgfmt -c checking happy
+
+commit 7df4663641a88629d04c59c3aa38ceac78e36170
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 21:53:24 2011 +0000
+
+    add database strings translation to global locale binary file
+
+commit 8960fd3646c1769efb0bdd1f54731b11cd6200b8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 20:47:40 2011 +0000
+
+    updated database strings file which is used for localisation
+
+commit 6b20385edee7f8953486d430d9245ae5bbc27a34
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 20:46:49 2011 +0000
+
+    added regeneration of i18n-template-db.pot
+
+commit cc05a76f2000ad730a0da30a7be9193cabe5cc14
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:56:17 2011 +0000
+
+    added initial file for Lithuanian language translation
+
+commit 0a077048faa39fa23ad72796888face57339d210
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:52:43 2011 +0000
+
+    do updating of en_EN locale file
+
+commit c01bb40e385aab426ea8531f3740f5d6f7b7386b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:51:41 2011 +0000
+
+    updated english translation
+
+commit d65e50c440854468b7c7e6fa81c0ed63401d6ccd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:43:28 2011 +0000
+
+    fixes some typos in locale files
+
+commit 86db705ce184a79e9d3dfbcdd6b519aba4de9207
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:35:49 2011 +0000
+
+    check translation file before updating
+
+commit 3909c2f78658137dba2fa8d9159ea7a531ab9e00
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:21:27 2011 +0000
+
+    updated translation template file
+
+commit 0f10cc64c592ca0c824afa7ae33501f6abad70b7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Jun 8 04:14:13 2011 +0000
+
+    added script for regeneration of gettext's pot file
+
+commit cc4b236178b955c850d3e168ce2698ec1689d994
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 22:48:09 2011 +0000
+
+    fix typo (based on patch from #436)
+
+commit e5ddcdc5104d7f9e07446c72e3d0b6c4dc23505d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 22:08:28 2011 +0000
+
+    show info message after permission template update
+
+commit 22e8e4aaba593d88f4f495a7a82958a1ebd023f0
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 22:02:00 2011 +0000
+
+    sort permissions by name
+
+commit 833b66667ba698818c6a55f756d17e1bf0fc39c3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 21:18:54 2011 +0000
+
+    disable swotching to other user feature, because
+    currently it doesn't work after changes in authorization
+    code and it was only partially implemented.
+
+commit 9907c2511334b92af9367e7977025b41d5ea873d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 20:19:11 2011 +0000
+
+    added md5salt authorization support
+
+commit 6f27e27b447c6199f6d40202d1b83e06866ac09b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 20:04:49 2011 +0000
+
+    added mysql db updating script (required changes
+    in users table for salted md5 hashes)
+
+commit ee8588e9bcdae186849ae16c80e1b7120e95e384
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 16:22:54 2011 +0000
+
+    added initial changes required for md5salt encryption support
+
+commit 2aacf2f90056321c372e47fc50559bfdd0a4859c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 14:46:41 2011 +0000
+
+    added new configuration variable - "password_encryption",
+    which allows to select encryption type used for storing
+    user passwords in database:
+    md5 (used by default for compability),
+    md5salt (WHMCS style salted md5 hash).
+    Later other encryption types will be added (shaXXX, blowfish)
+
+commit 9f58c774bbd0a99568e13dbab2304b61e1f0b23b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 14:11:53 2011 +0000
+
+    started to integrate patches from poweradmin-dev
+    mailing list - MD5 Digested Passwords with Salt.
+    
+    added helper functions required for working with
+    salted (WHMCS style) md5 hashes
+
+commit be257b6bca961fa20a4e36605d3d6035124bd2c6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 09:44:21 2011 +0000
+
+    improved get_next_serial code
+
+commit 9f7c3e201a7d3969021f06651597d66dcb1b46d5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 09:39:20 2011 +0000
+
+    get_next_serial() code is now more understandable
+
+commit a0dfd19ddd719501d79a9454fe995842722247e7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 09:01:38 2011 +0000
+
+    fixed get_next_serial implementation bug, when date is already in future
+    and revision number equals to 99, added test cases for hunting issues
+
+commit 4af4947755e9b8bdee282b8572f94ab844554c25
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 08:37:30 2011 +0000
+
+    changed soa serial algorithm - when it will reach 99 changes per day,
+    then serial date will be updated to next day and revision will get
+    valuei of 00.
+
+commit e7200c94558e6cf79b220811aad2cdfeb012b1ea
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat May 28 08:06:48 2011 +0000
+
+    small fixes in get_next_serial() for correct unit testing
+
+commit 13ee260cffd592ef93d39d5b6c2811b4523a88ec
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu May 26 04:52:11 2011 +0000
+
+    integrated serial fix from http://pastebin.com/3d2VnYbj, now if date in serial is greater than current date, then date from serial is reused
+
+commit 6f58331b37f2a827ae0054615959e642ea74c250
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu May 26 03:52:35 2011 +0000
+
+    minor fixes to get_next_serial(), initialisation of timezone moved to proper code place
+
+commit 2536b36c9909a9747e1c8bd183cc991f953b8213
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu May 26 03:49:42 2011 +0000
+
+    added test unit for testing current get_next_serial() implementation
+
+commit d3e91650aab6c1ad094c5a7e8c2b39b5e945cdf9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed May 25 04:46:53 2011 +0000
+
+    refactored update_soa_serial(): removed dead code, functions are ready for unit testing, main logic moved to get_next_serial()
+
+commit 10a4741560f32a6529efdd8c3e1b084f07385663
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon May 9 19:26:47 2011 +0000
+
+    login form should look better - put field title near inputbox
+
+commit fa8109602b6ff3a62fd72504abb61f792b6b8c63
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Apr 15 07:58:51 2011 +0000
+
+    #444 - added simplified Chinese language pack
+
+commit 334deb86443ee3eead9d78a2fc45ee7997fcf0a8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 31 21:31:39 2011 +0000
+
+    added checking for msgfmt executable
+
+commit 72a0d32798fbf960f3d9b65170538871373714e7
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 31 21:16:19 2011 +0000
+
+    added script to update copyright year in files
+
+commit 86ae2a8ff5662d63bfec170e909292244c25ed90
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 31 21:03:29 2011 +0000
+
+    updated project url in copyright text
+
+commit 8f789e5fb4814b4b6a7543115885b89b99757ca2
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Mar 21 22:20:43 2011 +0000
+
+    #438 - added powerdns database schema for sqlite
+
+commit 79b9af8cbcc82cf942bb614eba518b3f337101cc
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 18 18:48:47 2011 +0000
+
+    #431 - remove logging of username for failed authentication
+
+commit aa9233c94a13b33ce2755aa988e35bcca1f30159
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 18 05:54:34 2011 +0000
+
+    #431 - added logging limitation for username field (16 chars only)
+
+commit 66c291ffbe8100ebe5297a81e4944f9e9a300fc4
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 18 05:20:24 2011 +0000
+
+    #431 - by default disable logging to syslog
+
+commit 85e03e35914ae135b673969a18f7ee6eb97bcd8c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 18 05:12:41 2011 +0000
+
+    #431 - added logging of authentication attempts to syslog, it's disabled by default
+
+commit 10cc7194f8c80ce1e838c8a2d343632225f6d987
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 11 11:48:18 2011 +0000
+
+    removed unused variable, improved code style
+
+commit 362cb8d3a213e6825ab58532432fa4c4c78606e8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 11 11:45:14 2011 +0000
+
+    added script to update locale files
+
+commit d596dc3601d9e115689b13c3167d5f07b13faa0b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Mar 11 07:22:04 2011 +0000
+
+    #422 - changed usage of "Login" keyword, replaced with more accurate meanings, updated all locales
+
+commit 0c3f8139cf9ee0c9dab9a3f92223fb17babb7902
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 10 22:34:47 2011 +0000
+
+    make it possible to stylesheet zone list
+
+commit 525f9750bfbbcfa769ca4e1ec28e488aacd02610
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 10 21:41:40 2011 +0000
+
+    disable database debugging (enabled in previous commit)
+
+commit 296a1304511426465d57adda9e3f2294284f3091
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 10 21:39:01 2011 +0000
+
+    define database options before opening connection to db
+
+commit bd7bf78ebf0e6dad3673db5ce38494adc24c6026
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Mar 10 20:23:24 2011 +0000
+
+    #420 - updated PostgreSQL query for upgrading poweradmin from 2.1.4 to 2.1.5
+
+commit d5b99d1923ca87ebcfcadd0e175ecb5076dca4fb
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Mar 9 11:58:56 2011 +0000
+
+    #426 - updated Japanese translation, added missing installer's strings
+
+commit 866d90f5c478801e689db8df23fc9895e2694373
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Mar 9 10:52:06 2011 +0000
+
+    #425 - fixed Japanese translation
+
+commit e45cea3672d73207f4a0f2621605297754457859
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Tue Jan 25 13:30:54 2011 +0000
+
+    fixes for #412, #413, #416 and maybe #416
+
+commit 07d47302c4497e5ac32c564c1e0a7a4a99b4ebad
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jan 8 08:46:39 2011 +0000
+
+    added license information
+
+commit 88c0ceb000236e5a80ee9df8d772c2817152f2dd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jan 8 08:39:51 2011 +0000
+
+    BUG #411 -  check if name of template is not empty and doesn't exists
+
+commit 7bba914b5c3b58cd487b2aee83b9c358b0372c89
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jan 7 22:49:15 2011 +0000
+
+    updated copyright date
+
+commit eb4695cbbda907cb125c7668f16884137cc790e1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Dec 24 14:12:42 2010 +0000
+
+    increased version number (2.1.6)
+
+commit 94738853bee3a795de1f1c56ca268913796aacc0
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Fri Dec 24 09:56:51 2010 +0000
+
+    Missing lines for check empty domain name(s)
+
+commit 736819689b5c3f58e73436077c76e5a33a4722c5
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Fri Dec 24 09:36:07 2010 +0000
+
+    add little check whether domain name is filled in or not
+
+commit 4fe213ea748617f53efed8638b90e916fc25c6f5
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Dec 15 23:28:14 2010 +0000
+
+    TTN #396: disallow "switch to user" function for the same account
+
+commit 03c4344c7bd6dc3a461f950e4318d2b513ce7a89
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon Dec 13 05:05:05 2010 +0000
+
+    FEATURE #396 - Allow god users to switch to other users.
+
+commit cdd4fdfa50ee3712246e606af8da566ac0508cc2
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon Dec 13 04:28:39 2010 +0000
+
+    FEATURE #326 - Add password reset.  This probably needs a reasonable amount of cleanup / review however it does work correctly.  Input appreciated
+
+commit 4c5e88d7ad7d7ad95ff3ce91e5c4787bc624a427
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Dec 10 21:51:33 2010 +0000
+
+    #406: show selectbox with all users
+
+commit f8175e45945cfd9a61e43c6ad38d7bc62af5c145
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Dec 10 21:26:28 2010 +0000
+
+    added different checks in template editing screen
+
+commit d2ec273dc74b292ff2b6b69e8005d635dbbc3067
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Dec 10 20:55:36 2010 +0000
+
+    #397: show more informative message when database scheme is not up to date
+
+commit 1209e30450e930ce9b36f7a999544a1ad431f363
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Dec 10 20:14:30 2010 +0000
+
+    check if supermaster exists before deletion and show correct message when it was deleted
+
+commit d8c47a2d141b35fdba5def0cf2d9e2e6f43a4de9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Dec 10 19:16:44 2010 +0000
+
+    #397: use button instead of link for removing zone field
+
+commit dcc6d08e60d19cd98e6f7e0aac2150e19ff69f21
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Dec 9 08:45:26 2010 +0000
+
+    added French language to installer's 1 step
+
+commit d6e99657cd8db58a56570c4b9623b5b544d26bce
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Wed Dec 8 15:48:38 2010 +0000
+
+    small fix in edit.php page
+
+commit aa6055c5b73ce972b79df5fd7961b6e0b77d745a
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Wed Dec 8 10:34:49 2010 +0000
+
+    #359 - bulk registration of Domains/Zones
+
+commit d5b8f6780f2ecc3cedec0be6ded56b87e71c0151
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Thu Dec 2 14:43:18 2010 +0000
+
+    #297 - added the changes by pcairney
+
+commit f5ae355e9ad5b454a2f294dfe8c548c8af6cc31d
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Wed Dec 1 15:24:10 2010 +0000
+
+    #404 - remove unused variable
+
+commit c3d38991a67892ea079e460a2701fe6e86a872b6
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Wed Dec 1 15:14:42 2010 +0000
+
+    #400 - add check if name field is empty
+
+commit edadf6f914b9f17bab631034a8392360bef837f8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Dec 1 14:50:13 2010 +0000
+
+    #399: provide information about table types (innodb or myisam) to installer
+
+commit 5826115b27873e8e9c89032d8aec45ff26ad9221
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Tue Nov 30 09:01:02 2010 +0000
+
+    #401 - fix for the save as template, added missing columns' values
+
+commit b161043131d9ef1708e8674c9e2d200f49c8bcce
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Tue Nov 30 08:46:51 2010 +0000
+
+    #402 - fix creating zone without template
+
+commit 7eeb156a3bdbaed7718d60ff3a2f512bc94e8176
+Author: Okky Octaviano <o.octaviano@ocom.com>
+Date:   Mon Nov 29 16:02:44 2010 +0000
+
+    #34 ability to delete multiple zones, plus fix type for #382 (change 'zone_template_id' to 'zone_templ_id')
+
+commit 4423645be3a23d2f2d7d35546f91a6e33632b331
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 25 09:48:30 2010 +0000
+
+    TTN #382 - updated db structure which is used from installer
+
+commit c8c1a7f7314a453c205bf50611261c475d923898
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 25 09:15:58 2010 +0000
+
+    TTN #382: updated sql files
+
+commit b29103fc3204b434c2ce3ca4d46f7478d4a19084
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 25 09:01:50 2010 +0000
+
+    TTN #382 - added changes for improving existing template system, ready for testing
+
+commit bfe0ba200a78611b3099327532e5a016be99db5d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Nov 23 14:02:29 2010 +0000
+
+    TTN #383: added different checks for user or zone existence before executing operation
+
+commit 50a5b1b94b2253757668d0a5df4ad80018830de2
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Nov 23 09:14:54 2010 +0000
+
+    TTN #371: allow editing of template name
+
+commit c9b85396119263b1286ca2b8ab43a68a3cf0f5c9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Nov 19 07:03:04 2010 +0000
+
+    TTN #356: updated sorting algorithm, SOA and NS records will be on top of the list
+
+commit f9249c0670cf77d46068d3be461f50f04ce0a3fd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Nov 19 06:55:53 2010 +0000
+
+    TTN #296: iface_title must be defined as global
+
+commit 03e0d79656e5732b749baaef3bca1aeb1fa27dd9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 18 20:16:25 2010 +0000
+
+    TTN #296: allow to change title (header) string from config file
+
+commit 4cc5a3b2d877af7ad9ff77a2f98262aa345fc13b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 18 13:24:17 2010 +0000
+
+    TTN #395: set initial value for meta_edit variable
+
+commit f96c4012b06901b01cc48d11ac71e1f1da1cb1aa
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 11 18:56:10 2010 +0000
+
+    TTN #389 - do not increment serial number if an error occurs
+
+commit 12e490e8e3fbc8d71535fa6cb4f12dda2021b108
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 10 21:05:34 2010 +0000
+
+    TTN #373 - added listing of all domains on a single page
+
+commit 079fbfcf994b5ef56c6433e4fa088e60f24bc855
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 4 18:43:59 2010 +0000
+
+    TTN #388 - show priority field for every record, so changing from one DNS RR type to other would be always possible.
+
+commit f6a216be0dcbf86b27144e9bc422e90c27403327
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 4 18:04:59 2010 +0000
+
+    TTN #378 - do not allow to users change zone type through edit.php dropdown to types they don't have permissions for
+
+commit 656b7bd2227a53787a852ea7c61b79a711dfd8ba
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 4 10:21:33 2010 +0000
+
+    TTN #394 - make 'active' letters in the zone list stand out more
+
+commit 18c65d1ccb0189238982022e993a4e1cc6f7dc50
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 4 05:54:58 2010 +0000
+
+    TTN #70 - disallow users to delete themselves
+
+commit 93a844aeb94ea6e6b049e48a5efad490d3ed6269
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Nov 4 05:50:21 2010 +0000
+
+    hide ignore_install_dir variable in comments, if needed developer will uncoment this line
+
+commit c6b1b233d4beaba97ac00f2a6ba59136a3f7462a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 3 19:08:48 2010 +0000
+
+    added ignore_install_dir config variable which is usable for developers only
+
+commit 7de2d40138b1f02e46126fd57e92ee662005543b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 3 18:06:38 2010 +0000
+
+    added tests for is_valid_loc function
+
+commit c08a6b5b8b315c70dd8a2cb3fa31fa0f19c09327
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Nov 3 17:58:47 2010 +0000
+
+    added LOC fields support
+
+commit d999a6958732129c6a1c33739d1e260e8d9c893e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Oct 23 07:02:25 2010 +0000
+
+    ignore NetBeans project files
+
+commit 4ea0f4cf640c8f5941ad64d07e2223c78a52b51d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Oct 20 18:41:22 2010 +0000
+
+    Added french translation
+
+commit 2b927ad5fdbf9edf47c2216a321138351fe537e8
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Sep 30 20:33:15 2010 +0000
+
+    TTN #390: convert TLD to lower case before checking agains valid TLDs
+
+commit 056a45f1ae65d86a11a9463f35a611f5b8dcc1b3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Sep 30 19:39:48 2010 +0000
+
+    TTN #379: Added checking if required mcrypt library is installed
+
+commit 49423aed811e1ddf636fc18bfd09d8a54035790c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Sep 30 19:36:11 2010 +0000
+
+    TTN #379: cryptokey should be global
+
+commit dc801a28ba1183c53995e494dff3a04cf3cf69d0
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Sep 14 20:16:54 2010 +0000
+
+    remove unused variables and fix some typos
+
+commit 295285ff0ccfa6510cae6aa1d78c9c48ca29dabf
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Sep 14 20:11:39 2010 +0000
+
+    do not use short tags
+
+commit dcd9d8e38e9ef0bf87686c6bd9aeddfbd040df31
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Sep 13 19:55:07 2010 +0000
+
+    added missing definition of error message which is used in edit_zone_templ.php file
+
+commit 7aeb11c1fbcbfc80ca1e501dc93fa292040b372e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Sep 13 19:05:35 2010 +0000
+
+    TTN #355 - change value of port to db default if other db type selected from selectbox
+
+commit 4b4f8998fec378cada456f94f5af969ad69f8c3d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Sep 12 21:51:53 2010 +0000
+
+    added generic font name, removed redundant measure unit
+
+commit 98139b29c4e397e3edb5e9b3813ade2f6738a262
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Sep 11 07:12:35 2010 +0000
+
+    added missing dot
+
+commit 698dbc45a24084cf7949b4628d7d8c911eb42cf7
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Aug 29 19:42:40 2010 +0000
+
+    Feature r379 - Perform reasonable encryption on a stored session password
+
+commit f4a8514f3fa93ed2882a7951a28a35313b3af43c
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Aug 29 19:04:12 2010 +0000
+
+    Feature #355 - Add DB port selection to installer
+
+commit dfd8cda7d6a6defe602cb14db19b9bc16122fc4b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Aug 20 00:18:19 2010 +0000
+
+    TTN #383: redirect to zone listing if no domain or record found
+
+commit 12a677bb2783f58e88ab1bd8ed29cce9fe5f8dbb
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Wed Aug 18 03:12:10 2010 +0000
+
+    TTN #387: use single quotes for poweradmin settings
+
+commit 603ac1aa05e51f00bb35575a798251f523d29d12
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Aug 5 19:24:07 2010 +0000
+
+    TTN #386: performance enchancement to the get_zones function
+
+commit ae3c303a00b19465e9d32771d1d932341271e5c4
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jul 29 21:19:59 2010 +0000
+
+    made easier selection of page or letter in zone list
+
+commit 23d2e13bc34814d8e719e212af28386c988d9634
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jul 29 11:22:50 2010 +0000
+
+    ignore Eclipse IDE specific files
+
+commit cbc8255592aedcc92223d249ce58d427396fbcd6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Thu Jul 29 11:18:19 2010 +0000
+
+    removed commented session_start(), it is executed from inc/toolkit.inc.php
+
+commit 338ff03549b4f56331bce619f65aabf2808909b0
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jul 24 12:37:40 2010 +0000
+
+    added powerdns db schemes, sometimes they are required for testing
+
+commit 7ef5f3ae7fbe248971b85ed113e92d596e9044d1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 23 21:15:59 2010 +0000
+
+    Refactored last commit a little
+
+commit 3d8a8dfefa68b494cd2f99c1f209618398bd9b86
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 23 20:59:31 2010 +0000
+
+    try to get host from mysql connection and use it for building GRANT query
+
+commit b409cf1ac0021879223c9ae36e04f24f6ffdd139
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Fri Jul 23 16:56:00 2010 +0000
+
+    setup requires inclusion of error.inc.php for showing messages
+
+commit b3a2d729c2ca6f72ff17bc6d1ff4a2c67bd84d4f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jul 5 09:12:11 2010 +0000
+
+    TTN #358 - use the column names, when data is inserted
+
+commit b815a14ccb91b0a28585a2aab7b50edc954b4b6e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jul 4 12:22:13 2010 +0000
+
+    TTN #361 - added timezone support, which is required for php5
+
+commit eebe8c8011da40dd0049d8a238a4e2cc6995b59a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 21:39:31 2010 +0000
+
+    make HTML code valid
+
+commit fa15e0552a0fd4b27e727b0653a8b59b1259c42d
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 21:36:50 2010 +0000
+
+    fixes for valid HTML
+
+commit 76c55b755861d2cc8acc763f466f41d4b6720f41
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 20:46:20 2010 +0000
+
+    added checking for variable before using it in loop. Use correct error message when trying to add existing user.
+
+commit ad93f76f3007fec6ede69c556c131102cdf46284
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 20:43:56 2010 +0000
+
+    make HTML code valid
+
+commit 9fc30d8c212df7dd344b5cf72d9a47a8c64f4095
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 20:31:38 2010 +0000
+
+    show begining and end of HTML list only when user has required permissions (fixes for valid HTML)
+
+commit 2c9f392017a5064df07e2aeacecd5d2f50a73757
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 19:50:22 2010 +0000
+
+    add additional checking of variable before showing buttons
+
+commit 35b58501ec66787b59b14df8c234a12c4dc0019a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 19:24:15 2010 +0000
+
+    do not show menu line after password change
+
+commit 936e6ed85c63f3c7b785d4350a6adc0457ea4215
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 19:23:38 2010 +0000
+
+    unset all session variables after logout
+
+commit 65946d5568dd2acd35e7781e9d7fd6aa68ebb296
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 29 06:14:54 2010 +0000
+
+    added second parameter to logout() function, fixed usage of this function in source code
+
+commit 6fa963a0cb972960c590e74d17e66a4dedeffa30
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Mon Jun 28 19:01:37 2010 +0000
+
+    added checking of query values which are used for sorting zones and records
+
+commit a49cfa3e30fb2d541a1893d9a86dca8dcce2f9bd
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 20 11:53:48 2010 +0000
+
+    added proper extension for stylesheet file
+
+commit 370b2609904f1ce2d3b26a3fc395ba0d1ad0e59a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 20 10:44:19 2010 +0000
+
+    cleaned and reformated CSS file
+
+commit 6f9402ee41c5b166a3f2e2a38a03a50f8076c38e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 20 01:26:13 2010 +0000
+
+    add initialisation of returning array
+
+commit c9fedc17451ccda943a31f0dd87e1b16045b02f9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 20 01:13:00 2010 +0000
+
+    remove extra space between the question and buttons
+
+commit 91116603cbb08792f40248572cb0b1592dae13a9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 20 01:03:23 2010 +0000
+
+    TTN #376 - added additional checkings for email address when new user is created
+
+commit d5b0504ad0e0448a87670632a0e9637b5865f074
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 20 00:04:28 2010 +0000
+
+    TTN #6 - added parameter pass by reference to is_valid_rr_srv_content()
+
+commit 9b76948141cfa744ecb0d471452b02793b72133c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 19 23:52:14 2010 +0000
+
+    TTN #361 - eregi and other functions replaced for php 5.3 support
+
+commit 9e31cf641d0e716951f358d536f271f01c2be289
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 19 23:46:33 2010 +0000
+
+    remove nonexistent database field
+
+commit 617ec7c3bd3321b861f1cc20419fc045e4f6a915
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 19 23:46:18 2010 +0000
+
+    make proper variable initialisation
+
+commit f648b9362073275fa875a5a4f0669b3cc84f33ad
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 19 23:44:23 2010 +0000
+
+    changed order of fields like in TTN #377
+
+commit d371564cb3346a693fd56ccb7357a980a9caaffc
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 19 23:30:17 2010 +0000
+
+    TTN #357 - removed usage of REQUEST_URI in confirmation urls
+
+commit e11a673e526d3f9b6d1226980b4a398b743457de
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 15:34:35 2010 +0000
+
+    Do not use a variable whose value has been removed
+
+commit 9ee0c5f2cca26d1a7f0fa350cbaa46d8652c9c14
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 15:32:03 2010 +0000
+
+    added compiled messages file
+
+commit e9950f5a3971f0e70ade6d495094d613727521c1
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 15:27:46 2010 +0000
+
+    added russian translation
+
+commit ab64fbf911a575053fee9318aea177ab10ca69ed
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 15:25:21 2010 +0000
+
+    added compiled messages file
+
+commit 99760ff48632f2bed9ab9de652f3e32224525e7b
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 14:04:03 2010 +0000
+
+    use POST variables only if they have value
+
+commit ab4c5bf1af4225389f08f27cd8826ca6a5edab41
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 13:59:51 2010 +0000
+
+    add missing html tag
+
+commit 18142b116bd9bde2c0398aa9e378f26a66cf97c6
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 12:32:49 2010 +0000
+
+    display version number only for registered users
+
+commit 94d17aad447b77dfb72cebb7297fe9a6203022ae
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 12:15:23 2010 +0000
+
+    use POST variables only if they have value
+
+commit a9fdfb5514b891b0440a9fd5f5a704edd4e52c2e
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 11:53:36 2010 +0000
+
+    use correct response variable for error checking
+
+commit 19c632b2bdf0f452c90052c62ec320de0728c8ef
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 11:45:42 2010 +0000
+
+    html fixes for w3 validator
+
+commit 8197f5e90a7bedc15fcbd3125c4c8d626e87b15f
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 11:41:15 2010 +0000
+
+    db host must be used instead of server host
+
+commit e16bdf82626db8086f121e687d2bdb098f84e80a
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Tue Jun 15 09:37:09 2010 +0000
+
+    small html fixes
+
+commit a97db9dc92ac2af0af7771dab75a60f0e509b14c
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 13 10:42:13 2010 +0000
+
+    TTN #349 - use different form variables for username and password
+
+commit abfc320abd6488152586f793a6b31a4dd6e1d7e9
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 13 09:59:28 2010 +0000
+
+    on some platforms setlocale() may not work if you do not specify encoding
+
+commit 806c7e77ceb805fd288b80a54f75be785a329569
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 13 09:52:41 2010 +0000
+
+    TTN #355 - added db_port setting
+
+commit 44c77060c71bcd045a8c1fcb2898592b70ce5dc3
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 13 09:29:04 2010 +0000
+
+    version definition moved to external file
+
+commit 70b9d178f9e79e40594e684fdd8b4e7bbac219ea
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 13 08:28:14 2010 +0000
+
+    on some platforms setlocale() may not work if you do not specify encoding
+
+commit 5b3ac49249c064b5a2118f4e2d9a76a029c86182
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sun Jun 13 07:55:54 2010 +0000
+
+    TTN #377 - changed order of fields
+
+commit 2e60e162252d066b79c8377130d6eb3f8372ff61
+Author: Edmondas Girkantas <eg@fbsd.lt>
+Date:   Sat Jun 12 16:17:31 2010 +0000
+
+    TTN #368 - updated polish translation
+
+commit e670c56c9fdcea6662eccae6d1f9d4ef60863f24
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Jun 12 02:46:12 2010 +0000
+
+    TTN #366 - error message is hidden by select HTML statement
+
+commit 96efb272c4f410e955c3b918180c9f842f82ebfe
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Jun 12 02:43:44 2010 +0000
+
+    TTN #369 - Check for required PHP extensions
+
+commit 9193d0e2eb952d072041485df02272d44de56b03
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon May 17 01:32:05 2010 +0000
+
+    TTN #367 - Add favicon
+
+commit 9c19b5884c6655cb1b1224203036573ded329ca1
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon May 17 01:30:51 2010 +0000
+
+     TTN #368 - Damn you google translate / copy paste
+
+commit d9ac3270dcb14896fd6021444450b25f01318309
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun May 16 15:06:38 2010 +0000
+
+    TTN #365 - Default to english for installation.
+
+commit 0fec0208f0b703eff2f731043dcb81aa0c7b1aeb
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun May 16 15:04:34 2010 +0000
+
+    Polish translation, thanks Krzysztof
+
+commit 4cb39311984abd039c4eca8789d7c7c328508b8b
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon May 10 19:46:32 2010 +0000
+
+    TTN #364 - It would be nice to have direct link to installer.
+
+commit 0084f2f67b66580c8a15819bdf675c8417a2a8d6
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon May 10 19:28:16 2010 +0000
+
+    TTN #363 - UTF8 should be added for installer, because it is required for Japanese translation.
+
+commit a0a7c015f538fc0aedfc67493f7eb9f85395c23d
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Apr 25 14:37:30 2010 +0000
+
+    FIXED #6 - strip trailing dot
+
+commit 10e954c9b163a53746f44018b740564b64afe628
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Apr 25 14:29:51 2010 +0000
+
+    FIXED TTN #354 - Zone search fix
+
+commit ab62bebe7b2e7fa2f540dc9bea341b726893a08f
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Apr 25 14:27:02 2010 +0000
+
+    Missing file from SVN
+
+commit f8a3c0be19660b76163b479a24a431661cbe646e
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Apr 25 14:23:30 2010 +0000
+
+    Japanese translation
+
+commit 4d85f00429161ab1412c1f77d2c090b3683d6b5d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Mar 29 10:58:49 2010 +0000
+
+    Removing .um from list of valid TLD's. Fixing #353.
+
+commit d5c3ede5729934dac72104e96d8ffba79431fe83
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Mar 26 14:19:48 2010 +0000
+
+    FIXED TTN #350 : Missing closing parenthesis
+
+commit 5113199becf44e2baee0bde01bdc38f8c99a81f2
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Mar 26 02:02:11 2010 +0000
+
+    Update copyright dates
+
+commit b224d4407973f9025434319d384b75fdced0e6c9
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Mar 26 01:55:59 2010 +0000
+
+    FIXED TTN r345 : Remove pork code that will never be executed
+
+commit fa6354dfc4595b5f623139ba992438391f1260bb
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Mar 26 01:53:55 2010 +0000
+
+    FIXED TTN #346 : Bug that prevents insertion or display of the records after the first in db table.
+
+commit 216024da490776be97636a75ae7e2ca7a0324297
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Mar 26 01:51:48 2010 +0000
+
+    FIXED TTN #347 : Update CHANGELOG/README links and Database Structure details in docs/
+
+commit 75ee9713a61a724d038d456ce8be71ea0c6c4c96
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Mar 26 01:48:10 2010 +0000
+
+    FIXED TTN #348 : Add useful error message to template DB failure indicating incorrect upgrade/install
+
+commit 791cfc1fbbc000d807f04f73591ad7225649409c
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 31 18:49:30 2010 +0000
+
+    FIXED #340 - Fix invalid css and HTML
+
+commit 93e906b74073aeceb6d7621dbfe16340a1bc2d94
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 31 18:47:56 2010 +0000
+
+    FIXED #342 - Check if post is set on password change
+
+commit 139561915e4a96e6eccdd4d054b67ec06e751fb2
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 31 18:46:19 2010 +0000
+
+    FIXED #343 - Language detection broken in installer
+
+commit ed7fa4f4ed51a4c8c309d97208e866422ebaf72a
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 31 18:42:13 2010 +0000
+
+    ADDED #344 - MySQLi support
+
+commit a61b1dd19f6975ded154f20eaed354bd0d694dd6
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Jan 29 21:35:26 2010 +0000
+
+    ADDED TTN#341 - Check for MDB2
+
+commit 12c94ba3e03e57d32e5f09085e42262a73c89ea0
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Jan 29 19:48:57 2010 +0000
+
+    ADDED TTN#341 - Check for MDB2
+
+commit 93118737598c662d9d78b04b0c654dadce61c12d
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 24 21:37:14 2010 +0000
+
+    This is a test commit
+
+commit d002918a2ce008a5ae116f70dbd5957b37d02510
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 24 04:17:37 2010 +0000
+
+    FIXED TTN#338 - Check if config exists in i18n
+
+commit 805aa7cbe401f1f103a0b3f9bc3a11a28d4dfbad
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 24 04:15:17 2010 +0000
+
+    Update version variable location for better display
+
+commit ab2dd2d70015c05c60f6cbf2776dbc181415e958
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Jan 24 04:12:47 2010 +0000
+
+    Update version variable location for better inclusion, update german locale file to fix non matching text
+
+commit 86a10b7422a84642c6e791bcb3dfe3d7769cd840
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Jan 22 15:33:42 2010 +0000
+
+    Added missing semicolon. Fixing #337.
+
+commit 2ab26871d1d9aa4833938fdb01a4e06a11c52f0b
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu Jan 21 04:49:46 2010 +0000
+
+    ADDED TTN#87 - Show verion in footer
+
+commit 7d1ee9d4e2a11654b94bc0f48def80931945ebb7
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Tue Jan 5 05:30:14 2010 +0000
+
+    ADDED TTN#328 - Add PR Record Type
+
+commit ffcedda4c193fd1686bdca0876134f3f13937c1a
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Mon Dec 14 06:29:03 2009 +0000
+
+    FIXED TTN#336 - Templating system didn't quite make it all the way in for some reason, this update fixes templating.
+
+commit 521459288506fe498136697cc38d9a3b6e79f433
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Dec 13 07:14:51 2009 +0000
+
+    Cleanup some annoying unset variable errors.
+
+commit 5e69fa5f3050556345675224d39c14bb515f5d1a
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Dec 13 07:00:06 2009 +0000
+
+    Reset default config-me
+
+commit ac1fed267124a5d79f50d0499df93ad3038353be
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Dec 13 06:58:30 2009 +0000
+
+    Feature ADD #331 - Show domain owner to administrators, or users with global edit permissions.
+
+commit 9d00c1d1a27c9e7062d21f290b05aa971fc88227
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sun Dec 13 06:24:21 2009 +0000
+
+    TTN#335 - Invalid MDB2 record types, fixed.
+
+commit 3612473fd69674e61ed152eba7836a2a2a62b6b8
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Nov 8 08:21:18 2009 +0000
+
+    Fixing a short_open_tags issue as reported. Closes #333.
+
+commit e0a3979e9f6a1a0f2c8836ccfeb8f67340e4f0bd
+Author: Klaas Tammling <webmaster@st-city.net>
+Date:   Sat Sep 19 15:06:07 2009 +0000
+
+    Added "add record field" #308
+    Fixed some double defined constants
+
+commit 2c69df69c0340c775c5ed65e1843eb387b627fe5
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Aug 15 01:45:04 2009 +0000
+
+    Some files that didn't get created for TTN#325
+
+commit deed8459a6908a4803155cb8f3e00205553ec37b
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Aug 15 01:36:54 2009 +0000
+
+    FEATURE TTN#325 Add template system - THANKS Jeroen
+
+commit 79faeb2a6b37e9a919f5543cef73ddb843c300ef
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri Jul 31 03:12:26 2009 +0000
+
+    Feature TTN#316 & #324 - Add comments section to each zone edit, Thanks jeroen
+
+commit 29a1368390a4ea8d9d153f3dacc624286fa8af51
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Jul 25 23:59:16 2009 +0000
+
+    ENHANCEMENT TTN306 - Add back link after adding a record to a zone - THANKS Jonas
+
+commit 7542b7f2235fb32a1cf52071941ebe9c6a3dc530
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat Jul 25 23:48:19 2009 +0000
+
+    BUGFIX TTN286 - Headers already sent fix, ob_start clears this
+
+commit aef2ae9300eb3f2eb61940577be9bb8bedddef0f
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Wed Jul 15 21:50:00 2009 +0000
+
+    FIX TTN#321 - Update serial on record deletion
+
+commit 5e3252051a5648cbe742df0755b290efee626e8f
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Wed Jul 8 03:04:25 2009 +0000
+
+    Enhancement TTN#319 - Add Dynamic DNS client w/ update script. Thanks troyfrew, this needs testing
+
+commit e4ff894289d3e3a201397c2ca1fdd574b3ed1867
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Wed Jul 8 02:17:00 2009 +0000
+
+    Enhancement TTN#320 - SPF Record Validation THANKS kristaps
+
+commit 8004a7df8622384bcd07212f51a8bf1e2c504b02
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Tue Jun 16 19:40:12 2009 +0000
+
+    Typo in language listing
+
+commit 7041d2947b7d761f5a6225f2bb391a8e49e709f9
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Tue Jun 16 18:42:35 2009 +0000
+
+    Enhancement #317 - German translation - THANKS gkaefer
+
+commit 3200d98dc2143b3d138b93ed628263e3c6414ba8
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat May 16 23:17:43 2009 +0000
+
+    FIXED TTN#289 - Fix JS on login form to set focus on username THANKS mbsouth
+
+commit dcb8d54b64e60def05bddb488c009f6e74274d02
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Sat May 16 23:09:45 2009 +0000
+
+    FIXED TTN#46 - Allow quotes around TXT records and allow escaped quotes within the quotes as per RFC1035
+
+commit 0c789d477123629daaee6526d8faa04dbc9b51c5
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri May 15 04:17:36 2009 +0000
+
+    FEATURE TTN#313 - Make success message clickable to edit the newly created slave zone - THANKS jonas
+
+commit a0e48f2d2e530c4d3b9a1b96768171f569093e1e
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri May 15 04:00:49 2009 +0000
+
+    FEATURE TTN#314 - Make success message clickable to edit the newly created zone- THANKS Jonas
+
+commit 9dd1333c1da4828e191263a11e501515b892c113
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri May 15 01:55:02 2009 +0000
+
+    FEAT TTN#300 - Added reset button to form edits - THANKS pcairney
+
+commit 6a815d1996b6cd18b9b1bd9ffd223dc3775807f8
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Fri May 15 01:46:22 2009 +0000
+
+    FIXED TTN#305 - When adding an MX record the set value was being ignored
+
+commit b5d499a4dbd5ced5dfe46c2b4f2e4c0353794ca8
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 23:21:07 2009 +0000
+
+    FIXED TTN#299 - Users should be enabled by default, that is more common than not
+
+commit b749f634773881b840f50098828e44994288faf2
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 23:10:35 2009 +0000
+
+    FIXED TTN#130 - Don't allow duplicate CNAMEs or CNAMEs that overlap with a/AAAA
+
+commit c71ebe473599bbcf3dea7485e4e2116209f437bf
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 22:52:44 2009 +0000
+
+    FIXED TTN#59 - Allow editing of SRV records priority when editing a zone
+
+commit ff84362280d49eeb0b00a66c75dc2c2335cbbf7e
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 22:33:42 2009 +0000
+
+    Cleaner fix to #291
+
+commit 7e8226df5cb97286c92ddd8f1d42ecc0ff7227d2
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 16:57:44 2009 +0000
+
+    Only add quotes to content if the record is type SPF
+
+commit bb28c5b10e16a9e7aa5b08b90b60f998d984a045
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 04:06:51 2009 +0000
+
+    Fix quotes that were left out of r333
+
+commit b8789a5c67f496db3fca2be9c43e2d403cb45b91
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 04:02:55 2009 +0000
+
+    FIXED TTN#291 - Add quotes to DB when adding/editing a SPF record
+
+commit 70fc05fab16fea9a9f437a2257784d787619e0c3
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Thu May 14 02:05:28 2009 +0000
+
+    Missing closing bracket for last commit r331
+
+commit b9444c56f6a541cbe8a0e58c85d873826f4fa75a
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Wed May 13 21:08:07 2009 +0000
+
+    FIXED TTN#292 - Do not show other users in system unless user is allowed to see them
+
+commit cae390785af6ef157c0080241173109610c8602a
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Wed May 13 20:32:07 2009 +0000
+
+    Begin code commenting project
+
+commit 28ce1acbe394c3a049d54955842820afefe5288d
+Author: Scott Harvanek <scotth@sourcemirrors.org>
+Date:   Wed May 13 18:14:58 2009 +0000
+
+    FIXED TTN#283 - Deleting record should update serial
+
+commit 0c8302af1c2d708172245ed89b3217fe3fc0c91e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jan 7 12:23:25 2009 +0000
+
+    Update README file in docs/ direcory. It was still pointing to an old page on the website.
+
+commit 0a4cac9ac293a3acba5e26cda37ee5b12d2044ad
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jan 7 12:21:29 2009 +0000
+
+    Updated of copyright notice (year has changed).
+
+commit 7c2b72271b8a7a3debbc5780fedc97112d663046
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Dec 28 09:27:35 2008 +0000
+
+    Bugfix. SOA record now gets update only once, even when we are updating multiple records in edit.php. Doh.
+
+commit a48b9f647d0ee743b75c1bfa42b82dfddb8e3ea2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Dec 27 22:00:44 2008 +0000
+
+    Rewrite of SOA update function. Now honors a serial of "0" (as this has special meaning for Powerdns) and simplified code. Fixed a bug in edit.php which caused serial not to be changed when records were changed. User is now forced to edit SOA record explicitly. Closes #66.
+
+commit 89fa21b179ec147fa94d0ac2a4f340d91925b75e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Dec 24 13:59:04 2008 +0000
+
+    Bugfix: fixed a number of broken permissions checks. Reported by "stbuehler". Closes #88.
+
+commit 123673941cedcec0233bf326f8760070fee89717
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Dec 24 13:48:05 2008 +0000
+
+    Added prelimary support for CURL records. This is one of those "fancy" record types that are supported by PowerDNS.
+
+commit 3a049d8891935b7fce72f024362fe20f3d417f1a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Dec 24 13:33:20 2008 +0000
+
+    Bugfix: User was unable to delete own record. Bug reported by Jasper van Erven Dorens and Olvi. Resolves first comment of #88.
+
+commit e2a5e668eea1091361707393a035bc43140232b9
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Nov 10 21:07:14 2008 +0000
+
+    Bugfix: when not all data was entered correctly when creating a new user, an error was displayed, but the user still was created.
+    Bugfix: A possible privilege escalation has been reported by Pim Rupert. This has also been adressed.
+
+commit 9b6b452c84ccc29e29a8c03d50e796829947fa7e
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Fri Sep 26 10:02:33 2008 +0000
+
+    Minor bug fix: bg.shiny@gmail.com reported that cyrillic characters where not supported. Applied the patch which was supplied.
+    This closes #93.
+
+commit 5d70656db31f506fb1da8640ee93abdcf34e5dbb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Sep 12 08:39:57 2008 +0000
+
+    Added preliminary support for SPF (other than in TXT) and SSHFP records. Valdiation for these types will be added in near future. As requested in #89.
+
+commit 144c9fde58614592253b2581ecd1f41bfed3ddd3
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Thu Aug 7 18:45:13 2008 +0000
+
+    Applied the patches supplied in #82 and #85.
+    Also quoted some additional values before they are send to the database.
+
+commit 0223fabc6df4909d7a0fb8d54f8d7b702a49cd7f
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Thu Jul 24 17:21:33 2008 +0000
+
+    Bugfix: When no zones are available in current listing, it isn't possible to switch to an other listing.
+    Fixed this by displaying the character selection in this case. Closes: #81.
+    Bug reported by Tom Hutchison.
+
+commit e73272293f290d9bb7bcbb37d6ad007ada595307
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jul 14 22:44:32 2008 +0000
+
+    Fixed a number of undefined errors warnings. Updated a number variable names for consistency. Update PHP syntax for consistency.
+
+commit afc0da16fe5cb0fc8d9d77fccafdf9de90245f40
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Jul 14 20:17:34 2008 +0000
+
+    Bugfix: The GRANT statement for PostgreSQL is not correct.
+    Modified the code to give the correct GRANT statement based on the tables in database-structure.inc.php.
+    Reported by grin. Closes: #78.
+
+commit f5b017c95d83330a1a689abb1e9e5955761292c5
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Jul 14 16:19:30 2008 +0000
+
+    Bugfix: removed the multirow insert syntax, which is only supported in PostgreSQL 8.2 and higher. Reported and patch by grin.
+    This closes ticket:79.
+
+commit 4d99c5d78c07742ac9f39ab1e1fb3068ab2cedad
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Jul 12 13:44:34 2008 +0000
+
+    Fixed a number of errors for undefined variables.
+
+commit 74aba644e2f46175980ec6f00d2d2505134c13f2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Jul 12 13:15:50 2008 +0000
+
+    Update of SRV record validation. Now checks for a maximum number of characters of content field and allows dash in first label of content field. Closes #45.
+
+commit 21458d04ac3ab87604ffd4d20f64485612b48c5f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Jul 11 08:59:07 2008 +0000
+
+    Added isset() check for commits.
+
+commit 57d6fea698431e7eec80fe886d08884766fa51dd
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Jul 11 08:02:01 2008 +0000
+
+    Fixed a number of undefined variable errors in PHP. Fixed an omission in r291.
+
+commit 0620953b9d2c0f2f5fceec746a44621b6640c9e5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Jul 11 07:44:10 2008 +0000
+
+    Bugfix. A user without the privilige to change the permission templates for users couldn't change user properties. Closes: #80.
+
+commit 10832f30310054cd738528a2abd5603e03040af2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Jun 20 12:21:03 2008 +0000
+
+    Fixed a couple of warnings on undefined variables and array indexes. Closes: #71.
+
+commit 8f327cba3efed89f91dac588b851e2e9f285e064
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Wed Jun 18 19:11:39 2008 +0000
+
+    Bugfix: In postgres an empty string ("") was is not automatically casted to 0. Because of this the use of integer is forced in the $db_mdb2->quote() function. This fixes ticket:40.
+
+commit 794ec3735cb33c524fb05039b465c55ae123bb2a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jun 12 22:00:46 2008 +0000
+
+    Fixed GRANT statement installer to give working example, even if web interface and database are on different server. Closes #67.
+
+commit a035daeb90a3bfc63c0f339ec5877b244b1ae25c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Jun 7 10:51:11 2008 +0000
+
+    Changed default zone type when adding new master zones (from master to native).
+
+commit 0aee9fa1b8f3799e3a18ae3746fc29b886a8236b
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sat Jun 7 09:56:37 2008 +0000
+
+    Bugfix: Modified the link to the Poweradmin installation in step 7 from 'index.php' to '../index.php'. This closes ticket:68.
+
+commit 135fdcabeffeca080fc7dc9023b174ef6a0c10f2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 3 19:51:43 2008 +0000
+
+    Fixed an invalid function call. Reported by Chet Nichols. Closes #55.
+
+commit d1f1af12102bb93bb7751ec4b6c01bef04f373ff
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat May 31 16:06:49 2008 +0000
+
+    Validation of an emailaddress now uses new hostname validation function as well. Issue reported by Alessandro Bono. Closes: #60.
+
+commit 3205e95225ed9e5a9612f26db6e7e6eb1523f8d9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu May 29 20:27:46 2008 +0000
+
+    Bugfix. Unable to add a new slave due to wrong validation of user input. Reported by Adhisimon. Closes #58.
+
+commit e13980971f9984768c84ccff3eb56996277fba15
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 23 21:52:08 2008 +0000
+
+    Fixed a bug that was introduced by bugfix (...) in r277.
+
+commit 207f8e10db0558c27db34c799dcaea52ffef9671
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon May 19 19:01:58 2008 +0000
+
+    Fixed a small and non-critical bug when validating SOA records. An error messages was shown, validation or process wasn't influenced.
+
+commit 5e6d86ef3d3e79a0c401a281899c0671c4832fa3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon May 19 10:20:44 2008 +0000
+
+    Fixed a bug causing return of wrong seasrch results when searching for zones the user does own. Reported by Adhisimon. Closes: #56.
+
+commit 53dd855d216177ddba17b5c400528f8b909816b2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun May 18 12:28:16 2008 +0000
+
+    Added user configurable option to show serial of zone in zone listing. Closes: #53.
+
+commit 6a214dde223700ff2fa0a7d75897cf8d931cbea2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun May 18 11:51:59 2008 +0000
+
+    Changed legacy function name for hostname validation to new code. Bug reported by Adhisimon. Closes: #55.
+
+commit f15d206117b169fbb075218c8956230647df8c61
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sun May 18 07:56:11 2008 +0000
+
+    Bugfix: Used the $_SESSION['userid'] instead of $userid. Patch supplied by adhisimon.
+    This closes #54.
+
+commit 5a0e57b962c9bf6b8c2f260f0c59c5ae11381c10
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 16 11:30:20 2008 +0000
+
+    Fixed the two URL's in the CHANGELOG and README file.
+
+commit 29b2c5cf355baa83058535655623f1055196486f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 16 10:43:57 2008 +0000
+
+    Renamed error ERR_DNS_MX_NS_TO_CNAME to more generic ERR_DNS_NON_ALIAS_TARGET. See also r270.
+
+commit 66737db5c4318bfcf6b7202b6d68bc935d56ff55
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 16 10:42:36 2008 +0000
+
+    Removed an unused error definition.
+
+commit 6117098ec3f914e4e7000be67ba560b8623af6b6
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 16 10:01:42 2008 +0000
+
+    Password of Poweradmin administrator is now asked (and used) during installation procedure, avoiding the need of using a default password.
+
+commit 1292b8daa96e22dc70d7cb7414036fe12c8814e5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu May 15 21:50:20 2008 +0000
+
+    Added validation for SRV records. Closes #45. Updated validation for TXT records to allow for DKIM. Closes #49. Renamed is_valid_mx_or_ns_target function to more generic name is_valid_non_alias_target.
+
+commit c4c5d3313bf1a2dd8ab1c5c324ffb904490afeda
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Thu May 15 19:02:53 2008 +0000
+
+    Minor layout bug: Made sure the table row was closed before starting a new one.
+
+commit b74bdb8d61d94e6d5f62039099db639ee4c91df6
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue May 13 21:35:17 2008 +0000
+
+    Added two missing exclamation marks in IP address verification function. Closes #52.
+
+commit d7e4234258c9003128faedb2f378908d72aac8d4
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue May 13 20:59:32 2008 +0000
+
+    Fixing the previous bugfix. Should really close #51. Additionaly, allow for IPv6 master if zone is a new slave zone.
+
+commit c2db9f47b73b30c173fbda69c15110ac0336a10a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue May 13 20:37:32 2008 +0000
+
+    Fixed legacy function calls to functions for validating IPv4 and IPv6 addresses. Closes: #51.
+
+commit 3422d0480689af364e56060506a9520a1f28e789
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue May 13 19:03:24 2008 +0000
+
+    Fixed a bug in the installer. This closes #50.
+
+commit 29e4d82a2d2d2de64c413d857b318bdd7bdc2de2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue May 13 15:18:45 2008 +0000
+
+    Fixing typo in MX validation check.
+
+commit 425d4dd3ab9d7926d23d0b76ede603d5d58ab395
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon May 12 07:36:11 2008 +0000
+
+    Fixed create user example for PgSQL to have create a new user with a password.
+
+commit fd76b33369dcedb9c6d7a8a7a923c61f265f51d9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 9 15:41:02 2008 +0000
+
+    Re-ordering of some of the questions in the installer script. The user is now presented the exact commands to create the Poweradmin database user, instead of giving a mock-up.
+
+commit 8ed2780d21ed807d6a8e77dbf959e6f1f35b8221
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 9 14:54:59 2008 +0000
+
+    Changed suggested configuration code to not use the PGP shorttags for better compatibility.
+
+commit c599ddb42c5281e4e6dc3d50988315532c51bf89
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 9 14:24:30 2008 +0000
+
+    Fixing another typo in Dutch translation.
+
+commit 3182c7b0f962cf5d984e05070f0263d05d9f5cf5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 9 14:23:37 2008 +0000
+
+    Fixing typo in Dutch translation.
+
+commit 05f80fb0aa494ec0afd1d1d1f90a48343fd6f33e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 9 14:23:00 2008 +0000
+
+    Fixing small bug in on-screen print of suggested configuration.
+
+commit 24c3f19ceddefe8c5e121a10e1d76fe93042598f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri May 9 14:07:54 2008 +0000
+
+    Added translation of installation script. User now may choose between english or dutch installation procedure.
+
+commit 3f3774cf4661c267d9c08998940a0e60aafd560d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat May 3 22:00:51 2008 +0000
+
+    The local configuration file is now written by the installer if the file is writeable to the webserver. If it is not, the user must create the file himself. Fixed a small typo.
+
+commit 119ea09499e36636babcfb258b3d38c45c2e0657
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat May 3 21:16:50 2008 +0000
+
+    Fixed a missing variable definition in the installer.
+
+commit ce5f508790a8ab593853322b8a054e64dae39a58
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat May 3 20:36:31 2008 +0000
+
+    Allow the use of SRV records, allthough there is no validation of this type (yet). Requested by Philipp Hellmich.
+
+commit be987034c0be9f68d742c66a0b3e7371015db03b
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat May 3 20:22:46 2008 +0000
+
+    Added a small explanation of the supported regular expression for the search field. This closes ticket:38 and ticket:47.
+
+commit 83c71293bd1a8cccb99be34fb92bb56d59ded5c3
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Apr 28 20:10:12 2008 +0000
+
+    Added the possibility to select whether MySQL or PostgreSQL should be used.
+    Depending on the choice, a different instruction is displayed in step 3.
+    Also fixed a minor typo.
+
+commit d95147385ed55eb11d537ef0a2885e889d92e685
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Apr 28 19:12:51 2008 +0000
+
+    Fixed a small problem in the database scheme that is created by the install procedure.
+
+commit a6086041aecefdd50f7bc8f50771d3ac6b021963
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Apr 28 19:05:06 2008 +0000
+
+    Added a check for the existence of the install/ direcory. If it exists, present the user with an error message.
+
+commit a8b60c3b13f88e805594412ef0530e9fd53ad03a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Apr 28 18:47:19 2008 +0000
+
+    Added a small check to make sure a nice message is shown if the users does not have view access to any zone (in list_zones.php).
+
+commit 6c21de42b08fcc225704b11a5b241f057d9d7164
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Apr 28 18:18:06 2008 +0000
+
+    Added basic installation procedure. This closes ticket:10.
+
+commit 357968794da363571a141aa8320fec15f05122c2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Apr 24 22:33:28 2008 +0000
+
+    If the user was listing the details of a zone that did not exist, all kinds of error messages were given. Now we first determine if the ID is valid and if not, immediately return the correct error message.
+
+commit 092c074c48039b249b4ab302c79aae756c3c1242
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Apr 24 21:07:27 2008 +0000
+
+    Improvement of DNS validation code. See also [wiki:Documentation documentation on standards]. Closes ticket:6, trailing dot not allowed in content field (it is now stripped automagically as PowerDNS doesnt want it). Closes ticket:40, error shown if priority field was empty and record type was not MX (prio field is now ignored if record type is not MX).
+
+commit eb0fa7d331003ff6b2d06f944912d846b647522b
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Wed Apr 16 17:53:40 2008 +0000
+
+    Bugfix: When a record is deleted from the search screen, an error was displayed. This closes ticket:43.
+
+commit 48e34dac8b83da7c168f33e740ba29279db0f341
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Apr 11 13:33:30 2008 +0000
+
+    Improved SOA record validation.
+
+commit f37c464bc101a06ba2cd52f6f1e0f33a648e0ad2
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Apr 11 11:59:33 2008 +0000
+
+    Added inclusion of 'config-me.inc.php' to get the defaults.
+
+commit 01c77aba3a4f26c5d2d082ba6e632aa4d0fcbff5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Apr 11 10:19:14 2008 +0000
+
+    Changed configuration file and variables. See [wiki:Documentation/ConfigurationFile documentation] for more information on new setup.
+
+commit f8c5643ccf148f00c07c7afe18860ef0727471f6
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Thu Apr 10 19:42:47 2008 +0000
+
+    Bugfix: Only save the modified record when there is no error in the record.
+    Bug reported by Techwolf in ticket:39
+
+commit d811fe5a2e9f0c30d0853e07e94c3538dd161ed7
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Apr 7 19:11:03 2008 +0000
+
+    Bugfix: when a zone has no records (eg a incorrect slave) it was not possible to delete this zone.
+    Modified the query to fetch the records of the zone with a LEFT OUTER JOIN so there still will be a result when an empty zone is selected.
+    This closes ticket:25.
+    Bugfix: Made the query compatible with pgsql
+
+commit 5ad85f765290b1f0bdfad9575caf21a941a11a96
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 6 18:54:52 2008 +0000
+
+    Bugfix. Adding a new master zone without using the template caused creation of malformed SOA record.
+
+commit eb8de3f61e63f2d46161e16c0f6700cb82efbee6
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 6 18:32:32 2008 +0000
+
+    Fixed a typo. Reported in ticket:39.
+
+commit a928eca082717e98c1d2841e2bed77f0cb98a082
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Apr 5 16:58:49 2008 +0000
+
+    Removed svn:executable for a number of files. This closes ticket:36.
+
+commit 09fd4bd0596bcbdbeef0c53a2166cdac5667c240
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Apr 4 07:29:24 2008 +0000
+
+    Bugfix. If the number of zones a user has access to was exactly the maximum number of rows to be show according to the configuration, only a small number was actually shown. Parch by Techwolf. This closes ticket:29.
+
+commit a5939cf5eaa12cef5f4bda9c2b9ee8b30641155d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Apr 4 06:54:05 2008 +0000
+
+    Bugfix. Added missing count of number of supermasters. Was removed somewhere between revisions r125 and r181 in r182. Bug found by Techwolf. This closes ticket:35.
+
+commit 998599536d57f8c9bb20aa033ce8f1a61f2e85b9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Apr 3 22:36:17 2008 +0000
+
+    Removed left-over debug statement.
+
+commit d1903969fddfa1b2f0118ad4deb11bffe80a1159
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Apr 3 22:32:52 2008 +0000
+
+    Input for edit_record function in edit_record.php was array with incorrect fields. Fixed. This closes ticket:32.
+
+commit 3298506b4b4207ac1fcb6cbf9bc5829c9bfb50e2
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Thu Apr 3 21:48:36 2008 +0000
+
+    Fixed a lot of notices which where shown when php was running in E_ALL instead of E_ALL & ~E_NOTICE
+    Bugfix: In the index.php the Add supermaster wasn't displayed due to a wrong parameter in the check.
+
+commit 7dadcdbec9c06337794c5a2e5a9c297c2d43e816
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Apr 3 18:57:11 2008 +0000
+
+    Changed URL's to Poweradmin website in footer of PHP pages.
+
+commit 7a81996886cee37d36d7978c12da1d4698411664
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Apr 2 08:11:48 2008 +0000
+
+    Updated the README with a pointer to the website.
+
+commit d3678b96983fefea93813b23ae0baeadb94fe57f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Apr 1 19:12:08 2008 +0000
+
+    Added a check for a number of database related settings in the configuration. If not set, the interface now will return a clean error message. This closes ticket:28.
+
+commit 0559ce0eaad11585a2fffcc9133ea8acf44771a8
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Mar 31 21:57:24 2008 +0000
+
+    Removed left-over debug statement from r224.
+
+commit 7faa4fc59876853aab31381c4b95147a7db7cb65
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Mar 31 21:56:33 2008 +0000
+
+    The is_valid_soa function now ignores multiple spaces inbetween the fields and replaces them with a single space upon updating the record in the database (instead of returning an error). If user provided 8 fields or more, 8th and further fields are ignored. This closes ticket:24.
+
+commit d3a2041da3ab4598bcd11a45b76e6de75a29b133
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Mar 31 21:10:19 2008 +0000
+
+    Bugfix. No domain id was provided when entering 'edit record' page from a search query. Changed code so 'edit record' does not rely on domain id provided by user but determines it from the record id that is about to be changed. This closes ticket:31.
+
+commit 887f8bd96e8c62eea628a95d300871d540752dbb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Mar 31 06:43:38 2008 +0000
+
+    Changed case of Poweradmin's name (a is now lowercase).
+
+commit beb61c3adb52bc23a550de8170fe121dd1aad3c0
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sun Mar 30 19:22:56 2008 +0000
+
+    Applied the database-structure as supplied by Techwolf to make the insert queries work in PostgreSQL versions before 8.2.
+    This closes ticket:27
+
+commit f410f3abb58e2f42d7d24a682573c797fcb381d5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Mar 30 16:21:09 2008 +0000
+
+    Update of 'edit user' window and i18n related files. All text in 'edit user' window is now translatable.
+
+commit 585f9d06e492eb0bc556f21b8e66243ac90d48b3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Mar 30 15:33:55 2008 +0000
+
+    Description of permission rights are now translated as well. This closes ticket:26.
+
+commit 517cec9d1c40e985da1353e7f60e13af6e00d252
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sun Mar 30 13:50:39 2008 +0000
+
+    Little modification to speed up the zone listing in pgSQL.
+
+commit e22c30826081eccf659bbb687f7a968685eee6bd
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Mar 30 12:45:05 2008 +0000
+
+    Removed wrong svn property on search.php.
+
+commit a2f5d772e53efc5ae6ff38002a77d0c7c8d15249
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sun Mar 30 11:46:45 2008 +0000
+
+    Modified the inserts in the pgsql db structure to make sure no duplicate key errors are shown when a new records is created. Also moved the Ueber_user permision item upfront, to make sure it is created with id 1 so the permission template can be created correctly.
+    Added an additional query to check what the ID is of the ueber_user, as it set hardcoded to 53 in the query.
+
+commit 3d2f2a26d2bde8a6fe5d0ae7f0e90ecaa20a672a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Mar 30 11:00:36 2008 +0000
+
+    Minor change to Dutch translation.
+
+commit 0847a52d90870da18b8d5f84ee1bc05956244128
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Mar 30 10:52:36 2008 +0000
+
+    Update of template translation file. Update of Dutch translation. Update and cleanup of some user interface text.
+
+commit 7e4bc3a70a0085cb722e62480a0fa87b36d33bd9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Mar 30 09:20:38 2008 +0000
+
+    Lots of minor updates to user interface text.
+
+commit 558d1c5ba474cc8c441eb3f16fe2027925a09506
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sat Mar 29 18:01:53 2008 +0000
+
+    Modified some of the INSERT queries to make them compatible with pgSQL
+
+commit 7ea0fc7f2fa028c14d0e364bbc160f419e7965f9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Mar 29 07:34:57 2008 +0000
+
+    When in the zone listing letters are shown (too many zones to show on a single screen), the start letter is clickable only if there are any zones starting with that letter. If the users asks for a start letter that has no zones (because of bugs like the one fixed in r207 or because user manipulates URL in browser), a PHP error was shown. Code now verifies number of zones now first.
+
+commit 7bdb14cc0c7961ed76c5d245ae837c117ac0fb45
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Mar 28 21:57:43 2008 +0000
+
+    Bugfix. The letters shown just above the list of zones was showing clickable letters, even if there were no zones starting with such a letter.
+
+commit 6419a35d8ecbd63a8df0cc0e5161b296b79bce3c
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Fri Mar 28 21:40:42 2008 +0000
+
+    Added database structure for PostgreSQL and fixed some queries to be compatible with PostgreSQL.
+    Bugfix in delete_supermaster.php
+
+commit aec3f7eead90dad4d914e81d4b4643e4200cce28
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 21:10:34 2008 +0000
+
+    Bugfix. A user with with at least view access could change user details, including the assigned permission template, for which he did have rights. Reported by Maarten te Paske.
+
+commit b4746394356025dbfd86af94b7049a8a9cb911d4
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 20:46:22 2008 +0000
+
+    Bugfix. Even if one did have the 'add supermasters' right, the menu option wasn't shown. Reported by Maarten te Paske.
+
+commit 63f18d924c1f82828313bb11acfd03a79230232c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 20:42:50 2008 +0000
+
+    Changed field type for password entry field in 'edit user' window from text to password. Now password is no longer shown in plain tekst.
+
+commit d52c0185ff039d2a95ea31e15fe99a7099496cea
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 20:40:42 2008 +0000
+
+    Changed field type for password entry field in 'add user' window from text to password. Now password is no longer shown in plain tekst.
+
+commit 26220e2209b00de565b91b40ff6f8d64ad3ab80f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 20:38:03 2008 +0000
+
+    Fixed a typo in the description of 'supermaster_edit' permission.
+
+commit 6f94ce9378202bdcf16b395901de6168ca7fb344
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 20:35:23 2008 +0000
+
+    When loading SQL database structure user 'administrator' has all possible permissions enabled, both ueberuser and others. This may bring confusion, especially those that didn't read the documentation. Now only 'user_is_ueberuser' is enabled, all other disabled. No functional changes. Suggested by Maarten te Paske.
+
+commit aa3e95b7a3e3d279aeed6eac36e0251f491cba6d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 20:30:00 2008 +0000
+
+    Changed layout of links to additional menu options in user management windows. Suggestion by Maarten te Paske.
+
+commit 28404555acfdd2d76afb8fde71e69e14d5995eef
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 17:55:33 2008 +0000
+
+    Bugfix. User was unable to delete a record from a zone due to a number of errors in de code.
+
+commit fea9a19387f16fb6a7a75bd8a6b620d5cf27cc6e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 17:44:49 2008 +0000
+
+    Bugfix for name field validation. Now done right. I hope.
+
+commit 8f4f88af2eb20260a71b86dd04f9237ac7f53e0b
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 16:39:29 2008 +0000
+
+    Another update to name field checking.
+
+commit b5c9d67de33abdf1ebfc0bd61142e17d2cc01ab1
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 16:30:51 2008 +0000
+
+    Extended name field validation.
+
+commit af82d68ea7b5da8ff1fc5e9d71cd6429aaec0189
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 16:11:46 2008 +0000
+
+    Bugfix. Unable to add record without specifying a name (which is common for @ records).
+
+commit 33477c764f3fb8d2be9cfd6c158f064bab6da9cb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 15:32:17 2008 +0000
+
+    Removal of left-over debug statement in add domain function.
+
+commit b207bee28d93ed0dfb330795b911d91ab3dbc815
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Mar 27 15:31:14 2008 +0000
+
+    Second half of r189 commit.
+
+commit f55013245648554c29f39fd6da8d21e434023ffb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 14:56:43 2008 +0000
+
+    Bugfix. Syntax problem in debug_print function.
+
+commit c9eb1499bbd6aa274d9cb4c218649a185964199c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 14:48:25 2008 +0000
+
+    Changed 'print debug' function a tiny bit.
+
+commit 0e343f3a371f3ef950d5a4b512223453049de9dd
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 14:02:59 2008 +0000
+
+    Added functionality for deletion of permission templates. Simplified function for getting permission template details.
+
+commit 83fc5ba44011ecf0b4e94aef41c11f8450b735b0
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 10:02:45 2008 +0000
+
+    Improved error checking of delete_domain function. The ticket:25 has been opened, this is still a problem.
+
+commit 14f4621eb4ddcf92beceb026c98fc80d49d0e6ac
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 09:31:12 2008 +0000
+
+    Bugfix. Corrected field order of insert of new zones.
+
+commit cb8f6c49aa218a364a0d2cd07af81d6b029b845e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 09:21:53 2008 +0000
+
+    Bugfix. Due to a typo in an if statement it was impossible to add new slave zones.
+
+commit 337062f88e00a6f037016dc01544179ba5d759d0
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 09:06:58 2008 +0000
+
+    Added functionality to add a new permission template. It was lacking support for that important feature until now. :)
+
+commit 478d3c9cf95952ed57c0ab99a34a0e9e18f75f27
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 08:32:24 2008 +0000
+
+    Fixed a typo in a description of one of the permission items.
+
+commit 4bf4599279446c0f428d860996e121f05df9d2bd
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Mar 26 07:40:14 2008 +0000
+
+    Bugfix. When changing the username of an existing user, an sql error was shown due to bad quoting of a variable.
+
+commit 70e6cf317178161ac8eee0563a074c7b54651d5e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Mar 25 22:45:31 2008 +0000
+
+    Merged r125:181 of branches/rewrite-user-management into trunk. This incorporates the [wiki:ProposalUserPermissionManagement a new user and permission management system] and closes ticket:22. Be aware, this database structure has changed, this version is incompatible with previous versions.
+
+commit 407ca22bd4ee13207af5fdd77c3f1f7eb86fb402
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Wed Mar 12 20:45:56 2008 +0000
+
+    Bugfix for ticket:16: A minor glitch in the query caused partially owned records not to be shown.
+
+commit 692fa9cfb22b8efc6981aae4f344f95932997e13
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Wed Mar 12 19:47:25 2008 +0000
+
+    Bugfix for ticket:18: Minor modification in the CSS to make sure no data is displayed on top of other data. Also a little modification to make sure the sub-owners (if there are any) are displayed above the record form, instead of next to it.
+
+commit 1eb98a9305cc7afde6ba4461f2f37be52540167a
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Mar 10 19:15:59 2008 +0000
+
+    Made a lot of small changes to allow PHP to run with error_reporting E_ALL without giving notices.
+    Most functions have been checked but some situations might give a notice.
+
+commit 82aee1990466182f1aebef398eadad7915dac1a3
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Mar 3 20:32:33 2008 +0000
+
+    Bugfix for ticket:5 : Modified the query which searches zones to also find empty zones by adding a LEFT JOIN.
+
+commit 9a0b249eb5ae9383545e64183c0395a309f997f1
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Feb 19 19:45:47 2008 +0000
+
+    Minor bugfix. If number of zones exceeded maximum row amount and the '0-9' was selected to be shown, the '0-9' was not rendered in bold, where in all other cases the selected letter is shown in bold.
+
+commit 74a0bfef8cafa690b1a02721459a190ddeb33142
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Feb 17 15:38:26 2008 +0000
+
+    Reverting to changeset:121. Problems that were fixed in changeset:122 were local problems only.
+
+commit 477b40bcc66eadc35db3c3b40fef0345f8008b52
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Feb 17 15:28:21 2008 +0000
+
+    Fixing a number of 'division by zero' errors introduced changeset:121. Changed from constant to a normal variable. May need to be reviewed in a future cleanup.
+
+commit 4f28a407e3f4973a9062e05e7b59b15276ab99e8
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Feb 11 19:52:20 2008 +0000
+
+    Moved the constants down, so the ROWAMOUNT can be defined in the config.inc.php file. This to solve ticket:20.
+    Fixed a bug which was introduced in r112. The used arguments in the setLimit function where in the wrong order.
+
+commit e5622c3efeffaefab7e68946f3a6b2d17cfc405a
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Mon Feb 11 18:42:04 2008 +0000
+
+    Fixed a bug reported by Techwolf. When editing or deleting an user the user was redirected to a non existing page. This probably happened when BASE_URL and/or BASE_PATH was set wrong in the config.inc.php.
+
+commit fd18d9f077a7e8ca3e6824f10ca0d3f0c578ef56
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sun Feb 3 16:50:06 2008 +0000
+
+    Modified install.php to have the same footer as the rest of the files.
+
+commit cff63b1f565fe18cb7aa8c816250195c767182a7
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sat Feb 2 15:39:04 2008 +0000
+
+    Removed the requirement of enabeling the PHP setting short_open_tag by changing all short open tags (<?) to the 'normal' tags (<?php).
+
+commit ea806eb711d976c9abc97dce54f6f847a063d283
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Tue Jan 29 21:32:48 2008 +0000
+
+    Fixed a bug reported by Balazs Petrikovics. i18n doesn't work correctly on FreeBSD.
+
+commit 7ab6ccc0fd11c7b7b4ccbad27dd3bf23f56d58fb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jan 8 20:20:10 2008 +0000
+
+    Fixed a bug reported by Techwolf. Adding a new user reloaded a non-existing page on success.
+
+commit 6feb89a3ff6de621ddb66bdb6fffe0183eaaed48
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Jan 6 13:27:51 2008 +0000
+
+    Fixed a missing slash in a html tag in list_zones.php.
+
+commit dbae49c94fa4e9649af49a5c259c5bf4f421c3ab
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sun Jan 6 11:49:17 2008 +0000
+
+    Patch for ticket 19. Because of the use of the quote function, empty strings where converted to NULL as MDB2_PORTABILITY_EMPTY_TO_NULL is set by default.
+    This problem also applied to the active state of an user.
+
+commit 2b4745c44c56c71bf43129769a76ce8c6e4953c1
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Jan 5 21:45:44 2008 +0000
+
+    Password field in users.php is now set to type 'password' instead of 'text'. When typing password '*' are shown instead of the password.
+
+commit bd72090508c45de8381d7caa598cfeebbe93b48e
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sat Jan 5 16:25:49 2008 +0000
+
+    Added better support of the PEAR:MDB2 package by using the setLimit() function instead of adding a LIMIT to the query itself and by using the quote() function to quote all parameters.
+    
+    Added an error when no valid email address was given when creating or modifying a user.
+
+commit 330a5e4189c34e3f629a77372a6e5999d5c7846e
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jan 3 23:04:46 2008 +0000
+
+    Cleaning up docs/.
+
+commit 3165b0b8f4beba23d59f2910037f947b37b32333
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jan 3 22:38:33 2008 +0000
+
+    Removed two echo's used for debugging.
+
+commit 2c5590e80d6414d677a7a98cf28d696a2fe62405
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jan 3 22:30:40 2008 +0000
+
+    Fixed ticket:7 (allow regular expression in zone and record search).
+
+commit d40f43507a4a17c245b35e3137ace97d3902c23b
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Thu Jan 3 21:52:57 2008 +0000
+
+    Modified the SQL statements for PostgreSQL as the tables are created with wrong definitions.
+
+commit d13ce0f001dd42554c98f40d12c6a50229437bd3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jan 3 20:27:47 2008 +0000
+
+    Fixing ticket:17 (zone listing and count in user management screen incomplete).
+
+commit 506162e891ac6406958f37495337f3f3b9419a16
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jan 2 22:24:32 2008 +0000
+
+    Cleared unmaintained changelog in docs/ and added reference to website.
+
+commit 4028f7a0ddea26fcc8e87f2c60ac77647e9bc5b0
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jan 2 21:49:07 2008 +0000
+
+    Correcting included file in users.inc.php.
+
+commit 9e058d3797ce4314dfb67b42efb73947b94e8136
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jan 1 22:07:00 2008 +0000
+
+    Created function to delete sub-owner from record.
+
+commit 3119852ad535e0bdf4929378b83ab843f7137a74
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jan 1 20:36:17 2008 +0000
+
+    Created function to add a so-called sub-owner to a record.
+
+commit f95b093e04898ee2d5a9d311f1e08ff48f60049d
+Author: Peter Beernink <peter@wijzijnhet.nl>
+Date:   Sat Dec 29 14:42:34 2007 +0000
+
+    Fixed the queries so both MySQL and PostgreSQL are supported.
+    The 'REGEXP' queries are currently fixed with a workaround.
+
+commit b0011339b0b263a2e9b4f5340a891026e9ee8a2a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Dec 27 12:36:04 2007 +0000
+
+    Fixing wrong test commit.
+
+commit bb6a6aac6f8e1f1a6b7013e5329d0856b18005f5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Dec 27 12:34:45 2007 +0000
+
+    Test, please ignore
+
+commit 00ff3c0c125ec44a0dde9b5e58de3a1bfd372ce3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Dec 27 12:32:25 2007 +0000
+
+    Update of docs/README file with a new description and download instructions. Fixed a typo as well.
+
+commit 7c80eb26316457cb25ca3c1e665386671b483391
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Dec 25 15:05:29 2007 +0000
+
+    Fixed a missing gettext reference in the title of the change password page.
+
+commit c5596bbaf64fc6a2e197fb926387a661c578a5e9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Dec 25 15:02:25 2007 +0000
+
+    Removed superflucious includes of inc/i18n.inc.php.
+
+commit cfd6202c4b3d7e5a851fcda6663d8831ac3df01c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Dec 25 14:57:43 2007 +0000
+
+    Changed list of credits to an online version.
+
+commit e8cd83f25144ca29632b22ae226ce9b5cff71082
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Dec 25 14:44:39 2007 +0000
+
+    Minor changes to increase inconsistency.
+
+commit 8eba64f3b44f34f45183c0f656012e9784f15675
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Dec 25 14:40:03 2007 +0000
+
+    Second half of previous commit. :)
+
+commit 57b6f4100b69add71692a34c4e2b9bf06f7713eb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Dec 25 14:37:42 2007 +0000
+
+    Change of license, from QPL to GPL. Added a copyright, disclaimer and license pointer to all PHP files. Added the LICENSE file, with a copy of the GPLv3.
+
+commit 7a919f6ed0310735bb6ab70595366a22dccb3a57
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Dec 24 22:27:43 2007 +0000
+
+    Fix for ticket #3. Patch supplied by Peter Beernink. Added i18n.
+
+commit 84182df0b587d5a697c107b783a010d0c0a94699
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Dec 24 21:07:38 2007 +0000
+
+    Fixing some language issues. Translations not working due to wrong file names, see r89 as well. Fixing two broken references in menu and list_zones.php.
+
+commit 7266b0002c134b8990cb4c40ec0d2cd3a059392c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Dec 7 23:52:08 2007 +0000
+
+    Fixing #1 ("password of user is shown in plain text when edited by admin").
+
+commit 998bdbf6550650dd3ed794218a6c508f6398edd8
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Sep 10 20:48:27 2007 +0000
+
+    Fix documentation on i18n.
+
+commit a0ec501b848f166dabd56fb18d71916316e00913
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Fri Aug 17 14:54:32 2007 +0000
+
+    Bugfix. When viewing the details of a slave zone, an error was shown
+    if the ip addresses of it's master nameserver was set (instead of
+    showing the error if there was none set. Reported: Maarten te Paske.
+
+commit 2feeee447e1d8066afd313afc9f5285ed3a646c8
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Aug 13 22:05:06 2007 +0000
+
+    Bugfix. With user level 5 or 10 and lots of zones without an owner,
+    like slave zones that are inserted by a supermaster, the "list all
+    zones" view was broken (not all zones shown, but "show page" and
+    "show letters" were missing as well). Function zone_count matches
+    zones and domains table, but users with level 5 or 10 are allowed
+    to see zones without an entry in the zones table as well.
+
+commit 860ba039f1a315a9303e54b499bdbd649448ff7c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jul 26 14:31:38 2007 +0000
+
+    Fixed a typo in the credits. Sorry Koert.
+
+commit e710a292694a73f549198f9d0d5b724cbc9b7efd
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jul 23 22:05:19 2007 +0000
+
+    The type of zone wasn't show to users with access level 1.
+    
+    If a user with access level 1 did have access to a slave zone the
+    user did not see the IP of the master nameserver of that zone. Now
+    the user will the IP address (readonly and only if one is set).
+    
+    Bugfix. If no master IP for a slave zone is given, a warning is
+    shown regardless of the userlevel.
+    
+    Bugfix. Both the "add record" and "edit record" buttons in the "edit
+    zone" screen is no longer available for users with level 1 for
+    domains of type "slave". Bug report by Antonio Prado.
+    
+    Some PHP and HTML cleanup (removing of empty tags and unnecessary
+    repeatings of calls to a single function).
+
+commit ab3409771161aa485a9ad9ca015c5892fa28e6e1
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jul 10 21:24:06 2007 +0000
+
+    Bugfix. The function zone_count() now also counts zones an owner has
+    only partial access to, not just those zones the owner has full access
+    to. This fixes just the count, the zones a user has partial access to
+    are not (yet!) shown in the "list zones" page.
+    
+    Bugfix. In the zone listing the "edit" button is now show for users
+    with access level 1. Untill now they were presented an overview of the
+    zones they could change, but there was no link for them to actually
+    edit the zone.
+    
+    Bugfix. Some of the buttons in the "edit zone" interface that are of
+    no use to a user with access level 1 have been hidden.
+    
+    Bugfix. Make sure a user with access level 1 with only partial access
+    to a zone cannot add new records to that zone. Only the zone owner
+    should be able to add new record.
+    
+    Bugfix. If a user with access level 1 edits a record in a zone he has
+    only partial access to, an error was shown because of call to a non-
+    existing function in the PEAR:MDB2. This bug was most likely
+    introduced while migrating from PEAR:DB to PEAR:MDB2.
+    
+    Bugfix. A user with access level 1 was able to delete all records of a
+    zone he has only partial access to. Some additional checks have been
+    added.
+    
+    Bugfix. If a user with accees level 1 has partial access to one or
+    more zones starting with a certain character, but did not own at least
+    one entire zone starting with the same character, the character wasn't
+    clickable in the "list zone" page.
+    
+    Interface. If no record or zone id is given for delete_record.php or
+    delete_domain.php, don't just die but echo a nice message. The i18n
+    files have not yet been updated to reflect this change.
+    
+    Interface. If no master IP is given in delete_supermaster.php, don't
+    just die but echo a nice message. The i18n files have not yet been
+    updated to reflect this change.
+    
+    [All fixes by Peter Beernink.]
+
+commit 6ab4ff83940cdbed2fa9094957ad35d1be6415b3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jul 2 23:01:18 2007 +0000
+
+    Bugfix: the list_zones.php wasn't listing zones correctly if a zone
+    didn't have an owner. Bugfix: the list_supermasters.php never listed
+    more then one supermaster, even if there were more. Both bugs were
+    reported by Jasper van Erven Dorens.
+
+commit 2c11d10021ca1ea6557d8d767e3853aedb879c53
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jun 28 09:19:48 2007 +0000
+
+    Fixed a bug in add_zone_master.php.
+
+commit 65cd27861efa6a96104e0172b763df39e43cf872
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Thu Jun 28 02:20:11 2007 +0000
+
+    Bugfix. If the number of zones exceeded the "max row limit" and a
+    "starting letter" with no zones was requested in list_zones.php it
+    would show no zones while incorrectly stating "showing 1 out of N
+    zones".
+
+commit 6da32bc051d7015e97fb520af4cbb04a9dda5d73
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jun 27 22:36:02 2007 +0000
+
+    Re-added link to credits (was removed by accident as well).
+
+commit c91191e48260b1b7d604a88e6c6c6b5af28be186
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jun 27 22:26:27 2007 +0000
+
+    Bugfix. The link to the pages that should list zones starting with a
+    number was incorrect (only reproducable if number of records to be
+    shown was larger than the limit of the number of rows on a page).
+
+commit 613a201e2b82af08879a2bac524b13fa0552810d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jun 27 21:33:53 2007 +0000
+
+    Removed version information in footer. Doesn't work. Isn't global.
+
+commit 19dffdd86ee2d50e161a7d36f2d8efdc26cd0e51
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jun 27 21:31:34 2007 +0000
+
+    Bugfix. Function zone_count() was accidently omitted.
+
+commit 3ccb4371effc3a2c3ce0f788858533a1f2b9fa8f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jun 27 20:45:51 2007 +0000
+
+    Changed some of the functions that are used for the listing of (all)
+    zones. Instead of getting all zones from the database, it now only
+    requests exactlty what it needs. Considerable perfomance improvement.
+
+commit 7ff3dfd8c933bb76cb56ba637572c55e7f3b525d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 25 22:37:06 2007 +0000
+
+    Updated changelog file with quick and dirty updated.
+
+commit d96db2c5da912282ec0cb0028e191ee8baf734f0
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 25 21:55:33 2007 +0000
+
+    Added missing record_owners SQL table creation during install. Fix by
+    John Morris.
+
+commit e57401b574de0f1e5383c31b751fd181a5266f46
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 25 21:32:29 2007 +0000
+
+    All owners (not sub-owners though) of the zone are now shown
+    when listing a zone. Added a new function to retrieve owners
+    of zone by id without fetching all other zone details, which
+    should improve perfomance. Both fixes by Peter Beernink.
+
+commit 20ccaf5a81885155e45f763e4ceb1d9e576c0440
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 25 20:57:22 2007 +0000
+
+    After a user had logged out, the menu bar was still shown until a
+    reloading the login screen. [Fix: Peter Beernink]
+
+commit 3939e635dd68bdff997d39482386ef61d6a22f2a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 25 20:52:41 2007 +0000
+
+    Improved printing of revision information in footer.
+
+commit 29bfc5939aceb4241ea34691518c980f7daf26fb
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 25 19:56:50 2007 +0000
+
+    Changed default TTL from 3600 to 86400.
+    Changed max number of records on a single screen from 500 to 50.
+    Added print of version number to footer.
+
+commit 35b966dbf51155f49a2cf8e23a163e0827d30586
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Jun 13 13:32:39 2007 +0000
+
+    Changed some left-over "domains" to "zones" in web interface.
+
+commit a7663cd9c3a6f6a37331a9534fa761b3494e04ea
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 12 19:41:08 2007 +0000
+
+    Updated some of the SQL queries to gain major performance improvements
+    when listing all slave and master zones.
+
+commit 014336aac330199f8367a6430fd583da10faecd1
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Jun 10 17:06:30 2007 +0000
+
+    Fixed small layout bug in list_zones.php.
+
+commit 85f044fddf4538187f8959a386f23ec435d1c7af
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 5 23:57:11 2007 +0000
+
+    Removed unneeded variable in validate_input function call.
+
+commit 2fcf5ca9cb093d2370128a0a56980d403071782a
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 5 23:21:53 2007 +0000
+
+    Updated credits page.
+
+commit a73260f17c05258fd6e55120ffbe1006d4a090b9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 5 23:17:46 2007 +0000
+
+    Updated credits page.
+
+commit e1c83e948c042f6770a826501ba2bf6f6f6225e9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 5 23:12:23 2007 +0000
+
+    Bugfix. The number of arguments for the function validate_input() in
+    record.inc.php and dns.inc.php was different, causing a variables to
+    be validated incorrectly.
+
+commit ccce031abcbacc076b3a2b8a8035f90df99a4c5b
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Jun 5 22:40:47 2007 +0000
+
+    Bugfix. In list_zones.php with no domains created, get_domains will
+    return -1, count() will not be 0, as all_doms contains one element.
+    Similar problem in existed in list_supermasters.php.
+
+commit bd475b5a184b2671088131e0ab19af902e70afa3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 4 19:04:55 2007 +0000
+
+    Updated changelog.
+
+commit 9f26afecdb6b14aaa596656bb9fc06f45bf69ac9
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Jun 4 18:43:11 2007 +0000
+
+    Merged 1.4.0 changes r23:59 into trunk.
+
+commit f7dccd077e1904848c301f7bb75d8e299400adb1
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 22 16:27:45 2007 +0000
+
+    Fixed a bug in dns.inc.php ($recordid missing from input on
+    validate_input function).
+
+commit 66b057145a56d7c50ec90432486779f6fdf0c29c
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 22 14:24:51 2007 +0000
+
+    Added some additional help to docs for i18n is not working.
+
+commit 50090129e97bccf8f017a8de43a8d1f356e40965
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 22 14:07:04 2007 +0000
+
+    Fixed small typo.
+
+commit a585ce2f4e562bd4785d9f32c9eff8d34ee91407
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 22 07:27:49 2007 +0000
+
+    - Fixed bug in install.php (was still using sequence stuff).
+    - Changed alignment of columns in user listing in users.php.
+
+commit 43e6b4ef27490b29dc207d2bbce7834d51845fd8
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sun Apr 22 07:20:09 2007 +0000
+
+    - Merged branches/1.3.0 changes r12:19 into the trunk.
+
+commit d971bea146abfba65991f3e1cefcae1a0b605dc0
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Apr 18 22:48:49 2007 +0000
+
+    - Removal of left-over backup file.
+
+commit 9b2d5f7391f6244715e48244558484c1ffcb9976
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Wed Apr 18 21:08:07 2007 +0000
+
+    - Fixed last major part of translation.
+
+commit 5625e1e978e43081fa4f9e5d27368de9375ec05f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Apr 17 21:18:14 2007 +0000
+
+    - Fixed bug in record.inc.php, search did never give matching domains.
+    - Some modifications to Dutch translation.
+
+commit 0f9f9eb3884d876458e79da161f85b744bccdc1d
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Apr 17 19:43:24 2007 +0000
+
+    - Second half of translation framework.
+    - Several small typo's in code fixed.
+    - Removed comments on a todo in leveldescription(), already done.
+    - Replaced dal.inc.php with DB.php from package DB-1.7.6 from
+      pear.php.net to fix problems using poweradmin 1.2.7-patched
+      with php5/pear. The DB package has already been superseded by
+      MDB2, but that version is incompatible with current code.
+
+commit 68e14aba6e3a43dc2952de1bcd2a1402b194f415
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Mon Apr 16 19:48:27 2007 +0000
+
+    General update translation.
+
+commit bfc7218ffd65fed95ab837ffea9b3753894cc52f
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Sat Apr 14 11:37:27 2007 +0000
+
+    First set of changes to provide translation framework.
+
+commit db4d922140b55a049527e4843e6d6ed4c37953a5
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Apr 10 22:40:43 2007 +0000
+
+    Creation of initial working branch.
+
+commit 05ca1806b18f980b1a9e41840778adfecdcfadd3
+Author: Rejo Zenger <rejo@zenger.nl>
+Date:   Tue Apr 10 22:38:28 2007 +0000
+
+    Initial import

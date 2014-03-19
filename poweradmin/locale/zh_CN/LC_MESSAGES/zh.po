@@ -1,903 +1,667 @@
 # SOME DESCRIPTIVE TITLE.
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
-#, fuzzy
+# FIRST AUTHOR <sh_yu2000@hotmail.com>, YEAR.
+# this translate version by yu
+
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: poweradmin 2.1.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2008-03-30 17:51+0200\n"
+"POT-Creation-Date: 2008-03-30 12:50+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=CHARSET\n"
+"Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-
-msgid "The install/ directory exists, you must remove it first before proceeding."
-msgstr ""
-
-msgid "There is no zone with this ID."
-msgstr ""
 
 #: add_perm_templ.php:35 list_perm_templ.php:60
 msgid "Add permission template"
-msgstr ""
+msgstr "增加权限模板"
 
 #: add_perm_templ.php:39 add_perm_templ.php:50 add_record.php:86
 #: edit_perm_templ.php:51 edit_perm_templ.php:63 edit.php:92
 #: edit_record.php:63 list_perm_templ.php:35 list_zones.php:57 search.php:52
 #: search.php:85
 msgid "Name"
-msgstr ""
+msgstr "名称"
 
 #: add_perm_templ.php:43 add_perm_templ.php:51 add_user.php:63
 #: edit_perm_templ.php:55 edit_perm_templ.php:64 edit_user.php:129
 #: list_perm_templ.php:36 users.php:46
 msgid "Description"
-msgstr ""
-
-#: add_perm_templ.php:59 edit_perm_templ.php:80 edit_user.php:151
-msgid "descr"
-msgstr ""
+msgstr "描述"
 
 #: add_perm_templ.php:63 add_user.php:72 delete_user.php:101
 #: edit_perm_templ.php:84 edit.php:135 edit_record.php:105 edit_user.php:138
 #: users.php:104
 msgid "Commit changes"
-msgstr ""
+msgstr "反映&改变"
 
 #: add_record.php:71
-msgid "The record was successfully added."
-msgstr ""
+msgid "The record was succesfully added."
+msgstr "记录添加成功"
 
 #: add_record.php:77
 msgid "Add record to zone"
-msgstr ""
+msgstr "增加记录到域"
 
 #: add_record.php:88 add_zone_master.php:115 delete_domain.php:58 edit.php:93
 #: edit.php:199 edit_record.php:65 list_zones.php:58 search.php:53
 #: search.php:86
 msgid "Type"
-msgstr ""
+msgstr "类型"
 
 #: add_record.php:89 edit.php:95 edit_record.php:66 search.php:87
 msgid "Priority"
-msgstr ""
+msgstr "优先权"
 
 #: add_record.php:90 edit.php:94 edit_record.php:67 search.php:88
 msgid "Content"
-msgstr ""
+msgstr "内容"
 
 #: add_record.php:91 edit.php:96 edit_record.php:68 search.php:89
 msgid "TTL"
-msgstr ""
+msgstr "生存期（TTL）"
 
 #: add_record.php:124 edit.php:141
 msgid "Add record"
-msgstr ""
+msgstr "添加记录"
 
 #: add_supermaster.php:40 add_supermaster.php:80 index.php:54
 #: inc/header.inc.php:66
 msgid "Add supermaster"
-msgstr ""
+msgstr "添加超级用户"
 
 #: add_supermaster.php:43
 msgid "You do not have the permission to add a new supermaster."
-msgstr ""
+msgstr "你没有权限添加新的主解析服务器"
 
 #: add_supermaster.php:48 list_supermasters.php:34
 msgid "IP address of supermaster"
-msgstr ""
+msgstr "主解析服务器的ip地址"
 
 #: add_supermaster.php:58 delete_supermaster.php:52 list_supermasters.php:35
 msgid "Hostname in NS record"
-msgstr ""
+msgstr "解析记录的主机"
 
 #: add_supermaster.php:68 delete_supermaster.php:53 list_supermasters.php:36
 msgid "Account"
-msgstr ""
+msgstr "帐户"
 
 #: add_user.php:33 users.php:114
 msgid "Add user"
-msgstr ""
+msgstr "添加用户"
 
 #: add_user.php:37 edit_user.php:102 users.php:44
 msgid "Username"
-msgstr ""
+msgstr "用户名"
 
 #: add_user.php:41 edit_user.php:106 users.php:45
 msgid "Fullname"
-msgstr ""
+msgstr "全名"
 
 #: add_user.php:45 edit_user.php:110 inc/auth.inc.php:99
 msgid "Password"
-msgstr ""
+msgstr "密码"
 
 #: add_user.php:49 edit_user.php:114 users.php:47
 msgid "Emailaddress"
-msgstr ""
+msgstr "邮件地址"
 
 #: add_user.php:53 edit_user.php:118
 msgid "Permission template"
-msgstr ""
+msgstr "权限模板"
 
 #: add_user.php:67 edit_user.php:133 users.php:49
 msgid "Enabled"
-msgstr ""
+msgstr "有效"
 
 #: add_zone_master.php:53
 msgid "IP address of web- or mailserver is invalid."
-msgstr ""
+msgstr "无效的web或邮件服务器ip地址"
 
 #: add_zone_master.php:79 index.php:48 inc/header.inc.php:60
 msgid "Add master zone"
-msgstr ""
+msgstr "添加主域"
 
 #: add_zone_master.php:87 add_zone_slave.php:60
 msgid "Zone name"
-msgstr ""
+msgstr "域名"
 
 #: add_zone_master.php:93
 msgid "IP address of webserver"
-msgstr ""
+msgstr "web服务器的ip地址"
 
 #: add_zone_master.php:99
 msgid "IP address of mailserver"
-msgstr ""
+msgstr "邮件服务器的ip地址"
 
 #: add_zone_master.php:105 add_zone_slave.php:72 delete_domain.php:57
 #: list_zones.php:60
 msgid "Owner"
-msgstr ""
+msgstr "拥有者"
 
 #: add_zone_master.php:125
 msgid "Create zone without applying records-template"
-msgstr ""
+msgstr "创建不携带记录模板的域"
 
 #: add_zone_master.php:131 add_zone_slave.php:84
 msgid "Add zone"
-msgstr ""
+msgstr "添加域"
 
 #: add_zone_slave.php:54 index.php:51 inc/header.inc.php:63
 msgid "Add slave zone"
-msgstr ""
+msgstr "添加辅助域"
 
 #: add_zone_slave.php:66 edit.php:229
 msgid "IP address of master NS"
-msgstr ""
+msgstr "主解析服务器的ip地址"
 
 #: change_password.php:29 change_password.php:47 index.php:56
 #: inc/header.inc.php:68
 msgid "Change password"
-msgstr ""
+msgstr "修改密码"
 
 #: change_password.php:33
 msgid "Current password"
-msgstr ""
+msgstr "当前密码"
 
 #: change_password.php:37 change_password.php:41
 msgid "New password"
-msgstr ""
+msgstr "新密码"
 
 #: delete_domain.php:49 edit.php:143 list_zones.php:81 search.php:65
 msgid "Delete zone"
-msgstr ""
+msgstr "删除域"
 
 #: delete_domain.php:63
 #, php-format
 msgid "You are about to delete a slave zone of which the master nameserver, %s, is a supermaster. Deleting the zone now, will result in temporary removal only. Whenever the supermaster sends a notification for this zone, it will be added again!"
-msgstr ""
+msgstr "你将删除一个主解析服务器的辅助域，%s，是一个主解析服务器，正在删除域，仅为临时删除，无论这个域的主解析服务器是否发送通告，它将再次被添加。"
 
 #: delete_domain.php:67 delete_perm_templ.php:48 delete_record.php:78
 #: delete_supermaster.php:55
 msgid "Are you sure?"
-msgstr ""
+msgstr "是否确认"
 
 #: delete_domain.php:69 delete_perm_templ.php:49 delete_record.php:79
 #: delete_supermaster.php:56
 msgid "Yes"
-msgstr ""
+msgstr "是"
 
 #: delete_domain.php:70 delete_record.php:80 delete_supermaster.php:57
 msgid "No"
-msgstr ""
+msgstr "否"
 
 #: delete_perm_templ.php:42
 msgid "Delete permission template"
-msgstr ""
+msgstr "删除许可模板"
 
 #: delete_record.php:54 edit.php:109 search.php:101
 msgid "Delete record"
-msgstr ""
+msgstr "删除记录"
 
 #: delete_record.php:76
 msgid "You are trying to delete a record that is needed for this zone to work."
-msgstr ""
+msgstr "你正在试图删除一个域能正常工作的必须记录"
 
 #: delete_supermaster.php:44 list_supermasters.php:49
 msgid "Delete supermaster"
-msgstr ""
+msgstr "删除主解析服务器"
 
 #: delete_user.php:50 users.php:65
 msgid "Delete user"
-msgstr ""
+msgstr "删除用户"
 
 #: delete_user.php:61
 msgid "You are about to delete a user. This user is owner for a number of zones. Please decide what to do with these zones."
-msgstr ""
+msgstr "你将删除一个用户，这个用户拥有一个域，请决定如何处理那些域"
 
 #: delete_user.php:66
 msgid "Zone"
-msgstr ""
+msgstr "域"
 
 #: delete_user.php:67 edit.php:164
 msgid "Delete"
-msgstr ""
+msgstr "删除"
 
 #: delete_user.php:68
 msgid "Leave"
-msgstr ""
+msgstr "离开&移动"
 
 #: delete_user.php:69
 msgid "Add new owner"
-msgstr ""
+msgstr "增加新拥有者"
 
 #: delete_user.php:70
 msgid "Owner to be added"
-msgstr ""
+msgstr "已添加一个拥有者"
 
 #: delete_user.php:96
 msgid "Really delete this user?"
-msgstr ""
+msgstr "确定删除这个用户？"
 
 #: edit_perm_templ.php:45 users.php:110
 msgid "Edit permission template"
-msgstr ""
+msgstr "编辑许可模板"
 
 #: edit.php:75 search.php:60
 msgid "Edit zone"
-msgstr ""
+msgstr "编辑域"
 
 #: edit.php:86
 msgid "This zone does not have any records. Weird."
-msgstr ""
+msgstr "这个域没有任何记录"
 
 #: edit.php:107 search.php:96
 msgid "Edit record"
-msgstr ""
+msgstr "编辑记录"
 
 #: edit.php:149
 msgid "Owner of zone"
-msgstr ""
+msgstr "域的拥有者"
 
 #: edit.php:155
 msgid "No owner set for this zone."
-msgstr ""
+msgstr "这个域没有设置人"
 
 #: edit.php:193
 msgid "Add"
-msgstr ""
+msgstr "添加"
 
 #: edit.php:218 edit.php:240
 msgid "Change"
-msgstr ""
+msgstr "改变"
 
 #: edit_record.php:54
 msgid "Edit record in zone"
-msgstr ""
+msgstr "在域内编辑记录"
 
 #: edit_user.php:97 users.php:64
 msgid "Edit user"
-msgstr ""
-
-#: edit_user.php:143
-#, php-format
-msgid "This user has been assigned the permission template \"%s\"."
-msgstr ""
-
-#: edit_user.php:145
-msgid "The description for this template is"
-msgstr ""
-
-#: edit_user.php:147
-msgid "Based on this template, this user has the following permissions"
-msgstr ""
+msgstr "编辑用户"
 
 #: index.php:26
 msgid "Welcome"
-msgstr ""
+msgstr "欢迎"
 
 #: index.php:37 inc/header.inc.php:49
 msgid "Index"
-msgstr ""
+msgstr "首页"
 
 #: index.php:39 search.php:31 inc/header.inc.php:51
 msgid "Search zones and records"
-msgstr ""
+msgstr "查询域和记录"
 
 #: index.php:42 list_zones.php:38 inc/header.inc.php:54
 msgid "List zones"
-msgstr ""
+msgstr "域列表"
 
 #: index.php:45 list_supermasters.php:30 inc/header.inc.php:57
 msgid "List supermasters"
-msgstr ""
+msgstr "主解析服务器列表"
 
 #: index.php:57 users.php:39 inc/header.inc.php:69
 msgid "User administration"
-msgstr ""
+msgstr "管理员用户"
 
 #: index.php:58 inc/header.inc.php:70
 msgid "Logout"
-msgstr ""
+msgstr "登出"
 
 #: list_perm_templ.php:31
 msgid "Permission templates"
-msgstr ""
+msgstr "许可模板"
 
 #: list_perm_templ.php:47
 msgid "Edit template"
-msgstr ""
+msgstr "编辑模板"
 
 #: list_perm_templ.php:48
 msgid "Delete template"
-msgstr ""
+msgstr "删除模板"
 
 #: list_supermasters.php:42 list_zones.php:43
 msgid "There are no zones to show in this listing."
-msgstr ""
+msgstr "显示区内没有域"
 
 #: list_zones.php:41
 msgid "You do not have the permission to see any zones."
-msgstr ""
+msgstr "你没有权限查看任何域"
 
 #: list_zones.php:59
 msgid "Records"
-msgstr ""
+msgstr "记录"
 
 #: list_zones.php:76
 msgid "View zone"
-msgstr ""
+msgstr "查看域"
 
 #: search.php:48
 msgid "Zones found"
-msgstr ""
+msgstr "找到域"
 
 #: search.php:54
 msgid "Master"
-msgstr ""
+msgstr "主"
 
 #: search.php:81
 msgid "Records found"
-msgstr ""
+msgstr "找到记录"
 
 #: search.php:120
 msgid "Query"
-msgstr ""
+msgstr "输入"
 
 #: search.php:124
-msgid "Enter a hostname or IP address. SQL LIKE syntax supported: an underscore (_) in pattern matches any single character, a percent sign (%) matches any string of zero or more characters."
-msgstr ""
+msgid "Enter a hostname or IP address"
+msgstr "输入一个主机或者ip地址"
 
 #: search.php:129
 msgid "Search"
-msgstr ""
+msgstr "查询"
 
 #: users.php:48
 msgid "Template"
-msgstr ""
+msgstr "模板"
 
 #: inc/auth.inc.php:41
 msgid "Session expired, please login again."
-msgstr ""
+msgstr "登陆到期，请重新登陆"
 
 #: inc/auth.inc.php:67
 msgid "Authentication failed!"
-msgstr ""
+msgstr "验证失败"
 
-#: inc/auth.inc.php:89 inc/auth.inc.php:95 inc/auth.inc.php:105
-msgid "Login"
-msgstr ""
+#: inc/auth.inc.php:89
+msgid "Log in"
+msgstr "登录"
+
+#: inc/auth.inc.php:105
+msgid "Go"
+msgstr "执行"
 
 #: inc/auth.inc.php:129
 msgid "You have logged out."
-msgstr ""
+msgstr "你已经登出"
 
 #: inc/database.inc.php:29
 msgid "Oops! An error occured!"
-msgstr ""
+msgstr "Oops！一个错误"
 
 #: inc/database.inc.php:73
 msgid "Unknown database type in inc/config.inc.php."
-msgstr ""
+msgstr "在inc/config.inc.php文件中没有能识别的数据库类型"
 
 #: inc/dns.inc.php:174
 msgid "If you specify an MX record it must be a hostname."
-msgstr ""
+msgstr "指定的MX记录必须是一个主机"
 
 #: inc/error.inc.php:27
 msgid "You do not have the permission to perform searches."
-msgstr ""
+msgstr "你没有权限执行查询"
 
 #: inc/error.inc.php:28
 msgid "You do not have the permission to add a record to this zone."
-msgstr ""
+msgstr "你没有权限添加记录到这个域"
 
 #: inc/error.inc.php:29
 msgid "You do not have the permission to edit this record."
-msgstr ""
+msgstr "你没有权限编辑记录"
 
 #: inc/error.inc.php:30
 msgid "You do not have the permission to view this record."
-msgstr ""
+msgstr "你没有权限查看这个记录"
 
 #: inc/error.inc.php:31
 msgid "You do not have the permission to delete this record."
-msgstr ""
+msgstr "你没有权限删除这个记录"
 
 #: inc/error.inc.php:32
 msgid "You do not have the permission to add a master zone."
-msgstr ""
+msgstr "你没有权限添加主域"
 
 #: inc/error.inc.php:33
 msgid "You do not have the permission to add a slave zone."
-msgstr ""
+msgstr "你没有权限添加辅助域"
 
 #: inc/error.inc.php:34
 msgid "You do not have the permission to delete a zone."
-msgstr ""
+msgstr "你没有权限删除域"
 
 #: inc/error.inc.php:35
 msgid "You do not have the permission to delete a supermaster."
-msgstr ""
+msgstr "你没有权限删除主解析服务器"
 
 #: inc/error.inc.php:36
 msgid "You do not have the permission to view this zone."
-msgstr ""
+msgstr "你没有权限查看这个域"
 
 #: inc/error.inc.php:37
 msgid "You do not have the permission to edit this user."
-msgstr ""
+msgstr "你没有权限编辑这个用户"
 
 #: inc/error.inc.php:38
 msgid "You do not have the permission to edit permission templates."
-msgstr ""
+msgstr "你没有权限编辑权限模板"
 
 #: inc/error.inc.php:39
 msgid "You do not have the permission to delete permission templates."
-msgstr ""
+msgstr "你没有权限删除权限模板"
 
 #: inc/error.inc.php:40
 msgid "You do not have the permission to add a new user."
-msgstr ""
+msgstr "你没有权限添加新的用户"
 
 #: inc/error.inc.php:41
 msgid "You do not have the permission to delete this user."
-msgstr ""
+msgstr "你没有权限删除这个用户"
 
 #: inc/error.inc.php:44
 msgid "This is an invalid zone name."
-msgstr ""
+msgstr "这个是一个无效的域名"
 
 #: inc/error.inc.php:45
 msgid "There is already a supermaster with this IP address."
-msgstr ""
+msgstr "已经有一个主解析服务器是这个ip地址了"
 
 #: inc/error.inc.php:46
 msgid "There is already a zone with this name."
-msgstr ""
+msgstr "已经有一个域是这个名字了"
 
 #: inc/error.inc.php:49
 msgid "Username exist already, please choose another one."
-msgstr ""
+msgstr "用户名已经存在，请另选一个"
 
 #: inc/error.inc.php:50
 msgid "User does not exist."
-msgstr ""
+msgstr "用户不存在"
 
 #: inc/error.inc.php:51
 msgid "You did not enter the correct current password."
-msgstr ""
+msgstr "你没有输入正确的当前密码"
 
 #: inc/error.inc.php:52
 msgid "The two new password fields do not match."
-msgstr ""
+msgstr "二次密码输入不一致"
 
 #: inc/error.inc.php:53
 msgid "This template is assigned to at least one user."
-msgstr ""
+msgstr "这个模板已经分配给了至少一个用户"
 
 #: inc/error.inc.php:56
 msgid "Invalid or unexpected input given."
-msgstr ""
+msgstr "无效或者意外的输入"
 
 #: inc/error.inc.php:57
 #, php-format
 msgid "Invalid argument(s) given to function %s"
-msgstr ""
+msgstr "无效的变量输入到了函数 %s"
 
 #: inc/error.inc.php:58
 #, php-format
 msgid "Invalid argument(s) given to function %s %s"
-msgstr ""
+msgstr "无效的变量输入到了函数 %s %s"
 
 #: inc/error.inc.php:59
 msgid "Unknown error."
-msgstr ""
+msgstr "未知错误"
 
 #: inc/error.inc.php:60
 msgid "Enter a valid email address."
-msgstr ""
+msgstr "输入了一个无效的邮件地址"
 
 #: inc/error.inc.php:63
 msgid "Your content field doesnt have a legit value."
-msgstr ""
+msgstr "你的内容框有一个非法的值"
 
 #: inc/error.inc.php:64
 msgid "Invalid hostname."
-msgstr ""
+msgstr "无效主机名"
 
-
-msgid "You have invalid characters in your hostname."
-msgstr ""
-
-msgid "A hostname can not start or end with a dash."
-msgstr ""
-
-msgid "Given hostname or one of the labels is too short or too long."
-msgstr ""
-
-msgid "Given hostname has too many slashes."
-msgstr ""
-
-msgid "Unknown record type."
-msgstr ""
+#: inc/error.inc.php:65
+msgid "Invalid record type! You should not even been able to get that here."
+msgstr "无效的记录类型！你应该能明白这里输入。"
 
 #: inc/error.inc.php:66
 msgid "This is not a valid IPv4 or IPv6 address."
-msgstr ""
+msgstr "不是一个有效的ipv4或者ipv6地址"
 
 #: inc/error.inc.php:67
 msgid "This is not a valid IPv6 address."
-msgstr ""
+msgstr "无效的ipv6地址"
 
 #: inc/error.inc.php:68
 msgid "This is not a valid IPv4 address."
-msgstr ""
+msgstr "无效的ipv4地址"
 
 #: inc/error.inc.php:69
 msgid "This is not a valid CNAME. Did you assign an MX or NS record to the record?"
-msgstr ""
+msgstr "这是一个无效的CNAME，是否已分配一个MX或NS记录到记录了"
 
-msgid "You can not point a NS or MX record to a CNAME record. Remove or rame the CNAME record first, or take another name."
-msgstr ""
-
-msgid "Invalid value for name field of SOA record. It should be the name of the zone."
-msgstr ""
-
-msgid "Invalid value for content field of HINFO record."
-msgstr ""
-
-msgid "Invalid value for content field of TXT record."
-msgstr ""
-
-msgid "Invalid value for TTL field. It should be numeric."
-msgstr ""
-
-msgid "Invalid value for prio field. It should be numeric."
-msgstr ""
+#: inc/error.inc.php:70
+msgid "You can not point a NS record to a CNAME record. Remove or rename the CNAME record first or take another name."
+msgstr "你不能指定一个NS记录到一个CNAME记录，先另选个名称或移除或更改那个CNAME记录"
 
 #: inc/error.inc.php:71
 msgid "NS records must be a hostnames."
-msgstr ""
+msgstr "NS记录必须是一个主机名"
+
+#: inc/error.inc.php:72
+msgid "You can not point a MX record to a CNAME record. Remove or rename the CNAME record first or take another name."
+msgstr "你必须指定一个MX记录到一个CNAME记录在，先另选个名称或者移除或者改变那个CNAME记录"
 
 #: inc/error.inc.php:73
 msgid "A prio field should be numeric."
-msgstr ""
+msgstr "PRIO区域必须是一个数字类型"
 
 #: inc/error.inc.php:74
 msgid "At least one of the five last SOA data fields is not numeric."
-msgstr ""
+msgstr "SOA数据区域有五个中至少一个不是数字类型"
 
 #: inc/error.inc.php:75
 msgid "You can only have five numeric fields in the SOA record."
-msgstr ""
+msgstr "必须有五个数字类型在SOA记录中"
 
 #: inc/error.inc.php:76
 msgid "The first part of your SOA record does not contain a valid hostname for a DNS server."
-msgstr ""
+msgstr "你第一部分的SOA记录没有包含一个有效的DNS服务器名"
 
 #: inc/error.inc.php:79
-msgid "Zone has been added successfully."
-msgstr ""
+msgid "Zone has been added succesfully."
+msgstr "域已经添加成功"
 
 #: inc/error.inc.php:80
-msgid "Zone has been deleted successfully."
-msgstr ""
+msgid "Zone has been deleted succesfully."
+msgstr "域已经删除成功"
 
 #: inc/error.inc.php:81
-msgid "The user has been updated successfully."
-msgstr ""
+msgid "The user has been updated succesfully."
+msgstr "这个用户已经更新成功"
 
 #: inc/error.inc.php:82
-msgid "The user has been created successfully."
-msgstr ""
+msgid "The user has been created succesfully."
+msgstr "这个用户已经创建成功"
 
 #: inc/error.inc.php:83
-msgid "The user has been deleted successfully."
-msgstr ""
+msgid "The user has been deleted succesfully."
+msgstr "这个用户已经删除成功"
 
 #: inc/error.inc.php:84
-msgid "The record has been updated successfully."
-msgstr ""
+msgid "The record has been updated succesfully."
+msgstr "这个记录已经更新成功"
 
 #: inc/error.inc.php:85
-msgid "The record has been deleted successfully."
-msgstr ""
+msgid "The record has been deleted succesfully."
+msgstr "这个记录已经删除成功"
 
 #: inc/error.inc.php:86
-msgid "The supermaster has been deleted successfully."
-msgstr ""
+msgid "The supermaster has been deleted succesfully."
+msgstr "这个主解析服务器已经删除成功"
 
 #: inc/error.inc.php:87
-msgid "The supermaster has been added successfully."
-msgstr ""
+msgid "The supermaster has been added succesfully."
+msgstr "这个主解析服务器已经添加成功"
 
 #: inc/error.inc.php:88
-msgid "The permission template has been deleted successfully."
-msgstr ""
+msgid "The permission template has been deleted succesfully."
+msgstr "这个权限模板已经删除成功"
 
 #: inc/record.inc.php:270
-msgid "You are trying to delete the SOA record. If are not allowed to remove it, unless you remove the entire zone."
-msgstr ""
+msgid "You are trying to delete the SOA record. You are not allowed to remove it, unless you remove the entire zone."
+msgstr "你正在试图删除一个SOA记录，除非移除全部域，否则不要允许移除它"
 
 #: inc/record.inc.php:603
 msgid "Function returned an error (multiple zones matching this zone ID)."
-msgstr ""
+msgstr "函数返回一个错误（多个域匹配这个域的ID）"
 
 #: inc/toolkit.inc.php:27
 msgid "You have to create a config.inc.php!"
-msgstr ""
+msgstr "你必须创建一个config.inc.php!"
 
 #: inc/toolkit.inc.php:87
 msgid "Show page"
-msgstr ""
+msgstr "显示页"
 
 #: inc/toolkit.inc.php:106
 msgid "Show zones beginning with"
-msgstr ""
+msgstr "刚开始的显示域"
 
 #: inc/toolkit.inc.php:164
 msgid "An unknown error has occurred."
-msgstr ""
+msgstr "已发生一个未知错误"
 
 #: inc/toolkit.inc.php:172
 msgid "Something has been successfully performed. What exactly, however, will remain a mystery."
-msgstr ""
+msgstr "之前的已经执行成功，无论如何任是一个未知"
 
 #: inc/toolkit.inc.php:184
 msgid "Success!"
-msgstr ""
+msgstr "成功"
 
 #: inc/toolkit.inc.php:195
 msgid "Successful!"
-msgstr ""
+msgstr "成功的"
 
 #: inc/toolkit.inc.php:201
 msgid "back"
-msgstr ""
+msgstr "后退"
 
 #: inc/toolkit.inc.php:240
 msgid "Inactive"
-msgstr ""
+msgstr "无效"
 
 #: inc/toolkit.inc.php:244
 msgid "Active"
-msgstr ""
+msgstr "激活"
 
-#: inc/users.inc.php:368
+#: inc/users.inc.php:365
 msgid "Password has been changed, please login."
-msgstr ""
+msgstr "密码已经修改，请登陆"
 
-msgid "No database name has been set in config.inc.php."
-msgstr ""
-
-msgid "No database host has been set in config.inc.php."
-msgstr ""
-
-msgid "No database username has been set in config.inc.php."
-msgstr ""
-
-msgid "No database password has been set in config.inc.php."
-msgstr ""
-
-msgid "No or unknown database type has been set in config.inc.php."
-msgstr ""
-
-msgid "You have an error in the MNAME field of the SOA record."
-msgstr ""
-
-msgid "Too many characters in the hostname."
-msgstr ""
-
-msgid "You are using an invalid top level domain."
-msgstr ""
-
-#: index.php:20
-msgid "Installation step"
-msgstr ""
-
-#: index.php:26
-msgid "This installer expects you to have a PowerDNS database accessable from this server. This installer also expects you to have never ran Poweradmin before, or that you want to overwrite the Poweradmin part of the database. If you have had Poweradmin running before, any data in the following tables will be destroyed: perm_items, perm_templ, perm_templ_items, users and zones. This installer will, of course, not touch the data in the PowerDNS tables of the database. However, it is recommended that you create a backup of your database before proceeding."
-msgstr ""
-
-#: index.php:28
-msgid "The alternative for this installer is a manual installation. Refer to the poweradmin.org website if you want to go down that road."
-msgstr ""
-
-#: index.php:30
-msgid ""
-"Finally, if you see any errors during the installation process, a problem report would be appreciated. You can report problems (and ask for help) on the poweradmin-users mailinglist."
-msgstr ""
-
-#: index.php:33
-msgid "Do you want to proceed now?"
-msgstr ""
-
-#: index.php:37 index.php:80 index.php:133 index.php:175 index.php:206
-msgid "Go to step"
-msgstr ""
-
-#: index.php:43
-msgid "To prepare the database for using Poweradmin, the installer needs to modify the PowerDNS database. It will add a number of tables and it will fill these tables with some data. If the tables are already present, the installer will drop them first."
-msgstr ""
-
-#: index.php:45
-msgid "To do all of this, the installer needs to access the database with an account which has sufficient rights. If you trust the installer, you may give it the username and password of the database user root. Otherwise, make sure the user has enough rights, before actually proceeding."
-msgstr ""
-
-#: index.php:52
-msgid "The username to use to connect to the database, make sure the username has sufficient rights to perform administrative task to the PowerDNS database (the installer wants to drop, create and fill tables to the database)."
-msgstr ""
-
-#: index.php:57 index.php:153
-msgid "The password for this username."
-msgstr ""
-
-#: index.php:60
-msgid "Hostname"
-msgstr ""
-
-#: index.php:62
-msgid "The hostname on which the PowerDNS database resides. Frequently, this will be \"localhost\"."
-msgstr ""
-
-#: index.php:65
-msgid "Database"
-msgstr ""
-
-#: index.php:67
-msgid "The name of the PowerDNS database."
-msgstr ""
-
-#: index.php:70
-msgid "Database type"
-msgstr ""
-
-#: index.php:76
-msgid "The type of the PowerDNS database."
-msgstr ""
-
-#: index.php:86
-msgid "Updating database..."
-msgstr ""
-
-#: index.php:109
-msgid "done!"
-msgstr ""
-
-#: index.php:111
-msgid "You now want to give limited rights to Poweradmin so it can update the data in the tables. To do this, you should create a new user and give it rights to select, delete, insert and update records in the PowerDNS database."
-msgstr ""
-
-#: index.php:113
-msgid "In MySQL you should now perform the following command:"
-msgstr ""
-
-#: index.php:116
-msgid "On PgSQL you would use:"
-msgstr ""
-
-#: index.php:127
-msgid "After you have added the new user, proceed with this installation procedure."
-msgstr ""
-
-#: index.php:142
-msgid "Now we will gather all details for the configuration itself."
-msgstr ""
-
-#: index.php:148
-msgid "The username for Poweradmin. This new user will have limited rights only."
-msgstr ""
-
-#: index.php:156
-msgid "Hostmaster"
-msgstr ""
-
-#: index.php:158
-msgid "When creating SOA records and no hostmaster is provided, this value here will be used. Should be in the form \"hostmaster.example.net\"."
-msgstr ""
-
-#: index.php:161
-msgid "Primary nameserver"
-msgstr ""
-
-#: index.php:163
-msgid "When creating new zones using the template, this value will be used as primary nameserver. Should be like \"ns1.example.net\"."
-msgstr ""
-
-#: index.php:166
-msgid "Secondary nameserver"
-msgstr ""
-
-#: index.php:168
-msgid "When creating new zones using the template, this value will be used as secondary nameserver. Should be like \"ns2.example.net\"."
-msgstr ""
-
-#: index.php:197
-msgid "The installer was able to write to the file \""
-msgstr ""
-
-#: index.php:197
-msgid "\". A basic configuration, based on the details you have given, has been created."
-msgstr ""
-
-#: index.php:199
-msgid "The installer is unable to write to the file \""
-msgstr ""
-
-#: index.php:199
-msgid "\" (which is in itself good). The configuration is printed here. You should now create the file \""
-msgstr ""
-
-#: index.php:199
-msgid "\" in the Poweradmin root directory yourself. It should contain the following few lines:"
-msgstr ""
-
-#: index.php:212
-msgid "Now we have finished the configuration, you should (must!) remove the directory \"install/\" from the Poweradmin root directory. You will not be able to use Poweradmin if it exists. Do it now."
-msgstr ""
-
-#: index.php:213
-msgid "After you have removed the directory, you can login to <a href=\"index.php\">Poweradmin</a> with username \"admin\" and password \""
-msgstr ""
-
-msgid "\". You are highly encouraged to change these as soon as you are logged in."
-msgstr ""
-
-msgid "Invalid value for name field of SRV record."
-msgstr ""
-
-msgid "Invalid value for the weight field of the SRV record."
-msgstr ""
-
-msgid "Invalid value for the port field of the SRV record."
-msgstr ""
-
-msgid "Invalid SRV target."
-msgstr ""
-
-msgid "Invalid characters have been used in this record."
-msgstr ""
-
-msgid "Poweradmin administrator password"
-msgstr ""
-
-msgid "The password of the Poweradmin administrator. This administrator has full rights to Poweradmin using the web interface."
-msgstr ""
-
-
+#: inc/error.inc.php:65
+msgid "Zone template with this name already exists, please choose another one."
+msgstr "这个域模板名字已经存在，请选择另一个"
 
