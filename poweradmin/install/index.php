@@ -70,7 +70,7 @@ switch ($step) {
         echo " <form method=\"post\" action=\"\">\n";
         echo "  <input type=\"radio\" name=\"language\" value=\"en_EN\" checked> I prefer to proceed in english.<br>\n";
         echo "  <input type=\"radio\" name=\"language\" value=\"nl_NL\"> Ik ga graag verder in het Nederlands.<br>\n";
-        echo "	<input type=\"radio\" name=\"language\" value=\"de_DE\"> Ich ziehe es in Deutsch.<br>\n";
+        echo "	<input type=\"radio\" name=\"language\" value=\"de_DE\"> Ich mache in Deutsch weiter.<br>\n";
         echo "  <input type=\"radio\" name=\"language\" value=\"ja_JP\"> 日本語で続ける<br>\n";
         echo "  <input type=\"radio\" name=\"language\" value=\"pl_PL\"> Chcę kontynuować po polsku.<br>\n";
         echo "  <input type=\"radio\" name=\"language\" value=\"fr_FR\"> Je préfère continuer en français.<br>\n";
@@ -346,7 +346,9 @@ switch ($step) {
 
     case 7:
         $step++;
-        echo "<p>" . _('Now we have finished the configuration, you should (must!) remove the directory "install/" from the Poweradmin root directory. You will not be able to use Poweradmin if it exists. Do it now.') . "</p>";
+        echo "<p>" . _('Now we have finished the configuration.') . "</p>";
+        echo "<p>" . _('If you want support for the URLs used by other dynamic DNS providers, run "cp install/htaccess.dist .htaccess" and enable mod_rewrite in Apache.') . "</p>";
+        echo "<p>" . _('You should (must!) remove the directory "install/" from the Poweradmin root directory. You will not be able to use Poweradmin if it exists. Do it now.') . "</p>";
         echo "<p>" . _('After you have removed the directory, you can login to <a href="../index.php">Poweradmin</a> with username "admin" and password "') . $_POST['pa_pass'] . _('". You are highly encouraged to change these as soon as you are logged in.') . "</p>";
         break;
 

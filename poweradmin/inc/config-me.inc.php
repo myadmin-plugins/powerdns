@@ -43,7 +43,7 @@ $dns_ns1 = '';
 $dns_ns2 = '';
 $dns_ttl = 86400;
 $dns_fancy = false;
-$dns_strict_tld_check = true;
+$dns_strict_tld_check = false;
 $dns_top_level_tld_check = false;     // Don't allow to create top level TLDs
 // Timezone settings
 // See <http://www.php.net/manual/en/timezones.php> for help.
@@ -69,3 +69,4 @@ $ldap_basedn = 'OU=Users,DC=example,DC=com';
 $ldap_binddn = 'GROUP\lookupuser';
 $ldap_bindpw = 'some_password';
 $ldap_user_attribute = 'sAMAccountName';
+$ldap_proto = 3;

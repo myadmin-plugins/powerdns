@@ -92,18 +92,46 @@ if (!(isset($_SERVER)) && !$_SERVER['HTTP_USER_AGENT']) {
     return status_exit('badagent');
 }
 
-if (!isset($_SERVER['PHP_AUTH_USER'])) {
+// Grab username & password based on HTTP auth, alternatively the query string
+if (isset($_SERVER['PHP_AUTH_USER'])) {
+	$auth_username = $_SERVER['PHP_AUTH_USER'];
+} elseif (isset($_REQUEST['username'])) {
+	$auth_username = $_REQUEST['username'];
+}
+if (isset($_SERVER['PHP_AUTH_PW'])) {
+	$auth_password = $_SERVER['PHP_AUTH_PW'];
+} elseif (isset($_REQUEST['password'])) {
+	$auth_password = $_REQUEST['password'];
+}
+
+// If we still don't have a username, throw up
+if (!isset($auth_username)) {
     header('WWW-Authenticate: Basic realm="DNS Update"');
     header('HTTP/1.0 401 Unauthorized');
     return status_exit('badauth');
 }
 
-$username = safe($_SERVER['PHP_AUTH_USER']);
+$username = safe($auth_username);
 // FIXME: supports only md5 hashes
-$password = md5(safe($_SERVER['PHP_AUTH_PW']));
+$password = md5(safe($auth_password));
 $hostname = safe($_REQUEST['hostname']);
-$ip = safe($_REQUEST['myip']);
 
+// Grab IP to use
+$given_ip = "";
+if (!empty($_REQUEST['myip'])) {
+	$given_ip = $_REQUEST['myip'];
+
+} elseif (!empty($_REQUEST['ip'])) {
+	$given_ip = $_REQUEST['ip'];
+
+}
+// Look for tag tograb the IP we coming from
+if ($given_ip == "whatismyip") {
+	$given_ip = $_SERVER['REMOTE_ADDR'];
+}
+// Finally get save version of the IP
+$ip = safe($given_ip);
+// Check its ok...
 if (!preg_match('/^((?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/i', $ip)) {
     return status_exit('dnserr');
 }
@@ -112,8 +140,27 @@ if (!strlen($hostname)) {
     return status_exit('notfqdn');
 }
 
-$user_query = "SELECT id FROM users WHERE username='$username' and password='$password'";
+$user_query = "
+	SELECT
+		users.id
+	FROM
+		users, perm_templ, perm_templ_items, perm_items
+	WHERE
+		users.username = '$username'
+		AND users.password = '$password'
+		AND users.active = 1
+		AND perm_templ.id = users.perm_templ
+		AND perm_templ_items.templ_id = perm_templ.id
+		AND perm_items.id = perm_templ_items.perm_id
+		AND (
+				perm_items.name = 'zone_content_edit_own'
+				OR perm_items.name = 'zone_content_edit_others'
+		)
+";
 $user = $db_mdb2->queryRow($user_query);
+if (!$user) {
+    return status_exit('badauth');
+}
 
 $zones_query = "SELECT domain_id FROM zones WHERE owner='{$user["id"]}'";
 $zones_result = $db_mdb2->query($zones_query);

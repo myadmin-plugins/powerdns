@@ -135,6 +135,20 @@ function get_next_date($curr_date) {
  * @return string Next serial number
  */
 function get_next_serial($curr_serial, $today = '') {
+    // Autoserial
+    if ($curr_serial == 0) {
+        return 0;
+    }
+
+    // Serial number could be a not date based
+    if ($curr_serial < 1979999999) {
+        return $curr_serial+1;
+    }
+
+    // Reset the serial number, Bind was written in the early 1980s
+    if ($curr_serial == 1979999999) {
+        return 1;
+    }
 
     if ($today == '') {
         set_timezone();
@@ -214,6 +228,25 @@ function set_soa_serial($soa_rec, $serial) {
     chop($soa_rec);
 
     return $soa_rec;
+}
+
+/** Return SOA record
+ *
+ * Returns SOA record with incremented serial number
+ *
+ * @param int $soa_rec Current SOA record
+ *
+ * @return boolean true if success
+ */
+function get_updated_soa_record($soa_rec) {
+    $curr_serial = get_soa_serial($soa_rec);
+    $new_serial = get_next_serial($curr_serial);
+
+    if ($curr_serial != $new_serial) {
+        return set_soa_serial($soa_rec, $new_serial);
+    }
+
+    return set_soa_serial($soa_rec, $curr_serial);
 }
 
 /** Update SOA serial
@@ -1101,7 +1134,7 @@ function get_supermasters() {
  */
 function supermaster_exists($master_ip) {
     global $db_mdb2;
-    if (is_valid_ipv4($master_ip) || is_valid_ipv6($master_ip)) {
+    if (is_valid_ipv4($master_ip, false) || is_valid_ipv6($master_ip)) {
         $result = $db_mdb2->queryOne("SELECT ip FROM supermasters WHERE ip = " . $db_mdb2->quote($master_ip, 'text'));
         return ($result ? true : false);
     } else {
@@ -1140,6 +1173,7 @@ function supermaster_ip_name_exists($master_ip, $ns_name) {
  */
 function get_zones($perm, $userid = 0, $letterstart = 'all', $rowstart = 0, $rowamount = 999999, $sortby = 'name') {
     global $db_mdb2;
+    global $db_type;
     global $sql_regexp;
 
     if ($letterstart == '_') {
@@ -1163,10 +1197,14 @@ function get_zones($perm, $userid = 0, $letterstart = 'all', $rowstart = 0, $row
     }
 
     if ($sortby != 'count_records') {
-        $sortby = "domains." . $sortby . ", domains.name";
-    } else {
-        $sortby = $sortby . ", domains.name";
+        $sortby = 'domains.' . $sortby;
     }
+
+    $natural_sort = 'LENGTH(domains.name), domains.name';
+    if ($db_type == 'mysql' || $db_type == 'mysqli' || $db_type == 'sqlite' || $db_type == 'sqlite3') {
+        $natural_sort = 'domains.name+0<>0 DESC, domains.name+0, domains.name';
+    }
+    $sql_sortby = ($sortby == 'domains.name' ? $natural_sort : $sortby . ', ' . $natural_sort);
 
     $sqlq = "SELECT domains.id,
 			domains.name,
@@ -1179,7 +1217,7 @@ function get_zones($perm, $userid = 0, $letterstart = 'all', $rowstart = 0, $row
 			) Record_Count ON Record_Count.domain_id=domains.id
 			WHERE 1=1" . $sql_add . "
 			GROUP BY domains.name, domains.id, domains.type, Record_Count.count_records
-			ORDER BY " . $sortby;
+			ORDER BY " . $sql_sortby;
 
     if ($letterstart != 'all') {
         $db_mdb2->setLimit($rowamount, $rowstart);
@@ -1301,6 +1339,7 @@ function get_record_from_id($id) {
  */
 function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $sortby = 'name') {
     global $db_mdb2;
+    global $db_type;
 
     $result = array();
     if (is_numeric($id)) {
@@ -1328,7 +1367,14 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
             }
         } else {
             $db_mdb2->setLimit($rowamount, $rowstart);
-            $result = $db_mdb2->query("SELECT id FROM records WHERE domain_id=" . $db_mdb2->quote($id, 'integer') . " ORDER BY records." . $sortby);
+
+            $natural_sort = 'LENGTH(records.name), records.name';
+            if ($db_type == 'mysql' || $db_type == 'mysqli' || $db_type == 'sqlite' || $db_type == 'sqlite3') {
+                $natural_sort = 'records.name+0<>0 DESC, records.name+0, records.name';
+            }
+            $sql_sortby = ($sortby == 'name' ? $natural_sort : $sortby . ', ' . $natural_sort);
+
+            $result = $db_mdb2->query("SELECT id FROM records WHERE domain_id=" . $db_mdb2->quote($id, 'integer') . " ORDER BY " . $sql_sortby);
             $ret = array();
             if ($result) {
                 $ret[] = array();
@@ -1815,11 +1861,13 @@ function update_zone_records($zone_id, $zone_template) {
 
     if (verify_permission('zone_master_add')) {
         $zone_master_add = "1";
-    };
+    }
+
     if (verify_permission('zone_slave_add')) {
         $zone_slave_add = "1";
-    };
+    }
 
+    $soa_rec = get_soa_record($zone_id);
     $response = $db_mdb2->beginTransaction();
 
     if (0 != $zone_template) {
@@ -1847,7 +1895,13 @@ function update_zone_records($zone_id, $zone_template) {
                 if ((preg_match('/in-addr.arpa/i', $zone_id) && ($r["type"] == "NS" || $r["type"] == "SOA")) || (!preg_match('/in-addr.arpa/i', $zone_id))) {
                     $name = parse_template_value($r["name"], $domain);
                     $type = $r["type"];
-                    $content = parse_template_value($r["content"], $domain);
+                    if ($type == "SOA") {
+                        $content = get_updated_soa_record($soa_rec);
+                        echo $content;
+                    } else {
+                        $content = parse_template_value($r["content"], $domain);
+                    }
+
                     $ttl = $r["ttl"];
                     $prio = intval($r["prio"]);
 
@@ -2026,4 +2080,17 @@ function do_secure_zone($domain_name) {
     }
 
     return true;
+}
+
+/** Check if record exists
+ *
+ * @param string $name Record name
+ *
+ * @return boolean true on success, false on failure
+ */
+function record_name_exists($name) {
+    global $db_mdb2;
+    $query = "SELECT COUNT(id) FROM records WHERE name = " . $db_mdb2->quote($name, 'text');
+    $count = $db_mdb2->queryOne($query);
+    return ($count == "1" ? true : false);
 }

@@ -36,6 +36,21 @@ if (is_object($db_mdb2)) {
 }
 ?>
 </div> <!-- /content -->
+<div class="footer">
+    <a href="http://www.poweradmin.org/">a complete(r) <strong>poweradmin</strong><?php
+        if (isset($_SESSION["userid"])) {
+            echo " v $VERSION";
+        }
+        ?></a> - <a href="http://www.poweradmin.org/credits.html">credits</a>
+</div>
+<?php
+if (file_exists('inc/custom_footer.inc.php')) {
+    include('inc/custom_footer.inc.php');
+}
+?>
+</body>
+</html>
+
 <?php
 if (isset($db_debug) && $db_debug == true) {
     $debug = $db_mdb2->getDebugOutput();

@@ -44,7 +44,7 @@ require_once("inc/toolkit.inc.php");
  */
 function verify_permission($permission) {
     global $db_mdb2;
-	return true;
+
     if ((!isset($_SESSION['userid'])) || (!is_object($db_mdb2))) {
         return 0;
     }

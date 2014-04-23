@@ -34,7 +34,6 @@ global $iface_title;
 global $ignore_install_dir;
 global $session_key;
 
-/*
 header('Content-type: text/html; charset=utf-8');
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 echo "<html>\n";
@@ -44,7 +43,6 @@ echo "  <link rel=stylesheet href=\"style/" . $iface_style . ".css\" type=\"text
 echo "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
 echo " </head>\n";
 echo " <body>\n";
-*/
 
 if (file_exists('inc/custom_header.inc.php')) {
     include('inc/custom_header.inc.php');

@@ -65,8 +65,19 @@ if ($record_id == "-1") {
     error(ERR_INV_INPUT);
 } else {
     if ($confirm == '1') {
+        $record_info = get_record_from_id($record_id);
         if (delete_record($record_id)) {
             success("<a href=\"edit.php?id=" . $zid . "\">" . SUC_RECORD_DEL . "</a>");
+            if (isset($record_info['prio'])) {
+                log_info(sprintf('client_ip:%s user:%s operation:delete_record record_type:%s record:%s content:%s ttl:%s priority:%s',
+                     $_SERVER['REMOTE_ADDR'], $_SESSION["userlogin"],
+                     $record_info['type'], $record_info['name'], $record_info['content'], $record_info['ttl'], $record_info['prio'] ));
+            } else {
+                log_info(sprintf('client_ip:%s user:%s operation:delete_record record_type:%s record:%s content:%s ttl:%s',
+                     $_SERVER['REMOTE_ADDR'], $_SESSION["userlogin"],
+                     $record_info['type'], $record_info['name'], $record_info['content'], $record_info['ttl'] ));
+
+            }
             // update serial after record deletion
             update_soa_serial($zid);
 
@@ -93,7 +104,7 @@ if ($record_id == "-1") {
             echo "       <th>Name</th>\n";
             echo "       <th>Type</th>\n";
             echo "       <th>Content</th>\n";
-            if (isset($record_info['priority'])) {
+            if (isset($record_info['prio'])) {
                 echo "       <th>Priority</th>\n";
             }
             echo "       <th>TTL</th>\n";
@@ -102,8 +113,8 @@ if ($record_id == "-1") {
             echo "       <td>" . $record_info['name'] . "</td>\n";
             echo "       <td>" . $record_info['type'] . "</td>\n";
             echo "       <td>" . $record_info['content'] . "</td>\n";
-            if (isset($record_info['priority'])) {
-                echo "       <td>" . $record_info['priority'] . "</td>\n";
+            if (isset($record_info['prio'])) {
+                echo "       <td>" . $record_info['prio'] . "</td>\n";
             }
             echo "       <td>" . $record_info['ttl'] . "</td>\n";
             echo "      </tr>\n";
