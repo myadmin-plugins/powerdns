@@ -17,7 +17,7 @@
 		}
 	}
 
-	include (INCLUDE_ROOT . '/database/class.db_mdb2.functions.inc.php');
+	include (INCLUDE_ROOT . '/db/class.db_mdb2.functions.inc.php');
 	//	include(INCLUDE_ROOT . '/dns/poweradmin/inc/database.inc.php');
 	include (INCLUDE_ROOT . '/dns/poweradmin/inc/dns.inc.php');
 	include (INCLUDE_ROOT . '/dns/poweradmin/inc/record.inc.php');
