@@ -24,7 +24,7 @@
 	include (INCLUDE_ROOT . '/dns/poweradmin/inc/error.inc.php');
 
 	global $db_mdb2;
-	$db_mdb2 = new db_mdb2;
+	$db_mdb2 = new db_mdb2('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 
 	$valid_tlds = array(
 		'ac', 'academy', 'actor', 'ad', 'ae', 'aero', 'af', 'ag', 'agency', 'ai', 'al', 'am', 'an', 'ao', 'aq', 'ar', 'arpa', 'as', 
