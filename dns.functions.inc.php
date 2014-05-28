@@ -714,14 +714,12 @@
 		$db2 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '66.45.228.248');
 		$db3 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '173.214.160.195');
 		$custid = $GLOBALS['tf']->session->account_id;
-		$db = clone $GLOBALS['tf']->db;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module']))
 		{
 			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']]))
 			{
 				$module = $GLOBALS['tf']->variables->request['module'];
-				$db = get_module_db($module);
 				//				$custid = get_custid($custid, $module);
 				$GLOBALS['tf']->accounts->set_db_module($module);
 				$GLOBALS['tf']->history->set_db_module($module);
@@ -883,14 +881,12 @@
 	{
 		page_title('DNS Manager');
 		$custid = $GLOBALS['tf']->session->account_id;
-		$db = clone $GLOBALS['tf']->db;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module']))
 		{
 			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']]))
 			{
 				$module = $GLOBALS['tf']->variables->request['module'];
-				$db = get_module_db($module);
 				//				$custid = get_custid($custid, $module);
 				$GLOBALS['tf']->accounts->set_db_module($module);
 				$GLOBALS['tf']->history->set_db_module($module);
@@ -983,6 +979,10 @@
 			dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
 		}
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
+		if (is_null($username) || $username == '')
+		{
+			$username = 'unknown';
+		}
 		global $dbh_city;
 		$db = new db('dns', 'dns', 'python', '66.45.228.79');
 		$db->query(make_insert_query('changes', array(
