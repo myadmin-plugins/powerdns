@@ -50,15 +50,15 @@
 					try {
 						$response = $resolver->query($zone, 'AXFR');
 					} catch(Net_DNS2_Exception $e) {
-                        //echo "::query() failed: ", $e->getMessage(), "\n";
-                        $host = gethostbyaddr($ip);
+						//echo "::query() failed: ", $e->getMessage(), "\n";
+						$host = gethostbyaddr($ip);
 						if ($host != $ip)
 						{
 							$cached_zones[$zone][$ip] = $host;
 							unset($host);
 							return $cached_zones[$zone][$ip];
 						}
-                        return false;
+						return false;
 					}
 					//billingd_log(print_r($response, true));
 					if (count($response->answer))
@@ -138,24 +138,20 @@
 	function get_dns_domain($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin')
 		{
-			$result = mysql_query("select * from domains where id='$domain_id'", $dbh);
+			$db->query("select * from domains where id='$domain_id'");
 		}
 		else
 		{
-			$result = mysql_query("select * from domains where id='$domain_id' and account='$custid'", $dbh);
+			$db->query("select * from domains where id='$domain_id' and account='$custid'");
 		}
-		if ($result)
+		if ($db->num_rows() > 0)
 		{
-			if (mysql_num_rows($result) > 0)
-			{
-				$domain = mysql_fetch_array($result, MYSQL_ASSOC);
-				return $domain;
-			}
+			$db->next_record(MYSQL_ASSOC);
+			return $db->Record;
 		}
 		return false;
 	}
@@ -177,16 +173,15 @@
 		{
 			return false;
 		}
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		$result = mysql_query("select * from records where domain_id='$domain_id'", $dbh);
+		$db->query("select * from records where domain_id='$domain_id'");
 		$results = array();
-		if ($result)
+		if ($db->num_rows() > 0)
 		{
-			while ($record = mysql_fetch_array($result, MYSQL_ASSOC))
+			while ($db->next_record(MYSQL_ASSOC))
 			{
-				$results[] = $record;
+				$results[] = $db->Record;
 			}
 		}
 		else
@@ -209,12 +204,11 @@
 	{
 		$domain_id = intval($domain_id);
 		$record_id = intval($record_id);
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		if (get_dns_domain($domain_id) !== false)
 		{
-			$result = mysql_query("delete from records where domain_id='$domain_id' and id='$record_id'", $dbh);
-			if (mysql_affected_rows($dbh) == 1)
+			$db->query("delete from records where domain_id='$domain_id' and id='$record_id'");
+			if ($db->affected_rows() == 1)
 			{
 				return true;
 			}
@@ -251,8 +245,7 @@
 		{
 			$content = '\"' . $content . '\"';
 		}
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$query = make_insert_query('records', array(
 			'domain_id' => $domain_id,
 			'name' => $name,
@@ -260,8 +253,8 @@
 			'type' => $type,
 			'ttl' => $ttl,
 			'prio' => $prio));
-		mysql_query($query, $dbh);
-		$id = mysql_insert_id($dbh);
+		$db->query($query);
+		$id = $db->get_last_insert_id('records', 'id');
 		update_soa_serial($domain_id);
 		return $id;
 	}
@@ -293,24 +286,23 @@
 		{
 			return false;
 		}
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
-		$name = mysql_real_escape_string($name);
-		$type = mysql_real_escape_string($type);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$name = $db->real_escape($name);
+		$type = $db->real_escape($type);
 		if ($type == 'SPF')
 		{
-			$content = mysql_real_escape_string(stripslashes('\"' . $content . '\"'));
+			$content = $db->real_escape(stripslashes('\"' . $content . '\"'));
 		}
 		else
 		{
-			$content = mysql_real_escape_string($content);
+			$content = $db->real_escape($content);
 		}
-		$ttl = mysql_real_escape_string($ttl);
-		$prio = mysql_real_escape_string($prio);
+		$ttl = $db->real_escape($ttl);
+		$prio = $db->real_escape($prio);
 		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date='" . mysql_now() . "' where domain_id='$domain_id' and id='$record_id'";
-		mysql_query($query, $dbh);
+		$db->query($query);
 		update_soa_serial($domain_id);
-		if (mysql_affected_rows($dbh) == 1)
+		if ($db->affected_rows() == 1)
 		{
 			return true;
 		}
@@ -331,13 +323,12 @@
 	function delete_dns_domain($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		if (get_dns_domain($domain_id) !== false)
 		{
-			mysql_query("delete from records where domain_id=$domain_id", $dbh);
-			$result = mysql_query("delete from domains where id=$domain_id", $dbh);
-			if (mysql_affected_rows($dbh) == 1)
+			$db->query("delete from records where domain_id=$domain_id");
+			$db->query("delete from domains where id=$domain_id");
+			if ($db->affected_rows() == 1)
 			{
 				return true;
 			}
@@ -348,8 +339,7 @@
 	function basic_dns_editor()
 	{
 		page_title('Basic DNS Editor');
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
 		$types = array(
@@ -523,8 +513,7 @@
 	function dns_editor()
 	{
 		page_title('DNS Editor');
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
 		$table = new TFTable;
@@ -678,10 +667,9 @@
 	function dns_delete()
 	{
 		page_title('Delete DNS Record');
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		$domain_id = mysql_real_escape_string($GLOBALS['tf']->variables->request['id']);
+		$domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);
 		$table = new TFTable;
 		$result = get_dns_domain($domain_id);
 		if ($result !== false)
@@ -722,10 +710,9 @@
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
-		$dbh = mysql_connect(POWERADMIN_HOST, 'poweradmin', POWERADMIN_PASSWORD);
-		$dbh2 = mysql_connect('66.45.228.248', 'poweradmin', POWERADMIN_PASSWORD);
-		$dbh3 = mysql_connect('173.214.160.195', 'poweradmin', POWERADMIN_PASSWORD);
-		mysql_select_db('poweradmin', $dbh);
+		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db2 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '66.45.228.248');
+		$db3 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '173.214.160.195');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$db = clone $GLOBALS['tf']->db;
 		$module = 'default';
@@ -758,10 +745,10 @@
 			$return['status_text'] = 'I think you meant to add your VPS IP, not the DNS servers IP.';
 			return $return;
 		}
-		$result = mysql_query("select * from domains where name='" . mysql_real_escape_string($domain) . "'", $dbh);
+		$result = $db->query("select * from domains where name='" . $db->real_escape($domain) . "'");
 		if ($result)
 		{
-			if (mysql_num_rows($result) > 0)
+			if ($db->num_rows() > 0)
 			{
 				$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact john@interserver.net';
 				return $return;
@@ -770,8 +757,9 @@
 		if ($GLOBALS['tf']->ima != 'admin')
 		{
 			$query = "select count(*) from domains where domains.account='$custid'";
-			$result = mysql_query($query, $dbh);
-			$domains = mysql_result($result, 0, 0);
+			$result = $db->query($query);
+			$db->next_record(MYSQL_NUM);
+			$domains = $db->f(0);
 			if ($domains >= MAX_DNS_DOMAINS)
 			{
 				$return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact john@interserver.net if you want more';
@@ -813,68 +801,68 @@
 			'master' => POWERADMIN_HOST,
 			'type' => 'SLAVE',
 			'account' => 'admin'));
-		$result = mysql_query($query, $dbh);
+		$result = $db->query($query);
 		if ($result)
 		{
-			$domain_id = mysql_insert_id($dbh);
-			mysql_query($query2, $dbh2);
-			mysql_query($query2, $dbh3);
-			mysql_query(make_insert_query('records', array(
+			$domain_id = $db->get_last_insert_id('domains', 'id');
+			$db2->query($query2);
+			$db3->query($query2);
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns1.interserver.net. dns.interserver.net ' . date('Ymd') . '01',
 				'type' => 'SOA',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns1.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns2.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns3.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => $ip,
 				'type' => 'A',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => '*.' . $domain,
 				'content' => $ip,
 				'type' => 'A',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => 'localhost.' . $domain,
 				'content' => '127.0.0.1',
 				'type' => 'A',
 				'ttl' => 86400,
-				'prio' => NULL)), $dbh);
-			mysql_query(make_insert_query('records', array(
+				'prio' => NULL)));
+			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'mail.' . $domain,
 				'type' => 'MX',
 				'ttl' => 86400,
-				'prio' => 25)), $dbh);
+				'prio' => 25)));
 			$return['status'] = 'ok';
 			$return['status_text'] = 'Domain ' . $domain . ' Added!';
 		}
@@ -996,15 +984,14 @@
 		}
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
 		global $dbh_city;
-		$dbh_city = mysql_connect('66.45.228.79', 'dns', 'python');
-		mysql_select_db('dns', $dbh_city);
-		mysql_query(make_insert_query('changes', array(
+		$db = new db('dns', 'dns', 'python', '66.45.228.79');
+		$db->query(make_insert_query('changes', array(
 			'id' => NULL,
 			'username' => $username,
 			'ip' => $ip,
-			'hostname' => $host)), $dbh_city);
+			'hostname' => $host)));
 		//billingd_log("Reverse DNS $ip => $host", __line__, __file__);
-		if (mysql_affected_rows($dbh_city) == 1)
+		if ($db->affected_rows() == 1)
 		{
 			return true;
 		}
