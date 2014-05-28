@@ -882,11 +882,13 @@
 		page_title('DNS Manager');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
+		$db = $GLOBALS['tf']->db;
 		if (isset($GLOBALS['tf']->variables->request['module']))
 		{
 			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']]))
 			{
 				$module = $GLOBALS['tf']->variables->request['module'];
+				$db = get_module_db($module);
 				//				$custid = get_custid($custid, $module);
 				$GLOBALS['tf']->accounts->set_db_module($module);
 				$GLOBALS['tf']->history->set_db_module($module);
