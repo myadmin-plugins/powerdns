@@ -798,7 +798,12 @@
 			'name' => $domain,
 			'master' => POWERADMIN_HOST,
 			'type' => 'SLAVE',
-			'account' => 'admin'));
+			'account' => 'admin'
+			), array(
+				'master' => POWERADMIN_HOST,
+				'type' => 'SLAVE',
+				'account' => 'admin'
+			));
 		$result = $db->query($query);
 		if ($result)
 		{
