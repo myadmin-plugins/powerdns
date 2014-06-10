@@ -9,7 +9,7 @@
 	 * @category DNS
 	 */
 
-	include (dirname(__file__) . '/pdns.functions.inc.php');
+	include (dirname(__FILE__) . '/pdns.functions.inc.php');
 
 	/**
 	 * max domains hosted on our dns server per client
@@ -71,7 +71,7 @@
 							}
 						}
 						$cached_zones[$zone] = $tzone;
-						//billingd_log("City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __line__, __file__);
+						//billingd_log("City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __LINE__, __FILE__);
 					}
 				}
 				if (isset($cached_zones[$zone]))
@@ -997,7 +997,7 @@
 			'username' => $username,
 			'ip' => $ip,
 			'hostname' => $host)));
-		//billingd_log("Reverse DNS $ip => $host", __line__, __file__);
+		//billingd_log("Reverse DNS $ip => $host", __LINE__, __FILE__);
 		if ($db->affected_rows() == 1)
 		{
 			return true;
