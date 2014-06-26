@@ -34,6 +34,7 @@ global $iface_title;
 global $ignore_install_dir;
 global $session_key;
 
+/*
 header('Content-type: text/html; charset=utf-8');
 echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0 Transitional//EN\">\n";
 echo "<html>\n";
@@ -43,6 +44,7 @@ echo "  <link rel=stylesheet href=\"style/" . $iface_style . ".css\" type=\"text
 echo "  <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n";
 echo " </head>\n";
 echo " <body>\n";
+*/
 
 if (file_exists('inc/custom_header.inc.php')) {
     include('inc/custom_header.inc.php');
@@ -51,21 +53,21 @@ if (file_exists('inc/custom_header.inc.php')) {
 }
 
 // this config variable is used only for development, do not use it in production
-//if ($ignore_install_dir == NULL || $ignore_install_dir == false && file_exists('install')) {
+//if (($ignore_install_dir == NULL || $ignore_install_dir == false) && file_exists ( 'install' )) {
 if (file_exists('install')) {
     echo "<div>\n";
     error(ERR_INSTALL_DIR_EXISTS);
-    include('inc/footer.inc.php');
-    exit;
-} elseif (isset($_SESSION["userid"])) {
-    verify_permission('search') ? $perm_search = "1" : $perm_search = "0";
-    verify_permission('zone_content_view_own') ? $perm_view_zone_own = "1" : $perm_view_zone_own = "0";
-    verify_permission('zone_content_view_others') ? $perm_view_zone_other = "1" : $perm_view_zone_other = "0";
-    verify_permission('supermaster_view') ? $perm_supermaster_view = "1" : $perm_supermaster_view = "0";
-    verify_permission('zone_master_add') ? $perm_zone_master_add = "1" : $perm_zone_master_add = "0";
-    verify_permission('zone_slave_add') ? $perm_zone_slave_add = "1" : $perm_zone_slave_add = "0";
-    verify_permission('supermaster_add') ? $perm_supermaster_add = "1" : $perm_supermaster_add = "0";
-    verify_permission('user_is_ueberuser') ? $perm_is_godlike = "1" : $perm_is_godlike = "0";
+    include ('inc/footer.inc.php');
+    exit();
+} elseif (isset($_SESSION ["userid"])) {
+    do_hook('verify_permission', 'search') ? $perm_search = "1" : $perm_search = "0";
+    do_hook('verify_permission', 'zone_content_view_own') ? $perm_view_zone_own = "1" : $perm_view_zone_own = "0";
+    do_hook('verify_permission', 'zone_content_view_others') ? $perm_view_zone_other = "1" : $perm_view_zone_other = "0";
+    do_hook('verify_permission', 'supermaster_view') ? $perm_supermaster_view = "1" : $perm_supermaster_view = "0";
+    do_hook('verify_permission', 'zone_master_add') ? $perm_zone_master_add = "1" : $perm_zone_master_add = "0";
+    do_hook('verify_permission', 'zone_slave_add') ? $perm_zone_slave_add = "1" : $perm_zone_slave_add = "0";
+    do_hook('verify_permission', 'supermaster_add') ? $perm_supermaster_add = "1" : $perm_supermaster_add = "0";
+    do_hook('verify_permission', 'user_is_ueberuser') ? $perm_is_godlike = "1" : $perm_is_godlike = "0";
 
     if ($perm_is_godlike == 1 && $session_key == 'xxxxxxxxxx') {
         error(ERR_DEFAULT_CRYPTOKEY_USED);
@@ -98,7 +100,7 @@ if (file_exists('install')) {
     if ($perm_zone_master_add) {
         echo "    <span class=\"menuitem\"><a href=\"bulk_registration.php\">" . _('Bulk registration') . "</a></span>\n";
     }
-    if ($_SESSION["auth_used"] != "ldap") {
+    if ($_SESSION ["auth_used"] != "ldap") {
         echo "    <span class=\"menuitem\"><a href=\"change_password.php\">" . _('Change password') . "</a></span>\n";
     }
     echo "    <span class=\"menuitem\"><a href=\"users.php\">" . _('User administration') . "</a></span>\n";

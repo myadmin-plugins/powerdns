@@ -23,7 +23,7 @@
 /**
  *  Toolkit functions
  *
- * @package Poweradmin
+ * @package     Poweradmin
  * @copyright   2007-2010 Rejo Zenger <rejo@zenger.nl>
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
@@ -172,7 +172,7 @@ $valid_tlds = array("ac", "academy", "actor", "ad", "ae", "aero", "af", "ag",
 array_push($valid_tlds, 'test', 'example', 'invalid', 'localhost');
 
 /* Database connection */
-
+require_once("error.inc.php");
 require_once("database.inc.php");
 // Generates $db_mdb2 variable to access database.
 // Array of the available zone types
@@ -230,17 +230,19 @@ if ($dns_fancy) {
 /* * ***********
  * Includes  *
  * *********** */
+$db_mdb2 = dbConnect();
+require_once("plugin.inc.php");
 
 require_once("i18n.inc.php");
-require_once("error.inc.php");
 require_once("auth.inc.php");
 require_once("users.inc.php");
 require_once("dns.inc.php");
 require_once("record.inc.php");
+require_once("dnssec.inc.php");
 require_once("templates.inc.php");
 
-$db_mdb2 = dbConnect();
-doAuthenticate();
+//do_hook('hook_post_includes');
+do_hook('authenticate');
 
 
 /* * ***********
@@ -403,20 +405,6 @@ function zone_letter_start($letter, $userid = true) {
     return ($result ? 1 : 0);
 }
 
-/** Print error message (toolkit.inc)
- *
- * @param string $msg Error message
- *
- * @return null
- */
-function error($msg) {
-    if ($msg) {
-        echo "     <div class=\"error\">Error: " . $msg . "</div>\n";
-    } else {
-        echo "     <div class=\"error\">" . _('An unknown error has occurred.') . "</div>\n";
-    }
-}
-
 /** Print success message (toolkit.inc)
  *
  * @param string $msg Success message
@@ -498,22 +486,6 @@ function get_status($res) {
     } elseif ($res == '1') {
         return "<FONT CLASS=\"active\">" . _('Active') . "</FONT>";
     }
-}
-
-/** Parse string and substitute domain and serial
- *
- * @param string $val string to parse containing tokens '[ZONE]' and '[SERIAL]'
- * @param string $domain domain to subsitute for '[ZONE]'
- *
- * @return string interpolated/parsed string
- */
-function parse_template_value($val, $domain) {
-    $serial = date("Ymd");
-    $serial .= "00";
-
-    $val = str_replace('[ZONE]', $domain, $val);
-    $val = str_replace('[SERIAL]', $serial, $val);
-    return $val;
 }
 
 /** Validate email address string
@@ -628,8 +600,7 @@ function gen_mix_salt($pass) {
     return mix_salt($salt, $pass);
 }
 
-
-function do_log($syslog_message,$priority){
+function do_log($syslog_message, $priority) {
     global $syslog_use, $syslog_ident, $syslog_facility;
     if ($syslog_use) {
         openlog($syslog_ident, LOG_PERROR, $syslog_facility);
@@ -639,17 +610,104 @@ function do_log($syslog_message,$priority){
 }
 
 function log_error($syslog_message) {
-    do_log($syslog_message,LOG_ERR);
+    do_log($syslog_message, LOG_ERR);
 }
 
 function log_warn($syslog_message) {
-    do_log($syslog_message,LOG_WARNING);
+    do_log($syslog_message, LOG_WARNING);
 }
 
 function log_notice($syslog_message) {
-    do_log($syslog_message,LOG_NOTICE);
+    do_log($syslog_message, LOG_NOTICE);
 }
 
 function log_info($syslog_message) {
-    do_log($syslog_message,LOG_INFO);
+    do_log($syslog_message, LOG_INFO);
+}
+
+/** Print the login form
+ *
+ * @param string $msg Error Message
+ * @param string $type Message type [default='success', 'error']
+ *
+ * @return null
+ */
+function auth($msg = "", $type = "success") {
+    include_once('inc/header.inc.php');
+    include('inc/config.inc.php');
+
+    if ($msg) {
+        print "<div class=\"$type\">$msg</div>\n";
+    }
+    ?>
+    <h2><?php echo _('Log in'); ?></h2>
+    <form method="post" action="<?php echo htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES); ?>">
+        <input type="hidden" name="query_string" value="<?php echo htmlentities($_SERVER["QUERY_STRING"]); ?>">
+        <table border="0">
+            <tr>
+                <td class="n" width="100"><?php echo _('Username'); ?>:</td>
+                <td class="n"><input type="text" class="input" name="username" id="username"></td>
+            </tr>
+            <tr>
+                <td class="n"><?php echo _('Password'); ?>:</td>
+                <td class="n"><input type="password" class="input" name="password"></td>
+            </tr>
+            <tr>
+                <td class="n"><?php echo _('Language'); ?>:</td>
+                <td class="n">
+                    <select class="input" name="userlang">
+                        <?php
+                        // List available languages (sorted alphabetically)
+                        include_once('inc/countrycodes.inc.php');
+                        $locales = scandir('locale/');
+                        foreach ($locales as $locale) {
+                            if (strlen($locale) == 5) {
+                                $locales_fullname[$locale] = $countrycodes[substr($locale, 0, 2)];
+                            }
+                        }
+                        asort($locales_fullname);
+                        foreach ($locales_fullname as $locale => $language) {
+                            if ($locale == $iface_lang) {
+                                echo _('<option selected value="' . $locale . '">' . $language);
+                            } else {
+                                echo _('<option value="' . $locale . '">' . $language);
+                            }
+                        }
+                        ?>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td class="n">&nbsp;</td>
+                <td class="n">
+                    <input type="submit" name="authenticate" class="button" value=" <?php echo _('Go'); ?> ">
+                </td>
+            </tr>
+        </table>
+    </form>
+    <script type="text/javascript">
+        <!--
+      document.getElementById('username').focus();
+        //-->
+    </script>
+    <?php
+    include_once('inc/footer.inc.php');
+    exit;
+}
+
+/** Logout the user
+ *
+ * Logout the user and kickback to login form
+ *
+ * @param string $msg Error Message
+ * @param string $type Message type [default='']
+ *
+ * @return null
+ */
+function logout($msg = "", $type = "") {
+    session_unset();
+    session_destroy();
+    session_write_close();
+    auth($msg, $type);
+    exit;
 }

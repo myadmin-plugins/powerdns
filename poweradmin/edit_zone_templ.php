@@ -72,7 +72,6 @@ if (isset($_POST['save_as'])) {
 }
 
 if (isset($_POST['update_zones'])) {
-    $records = get_zone_templ_records($zone_templ_id);
     $zones = get_list_zone_use_templ($zone_templ_id, $_SESSION['userid']);
     success(SUC_ZONES_UPD);
     foreach ($zones as $zone) {
@@ -80,7 +79,7 @@ if (isset($_POST['update_zones'])) {
     }
 }
 
-if (!(verify_permission('zone_master_add')) || !$owner) {
+if (!(do_hook('verify_permission' , 'zone_master_add' )) || !$owner) {
     error(ERR_PERM_EDIT_ZONE_TEMPL);
 } else {
     if (zone_templ_id_exists($zone_templ_id) == "0") {
@@ -130,8 +129,9 @@ if (!(verify_permission('zone_master_add')) || !$owner) {
                     }
                     echo "         <option" . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
                 }
-                if (!$found_selected_type)
+                if (!$found_selected_type) {
                     echo "         <option SELECTED value=\"" . htmlspecialchars($r['type']) . "\"><i>" . $r['type'] . "</i></option>\n";
+                }
                 /*
                   Sanitize content due to SPF record quoting in PowerDNS
                  */

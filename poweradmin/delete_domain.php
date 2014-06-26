@@ -32,9 +32,11 @@
 require_once("inc/toolkit.inc.php");
 include_once("inc/header.inc.php");
 
-if (verify_permission('zone_content_edit_others')) {
+global $pdnssec_use;
+
+if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
     $perm_edit = "all";
-} elseif (verify_permission('zone_content_edit_own')) {
+} elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
     $perm_edit = "own";
 } else {
     $perm_edit = "none";
@@ -55,8 +57,8 @@ if (!$zone_info) {
     header("Location: list_zones.php");
     exit;
 }
-$zone_owners = get_fullnames_owners_from_domainid($zone_id);
-$user_is_zone_owner = verify_user_is_owner_zoneid($zone_id);
+$zone_owners = do_hook('get_fullnames_owners_from_domainid' , $zone_id );
+$user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
 
 if ($zone_id == "-1") {
     error(ERR_INV_INPUT);
@@ -67,6 +69,11 @@ if ($zone_id == "-1") {
 echo "     <h2>" . _('Delete zone') . " \"" . $zone_info['name'] . "\"</h2>\n";
 
 if ($confirm == '1') {
+    if ($zone_info['type'] == 'MASTER') {
+        $zone_name = get_zone_name_from_id($zone_id);
+        dnssec_unsecure_zone($zone_name);
+    }
+
     if (delete_domain($zone_id)) {
         success(SUC_ZONE_DEL);
         log_info(sprintf('client_ip:%s user:%s operation:delete_zone zone:%s zone_type:%s',

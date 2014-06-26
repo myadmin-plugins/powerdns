@@ -167,6 +167,8 @@ class PDOLayer extends PDOCommon {
             $query = 'SHOW TABLES';
         } elseif ($db_type == 'pgsql') {
             $query = "SELECT table_name FROM information_schema.tables WHERE table_schema = 'public'";
+        } elseif ($db_type == 'sqlite') {
+            $query = "SELECT name FROM sqlite_master WHERE type='table'";
         } else {
             die(ERR_DB_UNK_TYPE);
         }
@@ -200,7 +202,7 @@ class PDOLayer extends PDOCommon {
             } elseif ($db_type == 'pgsql' && $arr['type'] == 'integer') {
                 $line = $key . ' ' . $arr['type'];
             } else {
-                $line = $key . ' ' . $arr['type'] . '(' . $arr['length'] . ')';
+                $line = $key . ' ' . $arr['type'] . (isset($arr['length']) ? '(' . $arr['length'] . ')' : '');
             }
 
             if ($arr['notnull'] && $db_type != 'pgsql' && !isset($arr['autoincrement'])) {

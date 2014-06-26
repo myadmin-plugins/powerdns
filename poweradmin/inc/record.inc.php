@@ -21,6 +21,8 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+require_once('templates.inc.php');
+
 /**
  * DNS record functions
  *
@@ -285,8 +287,9 @@ function get_zone_comment($zone_id) {
     $query = "SELECT comment FROM zones WHERE domain_id = " . $db_mdb2->quote($zone_id, 'integer');
     $comment = $db_mdb2->queryOne($query);
 
-    if ($comment == "0")
+    if ($comment == "0") {
         $comment = '';
+    }
 
     return $comment;
 }
@@ -302,15 +305,15 @@ function get_zone_comment($zone_id) {
  */
 function edit_zone_comment($zone_id, $comment) {
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_content_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_content_edit = "own";
     } else {
         $perm_content_edit = "none";
     }
 
-    $user_is_zone_owner = verify_user_is_owner_zoneid($zone_id);
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
     $zone_type = get_domain_type($zone_id);
 
     if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit == "own" && $user_is_zone_owner == "0")) {
@@ -355,15 +358,15 @@ function edit_zone_comment($zone_id, $comment) {
  */
 function edit_record($record) {
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_content_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_content_edit = "own";
     } else {
         $perm_content_edit = "none";
     }
 
-    $user_is_zone_owner = verify_user_is_owner_zoneid($record['zid']);
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $record['zid'] );
     $zone_type = get_domain_type($record['zid']);
 
     if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit == "own" && $user_is_zone_owner == "0")) {
@@ -414,15 +417,15 @@ function add_record($zone_id, $name, $type, $content, $ttl, $prio) {
     global $db_mdb2;
     global $pdnssec_use;
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_content_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_content_edit = "own";
     } else {
         $perm_content_edit = "none";
     }
 
-    $user_is_zone_owner = verify_user_is_owner_zoneid($zone_id);
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
     $zone_type = get_domain_type($zone_id);
 
     if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit == "own" && $user_is_zone_owner == "0")) {
@@ -457,7 +460,7 @@ function add_record($zone_id, $name, $type, $content, $ttl, $prio) {
                     update_soa_serial($zone_id);
                 }
                 if ($pdnssec_use) {
-                    do_rectify_zone($zone_id);
+                    dnssec_rectify_zone($zone_id);
                 }
                 return true;
             }
@@ -552,7 +555,6 @@ function get_supermaster_info_from_ip($master_ip) {
  * @return mixed[] array of record details [rid,zid,name,type,content,ttl,prio,change_date]
  */
 function get_record_details_from_record_id($rid) {
-
     global $db_mdb2;
 
     $query = "SELECT id AS rid, domain_id AS zid, name, type, content, ttl, prio, change_date FROM records WHERE id = " . $db_mdb2->quote($rid, 'integer');
@@ -576,9 +578,9 @@ function get_record_details_from_record_id($rid) {
 function delete_record($rid) {
     global $db_mdb2;
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_content_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_content_edit = "own";
     } else {
         $perm_content_edit = "none";
@@ -586,7 +588,7 @@ function delete_record($rid) {
 
     // Determine ID of zone first.
     $record = get_record_details_from_record_id($rid);
-    $user_is_zone_owner = verify_user_is_owner_zoneid($record['zid']);
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $record['zid'] );
 
     if ($perm_content_edit == "all" || ($perm_content_edit == "own" && $user_is_zone_owner == "1" )) {
         if ($record['type'] == "SOA") {
@@ -604,6 +606,25 @@ function delete_record($rid) {
         error(ERR_PERM_DEL_RECORD);
         return false;
     }
+}
+
+/** Delete record reference to zone template
+ *
+ * @param int $rid Record ID
+ *
+ * @return boolean true on success
+ */
+function delete_record_zone_templ($rid) {
+    global $db_mdb2;
+
+    $query = "DELETE FROM records_zone_templ WHERE record_id = " . $db_mdb2->quote($rid, 'integer');
+    $response = $db_mdb2->query($query);
+    if (isError($response)) {
+        error($response->getMessage());
+        return false;
+    }
+
+    return true;
 }
 
 /**
@@ -628,12 +649,12 @@ function delete_record($rid) {
  * @return boolean true on success
  */
 function add_domain($domain, $owner, $type, $slave_master, $zone_template) {
-    if (verify_permission('zone_master_add')) {
+    if (do_hook('verify_permission' , 'zone_master_add' )) {
         $zone_master_add = "1";
-    };
-    if (verify_permission('zone_slave_add')) {
+    }
+    if (do_hook('verify_permission' , 'zone_slave_add' )) {
         $zone_slave_add = "1";
-    };
+    }
 
     // TODO: make sure only one is possible if only one is enabled
     if ($zone_master_add == "1" || $zone_slave_add == "1") {
@@ -737,6 +758,29 @@ function add_domain($domain, $owner, $type, $slave_master, $zone_template) {
                                     error($response->getMessage());
                                     return false;
                                 }
+
+                                if ($db_layer == 'MDB2' && ($db_type == 'mysql' || $db_type == 'pgsql')) {
+                                    $record_id = $db_mdb2->lastInsertId('records', 'id');
+                                } else if ($db_layer == 'PDO' && $db_type == 'pgsql') {
+                                    $record_id = $db_mdb2->lastInsertId('records_id_seq');
+                                } else {
+                                    $record_id = $db_mdb2->lastInsertId();
+                                }
+
+                                if (isError($record_id)) {
+                                    error($record_id->getMessage());
+                                    return false;
+                                }
+
+                                $query = "INSERT INTO records_zone_templ (domain_id, record_id, zone_templ_id) VALUES ("
+                                        . $db_mdb2->quote($domain_id, 'integer') . ","
+                                        . $db_mdb2->quote($record_id, 'integer') . ","
+                                        . $db_mdb2->quote($r['zone_templ_id'], 'integer') . ")";
+                                $response = $db_mdb2->query($query);
+                                if (isError($response)) {
+                                    error($response->getMessage());
+                                    return false;
+                                }
                             }
                         }
                     }
@@ -765,20 +809,21 @@ function add_domain($domain, $owner, $type, $slave_master, $zone_template) {
 function delete_domain($id) {
     global $db_mdb2;
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_edit = "own";
     } else {
         $perm_edit = "none";
     }
-    $user_is_zone_owner = verify_user_is_owner_zoneid($id);
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $id );
 
     if ($perm_edit == "all" || ( $perm_edit == "own" && $user_is_zone_owner == "1")) {
         if (is_numeric($id)) {
             $db_mdb2->query("DELETE FROM zones WHERE domain_id=" . $db_mdb2->quote($id, 'integer'));
             $db_mdb2->query("DELETE FROM domains WHERE id=" . $db_mdb2->quote($id, 'integer'));
             $db_mdb2->query("DELETE FROM records WHERE domain_id=" . $db_mdb2->quote($id, 'integer'));
+            $db_mdb2->query("DELETE FROM records_zone_templ WHERE domain_id=" . $db_mdb2->quote($id, 'integer'));
             return true;
         } else {
             error(sprintf(ERR_INV_ARGC, "delete_domain", "id must be a number"));
@@ -816,9 +861,9 @@ function recid_to_domid($id) {
  */
 function add_owner_to_zone($zone_id, $user_id) {
     global $db_mdb2;
-    if ((verify_permission('zone_meta_edit_others')) || (verify_permission('zone_meta_edit_own')) && verify_user_is_owner_zoneid($_GET["id"])) {
+    if ((do_hook('verify_permission' , 'zone_meta_edit_others' )) || (do_hook('verify_permission' , 'zone_meta_edit_own' )) && do_hook('verify_user_is_owner_zoneid' , $_GET["id"] )) {
         // User is allowed to make change to meta data of this zone.
-        if (is_numeric($zone_id) && is_numeric($user_id) && is_valid_user($user_id)) {
+        if (is_numeric($zone_id) && is_numeric($user_id) && do_hook('is_valid_user' , $user_id )) {
             if ($db_mdb2->queryOne("SELECT COUNT(id) FROM zones WHERE owner=" . $db_mdb2->quote($user_id, 'integer') . " AND domain_id=" . $db_mdb2->quote($zone_id, 'integer')) == 0) {
                 $zone_templ_id = get_zone_template($zone_id);
                 if ($zone_templ_id == NULL)
@@ -847,9 +892,9 @@ function add_owner_to_zone($zone_id, $user_id) {
  */
 function delete_owner_from_zone($zone_id, $user_id) {
     global $db_mdb2;
-    if ((verify_permission('zone_meta_edit_others')) || (verify_permission('zone_meta_edit_own')) && verify_user_is_owner_zoneid($_GET["id"])) {
+    if ((do_hook('verify_permission' , 'zone_meta_edit_others' )) || (do_hook('verify_permission' , 'zone_meta_edit_own' )) && do_hook('verify_user_is_owner_zoneid' , $_GET["id"] )) {
         // User is allowed to make change to meta data of this zone.
-        if (is_numeric($zone_id) && is_numeric($user_id) && is_valid_user($user_id)) {
+        if (is_numeric($zone_id) && is_numeric($user_id) && do_hook('is_valid_user' , $user_id )) {
             // TODO: Next if() required, why not just execute DELETE query?
             if ($db_mdb2->queryOne("SELECT COUNT(id) FROM zones WHERE owner=" . $db_mdb2->quote($user_id, 'integer') . " AND domain_id=" . $db_mdb2->quote($zone_id, 'integer')) != 0) {
                 $db_mdb2->query("DELETE FROM zones WHERE owner=" . $db_mdb2->quote($user_id, 'integer') . " AND domain_id=" . $db_mdb2->quote($zone_id, 'integer'));
@@ -989,9 +1034,9 @@ function get_zone_id_from_name($zname) {
  */
 function get_zone_info_from_id($zid) {
 
-    if (verify_permission('zone_content_view_others')) {
+    if (do_hook('verify_permission' , 'zone_content_view_others' )) {
         $perm_view = "all";
-    } elseif (verify_permission('zone_content_view_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_view_own' )) {
         $perm_view = "own";
     } else {
         $perm_view = "none";
@@ -1557,7 +1602,6 @@ function get_users_from_domain_id($id) {
  * @return mixed[] 'zones' => array of zones, 'records' => array of records
  */
 function search_zone_and_record($search_string, $perm, $zone_sortby = 'name', $record_sortby = 'name', $wildcards = true, $arpa = true) {
-
     global $db_mdb2;
 
     $search_string = trim($search_string);
@@ -1569,17 +1613,17 @@ function search_zone_and_record($search_string, $perm, $zone_sortby = 'name', $r
     $return_zones = array();
     $return_records = array();
 
-    if (verify_permission('zone_content_view_others')) {
+    if (do_hook('verify_permission' , 'zone_content_view_others' )) {
         $perm_view = "all";
-    } elseif (verify_permission('zone_content_view_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_view_own' )) {
         $perm_view = "own";
     } else {
         $perm_view = "none";
     }
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_content_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_content_edit = "own";
     } else {
         $perm_content_edit = "none";
@@ -1631,7 +1675,7 @@ function search_zone_and_record($search_string, $perm, $zone_sortby = 'name', $r
         if (isset($cached_owners[$r['owner']])) {
             $owner = $cached_owners[$r['owner']];
         } else {
-            $owner = get_owner_from_id($r['owner']);
+            $owner = do_hook('get_owner_from_id' , $r['owner'] );
             $cached_owners[$r['owner']] = $owner;
         }
 
@@ -1839,42 +1883,42 @@ function update_zone_template($zone_id, $new_zone_template_id) {
 /** Update All Zone Records for Zone ID with Zone Template
  *
  * @param int $zone_id Zone ID to update
- * @param int $zone_template Zone Template to use for update
+ * @param int $zone_template_id Zone Template ID to use for update
  *
  * @return null
  */
-function update_zone_records($zone_id, $zone_template) {
+function update_zone_records($zone_id, $zone_template_id) {
     global $db_mdb2;
-    global $dns_ns1;
-    global $dns_hostmaster;
     global $dns_ttl;
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_edit = "own";
     } else {
         $perm_edit = "none";
     }
 
-    $user_is_zone_owner = verify_user_is_owner_zoneid($zone_id);
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
 
-    if (verify_permission('zone_master_add')) {
+    if (do_hook('verify_permission' , 'zone_master_add' )) {
         $zone_master_add = "1";
     }
 
-    if (verify_permission('zone_slave_add')) {
+    if (do_hook('verify_permission' , 'zone_slave_add' )) {
         $zone_slave_add = "1";
     }
 
     $soa_rec = get_soa_record($zone_id);
     $response = $db_mdb2->beginTransaction();
 
-    if (0 != $zone_template) {
+    if (0 != $zone_template_id) {
         if ($perm_edit == "all" || ( $perm_edit == "own" && $user_is_zone_owner == "1")) {
             if (is_numeric($zone_id)) {
-                //TODO: account for non-template records?
-                $db_mdb2->exec("DELETE FROM records WHERE domain_id=" . $db_mdb2->quote($zone_id, 'integer'));
+                $db_mdb2->exec("DELETE FROM records WHERE id IN (SELECT record_id FROM records_zone_templ WHERE "
+                        . "domain_id = " . $db_mdb2->quote($zone_id, 'integer') . " AND "
+                        . "zone_templ_id = " . $db_mdb2->quote($zone_template_id, 'integer') . ")");
+                $db_mdb2->exec("DELETE FROM records_zone_templ WHERE domain_id = " . $db_mdb2->quote($zone_id, 'integer'));
             } else {
                 error(sprintf(ERR_INV_ARGC, "delete_domain", "id must be a number"));
             }
@@ -1885,10 +1929,11 @@ function update_zone_records($zone_id, $zone_template) {
         if ($zone_master_add == "1" || $zone_slave_add == "1") {
             $domain = get_zone_name_from_id($zone_id);
             $now = time();
-            $templ_records = get_zone_templ_records($zone_template);
+            $templ_records = get_zone_templ_records($zone_template_id);
 
-            if ($templ_records == -1)
+            if ($templ_records == -1) {
                 return;
+            }
 
             foreach ($templ_records as $r) {
                 //fixme: appears to be a bug and regex match should occur against $domain
@@ -1918,13 +1963,27 @@ function update_zone_records($zone_id, $zone_template) {
                             . $db_mdb2->quote($prio, 'integer') . ","
                             . $db_mdb2->quote($now, 'integer') . ")";
                     $response = $db_mdb2->exec($query);
+
+                    if ($db_layer == 'MDB2' && ($db_type == 'mysql' || $db_type == 'pgsql')) {
+                        $record_id = $db_mdb2->lastInsertId('records', 'id');
+                    } else if ($db_layer == 'PDO' && $db_type == 'pgsql') {
+                        $record_id = $db_mdb2->lastInsertId('records_id_seq');
+                    } else {
+                        $record_id = $db_mdb2->lastInsertId();
+                    }
+
+                    $query = "INSERT INTO records_zone_templ (domain_id, record_id, zone_templ_id) VALUES ("
+                            . $db_mdb2->quote($zone_id, 'integer') . ","
+                            . $db_mdb2->quote($record_id, 'integer') . ","
+                            . $db_mdb2->quote($zone_template_id, 'integer') . ")";
+                    $response = $db_mdb2->query($query);
                 }
             }
         }
     }
 
     $query = "UPDATE zones
-                    SET zone_templ_id = " . $db_mdb2->quote($zone_template, 'integer') . "
+                    SET zone_templ_id = " . $db_mdb2->quote($zone_template_id, 'integer') . "
                     WHERE domain_id = " . $db_mdb2->quote($zone_id, 'integer');
     $response = $db_mdb2->exec($query);
 
@@ -1951,20 +2010,27 @@ function delete_domains($domains) {
     $response = $db_mdb2->beginTransaction();
 
     foreach ($domains as $id) {
-        if (verify_permission('zone_content_edit_others')) {
+        if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
             $perm_edit = "all";
-        } elseif (verify_permission('zone_content_edit_own')) {
+        } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
             $perm_edit = "own";
         } else {
             $perm_edit = "none";
         }
-        $user_is_zone_owner = verify_user_is_owner_zoneid($id);
+        $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $id );
 
         if ($perm_edit == "all" || ( $perm_edit == "own" && $user_is_zone_owner == "1")) {
             if (is_numeric($id)) {
+                $zone_type = get_domain_type($id);
+                if ($zone_type == 'MASTER') {
+                    $zone_name = get_zone_name_from_id($id);
+                    dnssec_unsecure_zone($zone_name);
+                }
+
                 $db_mdb2->exec("DELETE FROM zones WHERE domain_id=" . $db_mdb2->quote($id, 'integer'));
                 $db_mdb2->exec("DELETE FROM domains WHERE id=" . $db_mdb2->quote($id, 'integer'));
                 $db_mdb2->exec("DELETE FROM records WHERE domain_id=" . $db_mdb2->quote($id, 'integer'));
+                $db_mdb2->query("DELETE FROM records_zone_templ WHERE domain_id=" . $db_mdb2->quote($id, 'integer'));
             } else {
                 error(sprintf(ERR_INV_ARGC, "delete_domains", "id must be a number"));
                 $error = true;
@@ -1990,98 +2056,6 @@ function delete_domains($domains) {
     return $return;
 }
 
-/** Execute PDNSSEC rectify-zone command for Domain ID
- *
- * If a Domain is dnssec enabled, or uses features as
- * e.g. ALSO-NOTIFY, ALLOW-AXFR-FROM, TSIG-ALLOW-AXFR
- * following has to be executed
- * pdnssec rectify-zone $domain
- *
- * @param int $domain_id Domain ID
- *
- * @return boolean true on success, false on failure or unnecessary
- */
-function do_rectify_zone($domain_id) {
-    global $db_mdb2;
-    global $pdnssec_command;
-
-    $output = array();
-
-    /* if pdnssec_command is set we perform ``pdnssec rectify-zone $domain`` on all zones,
-     * as pdns needs the "auth" column for all zones if dnssec is enabled
-     *
-     * If there is any entry at domainmetadata table for this domain,
-     * it is an error if pdnssec_command is not set */
-    $query = "SELECT COUNT(id) FROM domainmetadata WHERE domain_id = " . $db_mdb2->quote($domain_id, 'integer');
-    $count = $db_mdb2->queryOne($query);
-
-    if (isError($count)) {
-        error($count->getMessage());
-        return false;
-    }
-
-    if (isset($pdnssec_command)) {
-        $domain = get_zone_name_from_id($domain_id);
-        $command = $pdnssec_command . " rectify-zone " . $domain;
-
-        if (!function_exists('exec')) {
-            error(ERR_EXEC_NOT_ALLOWED);
-            return false;
-        }
-
-        if (!file_exists($pdnssec_command) || !is_executable($pdnssec_command)) {
-            error(ERR_EXEC_PDNSSEC);
-            return false;
-        }
-
-        exec($command, $output, $return_code);
-        if ($return_code != 0) {
-            /* if rectify-zone failed: display error */
-            error(ERR_EXEC_PDNSSEC_RECTIFY_ZONE);
-            return false;
-        }
-
-        return true;
-    } else if ($count >= 1) {
-        error(ERR_EXEC_PDNSSEC);
-        return false;
-    } else {
-        /* no rectify-zone has to be done or command is not
-         * configured in inc/config.inc.php */
-        return false;
-    }
-}
-
-/** Execute PDNSSEC secure-zone command for Domain Name
- *
- * @param string $domain_name Domain Name
- *
- * @return boolean true on success, false on failure or unnecessary
- */
-function do_secure_zone($domain_name) {
-    global $pdnssec_command;
-
-    if (!function_exists('exec')) {
-        error(ERR_EXEC_NOT_ALLOWED);
-        return false;
-    }
-
-    if (!file_exists($pdnssec_command) || !is_executable($pdnssec_command)) {
-        error(ERR_EXEC_PDNSSEC);
-        return false;
-    }
-
-    $command = $pdnssec_command . " secure-zone " . $domain_name;
-    exec($command, $output, $return_code);
-
-    if ($return_code != 0) {
-        error(ERR_EXEC_PDNSSEC_SECURE_ZONE);
-        return false;
-    }
-
-    return true;
-}
-
 /** Check if record exists
  *
  * @param string $name Record name
@@ -2093,4 +2067,56 @@ function record_name_exists($name) {
     $query = "SELECT COUNT(id) FROM records WHERE name = " . $db_mdb2->quote($name, 'text');
     $count = $db_mdb2->queryOne($query);
     return ($count == "1" ? true : false);
+}
+
+/** Return domain level for given name
+ *
+ * @param string $name Zone name
+ *
+ * @return int domain level
+ */
+function get_domain_level($name) {
+    return substr_count($name, '.') + 1;
+}
+
+/** Return domain second level domain for given name
+ *
+ * @param string $name Zone name
+ *
+ * @return string 2nd level domain name
+ */
+function get_second_level_domain($name) {
+    $domain_parts = explode('.', $name);
+    $domain_parts = array_reverse($domain_parts);
+    return $domain_parts[1] . '.' . $domain_parts[0];
+}
+
+/** Get zone list which use templates
+ *
+ * @param resource $db_mdb2 DB link
+ *
+ * @return mixed[] Array with domain and template ids
+ */
+function get_zones_with_templates($db_mdb2) {
+    $query = "SELECT id, domain_id, zone_templ_id FROM zones WHERE zone_templ_id <> 0";
+    $result = $db_mdb2->query($query);
+    $zones = array();
+    while ($zone = $result->fetchRow()) {
+        $zones[]=$zone;
+    }
+    return $zones;
+}
+
+/** Get records by domain id
+ *
+ *
+ */
+function get_records_by_domain_id($db, $domain_id) {
+    $query = "SELECT id, name, type, content FROM records WHERE domain_id = " . $db_mdb2->quote($domain_id, 'integer');
+    $result = $db_mdb2->query($query);
+    $records = array();
+    while ($zone_records = $result->fetchRow()) {
+        $records[]=$zone_records;
+    }
+    return $records;
 }

@@ -1,5 +1,4 @@
 <?php
-
 /*  Poweradmin, a friendly web-based admin tool for PowerDNS.
  *  See <http://www.poweradmin.org> for more details.
  *
@@ -22,11 +21,15 @@
  */
 
 /**
- * File that contains system version
+ * Migration functions
  *
- * @package     Poweradmin
+ * @package Poweradmin
  * @copyright   2007-2010 Rejo Zenger <rejo@zenger.nl>
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
  */
-$VERSION = '2.1.8';
+
+function file_get_name_without_extension($path) {
+    return basename($path, '.php');
+}
+

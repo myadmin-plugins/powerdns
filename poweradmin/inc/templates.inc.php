@@ -29,7 +29,6 @@
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
  */
-require_once("inc/toolkit.inc.php");
 
 /** Get a list of all available zone templates
  *
@@ -64,14 +63,14 @@ function get_list_zone_templ($userid) {
  *
  * @param mixed[] $details zone template details
  * @param $userid User ID that owns template
- * 
+ *
  * @return boolean true on success, false otherwise
  */
 function add_zone_templ($details, $userid) {
     global $db_mdb2;
 
     $zone_name_exists = zone_templ_name_exists($details['templ_name']);
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_ADD_ZONE_TEMPL);
         return false;
     } elseif ($zone_name_exists != '0') {
@@ -125,12 +124,11 @@ function get_zone_templ_details($zone_templ_id) {
 function delete_zone_templ($zone_templ_id) {
     global $db_mdb2;
 
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_DEL_ZONE_TEMPL);
         return false;
     } else {
         // Delete the zone template
-
         $query = "DELETE FROM zone_templ"
                 . " WHERE id = " . $db_mdb2->quote($zone_templ_id, 'integer');
         $result = $db_mdb2->query($query);
@@ -140,8 +138,16 @@ function delete_zone_templ($zone_templ_id) {
         }
 
         // Delete the zone template records
-
         $query = "DELETE FROM zone_templ_records"
+                . " WHERE zone_templ_id = " . $db_mdb2->quote($zone_templ_id, 'integer');
+        $result = $db_mdb2->query($query);
+        if (isError($result)) {
+            error($result->getMessage());
+            return false;
+        }
+
+        // Delete references to zone template
+        $query = "DELETE FROM records_zone_templ"
                 . " WHERE zone_templ_id = " . $db_mdb2->quote($zone_templ_id, 'integer');
         $result = $db_mdb2->query($query);
         if (isError($result)) {
@@ -156,13 +162,13 @@ function delete_zone_templ($zone_templ_id) {
 /** Delete all zone templates for specific user
  *
  * @param $userid User ID
- * 
+ *
  * @return boolean true on success, false otherwise
  */
 function delete_zone_templ_userid($userid) {
     global $db_mdb2;
 
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_DEL_ZONE_TEMPL);
         return false;
     } else {
@@ -247,7 +253,7 @@ function get_zone_templ_record_from_id($id) {
 /** Get all zone template records from a zone template id
  *
  * Retrieve all fields of the records and send it back to the function caller.
- * 
+ *
  * @param int $id zone template ID
  * @param int $rowstart Starting row (default=0)
  * @param int $rowamount Number of rows per query (default=999999)
@@ -292,7 +298,7 @@ function get_zone_templ_records($id, $rowstart = 0, $rowamount = 999999, $sortby
 function add_zone_templ_record($zone_templ_id, $name, $type, $content, $ttl, $prio) {
     global $db_mdb2;
 
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_ADD_RECORD);
         return false;
     } else {
@@ -339,7 +345,7 @@ function add_zone_templ_record($zone_templ_id, $name, $type, $content, $ttl, $pr
 function edit_zone_templ_record($record) {
     global $db_mdb2;
 
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_EDIT_RECORD);
         return false;
     } else {
@@ -378,7 +384,7 @@ function edit_zone_templ_record($record) {
 function delete_zone_templ_record($rid) {
     global $db_mdb2;
 
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_DEL_RECORD);
         return false;
     } else {
@@ -431,7 +437,7 @@ function add_zone_templ_save_as($template_name, $description, $userid, $records,
     global $db_layer;
     global $db_type;
 
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_ADD_ZONE_TEMPL);
         return false;
     } else {
@@ -494,9 +500,9 @@ function add_zone_templ_save_as($template_name, $description, $userid, $records,
 function get_list_zone_use_templ($zone_templ_id, $userid) {
     global $db_mdb2;
 
-    if (verify_permission('zone_content_edit_others')) {
+    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_edit = "all";
-    } elseif (verify_permission('zone_content_edit_own')) {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_edit = "own";
     } else {
         $perm_edit = "none";
@@ -549,7 +555,7 @@ function get_list_zone_use_templ($zone_templ_id, $userid) {
 function edit_zone_templ($details, $zone_templ_id) {
     global $db_mdb2;
     $zone_name_exists = zone_templ_name_exists($details['templ_name'], $zone_templ_id);
-    if (!(verify_permission('zone_master_add'))) {
+    if (!(do_hook('verify_permission' , 'zone_master_add' ))) {
         error(ERR_PERM_ADD_ZONE_TEMPL);
         return false;
     } elseif ($zone_name_exists != '0') {
@@ -594,4 +600,54 @@ function zone_templ_name_exists($zone_templ_name, $zone_templ_id = null) {
     }
 
     return $count;
+}
+
+/** Parse string and substitute domain and serial
+ *
+ * @param string $val string to parse containing tokens '[ZONE]' and '[SERIAL]'
+ * @param string $domain domain to subsitute for '[ZONE]'
+ *
+ * @return string interpolated/parsed string
+ */
+function parse_template_value($val, $domain) {
+    $serial = date("Ymd");
+    $serial .= "00";
+
+    $val = str_replace('[ZONE]', $domain, $val);
+    $val = str_replace('[SERIAL]', $serial, $val);
+    return $val;
+}
+
+/** Add relation between zone record and template
+ *
+ * @param type $db_mdb2 DB link
+ * @param type $domain_id Domain id
+ * @param type $record_id Record id
+ * @param type $zone_templ_id Zone template id
+ */
+function add_record_relation_to_templ($db, $domain_id, $record_id, $zone_templ_id) {
+    $query = "INSERT INTO records_zone_templ (domain_id, record_id, zone_templ_id) VALUES ("
+            . $db_mdb2->quote($domain_id, 'integer') . ","
+            . $db_mdb2->quote($record_id, 'integer') . ","
+            . $db_mdb2->quote($zone_templ_id, 'integer') . ")";
+    $db_mdb2->query($query);
+}
+
+/** Check if given relation exists
+ *
+ * @param type $db
+ * @param type $domain_id
+ * @param type $record_id
+ * @param type $zone_templ_id
+ * @return boolean true on success, false on failure
+ */
+function record_relation_to_templ_exists($db, $domain_id, $record_id, $zone_templ_id) {
+    $query = "SELECT COUNT(*) FROM records_zone_templ WHERE domain_id = " . $db_mdb2->quote($domain_id, 'integer') .
+            " AND record_id = " . $db_mdb2->quote($record_id, 'integer') . " AND zone_templ_id = " . $db_mdb2->quote($zone_templ_id, 'integer');
+    $count = $db_mdb2->queryOne($query);
+    if ($count == 0) {
+        return false;
+    }
+
+    return true;
 }

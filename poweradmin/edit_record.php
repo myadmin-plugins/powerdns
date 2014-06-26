@@ -34,25 +34,25 @@ include_once("inc/header.inc.php");
 
 global $pdnssec_use;
 
-if (verify_permission('zone_content_view_others')) {
+if (do_hook('verify_permission' , 'zone_content_view_others' )) {
     $perm_view = "all";
-} elseif (verify_permission('zone_content_view_own')) {
+} elseif (do_hook('verify_permission' , 'zone_content_view_own' )) {
     $perm_view = "own";
 } else {
     $perm_view = "none";
 }
 
-if (verify_permission('zone_content_edit_others')) {
+if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
     $perm_content_edit = "all";
-} elseif (verify_permission('zone_content_edit_own')) {
+} elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
     $perm_content_edit = "own";
 } else {
     $perm_content_edit = "none";
 }
 
-if (verify_permission('zone_meta_edit_others')) {
+if (do_hook('verify_permission' , 'zone_meta_edit_others' )) {
     $perm_meta_edit = "all";
-} elseif (verify_permission('zone_meta_edit_own')) {
+} elseif (do_hook('verify_permission' , 'zone_meta_edit_own' )) {
     $perm_meta_edit = "own";
 } else {
     $perm_meta_edit = "none";
@@ -60,7 +60,7 @@ if (verify_permission('zone_meta_edit_others')) {
 
 $zid = get_zone_id_from_record_id($_GET['id']);
 
-$user_is_zone_owner = verify_user_is_owner_zoneid($zid);
+$user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zid );
 $zone_type = get_domain_type($zid);
 $zone_name = get_zone_name_from_id($zid);
 
@@ -77,14 +77,14 @@ if (isset($_POST["commit"])) {
             success(SUC_RECORD_UPD);
             $new_record_info = get_record_from_id($_POST["rid"]);
             log_info(sprintf('client_ip:%s user:%s operation:edit_record'
-                             .' old_record_type:%s old_record:%s.%s old_content:%s old_ttl:%s old_priority:%s'
-                             .' record_type:%s record:%s.%s content:%s ttl:%s priority:%s',
+                             .' old_record_type:%s old_record:%s old_content:%s old_ttl:%s old_priority:%s'
+                             .' record_type:%s record:%s content:%s ttl:%s priority:%s',
                               $_SERVER['REMOTE_ADDR'], $_SESSION["userlogin"],
-                              $old_record_info['type'], $old_record_info['name'], $zone_name, $old_record_info['content'], $old_record_info['ttl'], $old_record_info['prio'], 
-                              $new_record_info['type'], $new_record_info['name'], $zone_name, $new_record_info['content'], $new_record_info['ttl'], $new_record_info['prio']));
+                              $old_record_info['type'], $old_record_info['name'], $old_record_info['content'], $old_record_info['ttl'], $old_record_info['prio'], 
+                              $new_record_info['type'], $new_record_info['name'], $new_record_info['content'], $new_record_info['ttl'], $new_record_info['prio']));
 
             if ($pdnssec_use) {
-                if (do_rectify_zone($zid)) {
+                if (dnssec_rectify_zone($zid)) {
                     success(SUC_EXEC_PDNSSEC_RECTIFY_ZONE);
                 }
             }

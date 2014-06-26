@@ -35,6 +35,7 @@ include_once("inc/header.inc.php");
 echo "  <script type=\"text/javascript\" src=\"inc/helper.js\"></script>";
 
 global $pdnssec_use;
+global $dns_third_level_check;
 
 $owner = "-1";
 if ((isset($_POST['owner'])) && (v_num($_POST['owner']))) {
@@ -64,29 +65,42 @@ if (isset($_POST['zone_template'])) {
     $zone_template = "none";
 }
 
+$enable_dnssec = false;
+if (isset($_POST['dnssec']) && $_POST['dnssec'] == '1') {
+    $enable_dnssec = true;
+}
+
 /*
   Check user permissions
  */
-(verify_permission('zone_master_add')) ? $zone_master_add = "1" : $zone_master_add = "0";
-(verify_permission('user_view_others')) ? $perm_view_others = "1" : $perm_view_others = "0";
+(do_hook('verify_permission' , 'zone_master_add' )) ? $zone_master_add = "1" : $zone_master_add = "0";
+(do_hook('verify_permission' , 'user_view_others' )) ? $perm_view_others = "1" : $perm_view_others = "0";
 
 if (isset($_POST['submit']) && $zone_master_add == "1") {
     $error = false;
     foreach ($domains as $domain) {
         if (!is_valid_hostname_fqdn($domain, 0)) {
             error($domain . ' failed - ' . ERR_DNS_HOSTNAME);
-        } elseif (record_name_exists($domain) || domain_exists($domain)) {
+        } elseif ($dns_third_level_check && get_domain_level($domain) > 2 && domain_exists(get_second_level_domain($domain))) {
+            error($domain . ' failed - ' . ERR_DOMAIN_EXISTS);
+            $error = true;
+        } elseif (domain_exists($domain) || record_name_exists($domain)) {
             error($domain . ' failed - ' . ERR_DOMAIN_EXISTS);
             // TODO: repopulate domain name(s) to the form if there was an error occured
             $error = true;
         } elseif (add_domain($domain, $owner, $dom_type, '', $zone_template)) {
-            success("<a href=\"edit.php?id=" . get_zone_id_from_name($domain) . "\">" . $domain . " - " . SUC_ZONE_ADD . '</a>');
+            $domain_id = get_zone_id_from_name($domain);
+            success("<a href=\"edit.php?id=" . $domain_id . "\">" . $domain . " - " . SUC_ZONE_ADD . '</a>');
             log_info(sprintf('client_ip:%s user:%s operation:add_zone zone:%s zone_type:%s zone_template:%s',
                               $_SERVER['REMOTE_ADDR'], $_SESSION["userlogin"],
                               $domain,$dom_type,$zone_template));
 
             if ($pdnssec_use) {
-                do_secure_zone($domain);
+                if ($enable_dnssec) {
+                    dnssec_secure_zone($domain);
+                }
+
+                dnssec_rectify_zone($domain_id);
             }
         }
     }
@@ -102,7 +116,7 @@ if ($zone_master_add != "1") {
     echo "     <h2>" . _('Add master zone') . "</h2>\n";
 
     $available_zone_types = array("MASTER", "NATIVE");
-    $users = show_users();
+    $users = do_hook('show_users');
     $zone_templates = get_list_zone_templ($_SESSION['userid']);
 
     echo "     <form method=\"post\" action=\"add_zone_master.php\">\n";
@@ -159,6 +173,10 @@ if ($zone_master_add != "1") {
     echo "         </select>\n";
     echo "        </td>\n";
     echo "        <td>&nbsp;</td>\n";
+    echo "       </tr>\n";
+    echo "       <tr>\n";
+    echo "        <td class=\"n\">" . _('DNSSEC') . ":</td>\n";
+    echo "        <td class=\"n\"><input type=\"checkbox\" class=\"input\" name=\"dnssec\" value=\"1\"></td>\n";
     echo "       </tr>\n";
     echo "       <tr>\n";
     echo "        <td class=\"n\">&nbsp;</td>\n";

@@ -23,12 +23,14 @@ $db_name = '';
 $db_type = '';
 //$db_file		= '';		# used only for SQLite, provide full path to database file
 //$db_debug		= false;	# show all SQL queries
-//$db_layer		= 'MDB2';	# or PDO
+$db_layer		= 'PDO';	# or MDB2
 //$db_ssl_ca            = '';
+
 // Security settings
 // This should be changed upon install
 $session_key = 'xxxxxxxxxx';
 $password_encryption = 'md5'; // or md5salt
+
 // Interface settings
 $iface_lang = 'en_EN';
 $iface_style = 'example';
@@ -36,6 +38,7 @@ $iface_rowamount = 50;
 $iface_expire = 1800;
 $iface_zonelist_serial = false;
 $iface_title = 'Poweradmin';
+$iface_add_reverse_record = true;
 
 // Predefined DNS settings
 $dns_hostmaster = '';
@@ -45,9 +48,12 @@ $dns_ttl = 86400;
 $dns_fancy = false;
 $dns_strict_tld_check = false;
 $dns_top_level_tld_check = false;     // Don't allow to create top level TLDs
+$dns_third_level_check = false;
+
 // Timezone settings
 // See <http://www.php.net/manual/en/timezones.php> for help.
 //$timezone		= 'UTC';
+
 // Logging settings
 // Syslog usage - writes authentication attempts to syslog
 // This facility could be used in combination with fail2ban to

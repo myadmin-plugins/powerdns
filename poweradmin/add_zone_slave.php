@@ -32,6 +32,8 @@
 require_once("inc/toolkit.inc.php");
 include_once("inc/header.inc.php");
 
+global $dns_third_level_check;
+
 $owner = "-1";
 if ((isset($_POST['owner'])) && (v_num($_POST['owner']))) {
     $owner = $_POST['owner'];
@@ -52,13 +54,15 @@ $type = "SLAVE";
 /*
   Check permissions
  */
-(verify_permission('zone_slave_add')) ? $zone_slave_add = "1" : $zone_slave_add = "0";
-(verify_permission('user_view_others')) ? $perm_view_others = "1" : $perm_view_others = "0";
+(do_hook('verify_permission' , 'zone_slave_add' )) ? $zone_slave_add = "1" : $zone_slave_add = "0";
+(do_hook('verify_permission' , 'user_view_others' )) ? $perm_view_others = "1" : $perm_view_others = "0";
 
 if (isset($_POST['submit']) && $zone_slave_add == "1") {
     if (!is_valid_hostname_fqdn($zone, 0)) {
         error(ERR_DNS_HOSTNAME);
-    } elseif (domain_exists($zone)) {
+    } elseif ($dns_third_level_check && get_domain_level($zone) > 2 && domain_exists(get_second_level_domain($zone))) {
+        error(ERR_DOMAIN_EXISTS);
+    } elseif (domain_exists($zone) || record_name_exists($zone)) {
         error(ERR_DOMAIN_EXISTS);
     } elseif (!is_valid_ipv4($master, false) && !is_valid_ipv6($master)) {
         error(ERR_DNS_IP);
@@ -78,7 +82,7 @@ if ($zone_slave_add != "1") {
 } else {
     echo "     <h2>" . _('Add slave zone') . "</h2>\n";
 
-    $users = show_users();
+    $users = do_hook('show_users');
     echo "     <form method=\"post\" action=\"add_zone_slave.php\">\n";
     echo "      <table>\n";
     echo "       <tr>\n";

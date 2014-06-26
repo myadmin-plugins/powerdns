@@ -35,25 +35,25 @@ include_once("inc/header.inc.php");
 /*
   Get permissions
  */
-if (verify_permission('zone_content_view_others')) {
+if (do_hook('verify_permission' , 'zone_content_view_others' )) {
     $perm_view = "all";
-} elseif (verify_permission('zone_content_view_own')) {
+} elseif (do_hook('verify_permission' , 'zone_content_view_own' )) {
     $perm_view = "own";
 } else {
     $perm_view = "none";
 }
 
-if (verify_permission('zone_content_edit_others')) {
+if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
     $perm_content_edit = "all";
-} elseif (verify_permission('zone_content_edit_own')) {
+} elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
     $perm_content_edit = "own";
 } else {
     $perm_content_edit = "none";
 }
 
-if (verify_permission('zone_meta_edit_others')) {
+if (do_hook('verify_permission' , 'zone_meta_edit_others' )) {
     $perm_meta_edit = "all";
-} elseif (verify_permission('zone_meta_edit_own')) {
+} elseif (do_hook('verify_permission' , 'zone_meta_edit_own' )) {
     $perm_meta_edit = "own";
 } else {
     $perm_meta_edit = "none";
@@ -107,7 +107,7 @@ if ($zone_id == "-1") {
   Check and see if the user is the zone owner
   Check the sone type and get the zone name
  */
-$user_is_zone_owner = verify_user_is_owner_zoneid($zone_id);
+$user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
 $zone_type = get_domain_type($zone_id);
 $zone_name = get_zone_name_from_id($zone_id);
 
@@ -122,7 +122,7 @@ if (isset($_POST["commit"])) {
         // a PTR-record is added if an A or an AAAA-record are created
         // and checkbox is checked
 
-        if (isset($_POST["reverse"])) {
+        if ((isset($_POST["reverse"])) && $iface_add_reverse_record ) {
             if ($type === 'A') {
                 $content_array = preg_split("/\./", $content);
                 $content_rev = sprintf("%d.%d.%d.%d.in-addr.arpa", $content_array[3], $content_array[2], $content_array[1], $content_array[0]);
@@ -191,7 +191,7 @@ if ($zone_type == "SLAVE" || $perm_content_edit == "none" || $perm_content_edit 
             if (preg_match('/i(p6|n-addr).arpa/i', $zone_name) && strtoupper($record_type) == 'PTR') {
                 $add = " SELECTED";
                 $rev = "";
-            } elseif (strtoupper($record_type) == 'A') {
+            } elseif ((strtoupper($record_type) == 'A') && $iface_add_reverse_record) {
                 $add = " SELECTED";
                 $rev = "<input type=\"checkbox\" name=\"reverse\"><span class=\"normaltext\">" . _('Add also reverse record') . "</span>\n";
             } else {
