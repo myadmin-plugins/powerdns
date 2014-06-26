@@ -132,25 +132,26 @@
 				}
 		}
 	}
-
-	/**
-	 * error()
-	 * 
-	 * @param mixed $msg
-	 * @return
-	 */
-	function error($msg)
+	if (!function_exists('error'))
 	{
-		if ($msg)
+		/**
+		 * error()
+		 * 
+		 * @param mixed $msg
+		 * @return
+		 */
+		function error($msg)
 		{
-			add_output("     <div class=\"error\">Error: " . $msg . "</div>\n");
-		}
-		else
-		{
-			add - output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
+			if ($msg)
+			{
+				add_output("     <div class=\"error\">Error: " . $msg . "</div>\n");
+			}
+			else
+			{
+				add - output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
+			}
 		}
 	}
-
 	/**
 	 * isError()
 	 * 
