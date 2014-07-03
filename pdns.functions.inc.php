@@ -17,11 +17,11 @@
 		}
 	}
 
-	include (INCLUDE_ROOT . '/db/class.db_mdb2.functions.inc.php');
-	//	include(INCLUDE_ROOT . '/dns/poweradmin/inc/database.inc.php');
-	include (INCLUDE_ROOT . '/dns/poweradmin/inc/dns.inc.php');
-	include (INCLUDE_ROOT . '/dns/poweradmin/inc/record.inc.php');
-	include (INCLUDE_ROOT . '/dns/poweradmin/inc/error.inc.php');
+	include ('include/db/class.db_mdb2.functions.inc.php');
+	//	include('include/dns/poweradmin/inc/database.inc.php');
+	include ('include/dns/poweradmin/inc/dns.inc.php');
+	include ('include/dns/poweradmin/inc/record.inc.php');
+	include ('include/dns/poweradmin/inc/error.inc.php');
 
 	global $db_mdb2;
 	$db_mdb2 = new db_mdb2('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
