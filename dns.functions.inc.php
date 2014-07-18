@@ -758,7 +758,7 @@
 			$result = $db->query($query);
 			$db->next_record(MYSQL_NUM);
 			$domains = $db->f(0);
-			if ($domains >= MAX_DNS_DOMAINS)
+			if ($custid != 9110 && $domains >= MAX_DNS_DOMAINS)
 			{
 				$return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact john@interserver.net if you want more';
 				return $return;
