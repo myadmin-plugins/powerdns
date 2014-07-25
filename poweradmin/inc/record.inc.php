@@ -663,7 +663,6 @@ function add_domain($domain, $owner, $type, $slave_master, $zone_template) {
         global $dns_ns1;
         global $dns_hostmaster;
         global $dns_ttl;
-        global $db_layer;
         global $db_type;
 
         if (($domain && $owner && $zone_template) ||
@@ -676,9 +675,7 @@ function add_domain($domain, $owner, $type, $slave_master, $zone_template) {
                 return false;
             }
 
-            if ($db_layer == 'MDB2' && ($db_type == 'mysql' || $db_type == 'pgsql')) {
-                $domain_id = $db_mdb2->lastInsertId('domains', 'id');
-            } else if ($db_layer == 'PDO' && $db_type == 'pgsql') {
+            if ($db_type == 'pgsql') {
                 $domain_id = $db_mdb2->lastInsertId('domains_id_seq');
             } else {
                 $domain_id = $db_mdb2->lastInsertId();
@@ -759,9 +756,7 @@ function add_domain($domain, $owner, $type, $slave_master, $zone_template) {
                                     return false;
                                 }
 
-                                if ($db_layer == 'MDB2' && ($db_type == 'mysql' || $db_type == 'pgsql')) {
-                                    $record_id = $db_mdb2->lastInsertId('records', 'id');
-                                } else if ($db_layer == 'PDO' && $db_type == 'pgsql') {
+                                if ($db_type == 'pgsql') {
                                     $record_id = $db_mdb2->lastInsertId('records_id_seq');
                                 } else {
                                     $record_id = $db_mdb2->lastInsertId();
@@ -1018,7 +1013,7 @@ function get_zone_id_from_name($zname) {
         $result = $db_mdb2->queryRow("SELECT id FROM domains WHERE name=" . $db_mdb2->quote($zname, 'text'));
         if ($result) {
             return $result["id"];
-        } elseif ($rows == "0") {
+        } else {
             error(sprintf("Zone does not exist."));
             return false;
         }
@@ -1890,6 +1885,7 @@ function update_zone_template($zone_id, $new_zone_template_id) {
 function update_zone_records($zone_id, $zone_template_id) {
     global $db_mdb2;
     global $dns_ttl;
+    global $db_type;
 
     if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_edit = "all";
@@ -1942,7 +1938,6 @@ function update_zone_records($zone_id, $zone_template_id) {
                     $type = $r["type"];
                     if ($type == "SOA") {
                         $content = get_updated_soa_record($soa_rec);
-                        echo $content;
                     } else {
                         $content = parse_template_value($r["content"], $domain);
                     }
@@ -1964,9 +1959,7 @@ function update_zone_records($zone_id, $zone_template_id) {
                             . $db_mdb2->quote($now, 'integer') . ")";
                     $response = $db_mdb2->exec($query);
 
-                    if ($db_layer == 'MDB2' && ($db_type == 'mysql' || $db_type == 'pgsql')) {
-                        $record_id = $db_mdb2->lastInsertId('records', 'id');
-                    } else if ($db_layer == 'PDO' && $db_type == 'pgsql') {
+                    if ($db_type == 'pgsql') {
                         $record_id = $db_mdb2->lastInsertId('records_id_seq');
                     } else {
                         $record_id = $db_mdb2->lastInsertId();
@@ -2005,6 +1998,8 @@ function update_zone_records($zone_id, $zone_template_id) {
  */
 function delete_domains($domains) {
     global $db_mdb2;
+    global $pdnssec_use;
+
     $error = false;
     $return = false;
     $response = $db_mdb2->beginTransaction();
@@ -2022,7 +2017,7 @@ function delete_domains($domains) {
         if ($perm_edit == "all" || ( $perm_edit == "own" && $user_is_zone_owner == "1")) {
             if (is_numeric($id)) {
                 $zone_type = get_domain_type($id);
-                if ($zone_type == 'MASTER') {
+                if ($pdnssec_use && $zone_type == 'MASTER') {
                     $zone_name = get_zone_name_from_id($id);
                     dnssec_unsecure_zone($zone_name);
                 }

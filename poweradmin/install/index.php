@@ -1,7 +1,7 @@
 <?php
 
-require_once('../inc/i18n.inc.php');
 require_once('../inc/error.inc.php');
+require_once('../inc/i18n.inc.php');
 
 if (isset($_POST['language'])) {
     $language = $_POST['language'];
@@ -12,8 +12,9 @@ if (isset($_POST['language'])) {
 # FIXME: setlocale can fail if locale package is not installed ion the systme for that language
 setlocale(LC_ALL, $language, $language . '.UTF-8');
 $gettext_domain = 'messages';
-if (!function_exists('bindtextdomain'))
+if (!function_exists('bindtextdomain')) {
     die(error('You have to install PHP gettext extension!'));
+}
 bindtextdomain($gettext_domain, "./../locale");
 textdomain($gettext_domain);
 @putenv('LANG=' . $language);
@@ -136,7 +137,7 @@ switch ($step) {
         echo " </tr>\n";
         echo "  <tr>\n";
         echo "   <td>" . _('Poweradmin administrator password') . "</td>\n";
-        echo "   <td><input type=\"text\" name=\"pa_pass\" value=\"\" autocomplete=\"off\"></td>\n";
+        echo "   <td><input type=\"password\" name=\"pa_pass\" value=\"\" autocomplete=\"off\"></td>\n";
         echo "   <td>" . _('The password of the Poweradmin administrator. This administrator has full rights to Poweradmin using the web interface.') . "</td>\n";
         echo "  </tr>\n";
         echo "</table>\n";
@@ -193,7 +194,7 @@ switch ($step) {
             echo "  </tr>\n";
             echo "  <tr>\n";
             echo "   <td>" . _('Password') . "</td>\n";
-            echo "   <td><input type=\"text\" name=\"pa_db_pass\" value=\"\" autocomplete=\"off\"></td>\n";
+            echo "   <td><input type=\"password\" name=\"pa_db_pass\" value=\"\" autocomplete=\"off\"></td>\n";
             echo "   <td>" . _('The password for this username.') . "</td>\n";
             echo "  </tr>\n";
         }
@@ -247,7 +248,6 @@ switch ($step) {
         $dns_ns1 = $_POST['dns_ns1'];
         $dns_ns2 = $_POST['dns_ns2'];
 
-        $db_layer = 'PDO';
         require_once("../inc/database.inc.php");
         $db_mdb2 = dbConnect();
         include_once("database-structure.inc.php");
@@ -310,7 +310,6 @@ switch ($step) {
         $step++;
 
         require_once("../inc/database.inc.php");
-        global $db_layer;
 
         $db_type = $_POST['db_type'];
         $pa_pass = $_POST['pa_pass'];
@@ -324,7 +323,6 @@ switch ($step) {
                 "\$db_name\t\t= '" . $_POST['db_name'] . "';\n" .
                 (($db_type == 'mysql' && $db_port != 3306) || ($db_type == 'pgsql' && $db_port != 5432) ? "\$db_port\t\t= '" . $db_port . "';\n" : '')) .
                 "\$db_type\t\t= '" . $_POST['db_type'] . "';\n" .
-                "\$db_layer\t\t= 'PDO';\n" .
                 "\n" .
                 "\$session_key\t\t= '" . get_random_key() . "';\n" .
                 "\n" .
@@ -358,7 +356,7 @@ switch ($step) {
         echo "<p>" . _('Now we have finished the configuration.') . "</p>";
         echo "<p>" . _('If you want support for the URLs used by other dynamic DNS providers, run "cp install/htaccess.dist .htaccess" and enable mod_rewrite in Apache.') . "</p>";
         echo "<p>" . _('You should (must!) remove the directory "install/" from the Poweradmin root directory. You will not be able to use Poweradmin if it exists. Do it now.') . "</p>";
-        echo "<p>" . _('After you have removed the directory, you can login to <a href="../index.php">Poweradmin</a> with username "admin" and password "') . $_POST['pa_pass'] . _('". You are highly encouraged to change these as soon as you are logged in.') . "</p>";
+        echo "<p>" . _('After you have removed the directory, you can login to <a href="../index.php">Poweradmin</a>.')."</p>";
         break;
 
     default:

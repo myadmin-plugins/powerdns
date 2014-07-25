@@ -28,9 +28,6 @@
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
  */
-// Fix for Strict Standards: Non-static method PEAR::setErrorHandling() should not be called statically
-// TODO: remove after PEAR::MDB2 replacement with PDO
-ini_set('error_reporting', E_ALL & ~ (E_NOTICE | E_STRICT));
 
 // TODO: display elapsed time and memory consumption,
 // used to check improvements in refactored version
@@ -39,6 +36,8 @@ if ($display_stats)
     include('inc/benchmark.php');
 
 ob_start();
+
+require_once("error.inc.php");
 
 if (!function_exists('session_start'))
     die(error('You have to install PHP session extension!'));
@@ -172,7 +171,6 @@ $valid_tlds = array("ac", "academy", "actor", "ad", "ae", "aero", "af", "ag",
 array_push($valid_tlds, 'test', 'example', 'invalid', 'localhost');
 
 /* Database connection */
-require_once("error.inc.php");
 require_once("database.inc.php");
 // Generates $db_mdb2 variable to access database.
 // Array of the available zone types

@@ -15,6 +15,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Language: de\n"
 
 msgid "The install/ directory exists, you must remove it first before proceeding."
 msgstr "Das install/ Verzeichnis existiert, Sie m&uuml;ssen es zuerst entfernen um fortfahren zu k&ouml;nnen."
@@ -677,10 +678,6 @@ msgstr "Seite anzeigen"
 msgid "Show zones beginning with"
 msgstr "Domains anzeigen - beginnend mit"
 
-#: inc/toolkit.inc.php:164
-msgid "An unknown error has occurred."
-msgstr "Ein unbekannter Fehler ist aufgetreten."
-
 #: inc/toolkit.inc.php:172
 msgid "Something has been successfully performed. What exactly, however, will remain a mystery."
 msgstr "Etwas wurde erfolgreich ausgef&uuml;hrt. Was genau -  wie auch immer - bleibt ein R&auml;tsel."
@@ -880,9 +877,6 @@ msgstr "Die Konfiguration ist nun beendet. Sie sollten (m&uuml;ssen!) das Verzei
 #: index.php:213
 msgid "After you have removed the directory, you can login to <a href=\"../index.php\">Poweradmin</a> with username \"admin\" and password \""
 msgstr "Nachdem Sie das Verzeichnis gel&ouml;scht haben, k&ouml;nnen sie sich einloggen unter: <a href=\"../index.php\">Poweradmin</a> Benutzername \"admin\" und Passwort \""
-
-msgid "\". You are highly encouraged to change these as soon as you are logged in."
-msgstr "\". Sobald Sie eingeloggt sind wird empfohlen, diese Daten zu &auml;ndern."
 
 msgid "Invalid value for name field of SRV record."
 msgstr "Ung&uuml;ltiger Wert im Namensfeld des SRV Eintrags."

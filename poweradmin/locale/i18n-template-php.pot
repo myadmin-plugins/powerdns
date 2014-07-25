@@ -348,10 +348,6 @@ msgstr ""
 msgid "Show zones beginning with"
 msgstr ""
 
-#: inc/toolkit.inc.php:238 install/index.php:26
-msgid "An unknown error has occurred."
-msgstr ""
-
 #: inc/toolkit.inc.php:246
 msgid "Something has been successfully performed. What exactly, however, will remain a mystery."
 msgstr ""
@@ -1029,11 +1025,7 @@ msgid "Now we have finished the configuration, you should (must!) remove the dir
 msgstr ""
 
 #: install/index.php:319
-msgid "After you have removed the directory, you can login to <a href=\"../index.php\">Poweradmin</a> with username \"admin\" and password \""
-msgstr ""
-
-#: install/index.php:319
-msgid "\". You are highly encouraged to change these as soon as you are logged in."
+msgid "After you have removed the directory, you can login to <a href=\"../index.php\">Poweradmin</a>."
 msgstr ""
 
 #: list_supermasters.php:51 delete_supermaster.php:45

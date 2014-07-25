@@ -355,10 +355,6 @@ msgstr "Sayfayı göster"
 msgid "Show zones beginning with"
 msgstr "Bununla başlayan bölgeleri görüntüle"
 
-#: inc/toolkit.inc.php:238 install/index.php:26
-msgid "An unknown error has occurred."
-msgstr "Bilinmeyen bir hata oluştu"
-
 #: inc/toolkit.inc.php:246
 msgid ""
 "Something has been successfully performed. What exactly, however, will "
@@ -1110,11 +1106,6 @@ msgid ""
 "After you have removed the directory, you can login to <a "
 "href=\"../index.php\">Poweradmin</a> with username \"admin\" and password \""
 msgstr "Dizini sildikten sonra, <a href=\"../index.php\">Poweradmin</a>'e \"admin\" kullanıcı adı ve \" şifresi ile giriş yapabilirsiniz."
-
-#: install/index.php:319
-msgid ""
-"\". You are highly encouraged to change these as soon as you are logged in."
-msgstr "\". Giriş yapar yapmaz bunları değiştirmeye son derece gayret ediniz."
 
 #: list_supermasters.php:51 delete_supermaster.php:45
 msgid "Delete supermaster"

@@ -148,7 +148,7 @@
 			}
 			else
 			{
-				add - output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
+				add_output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
 			}
 		}
 	}

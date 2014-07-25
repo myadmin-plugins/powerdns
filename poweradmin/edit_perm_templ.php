@@ -55,7 +55,7 @@ if ($id == "-1") {
 
 	echo "    <h2>" . _('Edit permission template') . "</h2>\n";
 	echo "    <form method=\"post\" action=\"\">\n";
-	echo "    <input type=\"hidden\" name=\"templ_id\" value=\"{$id}\">\n";
+	echo "    <input type=\"hidden\" name=\"templ_id\" value=\"" . $id . "\">\n";
 
 	echo "     <table>\n";
 	echo "      <tr>\n";
