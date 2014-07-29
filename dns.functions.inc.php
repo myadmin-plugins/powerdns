@@ -47,9 +47,12 @@
 				if (!isset($cached_zones[$zone]))
 				{
 					$tzone = array();
-					try {
+					try
+					{
 						$response = $resolver->query($zone, 'AXFR');
-					} catch(Net_DNS2_Exception $e) {
+					}
+					catch (Net_DNS2_Exception $e)
+					{
 						//echo "::query() failed: ", $e->getMessage(), "\n";
 						$host = gethostbyaddr($ip);
 						if ($host != $ip)
@@ -356,7 +359,8 @@
 				{
 					$GLOBALS['tf']->variables->request['prio'] = 10;
 				}
-				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
+				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->
+					request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
 				{
 					$record = $GLOBALS['tf']->variables->request['update'];
 					$name = $GLOBALS['tf']->variables->request['name'];
@@ -414,7 +418,8 @@
 				if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id'])
 				{
 					$table->add_hidden('update', $record['id']);
-					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." . $domain['name'] . "</td></tr></table>");
+					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." .
+						$domain['name'] . "</td></tr></table>");
 					$sel = "<select name=\"type\">\n";
 					foreach ($types as $type_available => $type_desc)
 					{
@@ -458,7 +463,8 @@
 					}
 					if ($record['type'] != 'SOA')
 					{
-						$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1', 'Delete')));
+						$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' :
+							$table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1', 'Delete')));
 					}
 					else
 					{
@@ -522,7 +528,8 @@
 		{
 			if (isset($GLOBALS['tf']->variables->request['update']))
 			{
-				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
+				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->
+					request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
 				{
 					$record = $GLOBALS['tf']->variables->request['update'];
 					$name = $GLOBALS['tf']->variables->request['name'];
@@ -576,7 +583,8 @@
 				if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id'])
 				{
 					$table->add_hidden('update', $record['id']);
-					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." . $domain['name'] . "</td></tr></table>");
+					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." .
+						$domain['name'] . "</td></tr></table>");
 					$sel = "<select name=\"type\">\n";
 					foreach (get_record_types() as $type_available)
 					{
@@ -614,11 +622,12 @@
 					}
 					//if ($record['type'] != 'SOA')
 					//{
-						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1', 'Delete'));
+					$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' .
+						$record['id'] . '&delete=1', 'Delete'));
 					//}
 					//else
 					//{
-						//$table->add_field();
+					//$table->add_field();
 					//}
 					$table->add_row();
 				}
@@ -778,7 +787,8 @@
 					$tdomain = str_replace('.' . $tld, '', $domain);
 					if (strpos($tdomain, '.') !== false)
 					{
-						$return['status_text'] = 'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry';
+						$return['status_text'] =
+							'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry';
 						return $return;
 					}
 					break;
@@ -798,12 +808,10 @@
 			'name' => $domain,
 			'master' => POWERADMIN_HOST,
 			'type' => 'SLAVE',
-			'account' => 'admin'
-			), array(
-				'master' => POWERADMIN_HOST,
-				'type' => 'SLAVE',
-				'account' => 'admin'
-			));
+			'account' => 'admin'), array(
+			'master' => POWERADMIN_HOST,
+			'type' => 'SLAVE',
+			'account' => 'admin'));
 		$result = $db->query($query);
 		if ($result)
 		{
