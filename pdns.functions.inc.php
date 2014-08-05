@@ -11,6 +11,10 @@
 
 	if (!function_exists('_'))
 	{
+		/**
+		 * @param $text
+		 * @return mixed
+		 */
 		function _($text)
 		{
 			return $text;
