@@ -549,9 +549,8 @@
 
 	/**
 	 * is_valid_email()
-	 * 
 	 * @param mixed $address
-	 * @return
+	 * @return bool
 	 */
 	function is_valid_email($address)
 	{
@@ -566,8 +565,7 @@
 	// Set timezone (required for PHP5)
 	/**
 	 * set_timezone()
-	 * 
-	 * @return
+	 * @return void
 	 */
 	function set_timezone()
 	{
@@ -590,9 +588,8 @@
 	{
 		/**
 		 * error()
-		 * 
 		 * @param mixed $msg
-		 * @return
+		 * @return void
 		 */
 		function error($msg)
 		{

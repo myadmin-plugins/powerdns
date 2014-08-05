@@ -670,8 +670,7 @@
 	/**
 	 * dns_delete()
 	 * deletes a domain from the DNS server
-	 *
-	 * @return
+	 * @return void
 	 */
 	function dns_delete()
 	{
@@ -887,8 +886,7 @@
 
 	/**
 	 * dns_manager()
-	 *
-	 * @return
+	 * @return void
 	 */
 	function dns_manager()
 	{
@@ -954,8 +952,7 @@
 
 	/**
 	 * dns_resolvers()
-	 *
-	 * @return
+	 * @return void
 	 */
 	function dns_resolvers()
 	{
