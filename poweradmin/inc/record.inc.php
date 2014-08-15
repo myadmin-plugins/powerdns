@@ -305,10 +305,12 @@ function get_zone_comment($zone_id) {
  */
 function edit_zone_comment($zone_id, $comment) {
 
-    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
+    if (do_hook('verify_permission', 'zone_content_edit_others')) {
         $perm_content_edit = "all";
-    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
+    } elseif (do_hook('verify_permission', 'zone_content_edit_own')) {
         $perm_content_edit = "own";
+    } elseif (do_hook('verify_permission', 'zone_content_edit_own_as_client')) {
+        $perm_content_edit = "own_as_client";
     } else {
         $perm_content_edit = "none";
     }
@@ -316,7 +318,7 @@ function edit_zone_comment($zone_id, $comment) {
     $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
     $zone_type = get_domain_type($zone_id);
 
-    if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit == "own" && $user_is_zone_owner == "0")) {
+    if ($zone_type == "SLAVE" || $perm_content_edit == "none" || (($perm_content_edit == "own" || $perm_content_edit == "own_as_client") && $user_is_zone_owner == "0")) {
         error(ERR_PERM_EDIT_COMMENT);
         return false;
     } else {
@@ -358,18 +360,29 @@ function edit_zone_comment($zone_id, $comment) {
  */
 function edit_record($record) {
 
-    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
+    if (do_hook('verify_permission', 'zone_content_edit_others')) {
         $perm_content_edit = "all";
-    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
+    } elseif (do_hook('verify_permission', 'zone_content_edit_own')) {
         $perm_content_edit = "own";
+    } elseif (do_hook('verify_permission', 'zone_content_edit_own_as_client')) {
+        $perm_content_edit = "own_as_client";
     } else {
         $perm_content_edit = "none";
     }
 
-    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $record['zid'] );
+    $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid', $record['zid']);
     $zone_type = get_domain_type($record['zid']);
+    
+    if($record['type'] == 'SOA' && $perm_content_edit == "own_as_client"){
+    	error(ERR_PERM_EDIT_RECORD_SOA);
+    	return false;
+    }
+    if($record['type'] == 'NS' && $perm_content_edit == "own_as_client"){
+    	error(ERR_PERM_EDIT_RECORD_NS);
+    	return false;
+    }
 
-    if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit == "own" && $user_is_zone_owner == "0")) {
+    if ($zone_type == "SLAVE" || $perm_content_edit == "none" || (($perm_content_edit == "own" || $perm_content_edit == "own_as_client") && $user_is_zone_owner == "0")) {
         error(ERR_PERM_EDIT_RECORD);
         return false;
     } else {
@@ -417,10 +430,12 @@ function add_record($zone_id, $name, $type, $content, $ttl, $prio) {
     global $db_mdb2;
     global $pdnssec_use;
 
-    if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
+    if (do_hook('verify_permission', 'zone_content_edit_others')) {
         $perm_content_edit = "all";
-    } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
+    } elseif (do_hook('verify_permission', 'zone_content_edit_own')) {
         $perm_content_edit = "own";
+    } elseif (do_hook('verify_permission', 'zone_content_edit_own_as_client')) {
+        $perm_content_edit = "own_as_client";
     } else {
         $perm_content_edit = "none";
     }
@@ -428,7 +443,7 @@ function add_record($zone_id, $name, $type, $content, $ttl, $prio) {
     $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $zone_id );
     $zone_type = get_domain_type($zone_id);
 
-    if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit == "own" && $user_is_zone_owner == "0")) {
+    if ($zone_type == "SLAVE" || $perm_content_edit == "none" || (($perm_content_edit == "own" || $perm_content_edit == "own_as_client") && $user_is_zone_owner == "0")) {
         error(ERR_PERM_ADD_RECORD);
         return false;
     } else {
@@ -590,7 +605,7 @@ function delete_record($rid) {
     $record = get_record_details_from_record_id($rid);
     $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid' , $record['zid'] );
 
-    if ($perm_content_edit == "all" || ($perm_content_edit == "own" && $user_is_zone_owner == "1" )) {
+    if ($perm_content_edit == "all" || (($perm_content_edit == "own" || $perm_content_edit == "own_as_client") && $user_is_zone_owner == "1" )) {
         if ($record['type'] == "SOA") {
             error(_('You are trying to delete the SOA record. You are not allowed to remove it, unless you remove the entire zone.'));
         } else {
@@ -1347,6 +1362,10 @@ function get_record_from_id($id) {
     if (is_numeric($id)) {
         $result = $db_mdb2->queryRow("SELECT id, domain_id, name, type, content, ttl, prio, change_date FROM records WHERE id=" . $db_mdb2->quote($id, 'integer'));
         if ($result) {
+            if ($result["type"] == "" || $result["content"] == "") {
+                return -1;
+            }
+
             $ret = array(
                 "id" => $result["id"],
                 "domain_id" => $result["domain_id"],
@@ -1398,7 +1417,11 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
                 $retcount = 0;
                 while ($r = $result->fetchRow()) {
                     // Call get_record_from_id for each row.
-                    $ret[$retcount] = get_record_from_id($r["id"]);
+                    $fields = get_record_from_id($r["id"]);
+                    if ($fields == -1) {
+                        continue;
+                    }
+                    $ret[$retcount] = $fields;
                     $retcount++;
                 }
                 $result = $ret;
@@ -1421,7 +1444,11 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
                 $retcount = 0;
                 while ($r = $result->fetchRow()) {
                     // Call get_record_from_id for each row.
-                    $ret[$retcount] = get_record_from_id($r["id"]);
+                    $fields = get_record_from_id($r["id"]);
+                    if ($fields == -1) {
+                        continue;
+                    }
+                    $ret[$retcount] = $fields;
                     $retcount++;
                 }
                 $result = $ret;
@@ -1615,12 +1642,15 @@ function search_zone_and_record($search_string, $perm, $zone_sortby = 'name', $r
     } else {
         $perm_view = "none";
     }
-
+    
+    //redundant?
     if (do_hook('verify_permission' , 'zone_content_edit_others' )) {
         $perm_content_edit = "all";
     } elseif (do_hook('verify_permission' , 'zone_content_edit_own' )) {
         $perm_content_edit = "own";
-    } else {
+    } elseif (do_hook('verify_permission' , 'zone_content_edit_own_as_client' )) {
+    	$perm_content_edit = "own_as_client";
+    }else {
         $perm_content_edit = "none";
     }
 
