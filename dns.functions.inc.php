@@ -823,6 +823,8 @@
 				'content' => 'cdns1.interserver.net. dns.interserver.net ' . date('Ymd') . '01',
 				'type' => 'SOA',
 				'ttl' => 86400,
+				'ordername' => '',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -830,6 +832,8 @@
 				'content' => 'cdns1.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
+				'ordername' => '',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -837,6 +841,8 @@
 				'content' => 'cdns2.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
+				'ordername' => '',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -844,6 +850,8 @@
 				'content' => 'cdns3.interserver.net',
 				'type' => 'NS',
 				'ttl' => 86400,
+				'ordername' => '',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -851,6 +859,8 @@
 				'content' => $ip,
 				'type' => 'A',
 				'ttl' => 86400,
+				'ordername' => '',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -858,6 +868,8 @@
 				'content' => $ip,
 				'type' => 'A',
 				'ttl' => 86400,
+				'ordername' => '*',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -865,6 +877,8 @@
 				'content' => '127.0.0.1',
 				'type' => 'A',
 				'ttl' => 86400,
+				'ordername' => 'localhost',
+				'auth' => 1,					
 				'prio' => NULL)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
@@ -872,6 +886,8 @@
 				'content' => 'mail.' . $domain,
 				'type' => 'MX',
 				'ttl' => 86400,
+				'ordername' => '',
+				'auth' => 1,					
 				'prio' => 25)));
 			$return['status'] = 'ok';
 			$return['status_text'] = 'Domain ' . $domain . ' Added!';
