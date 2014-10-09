@@ -240,13 +240,21 @@
 		{
 			return false;
 		}
-		if (get_dns_domain($domain_id) === false)
+		if (!$domain_info = get_dns_domain($domain_id))
 		{
 			return false;
 		}
 		if ($type == 'SPF')
 		{
 			$content = '\"' . $content . '\"';
+		}
+		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches))
+		{
+			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
+		}
+		else
+		{
+			$ordername = '';
 		}
 		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$query = make_insert_query('records', array(
@@ -255,7 +263,10 @@
 			'content' => $content,
 			'type' => $type,
 			'ttl' => $ttl,
-			'prio' => $prio));
+			'prio' => $prio,
+			'ordername' => $ordername,
+			'auth' => 1,
+		));
 		$db->query($query);
 		$id = $db->get_last_insert_id('records', 'id');
 		update_soa_serial($domain_id);
@@ -285,13 +296,22 @@
 		{
 			return false;
 		}
-		if (get_dns_domain($domain_id) === false)
+		if (!$domain_info = get_dns_domain($domain_id))
 		{
 			return false;
 		}
 		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches))
+		{
+			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
+		}
+		else
+		{
+			$ordername = '';
+		}
 		$name = $db->real_escape($name);
 		$type = $db->real_escape($type);
+		$ordername = $db->real_escape($ordername);
 		if ($type == 'SPF')
 		{
 			$content = $db->real_escape(stripslashes('\"' . $content . '\"'));
@@ -302,7 +322,7 @@
 		}
 		$ttl = $db->real_escape($ttl);
 		$prio = $db->real_escape($prio);
-		$query = "update records set name='$name', type='$type', content='$content', ttl='$ttl', prio='$prio', change_date='" . mysql_now() . "' where domain_id='$domain_id' and id='$record_id'";
+		$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1', change_date='" . mysql_now() . "' where domain_id='{$domain_id}' and id='{$record_id}'";
 		$db->query($query);
 		update_soa_serial($domain_id);
 		if ($db->affected_rows() == 1)
