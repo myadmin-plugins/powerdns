@@ -562,6 +562,8 @@
 		return true;
 	}
 
+	if (!function_exists('set_timezone'))
+	{
 	// Set timezone (required for PHP5)
 	/**
 	 * set_timezone()
@@ -583,6 +585,7 @@
 					date_default_timezone_set('America/New_York');
 				}
 		}
+	}
 	}
 	if (!function_exists('error'))
 	{
