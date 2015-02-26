@@ -1013,10 +1013,14 @@
 	 *
 	 * @param string $ip the ip address you want reverse changed for.
 	 * @param string $host the hostname youd you want to set DNS on the IP to.
+	 * @param string $action optional, defaults to set_reverse, can also be remove_reverse
 	 * @return bool true if it was able to make the requested changes, false if it wasnt.
 	 */
-	function reverse_dns($ip, $host)
+	function reverse_dns($ip, $host, $action = 'set_reverse')
 	{
+		$actions = array('set_reverse', 'remove_reverse');
+		if (!in_array($action, $actions))
+			$action = 'set_reverse';
 		if (!valid_hostname($host))
 		{
 			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
@@ -1037,7 +1041,9 @@
 			'id' => NULL,
 			'username' => $username,
 			'ip' => $ip,
-			'hostname' => $host)));
+			'hostname' => $host,
+			'action' => $action
+		)));
 		//billingd_log("Reverse DNS $ip => $host", __LINE__, __FILE__);
 		if ($db->affected_rows() == 1)
 		{
