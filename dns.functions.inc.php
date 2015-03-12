@@ -466,24 +466,29 @@
 		}
 		if ($GLOBALS['tf']->ima != 'admin')
 		{
-			$tlds = get_known_tlds();
+			$tlds = array_merge(get_known_tlds(), get_effective_tld_rules());
 			$tldsize = sizeof($tlds);
 			$found_tld = false;
+			$match_size =0;
 			for ($x = 0; $x < $tldsize; $x++)
 			{
 				if (preg_match('/\.' . str_replace('.', '\.', $tlds[$x]) . '$/i', $domain))
 				{
-					$found_tld = true;
-					$tld = $tlds[$x];
-					$tdomain = str_replace('.' . $tld, '', $domain);
-					if (strpos($tdomain, '.') !== false)
+					$tmatch_size = strlen($tlds[$x]);
+					if ($tmatch_size > $match_size)
 					{
-						$return['status_text'] =
-							'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry';
-						return $return;
+						$match_size = $tmatch_size;
+						$found_tld = true;
+						$tld = $tlds[$x];
 					}
-					break;
 				}
+			}
+			$tdomain = str_replace('.' . $tld, '', $domain);
+			if (strpos($tdomain, '.') !== false)
+			{
+				$return['status_text'] =
+					'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry (matched '.$tdomain.' for '.$tld.')';
+				return $return;
 			}
 			if ($found_tld == false)
 			{
