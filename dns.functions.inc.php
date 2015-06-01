@@ -412,7 +412,7 @@
 		$domain = strtolower($domain);
 		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$db2 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '66.45.228.248');
-		$db3 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '173.214.160.195');
+		//$db3 = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, '173.214.160.195');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module']))
@@ -513,7 +513,7 @@
 		{
 			$domain_id = $db->get_last_insert_id('domains', 'id');
 			$db2->query($query2);
-			$db3->query($query2);
+			//$db3->query($query2);
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
