@@ -528,12 +528,12 @@ function is_valid_rr_cname_unique($name, $rid) {
     return true;
 }
 
-/**
- * Check that the zone does not have a empty CNAME RR
- *
- * @param string $name
- * @param string $zone
- */
+    /**
+     * Check that the zone does not have a empty CNAME RR
+     * @param string $name
+     * @param string $zone
+     * @return bool
+     */
 function is_not_empty_cname_rr($name, $zone) {
 
     if ($name == $zone) {
