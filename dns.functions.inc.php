@@ -693,19 +693,22 @@
 	 * @param string $action optional, defaults to set_reverse, can also be remove_reverse
 	 * @return bool true if it was able to make the requested changes, false if it wasnt.
 	 */
-	function reverse_dns($ip, $host, $action = 'set_reverse')
+	function reverse_dns($ip, $host = '', $action = 'set_reverse')
 	{
 		$actions = array('set_reverse', 'remove_reverse');
 		if (!in_array($action, $actions))
 			$action = 'set_reverse';
-		if (!valid_hostname($host))
+		if ($action == 'set_reverse')
 		{
-			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
-			return false;
-		}
-		if (strpos($host, '_') !== false)
-		{
-			dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
+			if (!valid_hostname($host))
+			{
+				dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
+				return false;
+			}
+			if (strpos($host, '_') !== false)
+			{
+				dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
+			}
 		}
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
 		if (is_null($username) || $username == '')
