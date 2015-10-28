@@ -26,21 +26,31 @@
 
 		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1)
 		{
-			$domain = trim($db->real_escape($GLOBALS['tf']->variables->request['domain']));
-			$ip = trim($db->real_escape($GLOBALS['tf']->variables->request['ip']));
-			$result = add_dns_domain($domain, $ip);
-			add_output($result['status_text']);
+			if (isset($GLOBALS['tf']->variables->request['ip']))
+			{
+				$ip = trim($db->real_escape($GLOBALS['tf']->variables->request['ip']));
+				if (isset($GLOBALS['tf']->variables->request['domain']))
+				{
+					$domain = trim($db->real_escape($GLOBALS['tf']->variables->request['domain']));
+					$result = add_dns_domain($domain, $ip);
+					add_output($result['status_text']);
+				}
+				if (isset($GLOBALS['tf']->variables->request['domains']))
+				{
+					$domains = explode("\n", $GLOBALS['tf']->variables->request['domains']);
+					foreach ($domains as $domain)
+					{
+						$domain = trim($domain);
+						$result = add_dns_domain($domain, $ip);
+						add_output($result['status_text']);
+					}
+				}
+			}
 		}
-
 		if ($GLOBALS['tf']->ima == 'admin')
-		{
 			add_output(render_form('dns_manager'));
-		}
 		else
-		{
 			add_output(render_form('dns_manager', array('custid' => get_custid($GLOBALS['tf']->session->account_id, 'domains'))));
-		}
-
 		$table = new TFTable;
 		$table->set_title('DNS Servers');
 		$table->add_field('Primary DNS');
