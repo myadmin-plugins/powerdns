@@ -68,67 +68,68 @@
 			$table->add_field();
 			$table->add_row();
 			$records = get_dns_records($domain_id);
-			foreach ($records as $idx => $record)
-			{
-				if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id'])
+			if ($records !== false)
+				foreach ($records as $idx => $record)
 				{
-					$table->add_hidden('update', $record['id']);
-					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." .
-						$domain['name'] . "</td></tr></table>");
-					$sel = "<select name=\"type\">\n";
-					foreach (get_record_types() as $type_available)
+					if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id'])
 					{
-						if ($type_available == $record["type"])
+						$table->add_hidden('update', $record['id']);
+						$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." .
+							$domain['name'] . "</td></tr></table>");
+						$sel = "<select name=\"type\">\n";
+						foreach (get_record_types() as $type_available)
 						{
-							$add = " SELECTED";
+							if ($type_available == $record["type"])
+							{
+								$add = " SELECTED";
+							}
+							else
+							{
+								$add = "";
+							}
+							$sel .= " <option" . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
+						}
+						$sel .= "</select>\n";
+						$table->add_field($sel);
+						$table->add_field($table->make_input('content', htmlspecial($record['content']), 25));
+						$table->add_field($table->make_input('ttl', $record['ttl'], 5));
+						$table->add_field($table->make_input('prio', $record['prio'], 3));
+						$table->add_field($table->make_submit('Update') . $table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, '<input type=button value=Cancel>'));
+						$table->add_row();
+					}
+					else
+					{
+						$table->add_field($record['name']);
+						$table->add_field($record['type']);
+						if (strlen($record['content']) > 30)
+						{
+							$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . substr($record['content'], 0, 30) . '...</a>');
 						}
 						else
 						{
-							$add = "";
+							$table->add_field($record['content']);
 						}
-						$sel .= " <option" . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
+						$table->add_field($record['ttl']);
+						if (in_array($record['type'], array('MX', 'SRV')))
+						{
+							$table->add_field($record['prio']);
+						}
+						else
+						{
+							$table->add_field();
+						}
+						//if ($record['type'] != 'SOA')
+						//{
+						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' .
+							$record['id'] . '&delete=1', 'Delete'));
+						//}
+						//else
+						//{
+						//$table->add_field();
+						//}
+						$table->add_row();
 					}
-					$sel .= "</select>\n";
-					$table->add_field($sel);
-					$table->add_field($table->make_input('content', htmlspecial($record['content']), 25));
-					$table->add_field($table->make_input('ttl', $record['ttl'], 5));
-					$table->add_field($table->make_input('prio', $record['prio'], 3));
-					$table->add_field($table->make_submit('Update') . $table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, '<input type=button value=Cancel>'));
-					$table->add_row();
 				}
-				else
-				{
-					$table->add_field($record['name']);
-					$table->add_field($record['type']);
-					if (strlen($record['content']) > 30)
-					{
-						$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . substr($record['content'], 0, 30) . '...</a>');
-					}
-					else
-					{
-						$table->add_field($record['content']);
-					}
-					$table->add_field($record['ttl']);
-					if (in_array($record['type'], array('MX', 'SRV')))
-					{
-						$table->add_field($record['prio']);
-					}
-					else
-					{
-						$table->add_field();
-					}
-					//if ($record['type'] != 'SOA')
-					//{
-					$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' .
-						$record['id'] . '&delete=1', 'Delete'));
-					//}
-					//else
-					//{
-					//$table->add_field();
-					//}
-					$table->add_row();
-				}
-			}
 			if (!isset($GLOBALS['tf']->variables->request['record']))
 			{
 				$table->add_hidden('update', -1);
