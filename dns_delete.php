@@ -7,7 +7,7 @@
 	function dns_delete()
 	{
 		page_title('Delete DNS Record');
-		$db = new db('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);
 		$table = new TFTable;

@@ -28,7 +28,7 @@
 	include ('include/dns/poweradmin/inc/error.inc.php');
 
 	global $db_mdb2;
-	$db_mdb2 = new db_mdb2('poweradmin', 'poweradmin', POWERADMIN_PASSWORD, POWERADMIN_HOST);
+	$db_mdb2 = new db_mdb2(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
 
 	$valid_tlds = array(
 		'ac',
