@@ -29,20 +29,23 @@
 			if (isset($GLOBALS['tf']->variables->request['ip']))
 			{
 				$ip = trim($db->real_escape($GLOBALS['tf']->variables->request['ip']));
-				if (isset($GLOBALS['tf']->variables->request['domain']))
+				if (isset($GLOBALS['tf']->variables->request['domain']) && trim($GLOBALS['tf']->variables->request['domain']) != '')
 				{
-					$domain = trim($db->real_escape($GLOBALS['tf']->variables->request['domain']));
+					$domain = trim($GLOBALS['tf']->variables->request['domain']);
 					$result = add_dns_domain($domain, $ip);
 					add_output($result['status_text']);
 				}
-				if (isset($GLOBALS['tf']->variables->request['domains']))
+				if (isset($GLOBALS['tf']->variables->request['domains']) && trim($GLOBALS['tf']->variables->request['domains']) != '')
 				{
 					$domains = explode("\n", $GLOBALS['tf']->variables->request['domains']);
 					foreach ($domains as $domain)
 					{
 						$domain = trim($domain);
-						$result = add_dns_domain($domain, $ip);
-						add_output($result['status_text']);
+						if ($domain != '')
+						{
+							$result = add_dns_domain($domain, $ip);
+							add_output($result['status_text']);
+						}
 					}
 				}
 			}
