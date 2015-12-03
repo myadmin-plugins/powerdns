@@ -11,9 +11,9 @@
 			'CNAME' => 'Points To Hostname',
 			'MX' => 'Send Mail To');
 		$table = new TFTable;
-		$csrf_token = $table->csrf('basic_dns_editor');
 		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
 			$verify_csrf = verify_csrf('basic_dns_editor');
+		$csrf_token = $table->csrf('basic_dns_editor');
 		$domain = get_dns_domain($domain_id);
 		if ($domain !== false)
 		{

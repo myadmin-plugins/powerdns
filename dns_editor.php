@@ -14,15 +14,14 @@
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
 		$table = new TFTable;
 		$domain = get_dns_domain($domain_id);
-		$csrf_token = $table->csrf('dns_editor');
-		if (isset($GLOBALS['tf']->variables->request['update']))
+		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
 			$verify_csrf = verify_csrf('dns_editor');
+		$csrf_token = $table->csrf('dns_editor');
 		if ($domain !== false)
 		{
 			if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf)
 			{
-				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->
-					request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
+				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
 				{
 					$record = $GLOBALS['tf']->variables->request['update'];
 					$name = $GLOBALS['tf']->variables->request['name'];
