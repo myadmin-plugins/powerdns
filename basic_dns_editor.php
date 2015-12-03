@@ -11,29 +11,25 @@
 			'CNAME' => 'Points To Hostname',
 			'MX' => 'Send Mail To');
 		$table = new TFTable;
+		$csrf_token = $table->csrf('basic_dns_editor');
+		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
+			$verify_csrf = verify_csrf('basic_dns_editor');
 		$domain = get_dns_domain($domain_id);
 		if ($domain !== false)
 		{
-			if (isset($GLOBALS['tf']->variables->request['update']))
+			if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf)
 			{
 				if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '')
-				{
 					$GLOBALS['tf']->variables->request['prio'] = 10;
-				}
-				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->
-					request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
+				if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl']))
 				{
 					$record = $GLOBALS['tf']->variables->request['update'];
 					$name = $GLOBALS['tf']->variables->request['name'];
 					$type = $GLOBALS['tf']->variables->request['type'];
 					if ($type == 'SPF')
-					{
 						$content = $GLOBALS['tf']->variables->request['content'];
-					}
 					else
-					{
 						$content = $GLOBALS['tf']->variables->request['content'];
-					}
 					$ttl = $GLOBALS['tf']->variables->request['ttl'];
 					$prio = $GLOBALS['tf']->variables->request['prio'];
 					if (isset($GLOBALS['tf']->variables->request['update']) && $GLOBALS['tf']->variables->request['update'] == -1)
@@ -48,13 +44,11 @@
 					}
 				}
 				else
-				{
 					add_output('There were errors validating your data');
-				}
 				unset($GLOBALS['tf']->variables->request['update']);
 				unset($GLOBALS['tf']->variables->request['record']);
 			}
-			if (isset($GLOBALS['tf']->variables->request['delete']) && $GLOBALS['tf']->variables->request['delete'] == 1)
+			if (isset($GLOBALS['tf']->variables->request['delete']) && $GLOBALS['tf']->variables->request['delete'] == 1 && $verify_csrf)
 			{
 				delete_dns_record($domain_id, $GLOBALS['tf']->variables->request['record']);
 				unset($GLOBALS['tf']->variables->request['delete']);
@@ -73,25 +67,18 @@
 			foreach ($records as $idx => $record)
 			{
 				if (in_array($record['type'], array('SOA', 'NS')))
-				{
 					continue;
-				}
 				if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id'])
 				{
 					$table->add_hidden('update', $record['id']);
-					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." .
-						$domain['name'] . "</td></tr></table>");
+					$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." . $domain['name'] . "</td></tr></table>");
 					$sel = "<select name=\"type\">\n";
 					foreach ($types as $type_available => $type_desc)
 					{
 						if ($type_available == $record["type"])
-						{
 							$add = " SELECTED";
-						}
 						else
-						{
 							$add = "";
-						}
 						$sel .= " <option" . $add . " value=\"" . $type_available . "\" >" . $type_desc . "</option>\n";
 					}
 					$sel .= "</select>\n";
@@ -108,18 +95,12 @@
 				{
 					$table->add_field($record['name']);
 					if (isset($types[$record['type']]))
-					{
 						$type = $types[$record['type']];
-					}
 					$table->add_field($type);
 					if (strlen($record['content']) > 30)
-					{
 						$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . substr($record['content'], 0, 30) . '...</a>');
-					}
 					else
-					{
 						$table->add_field($record['content']);
-					}
 					//$table->add_field($record['ttl']);
 					if (in_array($record['type'], array('MX', 'SRV')))
 					{
@@ -130,14 +111,9 @@
 						//$table->add_field();
 					}
 					if ($record['type'] != 'SOA')
-					{
-						$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' :
-							$table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1', 'Delete')));
-					}
+						$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token='.$csrf_token, 'Delete')));
 					else
-					{
 						$table->add_field();
-					}
 					$table->add_row();
 				}
 			}
@@ -149,13 +125,9 @@
 				foreach ($types as $type_available => $type_desc)
 				{
 					if ($type_available == 'A')
-					{
 						$add = " SELECTED";
-					}
 					else
-					{
 						$add = "";
-					}
 					$sel .= " <option" . $add . " value=\"" . $type_available . "\" >" . $type_desc . "</option>\n";
 				}
 				$sel .= "</select>\n";
@@ -171,9 +143,7 @@
 			add_output($table->get_table());
 		}
 		else
-		{
 			add_output('There was an error with the query, or you dont have access to that domain or it doesnt exist');
-		}
 		add_output($table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
 		add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 	}

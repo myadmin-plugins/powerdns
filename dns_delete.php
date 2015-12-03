@@ -14,7 +14,7 @@
 		$result = get_dns_domain($domain_id);
 		if ($result !== false)
 		{
-			if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes')
+			if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes' && verify_csrf('dns_delete'))
 			{
 				delete_dns_domain($domain_id);
 				add_output('Domain Removed');
@@ -23,6 +23,7 @@
 			else
 			{
 				$table = new TFTable;
+				$table->csrf('dns_delete');
 				$table->set_title('Confirm Domain Deletee');
 				$table->add_hidden('id', $domain_id);
 				$table->add_field('<select name=confirm><option value=no>No</option><option value=yes>Yes</option></select>');
