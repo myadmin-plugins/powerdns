@@ -24,7 +24,7 @@
 		$settings = get_module_settings($module);
 		$data = $GLOBALS['tf']->accounts->read($custid);
 
-		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1)
+		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1 && verify_csrf_referer())
 		{
 			if (isset($GLOBALS['tf']->variables->request['ip']))
 			{
