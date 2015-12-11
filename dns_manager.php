@@ -60,7 +60,7 @@
 		$table->add_field('&nbsp;');
 		$table->add_field('cdns1.interserver.net');
 		$table->add_field('&nbsp;');
-		$table->add_field(POWERADMIN_HOST);
+		$table->add_field(POWERDNS_HOST);
 		$table->add_row();
 		$table->add_field('Secondary DNS');
 		$table->add_field('&nbsp;');

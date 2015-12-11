@@ -9,7 +9,7 @@
 	function dns_editor()
 	{
 		page_title('DNS Editor');
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
 		$table = new TFTable;

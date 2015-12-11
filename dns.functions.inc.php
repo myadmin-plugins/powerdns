@@ -141,7 +141,7 @@
 	function get_dns_domain($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin')
 		{
@@ -176,7 +176,7 @@
 		{
 			return false;
 		}
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$db->query("select * from records where domain_id='$domain_id'");
 		$results = array();
@@ -207,7 +207,7 @@
 	{
 		$domain_id = intval($domain_id);
 		$record_id = intval($record_id);
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false)
 		{
 			$db->query("delete from records where domain_id='$domain_id' and id='$record_id'");
@@ -256,7 +256,7 @@
 		{
 			$ordername = '';
 		}
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$query = make_insert_query('records', array(
 			'domain_id' => $domain_id,
 			'name' => $name,
@@ -300,7 +300,7 @@
 		{
 			return false;
 		}
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches))
 		{
 			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
@@ -346,7 +346,7 @@
 	function delete_dns_domain($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false)
 		{
 			$db->query("delete from records where domain_id=$domain_id");
@@ -376,9 +376,9 @@
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
-		$db = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, POWERADMIN_HOST);
-		$db2 = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, '66.45.228.248');
-		//$db3 = new db(POWERADMIN_DB, POWERADMIN_USER, POWERADMIN_PASSWORD, '173.214.160.195');
+		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db2 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '66.45.228.248');
+		//$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '173.214.160.195');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module']))
@@ -468,10 +468,10 @@
 			'account' => $custid));
 		$query2 = make_insert_query('domains', array(
 			'name' => $domain,
-			'master' => POWERADMIN_HOST,
+			'master' => POWERDNS_HOST,
 			'type' => 'SLAVE',
 			'account' => 'admin'), array(
-			'master' => POWERADMIN_HOST,
+			'master' => POWERDNS_HOST,
 			'type' => 'SLAVE',
 			'account' => 'admin'));
 		$result = $db->query($query);
