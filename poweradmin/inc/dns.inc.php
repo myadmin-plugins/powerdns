@@ -382,7 +382,10 @@ function is_valid_ipv4($ipv4, $answer = true) {
 
 
     if(filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === FALSE) {
-        error(ERR_DNS_IPV4); return false;
+        if($answer) {
+		error(ERR_DNS_IPV4); 
+	}
+	return false;
     }
     
     return true;
@@ -400,7 +403,10 @@ function is_valid_ipv6($ipv6, $answer = true) {
 
 
     if(filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE) {
-        error(ERR_DNS_IPV6); return false;
+	if($answer) {
+		error(ERR_DNS_IPV6);
+	}       
+	return false;
     }
 
     return true;
@@ -528,12 +534,12 @@ function is_valid_rr_cname_unique($name, $rid) {
     return true;
 }
 
-    /**
-     * Check that the zone does not have a empty CNAME RR
-     * @param string $name
-     * @param string $zone
-     * @return bool
-     */
+/**
+ * Check that the zone does not have a empty CNAME RR
+ *
+ * @param string $name
+ * @param string $zone
+ */
 function is_not_empty_cname_rr($name, $zone) {
 
     if ($name == $zone) {
