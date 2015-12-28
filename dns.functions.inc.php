@@ -377,8 +377,8 @@
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		$db2 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '66.45.228.248');
-		//$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '173.214.160.195');
+		$db2 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '216.158.234.243');
+		//$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module']))
@@ -404,7 +404,7 @@
 			$return['status_text'] = 'Invalid IP Address';
 			return $return;
 		}
-		if ($ip == '209.159.155.28')
+		if ($ip == '216.158.228.164')
 		{
 			$return['status_text'] = 'I think you meant to add your VPS IP, not the DNS servers IP.';
 			return $return;

@@ -66,13 +66,13 @@
 		$table->add_field('&nbsp;');
 		$table->add_field('cdns2.interserver.net');
 		$table->add_field('&nbsp;');
-		$table->add_field('66.45.228.248');
+		$table->add_field('216.158.234.243');
 		$table->add_row();
 		$table->add_field('Tertiary DNS');
 		$table->add_field('&nbsp;');
 		$table->add_field('cdns3.interserver.net');
 		$table->add_field('&nbsp;');
-		$table->add_field('173.214.160.195');
+		$table->add_field('199.231.191.75');
 		$table->add_row();
 		add_output('<br><br><br>');
 		add_output($table->get_table());
