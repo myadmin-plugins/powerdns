@@ -376,9 +376,10 @@
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
+		//billingd_log("new db(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$db2 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '216.158.234.243');
-		//$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
+		$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module']))
@@ -409,7 +410,9 @@
 			$return['status_text'] = 'I think you meant to add your VPS IP, not the DNS servers IP.';
 			return $return;
 		}
-		$result = $db->query("select * from domains where name='" . $db->real_escape($domain) . "'");
+		$query = "select * from domains where name='" . $db->real_escape($domain) . "'";
+		//billingd_log($query, __LINE__, __FILE__);
+		$result = $db->query($query, __LINE__, __FILE__);
 		if ($result)
 		{
 			if ($db->num_rows() > 0)

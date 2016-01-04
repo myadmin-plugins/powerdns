@@ -35,7 +35,7 @@
 					$result = add_dns_domain($domain, $ip);
 					add_output($result['status_text']);
 				}
-				if (isset($GLOBALS['tf']->variables->request['domains']) && trim($GLOBALS['tf']->variables->request['domains']) != '')
+				if (isset($GLOBALS['tf']->variables->request['domains']) && !in_array(trim($GLOBALS['tf']->variables->request['domains']), array('', 'Domain Names...')))
 				{
 					$domains = explode("\n", $GLOBALS['tf']->variables->request['domains']);
 					foreach ($domains as $domain)
