@@ -23,6 +23,13 @@
 
 	include ('include/db/class.db_mdb2.functions.inc.php');
 	//	include('include/dns/poweradmin/inc/database.inc.php');
+
+function endsWith($needle, $haystack) {
+    $length = strlen($haystack);
+    $nLength = strlen($needle);                                                        
+    return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
+}
+
 	include ('include/dns/poweradmin/inc/dns.inc.php');
 	include ('include/dns/poweradmin/inc/record.inc.php');
 	include ('include/dns/poweradmin/inc/error.inc.php');
