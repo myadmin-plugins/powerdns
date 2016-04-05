@@ -28,7 +28,9 @@
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
  */
-include_once('version.inc.php');
+require_once dirname(__DIR__) . '/vendor/autoload.php';
+
+$VERSION = Poweradmin\Version::VERSION;
 
 global $db_mdb2;
 if (is_object($db_mdb2)) {

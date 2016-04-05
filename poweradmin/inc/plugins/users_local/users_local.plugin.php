@@ -13,7 +13,9 @@
  * @license http://opensource.org/licenses/GPL-3.0 GPL
  *
  */
-require_once ("inc/toolkit.inc.php");
+require_once 'inc/toolkit.inc.php';
+
+require_once dirname(dirname(dirname(__DIR__))) . '/vendor/poweradmin/Password.php';
 
 /**
  * Verify User has Permission Name
@@ -35,43 +37,30 @@ function verify_permission_local($arg) {
         $permission = $arg;
     }
 
-    $permission = $arg;
+    static $cache = false;
+
+    if ($cache !== false) {
+        return array_key_exists('user_is_ueberuser', $cache) || array_key_exists($permission, $cache);
+    }
+
     global $db_mdb2;
-    if ((!isset($_SESSION ['userid'])) || (!is_object($db_mdb2))) {
+    if ((!isset($_SESSION['userid'])) || (!is_object($db_mdb2))) {
         return 0;
     }
     // Set current user ID.
-    $userid = $_SESSION ['userid'];
+    $userid = $_SESSION['userid'];
 
-    $query = 'SELECT id FROM perm_items WHERE name=' . $db_mdb2->quote('user_is_ueberuser', 'text');
-    $ueberUserId = $db_mdb2->queryOne($query);
+    $query = $db_mdb2->prepare("SELECT
+        perm_items.name AS permission
+        FROM perm_templ_items
+        LEFT JOIN perm_items ON perm_items.id = perm_templ_items.perm_id
+        LEFT JOIN perm_templ ON perm_templ.id = perm_templ_items.templ_id
+        LEFT JOIN users ON perm_templ.id = users.perm_templ
+        WHERE users.id = ?");
+    $query->execute(array($userid));
+    $cache = $query->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 
-    // Find the template ID that this user has been assigned.
-    $query = "SELECT perm_templ
-			FROM users
-			WHERE id = " . $db_mdb2->quote($userid, 'integer');
-    $templ_id = $db_mdb2->queryOne($query);
-
-    // Does this user have ueberuser rights?
-    $query = "SELECT id
-			FROM perm_templ_items
-			WHERE templ_id = " . $db_mdb2->quote($templ_id, 'integer') . "
-			AND perm_id = " . $ueberUserId;
-    if ($db_mdb2->queryOne($query)) {
-        return true;
-    }
-
-    // Find the permission ID for the requested permission.
-    $query = "SELECT id
-			FROM perm_items
-			WHERE name = " . $db_mdb2->quote($permission, 'text');
-    $perm_id = $db_mdb2->queryOne($query);
-    // Check if the permission ID is assigned to the template ID.
-    $query = "SELECT id
-			FROM perm_templ_items
-			WHERE templ_id = " . $db_mdb2->quote($templ_id, 'integer') . "
-			AND perm_id = " . $db_mdb2->quote($perm_id, 'integer');
-    return ($db_mdb2->queryOne($query) ? true : false);
+    return array_key_exists('user_is_ueberuser', $cache) || array_key_exists($permission, $cache);
 }
 
 /**
@@ -304,7 +293,6 @@ function delete_perm_templ_local($ptid) {
  */
 function edit_user_local($id, $user, $fullname, $email, $perm_templ, $description, $active, $password) {
     global $db_mdb2;
-    global $password_encryption;
 
     do_hook('verify_permission', 'user_edit_own') ? $perm_edit_own = "1" : $perm_edit_own = "0";
     do_hook('verify_permission', 'user_edit_others') ? $perm_edit_others = "1" : $perm_edit_others = "0";
@@ -366,11 +354,7 @@ email = " . $db_mdb2->quote($email, 'text') . ",";
 				active = " . $db_mdb2->quote($active, 'integer');
 
         if ($password != "") {
-            if ($password_encryption == 'md5salt') {
-                $query .= ", password = " . $db_mdb2->quote(gen_mix_salt($password), 'text');
-            } else {
-                $query .= ", password = " . $db_mdb2->quote(md5($password), 'text');
-            }
+            $query .= ", password = " . $db_mdb2->quote(Poweradmin\Password::hash($password), 'text');
         }
 
         $query .= " WHERE id = " . $db_mdb2->quote($id, 'integer');
@@ -399,7 +383,6 @@ email = " . $db_mdb2->quote($email, 'text') . ",";
  */
 function change_user_pass_local($details) {
     global $db_mdb2;
-    global $password_encryption;
 
     if ($details ['newpass'] != $details ['newpass2']) {
         error(ERR_USER_MATCH_NEW_PASS);
@@ -415,19 +398,8 @@ function change_user_pass_local($details) {
 
     $rinfo = $response->fetchRow();
 
-    if ($password_encryption == 'md5salt') {
-        $extracted_salt = extract_salt($rinfo ['password']);
-        $current_password = mix_salt($extracted_salt, $details ['currentpass']);
-    } else {
-        $current_password = md5($details ['currentpass']);
-    }
-
-    if ($current_password == $rinfo ['password']) {
-        if ($password_encryption == 'md5salt') {
-            $query = "UPDATE users SET password = " . $db_mdb2->quote(gen_mix_salt($details ['newpass']), 'text') . " WHERE id = " . $db_mdb2->quote($rinfo ['id'], 'integer');
-        } else {
-            $query = "UPDATE users SET password = " . $db_mdb2->quote(md5($details ['newpass']), 'text') . " WHERE id = " . $db_mdb2->quote($rinfo ['id'], 'integer');
-        }
+    if (Poweradmin\Password::verify($details['currentpass'], $rinfo['password'])) {
+        $query = "UPDATE users SET password = " . $db_mdb2->quote(Poweradmin\Password::hash($details['newpass']), 'text') . " WHERE id = " . $db_mdb2->quote($rinfo ['id'], 'integer');
         $response = $db_mdb2->query($query);
         if (isError($response)) {
             error($response->getMessage());
@@ -775,7 +747,6 @@ function update_perm_templ_details_local($details) {
  */
 function update_user_details_local($details) {
     global $db_mdb2;
-    global $password_encryption;
 
     do_hook('verify_permission', 'user_edit_own') ? $perm_edit_own = "1" : $perm_edit_own = "0";
     do_hook('verify_permission', 'user_edit_others') ? $perm_edit_others = "1" : $perm_edit_others = "0";
@@ -850,11 +821,7 @@ function update_user_details_local($details) {
         }
 
         if (isset($details ['password']) && $details ['password'] != "") {
-            if ($password_encryption == 'md5salt') {
-                $query .= ", password = " . $db_mdb2->quote(gen_mix_salt($details ['password']), 'text');
-            } else {
-                $query .= ", password = " . $db_mdb2->quote(md5($details ['password']), 'text');
-            }
+            $query .= ", password = " . $db_mdb2->quote(Poweradmin\Password::hash($details['password'], 'text'));
         }
 
         $query .= " WHERE id = " . $db_mdb2->quote($details ['uid'], 'integer');
@@ -880,7 +847,6 @@ function update_user_details_local($details) {
  */
 function add_new_user_local($details) {
     global $db_mdb2;
-    global $password_encryption;
 
     if (!do_hook('verify_permission', 'user_add_new')) {
         error(ERR_PERM_ADD_USER);
@@ -902,11 +868,7 @@ function add_new_user_local($details) {
         $query .= ' perm_templ,';
     }
 
-    if ($password_encryption == 'md5salt') {
-        $password_hash = gen_mix_salt($details ['password']);
-    } else {
-        $password_hash = md5($details ['password']);
-    }
+    $password_hash = Poweradmin\Password::hash($details['password']);
 
     $query .= " active) VALUES (" . $db_mdb2->quote($details ['username'], 'text') . ", " . $db_mdb2->quote($password_hash, 'text') . ", " . $db_mdb2->quote($details ['fullname'], 'text') . ", " . $db_mdb2->quote($details ['email'], 'text') . ", " . $db_mdb2->quote($details ['descr'], 'text') . ", ";
     if (do_hook('verify_permission', 'user_edit_templ_perm')) {

@@ -333,15 +333,14 @@ if ($dns_fancy) {
  * Includes  *
  * *********** */
 $db_mdb2 = dbConnect();
-require_once("plugin.inc.php");
-
-require_once("i18n.inc.php");
-require_once("auth.inc.php");
-require_once("users.inc.php");
-require_once("dns.inc.php");
-require_once("record.inc.php");
-require_once("dnssec.inc.php");
-require_once("templates.inc.php");
+require_once "plugin.inc.php";
+require_once "i18n.inc.php";
+require_once "auth.inc.php";
+require_once "users.inc.php";
+require_once "dns.inc.php";
+require_once "record.inc.php";
+require_once "dnssec.inc.php";
+require_once "templates.inc.php";
 
 //do_hook('hook_post_includes');
 do_hook('authenticate');
@@ -444,38 +443,57 @@ function show_pages($amount, $rowamount, $id = '') {
  * Display the alphabetic option: [0-9] [a] [b] .. [z]
  *
  * @param string $letterstart Starting letter/number or 'all'
- * @param boolean $userid unknown usage
+ * @param int $userid Current user ID
  *
  * @return null
  */
-function show_letters($letterstart, $userid = true) {
+function show_letters($letterstart, $userid) {
+    global $db_mdb2;
+
+    $char_range = array_merge(range('a', 'z'), array('_'));
+
+    $allowed = zone_content_view_others($userid);
+
+    $query = "SELECT
+			DISTINCT SUBSTRING(domains.name, 1, 1) AS letter
+			FROM domains
+			LEFT JOIN zones ON domains.id = zones.domain_id
+			WHERE " . $allowed . " = 1
+			OR zones.owner = " . $userid . "
+			ORDER BY 1";
+    $db_mdb2->setLimit(36);
+
+    $available_chars = array();
+    $digits_available = 0;
+
+    $response = $db_mdb2->query($query);
+
+    while ($row = $response->fetchRow()) {
+        if (preg_match("/[0-9]/", $row['letter'])) {
+	    $digits_available = 1;
+	} elseif (in_array($row['letter'], $char_range)) {
+	    array_push($available_chars, $row['letter']);
+	}
+    }
+
     echo _('Show zones beginning with') . ":<br>";
 
-    $letter = "[[:digit:]]";
     if ($letterstart == "1") {
         echo "<span class=\"lettertaken\">[ 0-9 ]</span> ";
-    } elseif (zone_letter_start($letter, $userid)) {
+    } elseif ($digits_available) {
         echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES) . "?letter=1\">[ 0-9 ]</a> ";
     } else {
         echo "[ <span class=\"letternotavailable\">0-9</span> ] ";
     }
 
-    foreach (range('a', 'z') as $letter) {
+    foreach ($char_range as $letter) {
         if ($letter == $letterstart) {
             echo "<span class=\"lettertaken\">[ " . $letter . " ]</span> ";
-        } elseif (zone_letter_start($letter, $userid)) {
+        } elseif (in_array($letter, $available_chars)) {
             echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES) . "?letter=" . $letter . "\">[ " . $letter . " ]</a> ";
         } else {
             echo "[ <span class=\"letternotavailable\">" . $letter . "</span> ] ";
         }
-    }
-
-    if ($letterstart == '_') {
-        echo "<span class=\"lettertaken\">[ _ ]</span> ";
-    } elseif (zone_letter_start('_', $userid)) {
-        echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES) . "?letter=_\">[ _ ]</a> ";
-    } else {
-        echo "[ <span class=\"letternotavailable\">_</span> ] ";
     }
 
     if ($letterstart == 'all') {
@@ -485,25 +503,29 @@ function show_letters($letterstart, $userid = true) {
     }
 }
 
-/** Check if any zones start with letter
+/** Check if current user allowed to view any zone content
  *
- * @param string $letter Starting Letter
- * @param boolean $userid unknown usage
+ * @param int $userid Current user ID
  *
- * @return int 1 if rows found, 0 otherwise
+ * @return int 1 if user has permission to view other users zones content, 0 otherwise
  */
-function zone_letter_start($letter, $userid = true) {
+function zone_content_view_others($userid) {
     global $db_mdb2;
-    global $sql_regexp;
+
     $query = "SELECT
-			domains.id AS domain_id,
-			zones.owner,
-			domains.name AS domainname
-			FROM domains
-			LEFT JOIN zones ON domains.id=zones.domain_id
-			WHERE substring(domains.name,1,1) " . $sql_regexp . " " . $db_mdb2->quote("^" . $letter, 'text');
-    $db_mdb2->setLimit(1);
+		DISTINCT u.id
+		FROM 	users u,
+		        perm_templ pt,
+		        perm_templ_items pti,
+		        (SELECT id FROM perm_items WHERE name
+			    IN ('zone_content_view_others', 'user_is_ueberuser')) pit
+                WHERE u.id = " . $userid . "
+                AND u.perm_templ = pt.id
+                AND pti.templ_id = pt.id
+                AND pti.perm_id  = pit.id";
+
     $result = $db_mdb2->queryOne($query);
+
     return ($result ? 1 : 0);
 }
 
@@ -576,20 +598,6 @@ function clean_page($arg = '') {
     }
 }
 
-/** Print active status
- *
- * @param int $res status, 0 for inactive, 1 active
- *
- * @return string html containing status
- */
-function get_status($res) {
-    if ($res == '0') {
-        return "<FONT CLASS=\"inactive\">" . _('Inactive') . "</FONT>";
-    } elseif ($res == '1') {
-        return "<FONT CLASS=\"active\">" . _('Active') . "</FONT>";
-    }
-}
-
 /** Validate email address string
  *
  * @param string $address email address string
@@ -634,57 +642,6 @@ function debug_print($var) {
     echo "</pre>\n";
 }
 
-
-/** Generate random salt for encryption
- *
- * @param int $len salt length (default=5)
- *
- * @return string salt string
- */
-function generate_salt($len = 5) {
-    $valid_characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890@#$%^*()_-!';
-    $valid_len = strlen($valid_characters) - 1;
-    $salt = "";
-
-    for ($i = 0; $i < $len; $i++) {
-        $salt .= $valid_characters[rand(0, $valid_len)];
-    }
-
-    return $salt;
-}
-
-/** Extract salt from password
- *
- * @param string $password salted password
- *
- * @return string salt
- */
-function extract_salt($password) {
-    return substr(strchr($password, ':'), 1);
-}
-
-/** Generate salted password
- *
- * @param string $salt salt
- * @param string $pass password
- *
- * @return string salted password
- */
-function mix_salt($salt, $pass) {
-    return md5($salt . $pass) . ':' . $salt;
-}
-
-/** Generate random salt and salted password
- *
- * @param string $pass password
- *
- * @return salted password
- */
-function gen_mix_salt($pass) {
-    $salt = generate_salt();
-    return mix_salt($salt, $pass);
-}
-
 function do_log($syslog_message, $priority) {
     global $syslog_use, $syslog_ident, $syslog_facility;
     if ($syslog_use) {
@@ -718,8 +675,9 @@ function log_info($syslog_message) {
  * @return null
  */
 function auth($msg = "", $type = "success") {
-    include_once('inc/header.inc.php');
-    include('inc/config.inc.php');
+    include_once 'inc/header.inc.php';
+    include_once 'inc/config.inc.php';
+    global $iface_lang;
 
     if ($msg) {
         print "<div class=\"$type\">$msg</div>\n";
@@ -743,16 +701,16 @@ function auth($msg = "", $type = "success") {
                     <select class="input" name="userlang">
                         <?php
                         // List available languages (sorted alphabetically)
-                        include_once('inc/countrycodes.inc.php');
+                        include_once 'inc/countrycodes.inc.php';
                         $locales = scandir('locale/');
                         foreach ($locales as $locale) {
                             if (strlen($locale) == 5) {
-                                $locales_fullname[$locale] = $countrycodes[substr($locale, 0, 2)];
+                                $locales_fullname[$locale] = $country_codes[substr($locale, 0, 2)];
                             }
                         }
                         asort($locales_fullname);
                         foreach ($locales_fullname as $locale => $language) {
-                            if ($locale == $iface_lang) {
+                            if (substr($locale, 0, 2) == substr($iface_lang, 0, 2)) {
                                 echo _('<option selected value="' . $locale . '">' . $language);
                             } else {
                                 echo _('<option value="' . $locale . '">' . $language);
@@ -795,4 +753,19 @@ function logout($msg = "", $type = "") {
     session_write_close();
     auth($msg, $type);
     exit;
+}
+
+/** Matches end of string
+ * 
+ * Matches end of string (haystack) against another string (needle)
+ *
+ * @param string $needle
+ * @param string $haystack
+ * 
+ * @return true if ends with specified string, otherwise false
+ */
+function endsWith($needle, $haystack) {
+    $length = strlen($haystack);
+    $nLength = strlen($needle);
+    return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
 }
