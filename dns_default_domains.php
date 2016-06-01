@@ -1,4 +1,4 @@
-<?php 
+<?php
 function add_dns_default_domain($domain_id = null) {
 	if($domain_id && htmlspecial($domain_id)) {
 		$pdb = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
@@ -12,7 +12,7 @@ function add_dns_default_domain($domain_id = null) {
 				$domain = trim($db_domains->Record['domain_hostname']);
 				$ip = '66.45.228.100';
 				$result = add_dns_domain($domain, $ip);
-				billingd_log("For domain - $domain default dns entry added is added. Response - ".print_r($result,true));
+				billingd_log("For domain - $domain default dns entry added is added. Response - ".print_r($result,true), __LINE__, __FILE__);
 				$pdb->query("update domains set account={$db_domains->Record['domain_custid']} where name='{$db->Record['domain_hostname']}'");
 			}
 		}
