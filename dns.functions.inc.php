@@ -144,13 +144,9 @@
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin')
-		{
-			$db->query("select * from domains where id='$domain_id'");
-		}
+			$db->query("select * from domains where id='{$domain_id}'");
 		else
-		{
-			$db->query("select * from domains where id='$domain_id' and account='$custid'");
-		}
+			$db->query("select * from domains where id='{$domain_id}' and account='{$custid}'");
 		if ($db->num_rows() > 0)
 		{
 			$db->next_record(MYSQL_ASSOC);
@@ -172,25 +168,18 @@
 	function get_dns_records($domain_id)
 	{
 		$domain_id = intval($domain_id);
-		if (get_dns_domain($domain_id) === false)
-		{
-			return false;
-		}
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		$db->query("select * from records where domain_id='$domain_id'");
+		if ($GLOBALS['tf']->ima == 'admin')
+			$db->query("select * from records where domain_id='$domain_id'");
+		else
+			$db->query("select records.* from records, domains where domains.id='{$domain_id}' and account='{$custid}' and domain_id=domains.id");
 		$results = array();
 		if ($db->num_rows() > 0)
-		{
 			while ($db->next_record(MYSQL_ASSOC))
-			{
 				$results[] = $db->Record;
-			}
-		}
 		else
-		{
 			return false;
-		}
 		return $results;
 	}
 
@@ -322,7 +311,7 @@
 		}
 		$ttl = $db->real_escape($ttl);
 		$prio = $db->real_escape($prio);
-		$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1', change_date='" . mysql_now() . "' where domain_id='{$domain_id}' and id='{$record_id}'";
+		$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1', change_date='" . time() . "' where domain_id='{$domain_id}' and id='{$record_id}'";
 		$db->query($query);
 		update_soa_serial($domain_id);
 		if ($db->affected_rows() == 1)
