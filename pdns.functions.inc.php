@@ -25,9 +25,9 @@
 	//	include('include/dns/poweradmin/inc/database.inc.php');
 
 function endsWith($needle, $haystack) {
-    $length = strlen($haystack);
-    $nLength = strlen($needle);                                                        
-    return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
+	$length = strlen($haystack);
+	$nLength = strlen($needle);
+	return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
 }
 
 	include ('include/dns/poweradmin/inc/dns.inc.php');
@@ -297,6 +297,7 @@ function endsWith($needle, $haystack) {
 	 */
 	function isError($result)
 	{
-		return $result->error;
+		require_once "PEAR.php";
+		return PEAR::isError($result);
 	}
 ?>
