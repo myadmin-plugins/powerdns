@@ -3,7 +3,6 @@
 	function basic_dns_editor()
 	{
 		page_title('Basic DNS Editor');
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
 		$types = array(
