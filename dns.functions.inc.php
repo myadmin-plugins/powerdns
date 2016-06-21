@@ -136,14 +136,15 @@
 	 *
 	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
+	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
-	function get_dns_domain($domain_id)
+	function get_dns_domain($domain_id, $bypass = false)
 	{
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		if ($GLOBALS['tf']->ima == 'admin')
+		if ($GLOBALS['tf']->ima == 'admin' || $bypass === true)
 			$db->query("select * from domains where id='{$domain_id}'");
 		else
 			$db->query("select * from domains where id='{$domain_id}' and account='{$custid}'");
@@ -220,16 +221,17 @@
 	 * @param string $type  dns record type.
 	 * @param integer $ttl dns record time to live, or update time.
 	 * @param integer $prio dns record priority
+	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
 	 * @return int|false The ID of the newly added record, or false on error..
 	 */
-	function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio)
+	function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false)
 	{
 		$domain_id = intval($domain_id);
 		if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl))
 		{
 			return false;
 		}
-		if (!$domain_info = get_dns_domain($domain_id))
+		if (!$domain_info = get_dns_domain($domain_id, $bypass))
 		{
 			return false;
 		}
