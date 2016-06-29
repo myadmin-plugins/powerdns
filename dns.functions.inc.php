@@ -166,12 +166,12 @@
 	 * @param int $domain_id The ID of the domain in question.
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
-	function get_dns_records($domain_id)
+	function get_dns_records($domain_id, $bypass = false)
 	{
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		if ($GLOBALS['tf']->ima == 'admin')
+		if ($GLOBALS['tf']->ima == 'admin' || $bypass == true)
 			$db->query("select * from records where domain_id='$domain_id'");
 		else
 			$db->query("select records.* from records, domains where domains.id='{$domain_id}' and account='{$custid}' and domain_id=domains.id");
