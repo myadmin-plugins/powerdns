@@ -32,31 +32,25 @@
 	 * @param string $ip IP Address
 	 * @return string|false Hostname
 	 */
-	function get_hostname($ip)
-	{
+	function get_hostname($ip) {
 		global $cached_zones;
 		$parts = explode('.', $ip);
 		$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
-		if (is_local_ip($ip))
-		{
+		if (is_local_ip($ip)) {
 			@include_once ('Net/DNS2.php');
-			if (class_exists('Net_DNS2_Resolver'))
-			{
+			if (class_exists('Net_DNS2_Resolver')) {
 				$resolver = new Net_DNS2_Resolver(array('nameservers' => array('66.45.228.79')));
 				//$resolver->nameservers = array('66.45.228.79');
-				if (!isset($cached_zones[$zone]))
-				{
+				if (!isset($cached_zones[$zone])) {
 					$tzone = array();
 					try
 					{
 						$response = $resolver->query($zone, 'AXFR');
 					}
-					catch (Net_DNS2_Exception $e)
-					{
+					catch (Net_DNS2_Exception $e) {
 						//echo "::query() failed: ", $e->getMessage(), "\n";
 						$host = gethostbyaddr($ip);
-						if ($host != $ip)
-						{
+						if ($host != $ip) {
 							$cached_zones[$zone][$ip] = $host;
 							unset($host);
 							return $cached_zones[$zone][$ip];
@@ -64,12 +58,9 @@
 						return false;
 					}
 					//billingd_log(print_r($response, true));
-					if (count($response->answer))
-					{
-						foreach ($response->answer as $rr)
-						{
-							if ($rr->type == 'PTR')
-							{
+					if (count($response->answer)) {
+						foreach ($response->answer as $rr) {
+							if ($rr->type == 'PTR') {
 								$tzone[implode(".", array_reverse(explode(".", str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
 							}
 						}
@@ -77,18 +68,13 @@
 						//billingd_log("City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __LINE__, __FILE__);
 					}
 				}
-				if (isset($cached_zones[$zone]))
-				{
-					if (isset($cached_zones[$zone][$ip]))
-					{
+				if (isset($cached_zones[$zone])) {
+					if (isset($cached_zones[$zone][$ip])) {
 						return $cached_zones[$zone][$ip];
 					}
 				}
-			}
-			else
-			{
-				if ($GLOBALS['tf']->session->appsession('emailed_no_net_dns') != 1)
-				{
+			} else {
+				if ($GLOBALS['tf']->session->appsession('emailed_no_net_dns') != 1) {
 					$subject = 'My Install Missing Net/DNS';
 					$headers = '';
 					$headers .= "MIME-Version: 1.0" . EMAIL_NEWLINE;
@@ -100,28 +86,22 @@
 					admin_mail($subject, $email, $headers, false, 'admin_email_problems.tpl');
 					$GLOBALS['tf']->session->appsession('emailed_no_net_dns', 1);
 				}
-				if (!isset($cached_zones[$zone]))
-				{
+				if (!isset($cached_zones[$zone])) {
 					$cached_zones[$zone] = array();
 				}
-				if (isset($cached_zones[$zone][$ip]))
-				{
+				if (isset($cached_zones[$zone][$ip])) {
 					return $cached_zones[$zone][$ip];
 				}
 				$host = gethostbyaddr($ip);
-				if ($host != $ip)
-				{
+				if ($host != $ip) {
 					$cached_zones[$zone][$ip] = $host;
 					unset($host);
 					return $cached_zones[$zone][$ip];
 				}
 			}
-		}
-		else
-		{
+		} else {
 			$host = gethostbyaddr($ip);
-			if ($host != $ip)
-			{
+			if ($host != $ip) {
 				$cached_zones[$zone][$ip] = $host;
 				unset($host);
 				return $cached_zones[$zone][$ip];
@@ -139,8 +119,7 @@
 	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
-	function get_dns_domain($domain_id, $bypass = false)
-	{
+	function get_dns_domain($domain_id, $bypass = false) {
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
@@ -148,8 +127,7 @@
 			$db->query("select * from domains where id='{$domain_id}'");
 		else
 			$db->query("select * from domains where id='{$domain_id}' and account='{$custid}'");
-		if ($db->num_rows() > 0)
-		{
+		if ($db->num_rows() > 0) {
 			$db->next_record(MYSQL_ASSOC);
 			return $db->Record;
 		}
@@ -166,8 +144,7 @@
 	 * @param int $domain_id The ID of the domain in question.
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
-	function get_dns_records($domain_id, $bypass = false)
-	{
+	function get_dns_records($domain_id, $bypass = false) {
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
@@ -193,16 +170,13 @@
 	 * @param integer $record_id The ID of the domains record to remove.
 	 * @return bool will return true if it succeeded, or false if there was some type of error.
 	 */
-	function delete_dns_record($domain_id, $record_id)
-	{
+	function delete_dns_record($domain_id, $record_id) {
 		$domain_id = intval($domain_id);
 		$record_id = intval($record_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		if (get_dns_domain($domain_id) !== false)
-		{
+		if (get_dns_domain($domain_id) !== false) {
 			$db->query("delete from records where domain_id='$domain_id' and id='$record_id'");
-			if ($db->affected_rows() == 1)
-			{
+			if ($db->affected_rows() == 1) {
 				return true;
 			}
 		}
@@ -224,27 +198,20 @@
 	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
 	 * @return int|false The ID of the newly added record, or false on error..
 	 */
-	function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false)
-	{
+	function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false) {
 		$domain_id = intval($domain_id);
-		if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl))
-		{
+		if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl)) {
 			return false;
 		}
-		if (!$domain_info = get_dns_domain($domain_id, $bypass))
-		{
+		if (!$domain_info = get_dns_domain($domain_id, $bypass)) {
 			return false;
 		}
-		if ($type == 'SPF')
-		{
+		if ($type == 'SPF') {
 			$content = '\"' . $content . '\"';
 		}
-		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches))
-		{
+		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches)) {
 			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
-		}
-		else
-		{
+		} else {
 			$ordername = '';
 		}
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
@@ -279,36 +246,27 @@
 	 * @param int $prio dns record priority
 	 * @return bool True on success, False on failure.
 	 */
-	function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio)
-	{
+	function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio) {
 		$domain_id = intval($domain_id);
 		$record_id = intval($record_id);
-		if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl))
-		{
+		if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl)) {
 			return false;
 		}
-		if (!$domain_info = get_dns_domain($domain_id))
-		{
+		if (!$domain_info = get_dns_domain($domain_id)) {
 			return false;
 		}
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches))
-		{
+		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches)) {
 			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
-		}
-		else
-		{
+		} else {
 			$ordername = '';
 		}
 		$name = $db->real_escape($name);
 		$type = $db->real_escape($type);
 		$ordername = $db->real_escape($ordername);
-		if ($type == 'SPF')
-		{
+		if ($type == 'SPF') {
 			$content = $db->real_escape(stripslashes('\"' . $content . '\"'));
-		}
-		else
-		{
+		} else {
 			$content = $db->real_escape($content);
 		}
 		$ttl = $db->real_escape($ttl);
@@ -316,12 +274,9 @@
 		$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1', change_date='" . time() . "' where domain_id='{$domain_id}' and id='{$record_id}'";
 		$db->query($query);
 		update_soa_serial($domain_id);
-		if ($db->affected_rows() == 1)
-		{
+		if ($db->affected_rows() == 1) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
@@ -334,16 +289,13 @@
 	 * @param int $domain_id The ID of the domain in question.
 	 * @return bool will return true if it succeeded, or false if there was some type of error.
 	 */
-	function delete_dns_domain($domain_id)
-	{
+	function delete_dns_domain($domain_id) {
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		if (get_dns_domain($domain_id) !== false)
-		{
+		if (get_dns_domain($domain_id) !== false) {
 			$db->query("delete from records where domain_id=$domain_id");
 			$db->query("delete from domains where id=$domain_id");
-			if ($db->affected_rows() == 1)
-			{
+			if ($db->affected_rows() == 1) {
 				return true;
 			}
 		}
@@ -362,8 +314,7 @@
 	 * @param string $ip ip address to assign it to.
 	 * @return array array with status and status_text
 	 */
-	function add_dns_domain($domain, $ip)
-	{
+	function add_dns_domain($domain, $ip) {
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
@@ -373,10 +324,8 @@
 		$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
-		if (isset($GLOBALS['tf']->variables->request['module']))
-		{
-			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']]))
-			{
+		if (isset($GLOBALS['tf']->variables->request['module'])) {
+			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']])) {
 				$module = $GLOBALS['tf']->variables->request['module'];
 				//				$custid = get_custid($custid, $module);
 				$GLOBALS['tf']->accounts->set_db_module($module);
@@ -386,57 +335,46 @@
 		$module = get_module_name($module);
 		$settings = get_module_settings($module);
 		$data = $GLOBALS['tf']->accounts->read($custid);
-		if (!valid_domain($domain))
-		{
+		if (!valid_domain($domain)) {
 			$return['status_text'] = 'Invalid Domain Name';
 			return $return;
 		}
-		if (!valid_ip($ip))
-		{
+		if (!valid_ip($ip)) {
 			$return['status_text'] = 'Invalid IP Address';
 			return $return;
 		}
-		if ($ip == '216.158.228.164')
-		{
+		if ($ip == '216.158.228.164') {
 			$return['status_text'] = 'I think you meant to add your VPS IP, not the DNS servers IP.';
 			return $return;
 		}
 		$query = "select * from domains where name='" . $db->real_escape($domain) . "'";
 		//billingd_log($query, __LINE__, __FILE__);
 		$result = $db->query($query, __LINE__, __FILE__);
-		if ($result)
-		{
-			if ($db->num_rows() > 0)
-			{
+		if ($result) {
+			if ($db->num_rows() > 0) {
 				$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact john@interserver.net';
 				return $return;
 			}
 		}
-		if ($GLOBALS['tf']->ima != 'admin')
-		{
+		if ($GLOBALS['tf']->ima != 'admin') {
 			$query = "select count(*) from domains where domains.account='$custid'";
 			$result = $db->query($query);
 			$db->next_record(MYSQL_NUM);
 			$domains = $db->f(0);
-			if ($custid != 9110 && $domains >= MAX_DNS_DOMAINS)
-			{
+			if ($custid != 9110 && $domains >= MAX_DNS_DOMAINS) {
 				$return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact john@interserver.net if you want more';
 				return $return;
 			}
 		}
-		if ($GLOBALS['tf']->ima != 'admin')
-		{
+		if ($GLOBALS['tf']->ima != 'admin') {
 			$tlds = array_merge(get_known_tlds(), get_effective_tld_rules());
 			$tldsize = sizeof($tlds);
 			$found_tld = false;
 			$match_size =0;
-			for ($x = 0; $x < $tldsize; $x++)
-			{
-				if (preg_match('/\.' . str_replace('.', '\.', $tlds[$x]) . '$/i', $domain))
-				{
+			for ($x = 0; $x < $tldsize; $x++) {
+				if (preg_match('/\.' . str_replace('.', '\.', $tlds[$x]) . '$/i', $domain)) {
 					$tmatch_size = strlen($tlds[$x]);
-					if ($tmatch_size > $match_size)
-					{
+					if ($tmatch_size > $match_size) {
 						$match_size = $tmatch_size;
 						$found_tld = true;
 						$tld = $tlds[$x];
@@ -444,14 +382,12 @@
 				}
 			}
 			$tdomain = str_replace('.' . $tld, '', $domain);
-			if (strpos($tdomain, '.') !== false)
-			{
+			if (strpos($tdomain, '.') !== false) {
 				$return['status_text'] =
 					'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry (matched '.$tdomain.' for '.$tld.')';
 				return $return;
 			}
-			if ($found_tld == false)
-			{
+			if ($found_tld == false) {
 				$return['status_text'] = 'This domain does not appear to have a valid TLD';
 				return $return;
 			}
@@ -469,8 +405,7 @@
 			'type' => 'SLAVE',
 			'account' => 'admin'));
 		$result = $db->query($query);
-		if ($result)
-		{
+		if ($result) {
 			$domain_id = $db->get_last_insert_id('domains', 'id');
 			$db2->query($query2);
 			//$db3->query($query2);
@@ -548,9 +483,7 @@
 				'prio' => 25)));
 			$return['status'] = 'ok';
 			$return['status_text'] = 'Domain ' . $domain . ' Added!';
-		}
-		else
-		{
+		} else {
 			$return['status'] = 'error';
 			$return['status_text'] = 'Database specific error, please contact john@interserver.net and we can assist you further';
 		}
@@ -566,26 +499,21 @@
 	 * @param string $action optional, defaults to set_reverse, can also be remove_reverse
 	 * @return bool true if it was able to make the requested changes, false if it wasnt.
 	 */
-	function reverse_dns($ip, $host = '', $action = 'set_reverse')
-	{
+	function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 		$actions = array('set_reverse', 'remove_reverse');
 		if (!in_array($action, $actions))
 			$action = 'set_reverse';
-		if ($action == 'set_reverse')
-		{
-			if (!valid_hostname($host))
-			{
+		if ($action == 'set_reverse') {
+			if (!valid_hostname($host)) {
 				dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 				return false;
 			}
-			if (strpos($host, '_') !== false)
-			{
+			if (strpos($host, '_') !== false) {
 				dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
 			}
 		}
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
-		if (is_null($username) || $username == '')
-		{
+		if (is_null($username) || $username == '') {
 			$username = 'unknown';
 		}
 		global $dbh_city;
@@ -598,12 +526,9 @@
 			'action' => $action
 		)));
 		//billingd_log("Reverse DNS $ip => $host", __LINE__, __FILE__);
-		if ($db->affected_rows() == 1)
-		{
+		if ($db->affected_rows() == 1) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
