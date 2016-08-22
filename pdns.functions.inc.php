@@ -9,14 +9,12 @@
 	 * @category DNS
 	 */
 
-	if (!function_exists('_'))
-	{
+	if (!function_exists('_')) {
 		/**
 		 * @param $text
 		 * @return mixed
 		 */
-		function _($text)
-		{
+		function _($text) {
 			return $text;
 		}
 	}
@@ -223,8 +221,7 @@ function endsWith($needle, $haystack) {
 		'RP');
 
 	// If fancy records is enabled, extend this field.
-	if (isset($dns_fancy) && $dns_fancy)
-	{
+	if (isset($dns_fancy) && $dns_fancy) {
 		$rtypes[14] = 'URL';
 		$rtypes[15] = 'MBOXFW';
 		$rtypes[16] = 'CURL';
@@ -235,56 +232,43 @@ function endsWith($needle, $haystack) {
 	 * @param mixed $address
 	 * @return bool
 	 */
-	function is_valid_email($address)
-	{
+	function is_valid_email($address) {
 		$fields = preg_split("/@/", $address, 2);
-		if ((!preg_match("/^[0-9a-z]([-_.]?[0-9a-z])*$/i", $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0)))
-		{
+		if ((!preg_match("/^[0-9a-z]([-_.]?[0-9a-z])*$/i", $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
 			return false;
 		}
 		return true;
 	}
 
-	if (!function_exists('set_timezone'))
-	{
+	if (!function_exists('set_timezone')) {
 	// Set timezone (required for PHP5)
 	/**
 	 * set_timezone()
 	 * @return void
 	 */
-	function set_timezone()
-	{
+	function set_timezone() {
 		global $timezone;
 
-		if (function_exists('date_default_timezone_set'))
-		{
-			if (isset($timezone))
-			{
+		if (function_exists('date_default_timezone_set')) {
+			if (isset($timezone)) {
 				date_default_timezone_set($timezone);
-			}
-			else
-				if (!ini_get('date.timezone'))
-				{
+			} else
+				if (!ini_get('date.timezone')) {
 					date_default_timezone_set('America/New_York');
 				}
 		}
 	}
 	}
-	if (!function_exists('error'))
-	{
+	if (!function_exists('error')) {
 		/**
 		 * error()
 		 * @param mixed $msg
 		 * @return void
 		 */
-		function error($msg)
-		{
-			if ($msg)
-			{
+		function error($msg) {
+			if ($msg) {
 				add_output("     <div class=\"error\">Error: " . $msg . "</div>\n");
-			}
-			else
-			{
+			} else {
 				add_output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
 			}
 		}
@@ -295,8 +279,7 @@ function endsWith($needle, $haystack) {
 	 * @param mixed $result
 	 * @return
 	 */
-	function isError($result)
-	{
+	function isError($result) {
 		require_once "PEAR.php";
 		return PEAR::isError($result);
 	}
