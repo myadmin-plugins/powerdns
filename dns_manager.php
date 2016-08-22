@@ -3,16 +3,13 @@
 	 * dns_manager()
 	 * @return void
 	 */
-	function dns_manager()
-	{
+	function dns_manager() {
 		page_title('DNS Manager');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
 		$db = $GLOBALS['tf']->db;
-		if (isset($GLOBALS['tf']->variables->request['module']))
-		{
-			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']]))
-			{
+		if (isset($GLOBALS['tf']->variables->request['module'])) {
+			if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']])) {
 				$module = $GLOBALS['tf']->variables->request['module'];
 				$db = get_module_db($module);
 				//				$custid = get_custid($custid, $module);
@@ -24,25 +21,19 @@
 		$settings = get_module_settings($module);
 		$data = $GLOBALS['tf']->accounts->read($custid);
 
-		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1 && verify_csrf_referer(__LINE__, __FILE__))
-		{
-			if (isset($GLOBALS['tf']->variables->request['ip']))
-			{
+		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1 && verify_csrf_referer(__LINE__, __FILE__)) {
+			if (isset($GLOBALS['tf']->variables->request['ip'])) {
 				$ip = trim($db->real_escape($GLOBALS['tf']->variables->request['ip']));
-				if (isset($GLOBALS['tf']->variables->request['domain']) && trim($GLOBALS['tf']->variables->request['domain']) != '')
-				{
+				if (isset($GLOBALS['tf']->variables->request['domain']) && trim($GLOBALS['tf']->variables->request['domain']) != '') {
 					$domain = trim($GLOBALS['tf']->variables->request['domain']);
 					$result = add_dns_domain($domain, $ip);
 					add_output($result['status_text']);
 				}
-				if (isset($GLOBALS['tf']->variables->request['domains']) && !in_array(trim($GLOBALS['tf']->variables->request['domains']), array('', 'Domain Names...')))
-				{
+				if (isset($GLOBALS['tf']->variables->request['domains']) && !in_array(trim($GLOBALS['tf']->variables->request['domains']), array('', 'Domain Names...'))) {
 					$domains = explode("\n", $GLOBALS['tf']->variables->request['domains']);
-					foreach ($domains as $domain)
-					{
+					foreach ($domains as $domain) {
 						$domain = trim($domain);
-						if ($domain != '')
-						{
+						if ($domain != '') {
 							$result = add_dns_domain($domain, $ip);
 							add_output($result['status_text']);
 						}
