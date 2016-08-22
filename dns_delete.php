@@ -4,24 +4,19 @@
 	 * deletes a domain from the DNS server
 	 * @return void
 	 */
-	function dns_delete()
-	{
+	function dns_delete() {
 		page_title('Delete DNS Record');
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);
 		$table = new TFTable;
 		$result = get_dns_domain($domain_id);
-		if ($result !== false)
-		{
-			if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes' && verify_csrf('dns_delete'))
-			{
+		if ($result !== false) {
+			if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes' && verify_csrf('dns_delete')) {
 				delete_dns_domain($domain_id);
 				add_output('Domain Removed');
 				$GLOBALS['tf']->redirect($GLOBALS['tf']->link('index.php', 'choice=none.dns_manager'));
-			}
-			else
-			{
+			} else {
 				$table = new TFTable;
 				$table->csrf('dns_delete');
 				$table->set_title('Confirm Domain Deletee');
