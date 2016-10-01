@@ -12,7 +12,7 @@
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
 		$table = new TFTable;
-		$domain = get_dns_domain($domain_id);
+		$domain = get_dns_domain($domain_id, false, 'view_service');
 		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
 			$verify_csrf = verify_csrf('dns_editor');
 		$csrf_token = $table->csrf('dns_editor');

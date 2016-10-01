@@ -117,13 +117,14 @@
 	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
 	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
+	 * @param bool|string $acl optional name of acl to limitadmins by
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
-	function get_dns_domain($domain_id, $bypass = false) {
+	function get_dns_domain($domain_id, $bypass = false, $acl = false) {
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		if ($GLOBALS['tf']->ima == 'admin' || $bypass === true)
+		if ($bypass === true || ($GLOBALS['tf']->ima == 'admin' && ($acl == false || has_acl($acl))))
 			$db->query("select * from domains where id='{$domain_id}'");
 		else
 			$db->query("select * from domains where id='{$domain_id}' and account='{$custid}'");
