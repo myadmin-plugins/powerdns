@@ -124,6 +124,7 @@
 		$domain_id = intval($domain_id);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
+		function_requirements('has_acl');
 		if ($bypass === true || ($GLOBALS['tf']->ima == 'admin' && ($acl == false || has_acl($acl))))
 			$db->query("select * from domains where id='{$domain_id}'");
 		else
