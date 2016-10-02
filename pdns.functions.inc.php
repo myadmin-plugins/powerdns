@@ -19,7 +19,7 @@
 		}
 	}
 
-	include ('include/db/class.db_mdb2.functions.inc.php');
+	include('include/db/class.db_mdb2.functions.inc.php');
 	//	include('include/dns/poweradmin/inc/database.inc.php');
 
 function endsWith($needle, $haystack) {
@@ -28,9 +28,9 @@ function endsWith($needle, $haystack) {
 	return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
 }
 
-	include ('include/dns/poweradmin/inc/dns.inc.php');
-	include ('include/dns/poweradmin/inc/record.inc.php');
-	include ('include/dns/poweradmin/inc/error.inc.php');
+	include('include/dns/poweradmin/inc/dns.inc.php');
+	include('include/dns/poweradmin/inc/record.inc.php');
+	include('include/dns/poweradmin/inc/error.inc.php');
 
 	global $db_mdb2;
 	$db_mdb2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);

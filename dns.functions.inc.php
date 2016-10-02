@@ -9,7 +9,7 @@
 	 * @category DNS
 	 */
 
-	include (dirname(__FILE__) . '/pdns.functions.inc.php');
+	include(dirname(__FILE__) . '/pdns.functions.inc.php');
 
 	/**
 	 * max domains hosted on our dns server per client
@@ -37,7 +37,7 @@
 		$parts = explode('.', $ip);
 		$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
 		if (is_local_ip($ip)) {
-			@include_once ('Net/DNS2.php');
+			@include_once('Net/DNS2.php');
 			if (class_exists('Net_DNS2_Resolver')) {
 				$resolver = new Net_DNS2_Resolver(array('nameservers' => array('66.45.228.79')));
 				//$resolver->nameservers = array('66.45.228.79');
