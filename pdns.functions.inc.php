@@ -252,8 +252,7 @@ function endsWith($needle, $haystack) {
 		if (function_exists('date_default_timezone_set')) {
 			if (isset($timezone)) {
 				date_default_timezone_set($timezone);
-			} else
-				if (!ini_get('date.timezone')) {
+			} elseif (!ini_get('date.timezone')) {
 					date_default_timezone_set('America/New_York');
 				}
 		}
