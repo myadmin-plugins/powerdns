@@ -68,4 +68,3 @@
 		add_output('<br><br><br>');
 		add_output($table->get_table());
 	}
-?>

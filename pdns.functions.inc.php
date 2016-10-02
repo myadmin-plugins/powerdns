@@ -283,4 +283,3 @@ function endsWith($needle, $haystack) {
 		require_once "PEAR.php";
 		return PEAR::isError($result);
 	}
-?>

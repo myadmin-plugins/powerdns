@@ -126,5 +126,3 @@
 		add_output($table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
 		add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 	}
-
-?>
