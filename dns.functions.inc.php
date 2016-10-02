@@ -419,7 +419,7 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
@@ -428,7 +428,7 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
@@ -437,7 +437,7 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
@@ -446,7 +446,7 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
@@ -455,7 +455,7 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => '*.' . $domain,
@@ -464,7 +464,7 @@
 				'ttl' => 86400,
 				'ordername' => '*',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => 'localhost.' . $domain,
@@ -473,7 +473,7 @@
 				'ttl' => 86400,
 				'ordername' => 'localhost',
 				'auth' => 1,
-				'prio' => NULL)));
+				'prio' => null)));
 			$db->query(make_insert_query('records', array(
 				'domain_id' => $domain_id,
 				'name' => $domain,
@@ -521,7 +521,7 @@
 		global $dbh_city;
 		$db = new db('dns', 'dns', 'python', '66.45.228.79');
 		$db->query(make_insert_query('changes', array(
-			'id' => NULL,
+			'id' => null,
 			'username' => $username,
 			'ip' => $ip,
 			'hostname' => $host,
