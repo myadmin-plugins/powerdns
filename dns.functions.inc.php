@@ -211,7 +211,7 @@
 		if ($type == 'SPF') {
 			$content = '\"' . $content . '\"';
 		}
-		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches)) {
+		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
 		} else {
 			$ordername = '';
@@ -258,7 +258,7 @@
 			return false;
 		}
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.','\\.', $domain_info['name']) . '$/', $name, $matches)) {
+		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
 		} else {
 			$ordername = '';
