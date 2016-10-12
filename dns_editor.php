@@ -89,14 +89,14 @@
 							$table->add_field($record['prio']);
 						else
 							$table->add_field();
-						//if ($record['type'] != 'SOA')
-						//{
-						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
-						//}
-						//else
-						//{
-						//$table->add_field();
-						//}
+						if ($record['type'] != 'SOA')
+						{
+							$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'). ' '. $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
+						}
+						else
+						{
+							$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'));
+						}
 						$table->add_row();
 					}
 				}
