@@ -42,7 +42,7 @@
 			}
 		}
 		if ($GLOBALS['tf']->ima == 'admin')
-			add_output(render_form('dns_manager', 'view_service'));
+			add_output(render_form('dns_manager', array('acl' => 'view_service')));
 		else
 			add_output(render_form('dns_manager', array('custid' => get_custid($GLOBALS['tf']->session->account_id, 'domains'))));
 		$table = new TFTable;
