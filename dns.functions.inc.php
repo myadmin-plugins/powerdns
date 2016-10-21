@@ -21,7 +21,7 @@
 	 * ok this is a fucking awesome insanely fast way to lookup reverse dns settings for ips
 	 * basically what I did was i gave My and Nucleus   ACL (AXFR) permission on City,
 	 * so that instead of having to lookup ips one at a time they can load an entire 256
-	 * IPs at a time.   It caches all the IPs, and only does another query if it doesn't
+	 * IPs at a time.   It caches all the IPs, and only does another query if it does not
 	 * already have the IP cached.   This allows us to do lookups 2600% Faster than most
 	 * any other way.    This was needed because as we're looking at reverse dns settings for
 	 * clients with multiple vlans and potentially tons of IPs, thats a TON of queries to
