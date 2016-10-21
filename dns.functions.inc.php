@@ -116,7 +116,7 @@
 	 *
 	 * @see API
 	 * @param integer $domain_id The ID of the domain in question.
-	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
+	 * @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
 	 * @param bool|string $acl optional name of acl to limitadmins by
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
@@ -197,7 +197,7 @@
 	 * @param string $type  dns record type.
 	 * @param integer $ttl dns record time to live, or update time.
 	 * @param integer $prio dns record priority
-	 * @param bool $bypass defaults to false, wether ot not to bypass domain ownership check
+	 * @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
 	 * @return int|false The ID of the newly added record, or false on error..
 	 */
 	function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false) {
