@@ -21,7 +21,7 @@
 		$settings = get_module_settings($module);
 		$data = $GLOBALS['tf']->accounts->read($custid);
 
-		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1 && verify_csrf_referer(__LINE__, __FILE__)) {
+		if (isset($GLOBALS['tf']->variables->request['new']) && $GLOBALS['tf']->variables->request['new'] == 1 && verify_csrf_referrer(__LINE__, __FILE__)) {
 			if (isset($GLOBALS['tf']->variables->request['ip'])) {
 				$ip = trim($db->real_escape($GLOBALS['tf']->variables->request['ip']));
 				if (isset($GLOBALS['tf']->variables->request['domain']) && trim($GLOBALS['tf']->variables->request['domain']) != '') {
