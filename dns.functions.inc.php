@@ -21,7 +21,7 @@
 	 * ok this is a fucking awesome insanely fast way to lookup reverse dns settings for ips
 	 * basically what I did was i gave My and Nucleus   ACL (AXFR) permission on City,
 	 * so that instead of having to lookup ips one at a time they can load an entire 256
-	 * IPs at a time.   It caches all the IPs, and only does another query if it doesnt
+	 * IPs at a time.   It caches all the IPs, and only does another query if it doesn't
 	 * already have the IP cached.   This allows us to do lookups 2600% Faster than most
 	 * any other way.    This was needed because as we're looking at reverse dns settings for
 	 * clients with multiple vlans and potentially tons of IPs, thats a TON of queries to
@@ -235,7 +235,7 @@
 
 	/**
 	 * update_dns_record()
-	 * Updte a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
+	 * Update a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
 	 * after the update so you dont need to worry about that.
 	 *
 	 * @see API
@@ -497,9 +497,9 @@
 	 * sets up reverse dns for a given IP address.
 	 *
 	 * @param string $ip the ip address you want reverse changed for.
-	 * @param string $host the hostname youd you want to set DNS on the IP to.
+	 * @param string $host the hostname you'd you want to set DNS on the IP to.
 	 * @param string $action optional, defaults to set_reverse, can also be remove_reverse
-	 * @return bool true if it was able to make the requested changes, false if it wasnt.
+	 * @return bool true if it was able to make the requested changes, false if it wasn't.
 	 */
 	function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 		$actions = array('set_reverse', 'remove_reverse');

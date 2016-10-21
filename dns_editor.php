@@ -122,7 +122,7 @@
 			}
 			add_output($table->get_table());
 		} else {
-			add_output('There was an error with the query, or you dont have access to that domain or it doesnt exist');
+			add_output("There was an error with the query, or you dont have access to that domain or it doesn't exist");
 		}
 		add_output($table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, 'Go To Basic DNS Editor') . '<br>');
 		add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));

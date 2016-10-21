@@ -19,7 +19,7 @@
 			} else {
 				$table = new TFTable;
 				$table->csrf('dns_delete');
-				$table->set_title('Confirm Domain Deletee');
+				$table->set_title('Confirm Domain Delete');
 				$table->add_hidden('id', $domain_id);
 				$table->add_field('<select name=confirm><option value=no>No</option><option value=yes>Yes</option></select>');
 				$table->add_field($table->make_submit('Continue With Delete'));
