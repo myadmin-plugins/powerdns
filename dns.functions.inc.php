@@ -121,7 +121,7 @@
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
 	function get_dns_domain($domain_id, $bypass = false, $acl = false) {
-		$domain_id = intval($domain_id);
+		$domain_id = (int)$domain_id;
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		function_requirements('has_acl');
@@ -147,7 +147,7 @@
 	 * @return array|false Either an array containing some information about the domain or false on failure.
 	 */
 	function get_dns_records($domain_id, $bypass = false) {
-		$domain_id = intval($domain_id);
+		$domain_id = (int)$domain_id;
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin' || $bypass == true)
@@ -173,8 +173,8 @@
 	 * @return bool will return true if it succeeded, or false if there was some type of error.
 	 */
 	function delete_dns_record($domain_id, $record_id) {
-		$domain_id = intval($domain_id);
-		$record_id = intval($record_id);
+		$domain_id = (int)$domain_id;
+		$record_id = (int)$record_id;
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false) {
 			$db->query("delete from records where domain_id='$domain_id' and id='$record_id'");
@@ -201,7 +201,7 @@
 	 * @return int|false The ID of the newly added record, or false on error..
 	 */
 	function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false) {
-		$domain_id = intval($domain_id);
+		$domain_id = (int)$domain_id;
 		if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl)) {
 			return false;
 		}
@@ -249,8 +249,8 @@
 	 * @return bool True on success, False on failure.
 	 */
 	function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio) {
-		$domain_id = intval($domain_id);
-		$record_id = intval($record_id);
+		$domain_id = (int)$domain_id;
+		$record_id = (int)$record_id;
 		if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl)) {
 			return false;
 		}
@@ -292,7 +292,7 @@
 	 * @return bool will return true if it succeeded, or false if there was some type of error.
 	 */
 	function delete_dns_domain($domain_id) {
-		$domain_id = intval($domain_id);
+		$domain_id = (int)$domain_id;
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false) {
 			$db->query("delete from records where domain_id=$domain_id");
