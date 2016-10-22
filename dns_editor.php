@@ -10,7 +10,7 @@
 		page_title('DNS Editor');
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
-		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
+		$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
 		$table = new TFTable;
 		$domain = get_dns_domain($domain_id, false, 'view_service');
 		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
