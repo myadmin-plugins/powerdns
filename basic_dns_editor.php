@@ -3,7 +3,7 @@
 	function basic_dns_editor() {
 		page_title('Basic DNS Editor');
 		$custid = $GLOBALS['tf']->session->account_id;
-		$domain_id = intval($GLOBALS['tf']->variables->request['edit']);
+		$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
 		$types = array(
 			'A' => 'Point To IP',
 			'CNAME' => 'Points To Hostname',
