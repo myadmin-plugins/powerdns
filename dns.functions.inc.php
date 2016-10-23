@@ -136,16 +136,17 @@
 		return false;
 	}
 
-	/**
-	 * get_dns_records()
-	 * To be used in combination with {@}get_dns_domain
-	 * This gets all the records for a given domain.
-	 * @todo add in some custid check here will have to do a join w/ the domains table.
-	 *
-	 * @see API
-	 * @param int $domain_id The ID of the domain in question.
-	 * @return array|false Either an array containing some information about the domain or false on failure.
-	 */
+/**
+ * get_dns_records()
+ * To be used in combination with {@}get_dns_domain
+ * This gets all the records for a given domain.
+ *
+ * @todo add in some custid check here will have to do a join w/ the domains table.
+ * @see API
+ * @param int $domain_id The ID of the domain in question.
+ * @param bool $bypass
+ * @return array|false Either an array containing some information about the domain or false on failure.
+ */
 	function get_dns_records($domain_id, $bypass = false) {
 		$domain_id = (int)$domain_id;
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
