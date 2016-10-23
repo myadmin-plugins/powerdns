@@ -61,7 +61,7 @@
 					if (count($response->answer)) {
 						foreach ($response->answer as $rr) {
 							if ($rr->type == 'PTR') {
-								$tzone[implode(".", array_reverse(explode(".", str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
+								$tzone[implode('.', array_reverse(explode('.', str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
 							}
 						}
 						$cached_zones[$zone] = $tzone;
@@ -77,9 +77,9 @@
 				if ($GLOBALS['tf']->session->appsession('emailed_no_net_dns') != 1) {
 					$subject = 'My Install Missing Net/DNS';
 					$headers = '';
-					$headers .= "MIME-Version: 1.0" . EMAIL_NEWLINE;
-					$headers .= "Content-type: text/html; charset=iso-8859-1" . EMAIL_NEWLINE;
-					$headers .= "From: " . TITLE . " <" . EMAIL_FROM . ">" . EMAIL_NEWLINE;
+					$headers .= 'MIME-Version: 1.0' . EMAIL_NEWLINE;
+					$headers .= 'Content-type: text/html; charset=iso-8859-1' . EMAIL_NEWLINE;
+					$headers .= 'From: ' . TITLE . ' <' . EMAIL_FROM . '>' . EMAIL_NEWLINE;
 					//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
 					$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
 					$email .= 'login as root and type:<br>   pear install Net/DNS<br>to fix<br>';

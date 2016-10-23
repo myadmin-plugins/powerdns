@@ -1,5 +1,8 @@
 <?php
-	function add_dns_default_domain($domain_id = null) {
+/**
+ * @param null $domain_id
+ */
+function add_dns_default_domain($domain_id = null) {
 		if ($domain_id && htmlspecial($domain_id)) {
 			$pdb = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 			$db_domains = get_module_db('domains');

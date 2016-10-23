@@ -61,14 +61,14 @@
 				foreach ($records as $idx => $record) {
 					if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id']) {
 						$table->add_hidden('update', $record['id']);
-						$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record["name"]), '.') . "\" class=\"input\"></td><td>." . $domain['name'] . "</td></tr></table>");
+						$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"" . trim(str_replace($domain['name'], '', $record['name']), '.') . "\" class=\"input\"></td><td>." . $domain['name'] . '</td></tr></table>');
 						$sel = "<select name=\"type\">\n";
 						foreach (get_record_types() as $type_available) {
-							if ($type_available == $record["type"])
-								$add = " SELECTED";
+							if ($type_available == $record['type'])
+								$add = ' SELECTED';
 							else
-								$add = "";
-							$sel .= " <option" . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
+								$add = '';
+							$sel .= ' <option' . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
 						}
 						$sel .= "</select>\n";
 						$table->add_field($sel);
@@ -102,15 +102,15 @@
 				}
 			if (!isset($GLOBALS['tf']->variables->request['record'])) {
 				$table->add_hidden('update', -1);
-				$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"\" class=\"input\"></td><td>." . $domain['name'] . "</td></tr></table>");
+				$table->add_field("<table cellspacing=0 cellpadding=0><tr><td><input type=\"text\" name=\"name\" value=\"\" class=\"input\"></td><td>." . $domain['name'] . '</td></tr></table>');
 				$sel = "<select name=\"type\">\n";
 				foreach (get_record_types() as $type_available) {
 					if ($type_available == 'A') {
-						$add = " SELECTED";
+						$add = ' SELECTED';
 					} else {
-						$add = "";
+						$add = '';
 					}
-					$sel .= " <option" . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
+					$sel .= ' <option' . $add . " value=\"" . $type_available . "\" >" . $type_available . "</option>\n";
 				}
 				$sel .= "</select>\n";
 				$table->add_field($sel);
