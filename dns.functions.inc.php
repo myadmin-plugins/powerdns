@@ -137,11 +137,9 @@
 	}
 
 /**
- * get_dns_records()
  * To be used in combination with {@}get_dns_domain
  * This gets all the records for a given domain.
  *
- * @todo add in some custid check here will have to do a join w/ the domains table.
  * @see API
  * @param int $domain_id The ID of the domain in question.
  * @param bool $bypass
@@ -152,7 +150,7 @@
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin' || $bypass == true)
-			$db->query("select * from records where domain_id='$domain_id'");
+			$db->query("select * from records where domain_id='{$domain_id}'");
 		else
 			$db->query("select records.* from records, domains where domains.id='{$domain_id}' and account='{$custid}' and domain_id=domains.id");
 		$results = array();
@@ -178,7 +176,7 @@
 		$record_id = (int)$record_id;
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false) {
-			$db->query("delete from records where domain_id='$domain_id' and id='$record_id'");
+			$db->query("delete from records where domain_id='{$domain_id}' and id='{$record_id}'");
 			if ($db->affected_rows() == 1) {
 				return true;
 			}
