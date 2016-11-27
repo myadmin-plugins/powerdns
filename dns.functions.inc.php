@@ -58,7 +58,7 @@
 						}
 						return false;
 					}
-					//billingd_log(print_r($response, true));
+					//myadmin_log('dns', 'info', print_r($response, true));
 					if (count($response->answer)) {
 						foreach ($response->answer as $rr) {
 							if ($rr->type == 'PTR') {
@@ -66,7 +66,7 @@
 							}
 						}
 						$cached_zones[$zone] = $tzone;
-						//billingd_log("City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __LINE__, __FILE__);
+						//myadmin_log('dns', 'info', "City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __LINE__, __FILE__);
 					}
 				}
 				if (isset($cached_zones[$zone])) {
@@ -320,7 +320,7 @@
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
-		//billingd_log("new db(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
+		//myadmin_log('dns', 'info', "new db(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
 		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$db2 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '216.158.234.243');
 		$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
@@ -350,7 +350,7 @@
 			return $return;
 		}
 		$query = "select * from domains where name='" . $db->real_escape($domain) . "'";
-		//billingd_log($query, __LINE__, __FILE__);
+		//myadmin_log('dns', 'info', $query, __LINE__, __FILE__);
 		$result = $db->query($query, __LINE__, __FILE__);
 		if ($result) {
 			if ($db->num_rows() > 0) {
@@ -527,7 +527,7 @@
 			'hostname' => $host,
 			'action' => $action
 		)));
-		//billingd_log("Reverse DNS $ip => $host", __LINE__, __FILE__);
+		//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__);
 		if ($db->affected_rows() == 1) {
 			return true;
 		} else {

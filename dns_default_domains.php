@@ -15,7 +15,7 @@ function add_dns_default_domain($domain_id = null) {
 					$domain = trim($db_domains->Record['domain_hostname']);
 					$ip = '66.45.228.100';
 					$result = add_dns_domain($domain, $ip);
-					billingd_log("For domain - $domain default dns entry added is added. Response - ".print_r($result, true), __LINE__, __FILE__);
+					myadmin_log('dns', 'info', "For domain - $domain default dns entry added is added. Response - ".print_r($result, true), __LINE__, __FILE__);
 					$pdb->query("update domains set account={$db_domains->Record['domain_custid']} where name='{$db->Record['domain_hostname']}'");
 				}
 			}
