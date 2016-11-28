@@ -502,6 +502,8 @@
 	 * @return bool true if it was able to make the requested changes, false if it wasn't.
 	 */
 	function reverse_dns($ip, $host = '', $action = 'set_reverse') {
+		if (!valid_ip($ip, false))
+			return false;
 		$actions = array('set_reverse', 'remove_reverse');
 		if (!in_array($action, $actions))
 			$action = 'set_reverse';
