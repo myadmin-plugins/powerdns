@@ -58,7 +58,7 @@
 						}
 						return false;
 					}
-					//myadmin_log('dns', 'info', print_r($response, true));
+					//myadmin_log('dns', 'info', json_encode($response));
 					if (count($response->answer)) {
 						foreach ($response->answer as $rr) {
 							if ($rr->type == 'PTR') {
