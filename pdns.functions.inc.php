@@ -19,7 +19,7 @@
 		}
 	}
 
-	include('include/db/class.db_mdb2.functions.inc.php');
+	include(INCLUDE_ROOT . '/../vendor/detain/db_abstraction/class.db_mdb2.functions.inc.php');
 	//	include('include/dns/poweradmin/inc/database.inc.php');
 /**
  * @param $needle
