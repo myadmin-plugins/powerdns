@@ -1,4 +1,5 @@
 <?php
+
 	/**
 	 * dns_delete()
 	 * deletes a domain from the DNS server

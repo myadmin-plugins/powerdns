@@ -1,4 +1,5 @@
 <?php
+
 	/**
 	 * dns_manager()
 	 * @return void

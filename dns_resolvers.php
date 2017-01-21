@@ -1,4 +1,5 @@
 <?php
+
 	/**
 	 * dns_resolvers()
 	 * @return void
