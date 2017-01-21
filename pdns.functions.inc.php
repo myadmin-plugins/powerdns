@@ -114,7 +114,6 @@
 	 * isError()
 	 *
 	 * @param mixed $result
-	 * @return
 	 */
 	function isError($result) {
 		require_once 'PEAR.php';
