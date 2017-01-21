@@ -10,6 +10,7 @@
 	 */
 
 	if (!function_exists('_')) {
+
 		/**
 		 * @param $text
 		 * @return mixed
@@ -17,6 +18,7 @@
 		function _($text) {
 			return $text;
 		}
+
 	}
 
 	include(INCLUDE_ROOT . '/../vendor/detain/db_abstraction/class.db_mdb2.functions.inc.php');
@@ -80,7 +82,8 @@
 
 	if (!function_exists('set_timezone')) {
 	// Set timezone (required for PHP5)
-	/**
+
+/**
 	 * set_timezone()
 	 * @return void
 	 */
@@ -95,8 +98,10 @@
 				}
 		}
 	}
+
 	}
 	if (!function_exists('error')) {
+
 		/**
 		 * error()
 		 * @param mixed $msg
@@ -109,7 +114,9 @@
 				add_output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
 			}
 		}
+
 	}
+
 	/**
 	 * isError()
 	 *
