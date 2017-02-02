@@ -9,7 +9,7 @@
 	 * @category DNS
 	 */
 
-	include(dirname(__FILE__) . '/pdns.functions.inc.php');
+	include(__DIR__ . '/pdns.functions.inc.php');
 
 	/**
 	 * max domains hosted on our dns server per client
