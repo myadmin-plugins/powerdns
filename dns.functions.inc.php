@@ -43,7 +43,7 @@
 				$resolver = new Net_DNS2_Resolver(array('nameservers' => array('66.45.228.79')));
 				//$resolver->nameservers = array('66.45.228.79');
 				if (!isset($cached_zones[$zone])) {
-					$tzone = array();
+					$tzone = [];
 					try
 					{
 						$response = $resolver->query($zone, 'AXFR');
@@ -88,7 +88,7 @@
 					$GLOBALS['tf']->session->appsession('emailed_no_net_dns', 1);
 				}
 				if (!isset($cached_zones[$zone])) {
-					$cached_zones[$zone] = array();
+					$cached_zones[$zone] = [];
 				}
 				if (isset($cached_zones[$zone][$ip])) {
 					return $cached_zones[$zone][$ip];
@@ -154,7 +154,7 @@
 			$db->query("select * from records where domain_id='{$domain_id}'");
 		else
 			$db->query("select records.* from records, domains where domains.id='{$domain_id}' and account='{$custid}' and domain_id=domains.id");
-		$results = array();
+		$results = [];
 		if ($db->num_rows() > 0)
 			while ($db->next_record(MYSQL_ASSOC))
 				$results[] = $db->Record;
