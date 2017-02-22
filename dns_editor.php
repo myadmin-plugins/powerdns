@@ -13,8 +13,10 @@
 		$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
 		$table = new TFTable;
 		$domain = get_dns_domain($domain_id, false, 'view_service');
-		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
+		if (!isset($GLOBALS['tf']->variables->request['update']) && !isset($GLOBALS['tf']->variables->request['delete'])) {
+		} else {
 			$verify_csrf = verify_csrf('dns_editor');
+		}
 		$csrf_token = $table->csrf('dns_editor');
 		if ($domain !== false) {
 			if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
