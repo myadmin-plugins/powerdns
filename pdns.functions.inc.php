@@ -30,9 +30,9 @@
 	 * @return bool
 	 */
 	function endsWith($needle, $haystack) {
-		$length = strlen($haystack);
-		$nLength = strlen($needle);
-		return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
+		$length = mb_strlen($haystack);
+		$nLength = mb_strlen($needle);
+		return $nLength <= $length && strncmp(mb_substr($haystack, -$nLength), $needle, $nLength) === 0;
 	}
 
 	include('include/dns/poweradmin/inc/dns.inc.php');

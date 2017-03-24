@@ -349,10 +349,10 @@ if ($perm_content_edit == "all" || ($perm_content_edit == "own" || $perm_content
                     $add = "";
                 }
             } else {
-                if (preg_match('/i(p6|n-addr).arpa/i', $zone_name) && strtoupper($record_type) == 'PTR') {
+                if (preg_match('/i(p6|n-addr).arpa/i', $zone_name) && mb_strtoupper($record_type) == 'PTR') {
                     $add = " SELECTED";
                     $rev = "";
-                } else if ((strtoupper($record_type) == 'A') && $iface_add_reverse_record) {
+                } else if ((mb_strtoupper($record_type) == 'A') && $iface_add_reverse_record) {
                     $add = " SELECTED";
                     $rev = "<input type=\"checkbox\" name=\"reverse\"><span class=\"normaltext\">" . _('Add also reverse record') . "</span>\n";
                 } else {

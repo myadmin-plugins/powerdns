@@ -375,7 +375,7 @@
 			$match_size =0;
 			for ($x = 0; $x < $tldsize; $x++) {
 				if (preg_match('/\.' . str_replace('.', '\.', $tlds[$x]) . '$/i', $domain)) {
-					$tmatch_size = strlen($tlds[$x]);
+					$tmatch_size = mb_strlen($tlds[$x]);
 					if ($tmatch_size > $match_size) {
 						$match_size = $tmatch_size;
 						$found_tld = true;
@@ -384,7 +384,7 @@
 				}
 			}
 			$tdomain = str_replace('.' . $tld, '', $domain);
-			if (strpos($tdomain, '.') !== false) {
+			if (mb_strpos($tdomain, '.') !== false) {
 				$return['status_text'] =
 					'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry (matched '.$tdomain.' for '.$tld.')';
 				return $return;
@@ -512,7 +512,7 @@
 				dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 				return false;
 			}
-			if (strpos($host, '_') !== false) {
+			if (mb_strpos($host, '_') !== false) {
 				dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
 			}
 		}

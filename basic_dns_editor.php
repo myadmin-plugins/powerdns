@@ -82,8 +82,8 @@
 					if (isset($types[$record['type']]))
 						$type = $types[$record['type']];
 					$table->add_field($type);
-					if (strlen($record['content']) > 30)
-						$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . substr($record['content'], 0, 30) . '...</a>');
+					if (mb_strlen($record['content']) > 30)
+						$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . mb_substr($record['content'], 0, 30) . '...</a>');
 					else
 						$table->add_field($record['content']);
 					//$table->add_field($record['ttl']);

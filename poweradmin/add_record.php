@@ -204,10 +204,10 @@ if ($zone_type == "SLAVE" || $perm_content_edit == "none" || ($perm_content_edit
                 $add = "";
             }
         } else {
-            if (preg_match('/i(p6|n-addr).arpa/i', $zone_name) && strtoupper($record_type) == 'PTR') {
+            if (preg_match('/i(p6|n-addr).arpa/i', $zone_name) && mb_strtoupper($record_type) == 'PTR') {
                 $add = " SELECTED";
                 $rev = "";
-            } elseif ((strtoupper($record_type) == 'A') && $iface_add_reverse_record) {
+            } elseif ((mb_strtoupper($record_type) == 'A') && $iface_add_reverse_record) {
                 $add = " SELECTED";
                 $rev = "<input type=\"checkbox\" name=\"reverse\"><span class=\"normaltext\">" . _('Add also reverse record') . "</span>\n";
             } else {

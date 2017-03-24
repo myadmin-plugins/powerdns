@@ -48,7 +48,7 @@ function safe($value)
 
     if ($db_type == 'mysql' || $db_type == 'sqlite') {
         $value = $db_mdb2->quote($value, 'text');
-        $value = substr($value, 1, -1); // remove quotes
+        $value = mb_substr($value, 1, -1); // remove quotes
     } elseif ($db_type == 'pgsql') {
         $value = pg_escape_string($value);
     } else {
@@ -171,7 +171,7 @@ if ((!valid_ip_address($ip)) && (!valid_ip_address($ip6))) {
     return status_exit('dnserr');
 }
 
-if (!strlen($hostname)) {
+if (!mb_strlen($hostname)) {
     return status_exit('notfqdn');
 }
 
