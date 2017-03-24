@@ -704,13 +704,13 @@ function auth($msg = "", $type = "success") {
                         include_once 'inc/countrycodes.inc.php';
                         $locales = scandir('locale/');
                         foreach ($locales as $locale) {
-                            if (strlen($locale) == 5) {
+                            if (mb_strlen($locale) == 5) {
                                 $locales_fullname[$locale] = $country_codes[substr($locale, 0, 2)];
                             }
                         }
                         asort($locales_fullname);
                         foreach ($locales_fullname as $locale => $language) {
-                            if (substr($locale, 0, 2) == substr($iface_lang, 0, 2)) {
+                            if (mb_substr($locale, 0, 2) == mb_substr($iface_lang, 0, 2)) {
                                 echo _('<option selected value="' . $locale . '">' . $language);
                             } else {
                                 echo _('<option value="' . $locale . '">' . $language);
@@ -765,7 +765,7 @@ function logout($msg = "", $type = "") {
  * @return true if ends with specified string, otherwise false
  */
 function endsWith($needle, $haystack) {
-    $length = strlen($haystack);
-    $nLength = strlen($needle);
-    return $nLength <= $length && strncmp(substr($haystack, -$nLength), $needle, $nLength) === 0;
+    $length = mb_strlen($haystack);
+    $nLength = mb_strlen($needle);
+    return $nLength <= $length && strncmp(mb_substr($haystack, -$nLength), $needle, $nLength) === 0;
 }

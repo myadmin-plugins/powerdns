@@ -157,8 +157,8 @@ function get_next_serial($curr_serial, $today = '') {
         $today = date('Ymd');
     }
 
-    $revision = (int) substr($curr_serial, -2);
-    $ser_date = substr($curr_serial, 0, 8);
+    $revision = (int) mb_substr($curr_serial, -2);
+    $ser_date = mb_substr($curr_serial, 0, 8);
 
     if ($curr_serial == '0') {
         $serial = $curr_serial;
@@ -170,7 +170,7 @@ function get_next_serial($curr_serial, $today = '') {
             ++$revision;
         } elseif (strncmp($today, $curr_serial, 8) === -1) {
             // Reuse existing serial date if it's in the future
-            $today = substr($curr_serial, 0, 8);
+            $today = mb_substr($curr_serial, 0, 8);
 
             // Get next date if revision reaches maximum per day (99) limit otherwise increment the counter
             if ($revision == 99) {
@@ -937,7 +937,7 @@ function get_records_by_type_from_domid($type, $recid) {
     global $db_mdb2;
 
     // Does this type exist?
-    if (!in_array(strtoupper($type), $rtypes)) {
+    if (!in_array(mb_strtoupper($type), $rtypes)) {
         error(sprintf(ERR_INV_ARGC, "get_records_from_type", "this is not a supported record"));
     }
 
@@ -2077,7 +2077,7 @@ function record_name_exists($name) {
  * @return int domain level
  */
 function get_domain_level($name) {
-    return substr_count($name, '.') + 1;
+    return mb_substr_count($name, '.') + 1;
 }
 
 /** Return domain second level domain for given name

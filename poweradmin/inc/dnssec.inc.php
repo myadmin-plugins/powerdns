@@ -286,7 +286,7 @@ function dnssec_get_ds_records($domain_name) {
 
     $ds_records = array();
     foreach ($output as $line) {
-        if (substr($line, 0, 2) == 'DS') {
+        if (mb_substr($line, 0, 2) == 'DS') {
             $items = explode(' ', $line);
             $ds_line = join(" ", array_slice($items, 2));
             $ds_records[] = $ds_line;
@@ -451,7 +451,7 @@ function dnssec_get_dnskey_record($domain_name) {
 
     $dns_key = '';
     foreach ($output as $line) {
-        if (substr($line, 0, 3) == 'KSK') {
+        if (mb_substr($line, 0, 3) == 'KSK') {
             $items = explode(' ', $line);
             $dns_key = join(" ", array_slice($items, 3));
         }
@@ -522,10 +522,10 @@ function dnssec_get_keys($domain_name) {
 
     $keys = array();
     foreach ($output as $line) {
-        if (substr($line, 0, 2) == 'ID') {
+        if (mb_substr($line, 0, 2) == 'ID') {
             $items = explode(' ', $line);
             $bits_array = explode("\t", $items[12]);
-            $keys[] = array($items[2], substr($items[3], 1, -2), substr($items[6], 0, -1), substr($items[9], 0, -1), $bits_array[0], $items[13]);
+            $keys[] = array($items[2], mb_substr($items[3], 1, -2), mb_substr($items[6], 0, -1), mb_substr($items[9], 0, -1), $bits_array[0], $items[13]);
         }
     }
 

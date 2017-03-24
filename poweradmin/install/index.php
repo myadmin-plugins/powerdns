@@ -179,7 +179,7 @@ switch ($current_step) {
             $result = $db_mdb2->queryRow($sql);
             if (isset($result['user()'])) {
                 $current_db_user = $result['user()'];
-                $pa_db_host = substr($current_db_user, strpos($current_db_user, '@') + 1);
+                $pa_db_host = mb_substr($current_db_user, mb_strpos($current_db_user, '@') + 1);
             }
 
             echo _('In MySQL you should now perform the following command:') . "</p>";

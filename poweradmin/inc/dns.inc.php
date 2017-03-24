@@ -298,7 +298,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
     $hostname = preg_replace("/\.$/", "", $hostname);
 
     # The full domain name may not exceed a total length of 253 characters.
-    if (strlen($hostname) > 253) {
+    if (mb_strlen($hostname) > 253) {
         error(ERR_DNS_HN_TOO_LONG);
         return false;
     }
@@ -323,22 +323,22 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
                 return false;
             }
         }
-        if (substr($hostname_label, 0, 1) == "-") {
+        if (mb_substr($hostname_label, 0, 1) == "-") {
             error(ERR_DNS_HN_DASH);
             return false;
         }
-        if (substr($hostname_label, -1, 1) == "-") {
+        if (mb_substr($hostname_label, -1, 1) == "-") {
             error(ERR_DNS_HN_DASH);
             return false;
         }
-        if (strlen($hostname_label) < 1 || strlen($hostname_label) > 63) {
+        if (mb_strlen($hostname_label) < 1 || mb_strlen($hostname_label) > 63) {
             error(ERR_DNS_HN_LENGTH);
             return false;
         }
     }
 
-    if ($hostname_labels[$label_count - 1] == "arpa" && (substr_count($hostname_labels[0], "/") == 1 XOR substr_count($hostname_labels[1], "/") == 1)) {
-        if (substr_count($hostname_labels[0], "/") == 1) {
+    if ($hostname_labels[$label_count - 1] == "arpa" && (mb_substr_count($hostname_labels[0], "/") == 1 XOR mb_substr_count($hostname_labels[1], "/") == 1)) {
+        if (mb_substr_count($hostname_labels[0], "/") == 1) {
             $array = explode("/", $hostname_labels[0]);
         } else {
             $array = explode("/", $hostname_labels[1]);
@@ -356,7 +356,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
             return false;
         }
     } else {
-        if (substr_count($hostname, "/") > 0) {
+        if (mb_substr_count($hostname, "/") > 0) {
             error(ERR_DNS_HN_SLASH);
             return false;
         }
@@ -705,7 +705,7 @@ function is_valid_rr_prio(&$prio, $type) {
  */
 function is_valid_rr_srv_name(&$name) {
 
-    if (strlen($name) > 255) {
+    if (mb_strlen($name) > 255) {
         error(ERR_DNS_HN_TOO_LONG);
         return false;
     }
