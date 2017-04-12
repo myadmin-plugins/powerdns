@@ -378,7 +378,7 @@ function show_pages($amount, $rowamount, $id = '') {
         echo _('Show page') . ":<br>";
 
         if ($lastpage > $num & $start > 1) {
-            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES);
+            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8');
             $poutput .= '?start=' . ($start - 1);
             if ($id != '')
                 $poutput .= '&id=' . $id;
@@ -387,7 +387,7 @@ function show_pages($amount, $rowamount, $id = '') {
             $poutput .= '</a>';
         }
         if ($start != 1) {
-            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES);
+            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8');
             $poutput .= '?start=1';
             if ($id != '')
                 $poutput .= '&id=' . $id;
@@ -402,7 +402,7 @@ function show_pages($amount, $rowamount, $id = '') {
             if ($start == $i) {
                 $poutput .= '[ <b>' . $i . '</b> ]';
             } elseif ($i != $lastpage & $i != 1) {
-                $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES);
+                $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8');
                 $poutput .= '?start=' . $i;
                 if ($id != '')
                     $poutput .= '&id=' . $id;
@@ -415,7 +415,7 @@ function show_pages($amount, $rowamount, $id = '') {
         if ($start != $lastpage) {
             if (min(($startpage + $num), $lastpage) < ($lastpage - 1))
                 $poutput .= ' .. ';
-            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES);
+            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8');
             $poutput .= '?start=' . $lastpage;
             if ($id != '')
                 $poutput .= '&id=' . $id;
@@ -425,7 +425,7 @@ function show_pages($amount, $rowamount, $id = '') {
         }
 
         if ($lastpage > $num & $start < $lastpage) {
-            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES);
+            $poutput .= '<a href=" ' . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8');
             $poutput .= '?start=' . ($start + 1);
             if ($id != '')
                 $poutput .= '&id=' . $id;
@@ -481,7 +481,7 @@ function show_letters($letterstart, $userid) {
     if ($letterstart == "1") {
         echo "<span class=\"lettertaken\">[ 0-9 ]</span> ";
     } elseif ($digits_available) {
-        echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES) . "?letter=1\">[ 0-9 ]</a> ";
+        echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8') . "?letter=1\">[ 0-9 ]</a> ";
     } else {
         echo "[ <span class=\"letternotavailable\">0-9</span> ] ";
     }
@@ -490,7 +490,7 @@ function show_letters($letterstart, $userid) {
         if ($letter == $letterstart) {
             echo "<span class=\"lettertaken\">[ " . $letter . " ]</span> ";
         } elseif (in_array($letter, $available_chars)) {
-            echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES) . "?letter=" . $letter . "\">[ " . $letter . " ]</a> ";
+            echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8') . "?letter=" . $letter . "\">[ " . $letter . " ]</a> ";
         } else {
             echo "[ <span class=\"letternotavailable\">" . $letter . "</span> ] ";
         }
@@ -499,7 +499,7 @@ function show_letters($letterstart, $userid) {
     if ($letterstart == 'all') {
         echo "<span class=\"lettertaken\">[ Show all ]</span>";
     } else {
-        echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES) . "?letter=all\">[ Show all ]</a> ";
+        echo "<a href=\"" . htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8') . "?letter=all\">[ Show all ]</a> ";
     }
 }
 
@@ -585,7 +585,7 @@ function message($msg) {
  */
 function clean_page($arg = '') {
     if (!$arg) {
-        header("Location: " . htmlentities($_SERVER['SCRIPT_NAME'], ENT_QUOTES) . "?time=" . time());
+        header("Location: " . htmlentities($_SERVER['SCRIPT_NAME'], ENT_QUOTES, 'UTF-8') . "?time=" . time());
         exit;
     } else {
         if (preg_match('!\?!si', $arg)) {
@@ -684,7 +684,7 @@ function auth($msg = "", $type = "success") {
     }
     ?>
     <h2><?php echo _('Log in'); ?></h2>
-    <form method="post" action="<?php echo htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES); ?>">
+    <form method="post" action="<?php echo htmlentities($_SERVER["PHP_SELF"], ENT_QUOTES, 'UTF-8'); ?>">
         <input type="hidden" name="query_string" value="<?php echo htmlentities($_SERVER["QUERY_STRING"]); ?>">
         <table border="0">
             <tr>

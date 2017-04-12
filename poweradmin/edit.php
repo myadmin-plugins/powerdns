@@ -436,7 +436,7 @@ echo "       <th colspan=\"2\">" . _('Type') . "</th>\n";
 echo "      </tr>\n";
 
 if ($meta_edit) {
-    echo "      <form action=\"" . htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES) . "?id=" . $zone_id . "\" method=\"post\">\n";
+    echo "      <form action=\"" . htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . "?id=" . $zone_id . "\" method=\"post\">\n";
     echo "       <input type=\"hidden\" name=\"domain\" value=\"" . $zone_id . "\">\n";
     echo "       <tr>\n";
     echo "        <td>\n";
@@ -468,7 +468,7 @@ echo "       <th colspan=\"2\">" . _('Template') . "</th>\n";
 echo "      </tr>\n";
 
 if ($meta_edit) {
-    echo "      <form action=\"" . htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES) . "?id=" . $zone_id . "\" method=\"post\">\n";
+    echo "      <form action=\"" . htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . "?id=" . $zone_id . "\" method=\"post\">\n";
     echo "       <input type=\"hidden\" name=\"current_zone_template\" value=\"" . $zone_template_id . "\">\n";
     echo "       <tr>\n";
     echo "        <td>\n";
@@ -500,7 +500,7 @@ if ($domain_type == "SLAVE") {
     echo "      </tr>\n";
 
     if ($meta_edit) {
-        echo "      <form action=\"" . htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES) . "?id=" . $zone_id . "\" method=\"post\">\n";
+        echo "      <form action=\"" . htmlentities($_SERVER['PHP_SELF'], ENT_QUOTES, 'UTF-8') . "?id=" . $zone_id . "\" method=\"post\">\n";
         echo "       <input type=\"hidden\" name=\"domain\" value=\"" . $zone_id . "\">\n";
         echo "       <tr>\n";
         echo "        <td>\n";
