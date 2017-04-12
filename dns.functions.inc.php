@@ -79,7 +79,7 @@
 					$subject = 'My Install Missing Net/DNS';
 					$headers = '';
 					$headers .= 'MIME-Version: 1.0' . EMAIL_NEWLINE;
-					$headers .= 'Content-type: text/html; charset=iso-8859-1' . EMAIL_NEWLINE;
+					$headers .= 'Content-type: text/html; charset=UTF-8' . EMAIL_NEWLINE;
 					$headers .= 'From: ' . TITLE . ' <' . EMAIL_FROM . '>' . EMAIL_NEWLINE;
 					//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
 					$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
