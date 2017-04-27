@@ -9,6 +9,8 @@
 	 * @category DNS
 	 */
 
+	use \MyDb\Mdb2\Db as Db_Mdb2;
+
 	if (!function_exists('_')) {
 
 		/**
@@ -21,7 +23,7 @@
 
 	}
 
-	include(INCLUDE_ROOT . '/../vendor/detain/db_abstraction/src/db_mdb2.functions.php');
+	//include(INCLUDE_ROOT . '/../vendor/detain/db_abstraction/src/db_mdb2.functions.php');
 	//	include('include/dns/poweradmin/inc/database.inc.php');
 
 	/**
@@ -40,7 +42,7 @@
 	include('include/dns/poweradmin/inc/error.inc.php');
 
 	global $db_mdb2;
-	$db_mdb2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+	$db_mdb2 = new Db_Mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 
 	// Version 2017012000, Last Updated Fri Jan 20 07:07:01 2017 UTC
 	// 1528 TLDs
