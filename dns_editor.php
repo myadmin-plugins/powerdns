@@ -1,5 +1,7 @@
 <?php
 
+	use \MyDb\Mdb2\Db as db_mdb2;
+
 	/**
 	 * dns_editor()
 	 * The DNS Editor
@@ -8,7 +10,7 @@
 	 */
 	function dns_editor() {
 		page_title('DNS Editor');
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
 		$table = new TFTable;

@@ -9,6 +9,8 @@
 	 * @category DNS
 	 */
 
+	use \MyDb\Mdb2\Db as db_mdb2;
+
 	include __DIR__ . '/pdns.functions.inc.php';
 
 	/**
@@ -123,7 +125,7 @@
 	 */
 	function get_dns_domain($domain_id, $bypass = false, $acl = false) {
 		$domain_id = (int)$domain_id;
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		function_requirements('has_acl');
 		if ($bypass === true || ($GLOBALS['tf']->ima == 'admin' && ($acl == false || has_acl($acl))))
@@ -148,7 +150,7 @@
  */
 	function get_dns_records($domain_id, $bypass = false) {
 		$domain_id = (int)$domain_id;
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		if ($GLOBALS['tf']->ima == 'admin' || $bypass == true)
 			$db->query("select * from records where domain_id='{$domain_id}'");
@@ -175,7 +177,7 @@
 	function delete_dns_record($domain_id, $record_id) {
 		$domain_id = (int)$domain_id;
 		$record_id = (int)$record_id;
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false) {
 			$db->query("delete from records where domain_id='{$domain_id}' and id='{$record_id}'");
 			if ($db->affected_rows() == 1) {
@@ -216,7 +218,7 @@
 		} else {
 			$ordername = '';
 		}
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$query = make_insert_query('records', array(
 			'domain_id' => $domain_id,
 			'name' => $name,
@@ -257,7 +259,7 @@
 		if (!$domain_info = get_dns_domain($domain_id)) {
 			return false;
 		}
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 			$ordername = str_replace('.', ' ', strrev($matches['ordername']));
 		} else {
@@ -293,7 +295,7 @@
 	 */
 	function delete_dns_domain($domain_id) {
 		$domain_id = (int)$domain_id;
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		if (get_dns_domain($domain_id) !== false) {
 			$db->query("delete from records where domain_id=$domain_id");
 			$db->query("delete from domains where id=$domain_id");
@@ -320,10 +322,10 @@
 		$return['status'] = 'error';
 		$return['status_text'] = '';
 		$domain = strtolower($domain);
-		//myadmin_log('dns', 'info', "new db(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		$db2 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '216.158.234.243');
-		$db3 = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
+		//myadmin_log('dns', 'info', "new db_mdb2(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '216.158.234.243');
+		$db3 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$module = 'default';
 		if (isset($GLOBALS['tf']->variables->request['module'])) {
@@ -521,7 +523,7 @@
 			$username = 'unknown';
 		}
 		global $dbh_city;
-		$db = new db('dns', 'dns', 'python', '66.45.228.79');
+		$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
 		$db->query(make_insert_query('changes', array(
 			'id' => null,
 			'username' => $username,

@@ -1,5 +1,7 @@
 <?php
 
+	use \MyDb\Mdb2\Db as db_mdb2;
+
 	/**
 	 * dns_delete()
 	 * deletes a domain from the DNS server
@@ -7,7 +9,7 @@
 	 */
 	function dns_delete() {
 		page_title('Delete DNS Record');
-		$db = new db(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);
 		$table = new TFTable;
