@@ -343,7 +343,7 @@
 			$return['status_text'] = 'Invalid Domain Name';
 			return $return;
 		}
-		if (!valid_ip($ip)) {
+		if (!validIp($ip)) {
 			$return['status_text'] = 'Invalid IP Address';
 			return $return;
 		}
@@ -504,7 +504,7 @@
 	 * @return bool true if it was able to make the requested changes, false if it wasn't.
 	 */
 	function reverse_dns($ip, $host = '', $action = 'set_reverse') {
-		if (!valid_ip($ip, false))
+		if (!validIp($ip, false))
 			return false;
 		$actions = array('set_reverse', 'remove_reverse');
 		if (!in_array($action, $actions))
