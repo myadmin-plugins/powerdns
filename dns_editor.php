@@ -14,7 +14,7 @@
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
 		$table = new TFTable;
-		$domain = get_dns_domain($domain_id, false, 'view_service');
+		$domain = get_dns_domain($domain_id, FALSE, 'view_service');
 		if (!isset($GLOBALS['tf']->variables->request['update']) && !isset($GLOBALS['tf']->variables->request['delete'])) {
 		} else {
 			$verify_csrf = verify_csrf('dns_editor');

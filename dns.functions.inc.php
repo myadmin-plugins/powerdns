@@ -85,7 +85,7 @@
 					//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
 					$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
 					$email .= 'login as root and type:<br>   pear install Net/DNS<br>to fix<br>';
-					admin_mail($subject, $email, $headers, false, 'admin_email_problems.tpl');
+					admin_mail($subject, $email, $headers, FALSE, 'admin_email_problems.tpl');
 					$GLOBALS['tf']->session->appsession('emailed_no_net_dns', 1);
 				}
 				if (!isset($cached_zones[$zone])) {
@@ -503,7 +503,7 @@
 	 * @return bool true if it was able to make the requested changes, false if it wasn't.
 	 */
 	function reverse_dns($ip, $host = '', $action = 'set_reverse') {
-		if (!validIp($ip, false))
+		if (!validIp($ip, FALSE))
 			return false;
 		$actions = array('set_reverse', 'remove_reverse');
 		if (!in_array($action, $actions))
