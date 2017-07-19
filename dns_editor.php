@@ -89,7 +89,7 @@
 						else
 							$table->add_field($record['content']);
 						$table->add_field($record['ttl']);
-						if (in_array($record['type'], array('MX', 'SRV')))
+						if (in_array($record['type'], ['MX', 'SRV']))
 							$table->add_field($record['prio']);
 						else
 							$table->add_field();

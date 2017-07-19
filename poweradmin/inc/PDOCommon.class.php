@@ -115,7 +115,7 @@ class PDOCommon extends PDO {
      * @param array $driver_options
      * @param boolean $isQuiet
      */
-    public function __construct($dsn, $username = '', $password = '', $driver_options = array(), $isQuiet = false) {
+    public function __construct($dsn, $username = '', $password = '', $driver_options = [], $isQuiet = false) {
         try {
             parent::__construct($dsn, $username, $password, $driver_options);
         } catch (Exception $e) {
@@ -185,10 +185,12 @@ class PDOCommon extends PDO {
      * @return string
      */
     protected function formatSQLforHTML($str) {
-        $Keyword = array("SELECT ", "WHERE ", " ON ", "AND ", "OR ",
-            "FROM ", "LIMIT ", "UNION ",
-            "INNER ", "LEFT ", "RIGHT ", "JOIN ", ",",
-            "GROUP BY ", "ORDER BY ", "HAVING ");
+        $Keyword = [
+	        "SELECT ", "WHERE ", " ON ", "AND ", "OR ",
+	        "FROM ", "LIMIT ", "UNION ",
+	        "INNER ", "LEFT ", "RIGHT ", "JOIN ", ",",
+	        "GROUP BY ", "ORDER BY ", "HAVING "
+        ];
         foreach ($Keyword as $key => $value) {
             if ($value == ",") {
                 $Replace[$key] = "<b>" . $value . "</b>\n";

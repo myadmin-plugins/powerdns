@@ -32,7 +32,7 @@
  * Further imports, functions, or definitions can be done from
  * that top-level script.
  */
-$hook_listeners = array();
+$hook_listeners = [];
 
 /**
  * Register function to be executed for the given hook
@@ -58,7 +58,7 @@ function clear_listeners($hook) {
         trigger_error('clear_listeners requires a hook name', E_USER_ERROR);
     }
     global $hook_listeners;
-    $hook_listeners [$hook] = array();
+    $hook_listeners [$hook] = [];
 }
 
 /**

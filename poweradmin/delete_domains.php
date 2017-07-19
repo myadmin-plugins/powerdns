@@ -55,7 +55,7 @@ echo "     <h2>" . _('Delete zones') . "</h2>\n";
 
 if ($confirm == '1') {
     //Fetch information about zones before deleting them
-    $deleted_zones = array();
+    $deleted_zones = [];
     foreach ($zones as $zone) {
         $zone_info = get_zone_info_from_id($zone);
         array_push($deleted_zones,$zone_info);

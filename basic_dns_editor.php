@@ -4,10 +4,11 @@
 		page_title('Basic DNS Editor');
 		$custid = $GLOBALS['tf']->session->account_id;
 		$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
-		$types = array(
+		$types = [
 			'A' => 'Point To IP',
 			'CNAME' => 'Points To Hostname',
-			'MX' => 'Send Mail To');
+			'MX' => 'Send Mail To'
+		];
 		$table = new TFTable;
 		if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
 			$verify_csrf = verify_csrf('basic_dns_editor');
@@ -55,7 +56,7 @@
 			$table->add_row();
 			$records = get_dns_records($domain_id);
 			foreach ($records as $idx => $record) {
-				if (in_array($record['type'], array('SOA', 'NS')))
+				if (in_array($record['type'], ['SOA', 'NS']))
 					continue;
 				if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id']) {
 					$table->add_hidden('update', $record['id']);
@@ -87,7 +88,7 @@
 					else
 						$table->add_field($record['content']);
 					//$table->add_field($record['ttl']);
-					if (in_array($record['type'], array('MX', 'SRV'))) {
+					if (in_array($record['type'], ['MX', 'SRV'])) {
 						//$table->add_field($record['prio']);
 					} else {
 						//$table->add_field();

@@ -66,7 +66,7 @@ $bits = "";
 if (isset($_POST["bits"])) {
     $bits = $_POST["bits"];
 
-    $valid_values = array('2048', '1024', '768', '384', '256');
+    $valid_values = ['2048', '1024', '768', '384', '256'];
     if (!in_array($bits, $valid_values)) {
         error(ERR_INV_INPUT);
         include_once("inc/footer.inc.php");
@@ -78,7 +78,7 @@ $algorithm = "";
 if (isset($_POST["algorithm"])) {
     $algorithm = $_POST["algorithm"];
 
-    $valid_algorithm = array('rsasha1', 'rsasha256', 'rsasha512', 'gost', 'ecdsa256', 'ecdsa384');
+    $valid_algorithm = ['rsasha1', 'rsasha256', 'rsasha512', 'gost', 'ecdsa256', 'ecdsa384'];
     if (!in_array($algorithm, $valid_algorithm)) {
         error(ERR_INV_INPUT);
         include_once("inc/footer.inc.php");

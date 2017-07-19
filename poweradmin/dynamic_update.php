@@ -68,7 +68,7 @@ function safe($value)
  */
 function status_exit($status)
 {
-    $verbose_codes = array(
+    $verbose_codes = [
         'badagent' => 'Your user agent is not valid.',
         'badauth' => 'No username available.',
         'badauth2' => 'Invalid username or password.  Authentication failed.',
@@ -80,7 +80,7 @@ function status_exit($status)
         '911' => 'A critical error has occurred on our end.  We apologize for any inconvenience.',
         'nochg' => 'This update was identical to your last update, so no changes were made to your hostname configuration.',
         'baddbtype' => 'Unsupported database type',
-    );
+    ];
 
     if (isset($_REQUEST['verbose'])) {
         $pieces = preg_split('/\s/', $status);

@@ -28,13 +28,12 @@
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
  */
-
 /** Check if given migration exists
  *
- * @param resource $db_mdb2 DB link
+ * @param        $db
  * @param string $file_name Migration file name
- *
- * @return boolean true on success, false on failure
+ * @return bool true on success, false on failure
+ * @internal param resource $db_mdb2 DB link
  */
 function migration_exists($db, $file_name) {
     $query = "SELECT COUNT(version) FROM migrations WHERE version = " . $db_mdb2->quote($file_name, 'text');
@@ -48,10 +47,10 @@ function migration_exists($db, $file_name) {
 
 /** Save migration status to database
  *
- * @param resource $db_mdb2 DB link
+ * @param        $db
  * @param string $file_name Migration file name
- *
- * @return boolean true on success, false on failure
+ * @return bool true on success, false on failure
+ * @internal param resource $db_mdb2 DB link
  */
 function migration_save($db, $file_name) {
     $query = "INSERT INTO migrations (version, apply_time) VALUES(" . $db_mdb2->quote($file_name, 'text') . "," . $db_mdb2->quote(time(), 'text') . ")";
@@ -71,7 +70,7 @@ function migration_get_environment_newline() {
 }
 
 /** Display given message
- * 
+ *
  * @param string $msg Message that needs to be dispalyed
  */
 function migration_message($msg) {

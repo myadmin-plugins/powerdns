@@ -28,7 +28,7 @@
 					$result = add_dns_domain($domain, $ip);
 					add_output($result['status_text']);
 				}
-				if (isset($GLOBALS['tf']->variables->request['domains']) && !in_array(trim($GLOBALS['tf']->variables->request['domains']), array('', 'Domain Names...'))) {
+				if (isset($GLOBALS['tf']->variables->request['domains']) && !in_array(trim($GLOBALS['tf']->variables->request['domains']), ['', 'Domain Names...'])) {
 					$domains = explode("\n", $GLOBALS['tf']->variables->request['domains']);
 					foreach ($domains as $domain) {
 						$domain = trim($domain);
@@ -41,9 +41,9 @@
 			}
 		}
 		if ($GLOBALS['tf']->ima == 'admin')
-			add_output(render_form('dns_manager', array('acl' => 'view_service')));
+			add_output(render_form('dns_manager', ['acl' => 'view_service']));
 		else
-			add_output(render_form('dns_manager', array('custid' => get_custid($GLOBALS['tf']->session->account_id, 'domains'))));
+			add_output(render_form('dns_manager', ['custid' => get_custid($GLOBALS['tf']->session->account_id, 'domains')]));
 		$table = new TFTable;
 		$table->set_title('DNS Servers');
 		$table->add_field('Primary DNS');

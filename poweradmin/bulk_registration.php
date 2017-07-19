@@ -53,7 +53,7 @@ if (isset($_POST['domains'])) {
         }
     }
 } else {
-    $domains = array();
+    $domains = [];
 }
 
 if (isset($_POST['zone_template'])) {
@@ -91,7 +91,7 @@ if ($zone_master_add != "1") {
 } else {
     echo "     <h2>" . _('Bulk registration') . "</h2>\n";
 
-    $available_zone_types = array("MASTER", "NATIVE");
+    $available_zone_types = ["MASTER", "NATIVE"];
     $users = do_hook('show_users');
     $zone_templates = get_list_zone_templ($_SESSION['userid']);
 

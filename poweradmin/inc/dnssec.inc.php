@@ -63,18 +63,19 @@ function dnssec_call_pdnssec($command, $args) {
     $return_code = -1;
 
     if (!dnssec_is_pdnssec_callable()) {
-        return array($output, $return_code);
+        return [$output, $return_code];
     }
 
-    $command = join(' ', array(
+    $command = join(' ', [
         $pdnssec_command,
         $command,
-        $args)
+        $args
+                       ]
     );
 
     exec($command, $output, $return_code);
 
-    return array($output, $return_code);
+    return [$output, $return_code];
 }
 
 /** Execute PDNSSEC rectify-zone command for Domain ID
@@ -92,7 +93,7 @@ function dnssec_rectify_zone($domain_id) {
     global $db_mdb2;
     global $pdnssec_command;
 
-    $output = array();
+    $output = [];
 
     /* if pdnssec_command is set we perform ``pdnssec rectify-zone $domain`` on all zones,
      * as pdns needs the "auth" column for all zones if dnssec is enabled
@@ -189,7 +190,7 @@ function dnssec_is_zone_secured($domain_name) {
                   WHERE domains.name = ?
                   GROUP BY domains.id
         ");
-    $query->execute(array($domain_name));
+    $query->execute([$domain_name]);
     $row = $query->fetch();
     return $row['active_keys'] > 0 || $row['presigned'];
 }
@@ -284,7 +285,7 @@ function dnssec_get_ds_records($domain_name) {
         return false;
     }
 
-    $ds_records = array();
+    $ds_records = [];
     foreach ($output as $line) {
         if (mb_substr($line, 0, 2) == 'DS') {
             $items = explode(' ', $line);
@@ -468,7 +469,7 @@ function dnssec_get_dnskey_record($domain_name) {
  * @return bool true on success, false on failure
  */
 function dnssec_activate_zone_key($domain_name, $key_id) {
-    $call_result = dnssec_call_pdnssec('activate-zone-key', join(" ", array($domain_name, $key_id)));
+    $call_result = dnssec_call_pdnssec('activate-zone-key', join(" ", [$domain_name, $key_id]));
     $return_code = $call_result[1];
 
     if ($return_code != 0) {
@@ -490,7 +491,7 @@ function dnssec_activate_zone_key($domain_name, $key_id) {
  * @return bool true on success, false on failure
  */
 function dnssec_deactivate_zone_key($domain_name, $key_id) {
-    $call_result = dnssec_call_pdnssec('deactivate-zone-key', join(" ", array($domain_name, $key_id)));
+    $call_result = dnssec_call_pdnssec('deactivate-zone-key', join(" ", [$domain_name, $key_id]));
     $return_code = $call_result[1];
 
     if ($return_code != 0) {
@@ -520,12 +521,12 @@ function dnssec_get_keys($domain_name) {
         return false;
     }
 
-    $keys = array();
+    $keys = [];
     foreach ($output as $line) {
         if (mb_substr($line, 0, 2) == 'ID') {
             $items = explode(' ', $line);
             $bits_array = explode("\t", $items[12]);
-            $keys[] = array($items[2], mb_substr($items[3], 1, -2), mb_substr($items[6], 0, -1), mb_substr($items[9], 0, -1), $bits_array[0], $items[13]);
+            $keys[] = [$items[2], mb_substr($items[3], 1, -2), mb_substr($items[6], 0, -1), mb_substr($items[9], 0, -1), $bits_array[0], $items[13]];
         }
     }
 
@@ -542,7 +543,7 @@ function dnssec_get_keys($domain_name) {
  * @return boolean true on success, false on failure
  */
 function dnssec_add_zone_key($domain_name, $key_type, $bits, $algorithm) {
-    $call_result = dnssec_call_pdnssec('add-zone-key', join(" ", array($domain_name, $key_type, $bits, $algorithm)));
+    $call_result = dnssec_call_pdnssec('add-zone-key', join(" ", [$domain_name, $key_type, $bits, $algorithm]));
     $return_code = $call_result[1];
 
     if ($return_code != 0) {
@@ -564,7 +565,7 @@ function dnssec_add_zone_key($domain_name, $key_type, $bits, $algorithm) {
  * @return boolean true on success, false on failure
  */
 function dnssec_remove_zone_key($domain_name, $key_id) {
-    $call_result = dnssec_call_pdnssec('remove-zone-key', join(" ", array($domain_name, $key_id)));
+    $call_result = dnssec_call_pdnssec('remove-zone-key', join(" ", [$domain_name, $key_id]));
     $return_code = $call_result[1];
 
     if ($return_code != 0) {
@@ -613,5 +614,5 @@ function dnssec_get_zone_key($domain_name, $key_id) {
         }
     }
 
-    return array();
+    return [];
 }

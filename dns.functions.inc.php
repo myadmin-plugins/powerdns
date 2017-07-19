@@ -41,7 +41,7 @@
 		if (is_local_ip($ip)) {
 			@include_once('Net/DNS2.php');
 			if (class_exists('Net_DNS2_Resolver')) {
-				$resolver = new Net_DNS2_Resolver(array('nameservers' => array('66.45.228.79')));
+				$resolver = new Net_DNS2_Resolver(['nameservers' => ['66.45.228.79']]);
 				//$resolver->nameservers = array('66.45.228.79');
 				if (!isset($cached_zones[$zone])) {
 					$tzone = [];
@@ -218,7 +218,7 @@
 			$ordername = '';
 		}
 		$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-		$query = make_insert_query('records', array(
+		$query = make_insert_query('records', [
 			'domain_id' => $domain_id,
 			'name' => $name,
 			'content' => $content,
@@ -227,7 +227,8 @@
 			'prio' => $prio,
 			'ordername' => $ordername,
 			'auth' => 1,
-		));
+		]
+		);
 		$db->query($query);
 		$id = $db->get_last_insert_id('records', 'id');
 		update_soa_serial($domain_id);
@@ -395,24 +396,29 @@
 				return $return;
 			}
 		}
-		$query = make_insert_query('domains', array(
+		$query = make_insert_query('domains', [
 			'name' => $domain,
 			'type' => 'MASTER',
-			'account' => $custid));
-		$query2 = make_insert_query('domains', array(
+			'account' => $custid
+		]
+		);
+		$query2 = make_insert_query('domains', [
 			'name' => $domain,
 			'master' => POWERDNS_HOST,
 			'type' => 'SLAVE',
-			'account' => 'admin'), array(
+			'account' => 'admin'
+		], [
 			'master' => POWERDNS_HOST,
 			'type' => 'SLAVE',
-			'account' => 'admin'));
+			'account' => 'admin'
+		                            ]
+		);
 		$result = $db->query($query);
 		if ($result) {
 			$domain_id = $db->get_last_insert_id('domains', 'id');
 			$db2->query($query2);
 			//$db3->query($query2);
-			$db->query(make_insert_query('records', array(
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns1.interserver.net. dns.interserver.net ' . date('Ymd') . '01',
@@ -420,8 +426,10 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns1.interserver.net',
@@ -429,8 +437,10 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns2.interserver.net',
@@ -438,8 +448,10 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'cdns3.interserver.net',
@@ -447,8 +459,10 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => $ip,
@@ -456,8 +470,10 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => '*.' . $domain,
 				'content' => $ip,
@@ -465,8 +481,10 @@
 				'ttl' => 86400,
 				'ordername' => '*',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => 'localhost.' . $domain,
 				'content' => '127.0.0.1',
@@ -474,8 +492,10 @@
 				'ttl' => 86400,
 				'ordername' => 'localhost',
 				'auth' => 1,
-				'prio' => null)));
-			$db->query(make_insert_query('records', array(
+				'prio' => null
+			]
+			           ));
+			$db->query(make_insert_query('records', [
 				'domain_id' => $domain_id,
 				'name' => $domain,
 				'content' => 'mail.' . $domain,
@@ -483,7 +503,9 @@
 				'ttl' => 86400,
 				'ordername' => '',
 				'auth' => 1,
-				'prio' => 25)));
+				'prio' => 25
+			]
+			           ));
 			$return['status'] = 'ok';
 			$return['status_text'] = 'Domain ' . $domain . ' Added!';
 		} else {
@@ -505,7 +527,7 @@
 	function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 		if (!validIp($ip, FALSE))
 			return false;
-		$actions = array('set_reverse', 'remove_reverse');
+		$actions = ['set_reverse', 'remove_reverse'];
 		if (!in_array($action, $actions))
 			$action = 'set_reverse';
 		if ($action == 'set_reverse') {
@@ -523,13 +545,14 @@
 		}
 		global $dbh_city;
 		$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
-		$db->query(make_insert_query('changes', array(
+		$db->query(make_insert_query('changes', [
 			'id' => null,
 			'username' => $username,
 			'ip' => $ip,
 			'hostname' => $host,
 			'action' => $action
-		)));
+		]
+		           ));
 		//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__);
 		if ($db->affected_rows() == 1) {
 			return true;

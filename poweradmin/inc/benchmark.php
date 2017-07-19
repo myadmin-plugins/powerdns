@@ -20,7 +20,7 @@ $start_time = microtime(true);
  * @return string $result Human readable size
  */
 function get_human_readable_usage($size) {
-    $units = array('B', 'KB', 'MB', 'GB');
+    $units = ['B', 'KB', 'MB', 'GB'];
     $result = $size . ' B';
 
     if ($size < 1024)

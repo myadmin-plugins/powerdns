@@ -57,7 +57,7 @@ function verify_permission_local($arg) {
         LEFT JOIN perm_templ ON perm_templ.id = perm_templ_items.templ_id
         LEFT JOIN users ON perm_templ.id = users.perm_templ
         WHERE users.id = ?");
-    $query->execute(array($userid));
+    $query->execute([$userid]);
     $cache = $query->fetchAll(PDO::FETCH_GROUP | PDO::FETCH_ASSOC);
 
     return array_key_exists('user_is_ueberuser', $cache) || array_key_exists($permission, $cache);
@@ -77,26 +77,24 @@ function list_permission_templates_local() {
         return false;
     }
 
-    $template_list = array();
+    $template_list = [];
     while ($template = $response->fetchRow()) {
-        $template_list [] = array(
+        $template_list [] = [
             "id" => $template ['id'],
             "name" => $template ['name'],
             "descr" => $template ['descr']
-        );
+        ];
     }
     return $template_list;
 }
 
 /**
  * Retrieve all users
- *
  * Its to show_users therefore the odd name. Has to be changed.
  *
- * @param int $id Exclude User ID
- * @param int $rowstart Startring row number
- * @param int $rowamount Number of rows to return this query
- *
+ * @param int|string $id        Exclude User ID
+ * @param int        $rowstart  Startring row number
+ * @param int        $rowamount Number of rows to return this query
  * @return mixed[] array with all users [id,username,fullname,email,description,active,numdomains]
  */
 function show_users_local($id = '', $rowstart = 0, $rowamount = 9999999) {
@@ -136,9 +134,9 @@ function show_users_local($id = '', $rowstart = 0, $rowamount = 9999999) {
         error($response->getMessage());
         return false;
     }
-    $ret = array();
+    $ret = [];
     while ($r = $response->fetchRow()) {
-        $ret [] = array(
+        $ret [] = [
             "id" => $r ["id"],
             "username" => $r ["username"],
             "fullname" => $r ["fullname"],
@@ -146,7 +144,7 @@ function show_users_local($id = '', $rowstart = 0, $rowamount = 9999999) {
             "description" => $r ["description"],
             "active" => $r ["active"],
             "numdomains" => $r ["aantal"]
-        );
+        ];
     }
     return $ret;
 }
@@ -324,7 +322,7 @@ function edit_user_local($id, $user, $fullname, $email, $perm_templ, $descriptio
             return false;
         }
 
-        $usercheck = array();
+        $usercheck = [];
         $usercheck = $response->fetchRow();
 
         if ($usercheck ['username'] != $user) {
@@ -476,7 +474,7 @@ function get_fullnames_owners_from_domainid_local($id) {
     if (is_numeric($id)) {
         $response = $db_mdb2->query("SELECT users.id, users.fullname FROM users, zones WHERE zones.domain_id=" . $db_mdb2->quote($id, 'integer') . " AND zones.owner=users.id ORDER by fullname");
         if ($response) {
-            $names = array();
+            $names = [];
             while ($r = $response->fetchRow()) {
                 $names [] = $r ['fullname'];
             }
@@ -557,7 +555,7 @@ function get_user_detail_list_local($specific) {
     }
 
     while ($user = $response->fetchRow()) {
-        $userlist [] = array(
+        $userlist [] = [
             "uid" => $user ['uid'],
             "username" => $user ['username'],
             "fullname" => $user ['fullname'],
@@ -568,7 +566,7 @@ function get_user_detail_list_local($specific) {
             "tpl_id" => $user ['tpl_id'],
             "tpl_name" => $user ['tpl_name'],
             "tpl_descr" => $user ['tpl_descr']
-        );
+        ];
     }
     return $userlist;
 }
@@ -607,14 +605,14 @@ function get_permissions_by_template_id_local($templ_id = 0, $return_name_only =
         return false;
     }
 
-    $permission_list = array();
+    $permission_list = [];
     while ($permission = $response->fetchRow()) {
         if ($return_name_only == false) {
-            $permission_list [] = array(
+            $permission_list [] = [
                 "id" => $permission ['id'],
                 "name" => $permission ['name'],
                 "descr" => $permission ['descr']
-            );
+            ];
         } else {
             $permission_list [] = $permission ['name'];
         }
@@ -786,7 +784,7 @@ function update_user_details_local($details) {
             return false;
         }
 
-        $usercheck = array();
+        $usercheck = [];
         $usercheck = $response->fetchRow();
 
         if ($usercheck ['username'] != $details ['username']) {

@@ -62,7 +62,7 @@ $count_zones_edit = zone_count_ng($perm_edit);
 # that causes failure.
 
 $zone_sort_by = ZONE_SORT_BY;
-if (!in_array(ZONE_SORT_BY, array('name', 'type', 'count_records', 'owner'))) {
+if (!in_array(ZONE_SORT_BY, ['name', 'type', 'count_records', 'owner'])) {
     $zone_sort_by = 'name';
 }
 

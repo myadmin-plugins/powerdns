@@ -48,7 +48,7 @@ if (isset($_POST["dom_type"]) && (in_array($_POST['dom_type'], $server_types))) 
 }
 
 if (isset($_POST['domain'])) {
-    $temp = array();
+    $temp = [];
     foreach ($_POST['domain'] as $domain) {
         if ($domain != "") {
             $temp[] = trim($domain);
@@ -56,7 +56,7 @@ if (isset($_POST['domain'])) {
     }
     $domains = $temp;
 } else {
-    $domains = array();
+    $domains = [];
 }
 
 if (isset($_POST['zone_template'])) {
@@ -115,7 +115,7 @@ if ($zone_master_add != "1") {
 } else {
     echo "     <h2>" . _('Add master zone') . "</h2>\n";
 
-    $available_zone_types = array("MASTER", "NATIVE");
+    $available_zone_types = ["MASTER", "NATIVE"];
     $users = do_hook('show_users');
     $zone_templates = get_list_zone_templ($_SESSION['userid']);
 

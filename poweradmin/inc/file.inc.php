@@ -19,14 +19,15 @@
  *  You should have received a copy of the GNU General Public License
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-
 /**
  * Migration functions
  *
- * @package Poweradmin
+ * @package     Poweradmin
  * @copyright   2007-2010 Rejo Zenger <rejo@zenger.nl>
  * @copyright   2010-2014 Poweradmin Development Team
  * @license     http://opensource.org/licenses/GPL-3.0 GPL
+ * @param $path
+ * @return string
  */
 
 function file_get_name_without_extension($path) {

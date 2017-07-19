@@ -48,13 +48,13 @@ function get_list_zone_templ($userid) {
         return false;
     }
 
-    $zone_templ_list = array();
+    $zone_templ_list = [];
     while ($zone_templ = $result->fetchRow()) {
-        $zone_templ_list[] = array(
+        $zone_templ_list[] = [
             "id" => $zone_templ['id'],
             "name" => $zone_templ['name'],
             "descr" => $zone_templ['descr']
-        );
+        ];
     }
     return $zone_templ_list;
 }
@@ -232,7 +232,7 @@ function get_zone_templ_record_from_id($id) {
     if (is_numeric($id)) {
         $result = $db_mdb2->queryRow("SELECT id, zone_templ_id, name, type, content, ttl, prio FROM zone_templ_records WHERE id=" . $db_mdb2->quote($id, 'integer'));
         if ($result) {
-            $ret = array(
+            $ret = [
                 "id" => $result["id"],
                 "zone_templ_id" => $result["zone_templ_id"],
                 "name" => $result["name"],
@@ -240,7 +240,7 @@ function get_zone_templ_record_from_id($id) {
                 "content" => $result["content"],
                 "ttl" => $result["ttl"],
                 "prio" => $result["prio"],
-            );
+            ];
             return $ret;
         } else {
             return -1;
@@ -268,7 +268,7 @@ function get_zone_templ_records($id, $rowstart = 0, $rowamount = 999999, $sortby
     if (is_numeric($id)) {
         $db_mdb2->setLimit($rowamount, $rowstart);
         $result = $db_mdb2->query("SELECT id FROM zone_templ_records WHERE zone_templ_id=" . $db_mdb2->quote($id, 'integer') . " ORDER BY " . $sortby);
-        $ret[] = array();
+        $ret[] = [];
         $retcount = 0;
         while ($r = $result->fetchRow()) {
             // Call get_record_from_id for each row.
@@ -515,14 +515,14 @@ function get_list_zone_use_templ($zone_templ_id, $userid) {
         return false;
     }
 
-    $zone_list = array();
+    $zone_list = [];
     while ($zone = $result->fetchRow()) {
-        $zone_list[] = array(
+        $zone_list[] = [
             "id" => $zone['id'],
             "name" => $zone['name'],
             "type" => $zone['type'],
             "count_records" => $zone['count_records']
-        );
+        ];
     }
     return $zone_list;
 }
@@ -602,10 +602,11 @@ function parse_template_value($val, $domain) {
 
 /** Add relation between zone record and template
  *
- * @param type $db_mdb2 DB link
- * @param type $domain_id Domain id
- * @param type $record_id Record id
+ * @param      $db
+ * @param type $domain_id     Domain id
+ * @param type $record_id     Record id
  * @param type $zone_templ_id Zone template id
+ * @internal param \type $db_mdb2 DB link
  */
 function add_record_relation_to_templ($db, $domain_id, $record_id, $zone_templ_id) {
     $query = "INSERT INTO records_zone_templ (domain_id, record_id, zone_templ_id) VALUES ("
