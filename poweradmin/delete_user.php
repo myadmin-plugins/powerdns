@@ -47,7 +47,7 @@ if (!(isset($_GET['id']) && v_num($_GET['id']))) {
 if (isset($_POST['commit'])) {
 
     if (do_hook('is_valid_user' , $uid )) {
-        $zones = [];
+        $zones = array();
         if (isset($_POST['zone'])) {
             $zones = $_POST['zone'];
         }

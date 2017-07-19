@@ -1,8 +1,5 @@
 <?php
 
-/**
- * Class RecordLog
- */
 class RecordLog {
 
     private $record_prior;
@@ -10,33 +7,19 @@ class RecordLog {
 
     private $record_changed = false;
 
-	/**
-	 * @param $rid
-	 */
-	public function log_prior($rid) {
+    public function log_prior($rid) {
         $this->record_prior = $this->getRecord($rid);
     }
 
-	/**
-	 * @param $rid
-	 */
-	public function log_after($rid) {
+    public function log_after($rid) {
         $this->record_after = $this->getRecord($rid);
     }
 
-	/**
-	 * @param $rid
-	 * @return int|mixed[]
-	 */
-	private function getRecord($rid) {
+    private function getRecord($rid) {
         return get_record_from_id($rid);
     }
 
-	/**
-	 * @param array $record
-	 * @return bool
-	 */
-	public function has_changed(array $record) {
+    public function has_changed(array $record) {
         // Arrays are assigned by copy.
         // Copy arrays to avoid side effects caused by unset().
         $record_copy = $record;

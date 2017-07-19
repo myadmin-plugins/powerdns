@@ -383,11 +383,11 @@ function is_valid_ipv4($ipv4, $answer = true) {
 
     if(filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === FALSE) {
         if($answer) {
-		error(ERR_DNS_IPV4);
+		error(ERR_DNS_IPV4); 
 	}
 	return false;
     }
-
+    
     return true;
 }
 
@@ -405,7 +405,7 @@ function is_valid_ipv6($ipv6, $answer = true) {
     if(filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE) {
 	if($answer) {
 		error(ERR_DNS_IPV6);
-	}
+	}       
 	return false;
     }
 
@@ -539,7 +539,6 @@ function is_valid_rr_cname_unique($name, $rid) {
  *
  * @param string $name
  * @param string $zone
- * @return bool
  */
 function is_not_empty_cname_rr($name, $zone) {
 

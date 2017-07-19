@@ -1,6 +1,6 @@
 <?php
 
-$country_codes = [
+$country_codes = array(
     'aa' => 'Afar',
     'ab' => 'Abkhaz',
     'ae' => 'Avestan',
@@ -185,4 +185,4 @@ $country_codes = [
     'za' => 'Zhuang, Chuang',
     'zh' => 'Chinese',
     'zu' => 'Zulu'
-];
+);

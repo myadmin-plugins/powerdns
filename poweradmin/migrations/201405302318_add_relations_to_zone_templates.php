@@ -25,16 +25,16 @@ foreach ($zones as $zone) {
     $domain = get_zone_name_from_id($zone['id']);
     $templ_records = get_zone_templ_records($zone['zone_templ_id']);
 
-    $generated_templ_records = [];
+    $generated_templ_records = array();
     foreach ($templ_records as $templ_record) {
         $name = parse_template_value($templ_record['name'], $domain);
         $type = $templ_record['type'];
         $content = parse_template_value($templ_record['content'], $domain);
-        $generated_templ_records[] = [
+        $generated_templ_records[] = array(
             'name' => $name,
             'type' => $type,
             'content' => $content,
-        ];
+        );
     }
 
     $records = get_records_by_domain_id($db, $zone['domain_id']);

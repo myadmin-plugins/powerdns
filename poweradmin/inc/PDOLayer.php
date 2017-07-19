@@ -80,7 +80,7 @@ class PDOLayer extends PDOCommon {
      * Internal storage for queries
      * @var array
      */
-    private $queries = [];
+    private $queries = array();
 
     /**
      * Quotes a string
@@ -159,7 +159,7 @@ class PDOLayer extends PDOCommon {
     public function listTables() {
         // TODO: addapt this function also to pgsql & sqlite
 
-        $tables = [];
+        $tables = array();
         $db_type = $this->getAttribute(PDO::ATTR_DRIVER_NAME);
         $query = '';
 
@@ -188,9 +188,9 @@ class PDOLayer extends PDOCommon {
      * @param mixed[] $fields Associative array that contains the definition of each field of the new table
      * @param mixed[] $options An associative array of table options
      */
-    public function createTable($name, $fields, $options = []) {
+    public function createTable($name, $fields, $options = array()) {
         $db_type = $this->getAttribute(PDO::ATTR_DRIVER_NAME);
-        $query_fields = [];
+        $query_fields = array();
 
         foreach ($fields as $key => $arr) {
             if ($arr['type'] == 'text' and isset($arr['length'])) {

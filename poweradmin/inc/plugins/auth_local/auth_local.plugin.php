@@ -70,9 +70,6 @@ function authenticate_local() {
     }
 }
 
-/**
- * @return bool
- */
 function userUsesLDAP() {
     global $db_mdb2;
 
@@ -115,7 +112,7 @@ function LDAPAuthenticate() {
             return;
         }
 
-        $attributes = [$ldap_user_attribute, 'dn'];
+        $attributes = array($ldap_user_attribute, 'dn');
         $filter = "(" . $ldap_user_attribute . "=" . $_SESSION["userlogin"] . ")";
         $ldapsearch = ldap_search($ldapconn, $ldap_basedn, $filter, $attributes);
         if (!$ldapsearch) {

@@ -372,7 +372,7 @@ function edit_record($record) {
 
     $user_is_zone_owner = do_hook('verify_user_is_owner_zoneid', $record['zid']);
     $zone_type = get_domain_type($record['zid']);
-
+    
     if($record['type'] == 'SOA' && $perm_content_edit == "own_as_client"){
     	error(ERR_PERM_EDIT_RECORD_SOA);
     	return false;
@@ -541,11 +541,11 @@ function get_supermaster_info_from_ip($master_ip) {
     if (is_valid_ipv4($master_ip) || is_valid_ipv6($master_ip)) {
         $result = $db_mdb2->queryRow("SELECT ip,nameserver,account FROM supermasters WHERE ip = " . $db_mdb2->quote($master_ip, 'text'));
 
-        $ret = [
+        $ret = array(
             "master_ip" => $result["ip"],
             "ns_name" => $result["nameserver"],
             "account" => $result["account"]
-        ];
+        );
 
         return $ret;
     } else {
@@ -1055,12 +1055,12 @@ function get_zone_info_from_id($zid) {
 					WHERE domains.id = " . $db_mdb2->quote($zid, 'integer') . "
 					GROUP BY domains.id, domains.type, domains.name, domains.master";
         $result = $db_mdb2->queryRow($query);
-        $return = [
+        $return = array(
             "name" => $result['name'],
             "type" => $result['type'],
             "master_ip" => $result['master_ip'],
             "record_count" => $result['record_count']
-        ];
+        );
         return $return;
     }
 }
@@ -1159,14 +1159,14 @@ function get_supermasters() {
         return false;
     }
 
-    $ret = [];
+    $ret = array();
 
     while ($r = $result->fetchRow()) {
-        $ret[] = [
+        $ret[] = array(
             "master_ip" => $r["ip"],
             "ns_name" => $r["nameserver"],
             "account" => $r["account"],
-        ];
+        );
     }
     return (sizeof($ret) == 0 ? -1 : $ret);
 }
@@ -1282,16 +1282,16 @@ function get_zones($perm, $userid = 0, $letterstart = 'all', $rowstart = 0, $row
     }
     $result = $db_mdb2->query($sqlq);
 
-    $ret = [];
+    $ret = array();
     while ($r = $result->fetchRow()) {
         //fixme: name is not guaranteed to be unique with round-robin record sets
-        $ret[$r["name"]] = [
+        $ret[$r["name"]] = array(
             "id" => $r["id"],
             "name" => $r["name"],
             "type" => $r["type"],
             "count_records" => $r["count_records"],
             "owner" => $r["fullname"],
-        ];
+        );
         if ($pdnssec_use) {
             $ret[$r["name"]]["secured"] = $r["secured"];
         }
@@ -1373,7 +1373,7 @@ function get_record_from_id($id) {
                 return -1;
             }
 
-            $ret = [
+            $ret = array(
                 "id" => $result["id"],
                 "domain_id" => $result["domain_id"],
                 "name" => $result["name"],
@@ -1382,7 +1382,7 @@ function get_record_from_id($id) {
                 "ttl" => $result["ttl"],
                 "prio" => $result["prio"],
                 "change_date" => $result["change_date"]
-            ];
+            );
             return $ret;
         } else {
             return -1;
@@ -1407,7 +1407,7 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
     global $db_mdb2;
     global $db_type;
 
-    $result = [];
+    $result = array();
     if (is_numeric($id)) {
         if ((isset($_SESSION[$id . "_ispartial"])) && ($_SESSION[$id . "_ispartial"] == 1)) {
             $db_mdb2->setLimit($rowamount, $rowstart);
@@ -1421,7 +1421,7 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
 
             if ($result) {
                 while ($r = $result->fetchRow()) {
-                    $ret[] = [
+                    $ret[] = array(
                         "id" => $r["id"],
                         "domain_id" => $r["domain_id"],
                         "name" => $r["name"],
@@ -1430,7 +1430,7 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
                         "ttl" => $r["ttl"],
                         "prio" => $r["prio"],
                         "change_date" => $r["change_date"]
-                    ];
+                    );
                 }
                 $result = $ret;
             } else {
@@ -1451,10 +1451,10 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
                                     WHERE domain_id=" . $db_mdb2->quote($id, 'integer') . " AND type IS NOT NULL
                                     ORDER BY type = 'SOA' DESC, type = 'NS' DESC," . $sql_sortby);
 
-            $ret = [];
+            $ret = array();
             if ($result) {
                 while ($r = $result->fetchRow()) {
-                    $ret[] = [
+                    $ret[] = array(
                         "id" => $r["id"],
                         "domain_id" => $r["domain_id"],
                         "name" => $r["name"],
@@ -1463,7 +1463,7 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
                         "ttl" => $r["ttl"],
                         "prio" => $r["prio"],
                         "change_date" => $r["change_date"]
-                    ];
+                    );
                 }
                 $result = $ret;
             } else {
@@ -1486,9 +1486,9 @@ function get_records_from_domain_id($id, $rowstart = 0, $rowamount = 999999, $so
  * @return mixed[] array of records detail
  */
 function order_domain_results($domains, $sortby) {
-    $results = [];
-    $soa = [];
-    $ns = [];
+    $results = array();
+    $soa = array();
+    $ns = array();
 
     foreach ($domains as $key => $domain) {
         switch ($domain['type']) {
@@ -1611,17 +1611,17 @@ function sort_domain_results_by_ttl($a, $b) {
  */
 function get_users_from_domain_id($id) {
     global $db_mdb2;
-    $owners = [];
+    $owners = array();
 
     $sqlq = "SELECT owner FROM zones WHERE domain_id =" . $db_mdb2->quote($id, 'integer');
     $id_owners = $db_mdb2->query($sqlq);
     if ($id_owners) {
         while ($r = $id_owners->fetchRow()) {
             $fullname = $db_mdb2->queryOne("SELECT fullname FROM users WHERE id=" . $r['owner']);
-            $owners[] = [
+            $owners[] = array(
                 "id" => $r['owner'],
                 "fullname" => $fullname
-            ];
+            );
         }
     } else {
         return -1;
@@ -1641,7 +1641,7 @@ function get_users_from_domain_id($id) {
 function search_zone_and_record($parameters, $permission_view, $sort_zones_by, $sort_records_by) {
     global $db_mdb2;
 
-    $return = ['zones' => [], 'records' => []];
+    $return = array('zones' => array(), 'records' => array());
 
     if ($parameters['reverse']) {
         if (filter_var($parameters['query'], FILTER_FLAG_IPV4)) {
@@ -2101,7 +2101,7 @@ function get_second_level_domain($name) {
 function get_zones_with_templates($db_mdb2) {
     $query = "SELECT id, domain_id, zone_templ_id FROM zones WHERE zone_templ_id <> 0";
     $result = $db_mdb2->query($query);
-    $zones = [];
+    $zones = array();
     while ($zone = $result->fetchRow()) {
         $zones[]=$zone;
     }
@@ -2110,14 +2110,12 @@ function get_zones_with_templates($db_mdb2) {
 
 /** Get records by domain id
  *
- * @param $db
- * @param $domain_id
- * @return array
+ *
  */
 function get_records_by_domain_id($db, $domain_id) {
     $query = "SELECT id, name, type, content FROM records WHERE domain_id = " . $db_mdb2->quote($domain_id, 'integer');
     $result = $db_mdb2->query($query);
-    $records = [];
+    $records = array();
     while ($zone_records = $result->fetchRow()) {
         $records[]=$zone_records;
     }

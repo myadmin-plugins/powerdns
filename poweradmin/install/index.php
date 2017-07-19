@@ -65,20 +65,20 @@ $twig->addExtension(new Twig_Extensions_Extension_I18n());
 
 // Display header
 $current_step = isset($_POST['step']) && is_numeric($_POST['step']) ? $_POST['step'] : 1;
-echo $twig->render('header.html', ['current_step' => $current_step]);
+echo $twig->render('header.html', array('current_step' => $current_step));
 
 switch ($current_step) {
 
     case 1:
-        echo $twig->render('step1.html', ['next_step' => ++$current_step]);
+        echo $twig->render('step1.html', array('next_step' => ++$current_step));
         break;
 
     case 2:
-        echo $twig->render('step2.html', ['next_step' => ++$current_step, 'language' => $language]);
+        echo $twig->render('step2.html', array('next_step' => ++$current_step, 'language' => $language));
         break;
 
     case 3:
-        echo $twig->render('step3.html', ['next_step' => ++$current_step, 'language' => $language]);
+        echo $twig->render('step3.html', array('next_step' => ++$current_step, 'language' => $language));
         break;
 
     case 4:
@@ -133,7 +133,7 @@ switch ($current_step) {
         }
         echo _('done!') . "</p>";
 
-        echo $twig->render('step4.html', [
+        echo $twig->render('step4.html', array(
             'next_step' => ++$current_step,
             'language' => $_POST['language'],
             'db_user' => $db_user,
@@ -144,8 +144,7 @@ switch ($current_step) {
             'db_type' => $db_type,
             'db_charset' => $db_charset,
             'pa_pass' => $pa_pass
-        ]
-        );
+        ));
         break;
 
     case 5:
@@ -245,7 +244,7 @@ switch ($current_step) {
         // For SQLite we should provide path to db file
         $db_file = $_POST['db_type'] =='sqlite' ? $db_file = $_POST['db_name'] : '';
 
-        echo $twig->render('step6.html', [
+        echo $twig->render('step6.html', array(
             'next_step' => ++$current_step,
             'language' => $language,
             'config_file_created' => $config_file_created,
@@ -263,8 +262,7 @@ switch ($current_step) {
             'db_port' => $db_port,
             'db_charset' => $_POST['db_charset'],
             'pa_pass' => $_POST['pa_pass']
-        ]
-        );
+        ));
         break;
 
     case 7:
@@ -275,4 +273,4 @@ switch ($current_step) {
         break;
 }
 
-echo $twig->render('footer.html', ['version' => Poweradmin\Version::VERSION]);
+echo $twig->render('footer.html', array('version' => Poweradmin\Version::VERSION));
