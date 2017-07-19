@@ -36,9 +36,9 @@
 		return $nLength <= $length && strncmp(mb_substr($haystack, -$nLength), $needle, $nLength) === 0;
 	}
 
-	include('include/dns/poweradmin/inc/dns.inc.php');
-	include('include/dns/poweradmin/inc/record.inc.php');
-	include('include/dns/poweradmin/inc/error.inc.php');
+	include 'include/dns/poweradmin/inc/dns.inc.php';
+	include 'include/dns/poweradmin/inc/record.inc.php';
+	include 'include/dns/poweradmin/inc/error.inc.php';
 
 	global $db_mdb2;
 	$db_mdb2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
@@ -76,7 +76,7 @@
 	 */
 	function is_valid_email($address) {
 		$fields = preg_split('/@/', $address, 2);
-		if ((!preg_match("/^[0-9a-z]([-_.]?[0-9a-z])*$/i", $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
+		if ((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
 			return false;
 		}
 		return true;
@@ -111,9 +111,9 @@
 		 */
 		function error($msg) {
 			if ($msg) {
-				add_output("     <div class=\"error\">Error: " . $msg . "</div>\n");
+				add_output('     <div class="error">Error: ' . $msg . "</div>\n");
 			} else {
-				add_output("     <div class=\"error\">" . 'An unknown error has occurred.' . "</div>\n");
+				add_output('     <div class="error">' . 'An unknown error has occurred.' . "</div>\n");
 			}
 		}
 
