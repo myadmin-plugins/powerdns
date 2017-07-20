@@ -50,6 +50,28 @@ function get_db_mdb2() {
 	return $db_mdb2;
 }
 
+
+/** Get Zone Name from Zone ID
+ *
+ * @param int $zid Zone ID
+ *
+ * @return string Domain name
+ */
+function get_zone_name_from_id($zid) {
+	$db_mdb2 = get_db_mdb2();
+	if (is_numeric($zid)) {
+		$result = $db_mdb2->queryRow("SELECT name FROM domains WHERE id=" . $db->quote($zid, 'integer'));
+		if ($result) {
+			return $result["name"];
+		} else {
+			error(sprintf("Zone does not exist."));
+			return false;
+		}
+	} else {
+		error(sprintf(ERR_INV_ARGC, "get_zone_name_from_id", "Not a valid domainid: $zid"));
+	}
+}
+
 /**
  * @param $needle
  * @param $haystack
