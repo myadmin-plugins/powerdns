@@ -60,7 +60,7 @@ function get_db_mdb2() {
 function get_zone_name_from_id($zid) {
 	$db_mdb2 = get_db_mdb2();
 	if (is_numeric($zid)) {
-		$result = $db_mdb2->queryRow("SELECT name FROM domains WHERE id=" . $db->quote($zid, 'integer'));
+		$result = $db_mdb2->queryRow("SELECT name FROM domains WHERE id=" . $db_mdb2->quote($zid, 'integer'));
 		if ($result) {
 			return $result["name"];
 		} else {
