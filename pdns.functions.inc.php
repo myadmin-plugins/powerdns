@@ -54,21 +54,21 @@ function get_db_mdb2() {
  *
  * @param int $zid Zone ID
  *
- * @return string Domain name
+ * @return string|bool Domain name
  */
 function get_zone_name_from_id($zid) {
 	$db_mdb2 = get_db_mdb2();
 	if (is_numeric($zid)) {
-		$result = $db_mdb2->queryRow("SELECT name FROM domains WHERE id=" . $db_mdb2->quote($zid, 'integer'));
+		$result = $db_mdb2->queryRow('SELECT name FROM domains WHERE id=' . $db_mdb2->quote($zid, 'integer'));
 		if ($result) {
-			return $result["name"];
+			return $result['name'];
 		} else {
-			error(sprintf("Zone does not exist."));
-			return false;
+			error(sprintf('Zone does not exist.'));
 		}
 	} else {
-		error(sprintf(ERR_INV_ARGC, "get_zone_name_from_id", "Not a valid domainid: $zid"));
+		error(sprintf(ERR_INV_ARGC, 'get_zone_name_from_id', "Not a valid domainid: $zid"));
 	}
+	return false;
 }
 
 /**
@@ -141,7 +141,7 @@ function isError($result) {
  */
 function get_soa_record($zone_id) {
 	$db_mdb2 = get_db_mdb2();
-	$sqlq = "SELECT content FROM records WHERE type = " . $db_mdb2->quote('SOA', 'text') . " AND domain_id = " . $db_mdb2->quote($zone_id, 'integer');
+	$sqlq = 'SELECT content FROM records WHERE type = ' . $db_mdb2->quote('SOA', 'text') . ' AND domain_id = ' . $db_mdb2->quote($zone_id, 'integer');
 	$result = $db_mdb2->queryOne($sqlq);
 	return $result;
 }
@@ -152,7 +152,7 @@ function get_soa_record($zone_id) {
  * @return string SOA serial
  */
 function get_soa_serial($soa_rec) {
-	$soa = explode(" ", $soa_rec);
+	$soa = explode(' ', $soa_rec);
 	return $soa[2];
 }
 
@@ -220,16 +220,16 @@ function get_next_serial($curr_serial, $today = '') {
 			// Get next date if revision reaches maximum per day (99) limit otherwise increment the counter
 			if ($revision == 99) {
 				$today = get_next_date($today);
-				$revision = "00";
+				$revision = '00';
 			} else
 				++$revision;
 		} else {
 			// Current serial did not start of today, so it's either an older
 			// serial, therefore set a fresh serial
-			$revision = "00";
+			$revision = '00';
 		}
 		// Create new serial out of existing/updated date and revision
-		$serial = $today . str_pad($revision, 2, "0", STR_PAD_LEFT);
+		$serial = $today . str_pad($revision, 2, '0', STR_PAD_LEFT);
 	}
 	return $serial;
 }
@@ -242,10 +242,10 @@ function get_next_serial($curr_serial, $today = '') {
  */
 function set_soa_serial($soa_rec, $serial) {
 	// Split content of current SOA record into an array.
-	$soa = explode(" ", $soa_rec);
+	$soa = explode(' ', $soa_rec);
 	$soa[2] = $serial;
 	// Build new SOA record content
-	$soa_rec = join(" ", $soa);
+	$soa_rec = join(' ', $soa);
 	chop($soa_rec);
 	return $soa_rec;
 }
@@ -260,7 +260,7 @@ function set_soa_serial($soa_rec, $serial) {
 function update_soa_record($domain_id, $content) {
 	$db_mdb2 = get_db_mdb2();
 
-	$sqlq = "UPDATE records SET content = " . $db_mdb2->quote($content, 'text') . " WHERE domain_id = " . $db_mdb2->quote($domain_id, 'integer') . " AND type = " . $db_mdb2->quote('SOA', 'text');
+	$sqlq = 'UPDATE records SET content = ' . $db_mdb2->quote($content, 'text') . ' WHERE domain_id = ' . $db_mdb2->quote($domain_id, 'integer') . ' AND type = ' . $db_mdb2->quote('SOA', 'text');
 	$response = $db_mdb2->query($sqlq);
 
 	if (isError($response)) {
@@ -309,8 +309,8 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	$zone = get_zone_name_from_id($zid);    // TODO check for return
 
 	if (!endsWith(strtolower($zone), strtolower($name))) {
-		if (isset($name) && $name != "") {
-			$name = $name . "." . $zone;
+		if (isset($name) && $name != '') {
+			$name = $name . '.' . $zone;
 		} else {
 			$name = $zone;
 		}
@@ -318,7 +318,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 
 	switch ($type) {
 
-	  case "A":
+	  case 'A':
 		if (!is_valid_ipv4($content)) {
 		  return false;
 		}
@@ -330,10 +330,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 		}
 	  break;
 
-	  case "A6": // TODO: implement validation.
+	  case 'A6': // TODO: implement validation.
 	  break;
 
-	  case "AAAA":
+	  case 'AAAA':
 		if (!is_valid_ipv6($content)) {
 		  return false;
 		}
@@ -345,25 +345,25 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 		}
 	  break;
 
-	  case "AFSDB": // TODO: implement validation.
+	  case 'AFSDB': // TODO: implement validation.
 	  break;
 
-	  case "ALIAS": // TODO: implement validation.
+	  case 'ALIAS': // TODO: implement validation.
 	  break;
 
-	  case "CAA": // TODO: implement validation.
+	  case 'CAA': // TODO: implement validation.
 	  break;
 
-	  case "CDNSKEY": // TODO: implement validation.
+	  case 'CDNSKEY': // TODO: implement validation.
 	  break;
 
-	  case "CDS": // TODO: implement validation.
+	  case 'CDS': // TODO: implement validation.
 	  break;
 
-	  case "CERT": // TODO: implement validation.
+	  case 'CERT': // TODO: implement validation.
 	  break;
 
-	  case "CNAME":
+	  case 'CNAME':
 		if (!is_valid_rr_cname_name($name)) {
 		  return false;
 		}
@@ -387,7 +387,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'DLV': // TODO: implement validation
 	  break;
 
-	  case "DNAME": // TODO: implement validation.
+	  case 'DNAME': // TODO: implement validation.
 	  break;
 
 	  case 'DNSKEY': // TODO: implement validation
@@ -402,7 +402,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'EUI64': // TODO: implement validation
 	  break;
 
-	  case "HINFO":
+	  case 'HINFO':
 		if (!is_valid_rr_hinfo_content($content)) {
 		  return false;
 		}
@@ -420,7 +420,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'KX': // TODO: implement validation
 	  break;
 
-	  case "LOC":
+	  case 'LOC':
 		if (!is_valid_loc($content)) {
 		  return false;
 		}
@@ -429,10 +429,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 		}
 	  break;
 
-	  case "MAILA": // TODO: implement validation.
+	  case 'MAILA': // TODO: implement validation.
 	  break;
 
-	  case "MAILB": // TODO: implement validation.
+	  case 'MAILB': // TODO: implement validation.
 	  break;
 
 	  case 'MINFO': // TODO: implement validation
@@ -441,7 +441,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'MR': // TODO: implement validation
 	  break;
 
-	  case "MX":
+	  case 'MX':
 		if (!is_valid_hostname_fqdn($content, 0)) {
 		  return false;
 		}
@@ -456,7 +456,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'NAPTR': // TODO: implement validation
 	  break;
 
-	  case "NS":
+	  case 'NS':
 		if (!is_valid_hostname_fqdn($content, 0)) {
 		  return false;
 		}
@@ -477,13 +477,13 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'NSEC3PARAM': // TODO: implement validation
 	  break;
 
-	  case "OPENPGPKEY": // TODO: implement validation.
+	  case 'OPENPGPKEY': // TODO: implement validation.
 	  break;
 
 	  case 'OPT': // TODO: implement validation
 	  break;
 
-	  case "PTR":
+	  case 'PTR':
 		if (!is_valid_hostname_fqdn($content, 0)) {
 		  return false;
 		}
@@ -501,10 +501,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'RRSIG': // TODO: implement validation
 	  break;
 
-	  case "SIG": // TODO: implement validation.
+	  case 'SIG': // TODO: implement validation.
 	  break;
 
-	  case "SOA":
+	  case 'SOA':
 		if (!is_valid_rr_soa_name($name, $zone)) {
 		  return false;
 		}
@@ -517,13 +517,13 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 		}
 	  break;
 
-	  case "SPF":
+	  case 'SPF':
 		if (!is_valid_spf($content)) {
 		  return false;
 		}
 	  break;
 
-	  case "SRV":
+	  case 'SRV':
 		if (!is_valid_rr_srv_name($name)) {
 		  return false;
 		}
@@ -535,7 +535,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'SSHFP': // TODO: implement validation
 	  break;
 
-	  case "TKEY": // TODO: implement validation.
+	  case 'TKEY': // TODO: implement validation.
 	  break;
 
 	  case 'TLSA': // TODO: implement validation
@@ -544,7 +544,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'TSIG': // TODO: implement validation
 	  break;
 
-	  case "TXT":
+	  case 'TXT':
 		if (!is_valid_printable($name)) {
 		  return false;
 		}
@@ -556,10 +556,10 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  case 'WKS': // TODO: implement validation
 	  break;
 
-	  case "MBOXFW": // TODO: implement validation
+	  case 'MBOXFW': // TODO: implement validation
 	  break;
 
-	  case "URL": // TODO: implement validation.
+	  case 'URL': // TODO: implement validation.
 	  break;
 
 	  default:
@@ -589,7 +589,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 	global $dns_strict_tld_check;
 	global $valid_tlds;
 
-	$hostname = preg_replace("/\.$/", "", $hostname);
+	$hostname = preg_replace("/\.$/", '', $hostname);
 
 	# The full domain name may not exceed a total length of 253 characters.
 	if (strlen($hostname) > 253) {
@@ -617,11 +617,11 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 				return false;
 			}
 		}
-		if (substr($hostname_label, 0, 1) == "-") {
+		if (substr($hostname_label, 0, 1) == '-') {
 			error(ERR_DNS_HN_DASH);
 			return false;
 		}
-		if (substr($hostname_label, -1, 1) == "-") {
+		if (substr($hostname_label, -1, 1) == '-') {
 			error(ERR_DNS_HN_DASH);
 			return false;
 		}
@@ -631,11 +631,11 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 		}
 	}
 
-	if ($hostname_labels[$label_count - 1] == "arpa" && (substr_count($hostname_labels[0], "/") == 1 XOR substr_count($hostname_labels[1], "/") == 1)) {
-		if (substr_count($hostname_labels[0], "/") == 1) {
-			$array = explode("/", $hostname_labels[0]);
+	if ($hostname_labels[$label_count - 1] == 'arpa' && (substr_count($hostname_labels[0], '/') == 1 XOR substr_count($hostname_labels[1], '/') == 1)) {
+		if (substr_count($hostname_labels[0], '/') == 1) {
+			$array = explode('/', $hostname_labels[0]);
 		} else {
-			$array = explode("/", $hostname_labels[1]);
+			$array = explode('/', $hostname_labels[1]);
 		}
 		if (count($array) != 2) {
 			error(ERR_DNS_HOSTNAME);
@@ -650,7 +650,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 			return false;
 		}
 	} else {
-		if (substr_count($hostname, "/") > 0) {
+		if (substr_count($hostname, '/') > 0) {
 			error(ERR_DNS_HN_SLASH);
 			return false;
 		}
@@ -718,7 +718,7 @@ function are_multipe_valid_ips($ips) {
 // eg. "192.0.0.1, 192.0.0.2, 2001:1::1"
 
 	$are_valid = false;
-	$multiple_ips = explode(",", $ips);
+	$multiple_ips = explode(',', $ips);
 	if (is_array($multiple_ips)) {
 		foreach ($multiple_ips as $m_ip) {
 			$trimmed_ip = trim($m_ip);
@@ -766,9 +766,9 @@ function is_valid_printable($string) {
 function is_valid_rr_cname_name($name) {
 	$db_mdb2 = get_db_mdb2();
 
-	$query = "SELECT id FROM records
-			WHERE content = " . $db_mdb2->quote($name, 'text') . "
-			AND (type = " . $db_mdb2->quote('MX', 'text') . " OR type = " . $db_mdb2->quote('NS', 'text') . ")";
+	$query = 'SELECT id FROM records
+			WHERE content = ' . $db_mdb2->quote($name, 'text') . '
+			AND (type = ' . $db_mdb2->quote('MX', 'text') . ' OR type = ' . $db_mdb2->quote('NS', 'text') . ')';
 
 	$response = $db_mdb2->queryOne($query);
 
@@ -790,9 +790,9 @@ function is_valid_rr_cname_name($name) {
 function is_valid_rr_cname_exists($name, $rid) {
 	$db_mdb2 = get_db_mdb2();
 
-	$where = ($rid > 0 ? " AND id != " . $db_mdb2->quote($rid, 'integer') : '');
-	$query = "SELECT id FROM records
-						WHERE name = " . $db_mdb2->quote($name, 'text') . $where . "
+	$where = ($rid > 0 ? ' AND id != ' . $db_mdb2->quote($rid, 'integer') : '');
+	$query = 'SELECT id FROM records
+						WHERE name = ' . $db_mdb2->quote($name, 'text') . $where . "
 						AND TYPE = 'CNAME'";
 
 	$response = $db_mdb2->queryOne($query);
@@ -813,9 +813,9 @@ function is_valid_rr_cname_exists($name, $rid) {
 function is_valid_rr_cname_unique($name, $rid) {
 	$db_mdb2 = get_db_mdb2();
 
-	$where = ($rid > 0 ? " AND id != " . $db_mdb2->quote($rid, 'integer') : '');
-	$query = "SELECT id FROM records
-						WHERE name = " . $db_mdb2->quote($name, 'text') . $where . "
+	$where = ($rid > 0 ? ' AND id != ' . $db_mdb2->quote($rid, 'integer') : '');
+	$query = 'SELECT id FROM records
+						WHERE name = ' . $db_mdb2->quote($name, 'text') . $where . "
 						AND TYPE IN ('A', 'AAAA', 'CNAME')";
 
 	$response = $db_mdb2->queryOne($query);
@@ -850,9 +850,9 @@ function is_not_empty_cname_rr($name, $zone) {
 function is_valid_non_alias_target($target) {
 	$db_mdb2 = get_db_mdb2();
 
-	$query = "SELECT id FROM records
-			WHERE name = " . $db_mdb2->quote($target, 'text') . "
-			AND TYPE = " . $db_mdb2->quote('CNAME', 'text');
+	$query = 'SELECT id FROM records
+			WHERE name = ' . $db_mdb2->quote($target, 'text') . '
+			AND TYPE = ' . $db_mdb2->quote('CNAME', 'text');
 
 	$response = $db_mdb2->queryOne($query);
 	if ($response) {
@@ -870,13 +870,13 @@ function is_valid_non_alias_target($target) {
  */
 function is_valid_rr_hinfo_content($content) {
 
-	if ($content[0] == "\"") {
+	if ($content[0] == '"') {
 		$fields = preg_split('/(?<=") /', $content, 2);
 	} else {
 		$fields = preg_split('/ /', $content, 2);
 	}
 
-	for ($i = 0; ($i < 2); $i++) {
+	for ($i = 0; $i < 2; $i++) {
 		if (!preg_match("/^([^\s]{1,1000})|\"([^\"]{1,998}\")$/i", $fields[$i])) {
 			error(ERR_DNS_HINFO_INV_CONTENT);
 			return false;
@@ -911,9 +911,9 @@ function is_valid_rr_soa_content(&$content) {
 			global $dns_hostmaster;
 			$addr_input = $dns_hostmaster;
 		}
-		if (!preg_match("/@/", $addr_input)) {
+		if (!preg_match('/@/', $addr_input)) {
 			$addr_input = preg_split('/(?<!\\\)\./', $addr_input, 2);
-			$addr_to_check = str_replace("\\", "", $addr_input[0]) . "@" . $addr_input[1];
+			$addr_to_check = str_replace("\\", '', $addr_input[0]) . '@' . $addr_input[1];
 		} else {
 			$addr_to_check = $addr_input;
 		}
@@ -922,26 +922,26 @@ function is_valid_rr_soa_content(&$content) {
 			return false;
 		} else {
 			$addr_final = explode('@', $addr_to_check, 2);
-			$final_soa .= " " . str_replace(".", "\\.", $addr_final[0]) . "." . $addr_final[1];
+			$final_soa .= ' ' . str_replace('.', "\\.", $addr_final[0]) . '.' . $addr_final[1];
 		}
 
 		if (isset($fields[2])) {
 			if (!is_numeric($fields[2])) {
 				return false;
 			}
-			$final_soa .= " " . $fields[2];
+			$final_soa .= ' ' . $fields[2];
 		} else {
-			$final_soa .= " 0";
+			$final_soa .= ' 0';
 		}
 
 		if ($field_count != 7) {
 			return false;
 		} else {
-			for ($i = 3; ($i < 7); $i++) {
+			for ($i = 3; $i < 7; $i++) {
 				if (!is_numeric($fields[$i])) {
 					return false;
 				} else {
-					$final_soa .= " " . $fields[$i];
+					$final_soa .= ' ' . $fields[$i];
 				}
 			}
 		}
@@ -977,7 +977,7 @@ function is_valid_rr_soa_name($name, $zone) {
  * @return boolean true if valid, false otherwise
  */
 function is_valid_rr_prio(&$prio, $type) {
-	if ($type == "MX" || $type == "SRV") {
+	if ($type == 'MX' || $type == 'SRV') {
 		if (!is_numeric($prio) || $prio < 0 || $prio > 65535) {
 			error(ERR_DNS_INV_PRIO);
 			return false;
@@ -1035,7 +1035,7 @@ function is_valid_rr_srv_content(&$content) {
 		error(ERR_DNS_SRV_PORT, $name);
 		return false;
 	}
-	if ($fields[2] == "" || ($fields[2] != "." && !is_valid_hostname_fqdn($fields[2], 0))) {
+	if ($fields[2] == '' || ($fields[2] != '.' && !is_valid_hostname_fqdn($fields[2], 0))) {
 		error(ERR_DNS_SRV_TRGT, $name);
 		return false;
 	}
@@ -1051,7 +1051,7 @@ function is_valid_rr_srv_content(&$content) {
  */
 function is_valid_rr_ttl(&$ttl) {
 
-	if (!isset($ttl) || $ttl == "") {
+	if (!isset($ttl) || $ttl == '') {
 		global $dns_ttl;
 		$ttl = $dns_ttl;
 	}
