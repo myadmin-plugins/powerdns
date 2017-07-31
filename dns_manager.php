@@ -1,8 +1,10 @@
 <?php
-
 /**
  * dns_manager()
+ *
  * @return void
+ * @throws \Exception
+ * @throws \SmartyException
  */
 function dns_manager() {
 	page_title('DNS Manager');

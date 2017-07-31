@@ -280,9 +280,8 @@ function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl,
 	update_soa_serial($domain_id);
 	if ($db->affected_rows() == 1) {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 /**
@@ -556,7 +555,6 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 	//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__);
 	if ($db->affected_rows() == 1) {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }

@@ -64,9 +64,8 @@ function get_zone_name_from_id($zid) {
 		$result = $db_mdb2->queryRow('SELECT name FROM domains WHERE id=' . $db_mdb2->quote($zid, 'integer'));
 		if ($result) {
 			return $result['name'];
-		} else {
-			error(sprintf('Zone does not exist.'));
 		}
+		error(sprintf('Zone does not exist.'));
 	} else {
 		error(sprintf(ERR_INV_ARGC, 'get_zone_name_from_id', "Not a valid domainid: $zid"));
 	}
@@ -90,11 +89,8 @@ function endsWith($needle, $haystack) {
  * @return bool
  */
 function is_valid_email($address) {
-	$fields = explode("@", $address, 2);
-	if ((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
-		return false;
-	}
-	return true;
+	$fields = explode('@', $address, 2);
+	return !((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0)));
 }
 
 /** Retrieve all supported dns record types
@@ -144,8 +140,7 @@ function isError($result) {
 function get_soa_record($zone_id) {
 	$db_mdb2 = get_db_mdb2();
 	$sqlq = 'SELECT content FROM records WHERE type = ' . $db_mdb2->quote('SOA', 'text') . ' AND domain_id = ' . $db_mdb2->quote($zone_id, 'integer');
-	$result = $db_mdb2->queryOne($sqlq);
-	return $result;
+	return $db_mdb2->queryOne($sqlq);
 }
 
 /** Get SOA Serial Number
@@ -164,8 +159,7 @@ function get_soa_serial($soa_rec) {
  * @return string Date +1 day
  */
 function get_next_date($curr_date) {
-	$next_date = date('Ymd', strtotime('+1 day', strtotime($curr_date)));
-	return $next_date;
+	return date('Ymd', strtotime('+1 day', strtotime($curr_date)));
 }
 
 /** Get Next Serial
@@ -187,7 +181,7 @@ function get_next_date($curr_date) {
  * date is reached - in which case perhaps ritual suicide is the best option."
  * http://www.zytrax.com/books/dns/ch9/serial.html
  *
- * @param string $curr_serial Current Serial No
+ * @param int $curr_serial Current Serial No
  * @param string $today Optional date for "today"
  *
  * @return string Next serial number
@@ -619,7 +613,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 				return false;
 			}
 		}
-		if (substr($hostname_label, 0, 1) == '-') {
+		if (0 === strpos($hostname_label, '-')) {
 			error(ERR_DNS_HN_DASH);
 			return false;
 		}
@@ -738,9 +732,8 @@ function are_multipe_valid_ips($ips) {
 	}
 	if ($are_valid) {
 		return true;
-	} else {
-		return false;
 	}
+	return false;
 }
 
 /** Test if string is printable
@@ -876,7 +869,7 @@ function is_valid_rr_hinfo_content($content) {
 	if ($content[0] == '"') {
 		$fields = preg_split('/(?<=") /', $content, 2);
 	} else {
-		$fields = explode(" ", $content, 2);
+		$fields = explode(' ', $content, 2);
 	}
 
 	for ($i = 0; $i < 2; $i++) {
@@ -902,52 +895,44 @@ function is_valid_rr_soa_content(&$content) {
 
 	if ($field_count == 0 || $field_count > 7) {
 		return false;
+	}
+	if (!is_valid_hostname_fqdn($fields[0], 0) || preg_match('/\.arpa\.?$/', $fields[0])) {
+		return false;
+	}
+	$final_soa = $fields[0];
+	if (isset($fields[1])) {
+		$addr_input = $fields[1];
 	} else {
-		if (!is_valid_hostname_fqdn($fields[0], 0) || preg_match('/\.arpa\.?$/', $fields[0])) {
+		global $dns_hostmaster;
+		$addr_input = $dns_hostmaster;
+	}
+	if (!preg_match('/@/', $addr_input)) {
+		$addr_input = preg_split('/(?<!\\\)\./', $addr_input, 2);
+		$addr_to_check = str_replace("\\", '', $addr_input[0]) . '@' . $addr_input[1];
+	} else {
+		$addr_to_check = $addr_input;
+	}
+	if (!is_valid_email($addr_to_check)) {
+		return false;
+	}
+	$addr_final = explode('@', $addr_to_check, 2);
+	$final_soa .= ' ' . str_replace('.', "\\.", $addr_final[0]) . '.' . $addr_final[1];
+	if (isset($fields[2])) {
+		if (!is_numeric($fields[2])) {
 			return false;
 		}
-		$final_soa = $fields[0];
-
-		if (isset($fields[1])) {
-			$addr_input = $fields[1];
-		} else {
-			global $dns_hostmaster;
-			$addr_input = $dns_hostmaster;
-		}
-		if (!preg_match('/@/', $addr_input)) {
-			$addr_input = preg_split('/(?<!\\\)\./', $addr_input, 2);
-			$addr_to_check = str_replace("\\", '', $addr_input[0]) . '@' . $addr_input[1];
-		} else {
-			$addr_to_check = $addr_input;
-		}
-
-		if (!is_valid_email($addr_to_check)) {
+		$final_soa .= ' ' . $fields[2];
+	} else {
+		$final_soa .= ' 0';
+	}
+	if ($field_count != 7) {
+		return false;
+	}
+	for ($i = 3; $i < 7; $i++) {
+		if (!is_numeric($fields[$i])) {
 			return false;
-		} else {
-			$addr_final = explode('@', $addr_to_check, 2);
-			$final_soa .= ' ' . str_replace('.', "\\.", $addr_final[0]) . '.' . $addr_final[1];
 		}
-
-		if (isset($fields[2])) {
-			if (!is_numeric($fields[2])) {
-				return false;
-			}
-			$final_soa .= ' ' . $fields[2];
-		} else {
-			$final_soa .= ' 0';
-		}
-
-		if ($field_count != 7) {
-			return false;
-		} else {
-			for ($i = 3; $i < 7; $i++) {
-				if (!is_numeric($fields[$i])) {
-					return false;
-				} else {
-					$final_soa .= ' ' . $fields[$i];
-				}
-			}
-		}
+		$final_soa .= ' ' . $fields[$i];
 	}
 	$content = $final_soa;
 	return true;
@@ -1093,9 +1078,8 @@ function is_valid_spf($content) {
 	$regex = "^[Vv]=[Ss][Pp][Ff]1( +([-+?~]?([Aa][Ll][Ll]|[Ii][Nn][Cc][Ll][Uu][Dd][Ee]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Aa](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Mm][Xx](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Pp][Tt][Rr](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?|[Ii][Pp]4:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/([1-9]|1[0-9]|2[0-9]|3[0-2]))?|[Ii][Pp]6:(::|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,8}:|([0-9A-Fa-f]{1,4}:){7}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,5}|([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,6}|[0-9A-Fa-f]{1,4}:(:[0-9A-Fa-f]{1,4}){1,7}|:(:[0-9A-Fa-f]{1,4}){1,8}|([0-9A-Fa-f]{1,4}:){6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){6}:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|::([0-9A-Fa-f]{1,4}:){0,6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(/([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?|[Ee][Xx][Ii][Ss][Tt][Ss]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))|[Rr][Ee][Dd][Ii][Rr][Ee][Cc][Tt]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Ee][Xx][Pp]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[A-Za-z][-.0-9A-Z_a-z]*=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*))* *$^";
 	if (!preg_match($regex, $content)) {
 		return false;
-	} else {
-		return true;
 	}
+	return true;
 }
 
 /** Check if LOC content is valid
@@ -1108,7 +1092,6 @@ function is_valid_loc($content) {
 	$regex = "^(90|[1-8]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [NS] (180|1[0-7]\d|[1-9]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [EW] (-(100000(\.00)?|\d{1,5}(\.\d\d)?)|([1-3]?\d{1,7}(\.\d\d)?|4([01][0-9]{6}|2([0-7][0-9]{5}|8([0-3][0-9]{4}|4([0-8][0-9]{3}|9([0-5][0-9]{2}|6([0-6][0-9]|7[01]))))))(\.\d\d)?|42849672(\.([0-8]\d|9[0-5]))?))[m]?( (\d{1,7}|[1-8]\d{7})(\.\d\d)?[m]?){0,3}$^";
 	if (!preg_match($regex, $content)) {
 		return false;
-	} else {
-		return true;
 	}
+	return true;
 }

@@ -5,7 +5,10 @@ use \MyDb\Mdb2\Db as db_mdb2;
 /**
  * dns_delete()
  * deletes a domain from the DNS server
+ *
  * @return void
+ * @throws \Exception
+ * @throws \SmartyException
  */
 function dns_delete() {
 	page_title('Delete DNS Record');
