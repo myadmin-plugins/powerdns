@@ -7,8 +7,6 @@ use \MyDb\Mdb2\Db as db_mdb2;
  * The DNS Editor
  *
  * @return void
- * @throws \Exception
- * @throws \SmartyException
  */
 function dns_editor() {
 	page_title('DNS Editor');

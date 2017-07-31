@@ -1,10 +1,8 @@
 <?php
+
 /**
  * dns_resolvers()
- *
  * @return void
- * @throws \Exception
- * @throws \SmartyException
  */
 function dns_resolvers() {
 	$table = new TFTable;
