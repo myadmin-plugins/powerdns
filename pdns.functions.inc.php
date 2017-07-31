@@ -41,7 +41,9 @@ function _($text) {
 	return $text;
 }
 }
-
+/**
+ * @return \MyDb\Mdb2\Db
+ */
 function get_db_mdb2() {
 	global $db_mdb2;
 	if (!isset($db_mdb2) || !is_object($db_mdb2))
@@ -88,7 +90,7 @@ function endsWith($needle, $haystack) {
  * @return bool
  */
 function is_valid_email($address) {
-	$fields = preg_split('/@/', $address, 2);
+	$fields = explode("@", $address, 2);
 	if ((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
 		return false;
 	}
@@ -123,11 +125,11 @@ function set_timezone() {
 	}
 }
 }
-
 /**
  * isError()
  *
  * @param mixed $result
+ * @return bool|void
  */
 function isError($result) {
 	require_once 'PEAR.php';
@@ -245,8 +247,8 @@ function set_soa_serial($soa_rec, $serial) {
 	$soa = explode(' ', $soa_rec);
 	$soa[2] = $serial;
 	// Build new SOA record content
-	$soa_rec = join(' ', $soa);
-	chop($soa_rec);
+	$soa_rec = implode(' ', $soa);
+	rtrim($soa_rec);
 	return $soa_rec;
 }
 
@@ -625,7 +627,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 			error(ERR_DNS_HN_DASH);
 			return false;
 		}
-		if (strlen($hostname_label) < 1 || strlen($hostname_label) > 63) {
+		if ('' === $hostname_label || strlen($hostname_label) > 63) {
 			error(ERR_DNS_HN_LENGTH);
 			return false;
 		}
@@ -831,6 +833,7 @@ function is_valid_rr_cname_unique($name, $rid) {
  *
  * @param string $name
  * @param string $zone
+ * @return bool
  */
 function is_not_empty_cname_rr($name, $zone) {
 
@@ -873,7 +876,7 @@ function is_valid_rr_hinfo_content($content) {
 	if ($content[0] == '"') {
 		$fields = preg_split('/(?<=") /', $content, 2);
 	} else {
-		$fields = preg_split('/ /', $content, 2);
+		$fields = explode(" ", $content, 2);
 	}
 
 	for ($i = 0; $i < 2; $i++) {
@@ -1015,7 +1018,7 @@ function is_valid_rr_srv_name(&$name) {
 		error(ERR_DNS_SRV_NAME, $name);
 		return false;
 	}
-	$name = join('.', $fields);
+	$name = implode('.', $fields);
 	return true;
 }
 
@@ -1039,7 +1042,7 @@ function is_valid_rr_srv_content(&$content) {
 		error(ERR_DNS_SRV_TRGT, $name);
 		return false;
 	}
-	$content = join(' ', $fields);
+	$content = implode(' ', $fields);
 	return true;
 }
 

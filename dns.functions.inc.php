@@ -372,7 +372,7 @@ function add_dns_domain($domain, $ip) {
 	}
 	if ($GLOBALS['tf']->ima != 'admin') {
 		$tlds = array_merge(get_known_tlds(), get_effective_tld_rules());
-		$tldsize = sizeof($tlds);
+		$tldsize = count($tlds);
 		$found_tld = false;
 		$match_size =0;
 		for ($x = 0; $x < $tldsize; $x++) {
@@ -540,7 +540,7 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 		}
 	}
 	$username = $GLOBALS['tf']->accounts->data['account_lid'];
-	if (is_null($username) || $username == '') {
+	if (null === $username || $username == '') {
 		$username = 'unknown';
 	}
 	global $dbh_city;
