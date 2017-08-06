@@ -90,7 +90,7 @@ function endsWith($needle, $haystack) {
  * @return bool
  */
 function is_valid_email($address) {
-	$fields = explode("@", $address, 2);
+	$fields = explode('@', $address, 2);
 	if ((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
 		return false;
 	}
@@ -876,7 +876,7 @@ function is_valid_rr_hinfo_content($content) {
 	if ($content[0] == '"') {
 		$fields = preg_split('/(?<=") /', $content, 2);
 	} else {
-		$fields = explode(" ", $content, 2);
+		$fields = explode(' ', $content, 2);
 	}
 
 	for ($i = 0; $i < 2; $i++) {
