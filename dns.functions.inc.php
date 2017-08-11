@@ -1,8 +1,7 @@
 <?php
 /**
  * DNS Related Functionality
- * Last Changed: $LastChangedDate$
- * @author detain
+ * @author Joe Huss <detain@interserver.net>
  * @copyright 2017
  * @package MyAdmin
  * @category DNS
