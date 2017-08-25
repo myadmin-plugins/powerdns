@@ -229,7 +229,7 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
 										]
 	);
 	$db->query($query);
-	$id = $db->get_last_insert_id('records', 'id');
+	$id = $db->getLastInsertId('records', 'id');
 	update_soa_serial($domain_id);
 	return $id;
 }
@@ -414,7 +414,7 @@ function add_dns_domain($domain, $ip) {
 	);
 	$result = $db->query($query);
 	if ($result) {
-		$domain_id = $db->get_last_insert_id('domains', 'id');
+		$domain_id = $db->getLastInsertId('domains', 'id');
 		$db2->query($query2);
 		//$db3->query($query2);
 		$db->query(make_insert_query('records', [
