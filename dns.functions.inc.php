@@ -58,7 +58,7 @@ function get_hostname($ip) {
 					}
 					return false;
 				}
-				//myadmin_log('dns', 'info', json_encode($response));
+				//myadmin_log('dns', 'info', json_encode($response), __LINE__, __FILE__);
 				if (count($response->answer)) {
 					foreach ($response->answer as $rr) {
 						if ($rr->type == 'PTR') {
