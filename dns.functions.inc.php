@@ -61,18 +61,16 @@ function get_hostname($ip) {
 				//myadmin_log('dns', 'info', json_encode($response), __LINE__, __FILE__);
 				if (count($response->answer)) {
 					foreach ($response->answer as $rr) {
-						if ($rr->type == 'PTR') {
+						if ($rr->type == 'PTR')
 							$tzone[implode('.', array_reverse(explode('.', str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
-						}
 					}
 					$cached_zones[$zone] = $tzone;
 					//myadmin_log('dns', 'info', "City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __LINE__, __FILE__);
 				}
 			}
 			if (isset($cached_zones[$zone])) {
-				if (isset($cached_zones[$zone][$ip])) {
+				if (isset($cached_zones[$zone][$ip]))
 					return $cached_zones[$zone][$ip];
-				}
 			}
 		} else {
 			if ($GLOBALS['tf']->session->appsession('emailed_no_net_dns') != 1) {
@@ -87,12 +85,10 @@ function get_hostname($ip) {
 				admin_mail($subject, $email, $headers, FALSE, 'admin_email_problems.tpl');
 				$GLOBALS['tf']->session->appsession('emailed_no_net_dns', 1);
 			}
-			if (!isset($cached_zones[$zone])) {
+			if (!isset($cached_zones[$zone]))
 				$cached_zones[$zone] = [];
-			}
-			if (isset($cached_zones[$zone][$ip])) {
+			if (isset($cached_zones[$zone][$ip]))
 				return $cached_zones[$zone][$ip];
-			}
 			$host = gethostbyaddr($ip);
 			if ($host != $ip) {
 				$cached_zones[$zone][$ip] = $host;
@@ -178,9 +174,8 @@ function delete_dns_record($domain_id, $record_id) {
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	if (get_dns_domain($domain_id) !== false) {
 		$db->query("delete from records where domain_id='{$domain_id}' and id='{$record_id}'");
-		if ($db->affected_rows() == 1) {
+		if ($db->affected_rows() == 1)
 			return true;
-		}
 	}
 	return false;
 }
@@ -202,15 +197,12 @@ function delete_dns_record($domain_id, $record_id) {
  */
 function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false) {
 	$domain_id = (int)$domain_id;
-	if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl)) {
+	if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl))
 		return false;
-	}
-	if (!$domain_info = get_dns_domain($domain_id, $bypass)) {
+	if (!$domain_info = get_dns_domain($domain_id, $bypass))
 		return false;
-	}
-	if ($type == 'SPF') {
+	if ($type == 'SPF')
 		$content = '\"' . $content . '\"';
-	}
 	if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 		$ordername = str_replace('.', ' ', strrev($matches['ordername']));
 	} else {
@@ -252,12 +244,10 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
 function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio) {
 	$domain_id = (int)$domain_id;
 	$record_id = (int)$record_id;
-	if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl)) {
+	if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl))
 		return false;
-	}
-	if (!$domain_info = get_dns_domain($domain_id)) {
+	if (!$domain_info = get_dns_domain($domain_id))
 		return false;
-	}
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 		$ordername = str_replace('.', ' ', strrev($matches['ordername']));
@@ -298,9 +288,8 @@ function delete_dns_domain($domain_id) {
 	if (get_dns_domain($domain_id) !== false) {
 		$db->query("delete from records where domain_id=$domain_id");
 		$db->query("delete from domains where id=$domain_id");
-		if ($db->affected_rows() == 1) {
+		if ($db->affected_rows() == 1)
 			return true;
-		}
 	}
 	return false;
 }
@@ -534,14 +523,12 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 			return false;
 		}
-		if (mb_strpos($host, '_') !== false) {
+		if (mb_strpos($host, '_') !== false)
 			dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
-		}
 	}
 	$username = $GLOBALS['tf']->accounts->data['account_lid'];
-	if (null === $username || $username == '') {
+	if (null === $username || $username == '')
 		$username = 'unknown';
-	}
 	global $dbh_city;
 	$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
 	$db->query(make_insert_query('changes', [
