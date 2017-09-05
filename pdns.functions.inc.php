@@ -994,15 +994,15 @@ function is_valid_rr_srv_name(&$name) {
 function is_valid_rr_srv_content(&$content) {
 	$fields = preg_split("/\s+/", trim($content), 3);
 	if (!is_numeric($fields[0]) || $fields[0] < 0 || $fields[0] > 65535) {
-		error(ERR_DNS_SRV_WGHT, $name);
+		error(ERR_DNS_SRV_WGHT, $content);
 		return false;
 	}
 	if (!is_numeric($fields[1]) || $fields[1] < 0 || $fields[1] > 65535) {
-		error(ERR_DNS_SRV_PORT, $name);
+		error(ERR_DNS_SRV_PORT, $content);
 		return false;
 	}
 	if ($fields[2] == '' || ($fields[2] != '.' && !is_valid_hostname_fqdn($fields[2], 0))) {
-		error(ERR_DNS_SRV_TRGT, $name);
+		error(ERR_DNS_SRV_TRGT, $content);
 		return false;
 	}
 	$content = implode(' ', $fields);
