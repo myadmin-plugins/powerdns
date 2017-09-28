@@ -98,9 +98,7 @@ function dns_editor() {
 					if ($record['type'] != 'SOA')
 					{
 						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'). ' '. $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
-					}
-					else
-					{
+					} else {
 						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'));
 					}
 					$table->add_row();
