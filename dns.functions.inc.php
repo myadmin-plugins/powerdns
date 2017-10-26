@@ -38,64 +38,34 @@ function get_hostname($ip) {
 	$parts = explode('.', $ip);
 	$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
 	if (is_local_ip($ip)) {
-		@include_once 'Net/DNS2.php';
-		if (class_exists('Net_DNS2_Resolver')) {
+		if (!isset($cached_zones[$zone])) {
+			require_once __DIR__.'/../../vendor/pear/net_dns2/Net/DNS2.php';
 			$resolver = new Net_DNS2_Resolver(['nameservers' => ['66.45.228.79']]);
 			//$resolver->nameservers = array('66.45.228.79');
-			if (!isset($cached_zones[$zone])) {
-				$tzone = [];
-				try
-				{
-					$response = $resolver->query($zone, 'AXFR');
-				}
-				catch (Net_DNS2_Exception $e) {
-					//echo "::query() failed: ", $e->getMessage(), "\n";
-					$host = gethostbyaddr($ip);
-					if ($host != $ip) {
-						$cached_zones[$zone][$ip] = $host;
-						unset($host);
-						return $cached_zones[$zone][$ip];
-					}
-					return false;
-				}
-				//myadmin_log('dns', 'info', json_encode($response), __LINE__, __FILE__);
-				if (count($response->answer)) {
-					foreach ($response->answer as $rr) {
-						if ($rr->type == 'PTR')
-							$tzone[implode('.', array_reverse(explode('.', str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
-					}
-					$cached_zones[$zone] = $tzone;
-					//myadmin_log('dns', 'info', "City AXFR Loaded $zone with " . sizeof($tzone) . " IPs", __LINE__, __FILE__);
-				}
-			}
-			if (isset($cached_zones[$zone])) {
-				if (isset($cached_zones[$zone][$ip]))
+			$tzone = [];
+			try {
+				$response = $resolver->query($zone, 'AXFR');
+			} catch (Net_DNS2_Exception $e) {
+				myadmin_log('dns', 'warning', "get_hostname({$ip}) -> Net_DNS_Resolver query failed: ".$e->getMessage(), __LINE__, __FILE__);
+				$host = gethostbyaddr($ip);
+				if ($host != $ip) {
+					$cached_zones[$zone][$ip] = $host;
+					unset($host);
 					return $cached_zones[$zone][$ip];
+				}
+				return false;
 			}
-		} else {
-			if ($GLOBALS['tf']->session->appsession('emailed_no_net_dns') != 1) {
-				$subject = 'My Install Missing Net/DNS';
-				$headers = '';
-				$headers .= 'MIME-Version: 1.0' . EMAIL_NEWLINE;
-				$headers .= 'Content-type: text/html; charset=UTF-8' . EMAIL_NEWLINE;
-				$headers .= 'From: ' . TITLE . ' <' . EMAIL_FROM . '>' . EMAIL_NEWLINE;
-				//				$headers .= "To: Joe Huss <detain@interserver.net>" . EMAIL_NEWLINE;
-				$email = 'The pear module Net/DNS is missing on server ' . (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HOSTNAME']) . '<br>';
-				$email .= 'login as root and type:<br>   pear install Net/DNS<br>to fix<br>';
-				admin_mail($subject, $email, $headers, FALSE, 'admin_email_problems.tpl');
-				$GLOBALS['tf']->session->appsession('emailed_no_net_dns', 1);
-			}
-			if (!isset($cached_zones[$zone]))
-				$cached_zones[$zone] = [];
-			if (isset($cached_zones[$zone][$ip]))
-				return $cached_zones[$zone][$ip];
-			$host = gethostbyaddr($ip);
-			if ($host != $ip) {
-				$cached_zones[$zone][$ip] = $host;
-				unset($host);
-				return $cached_zones[$zone][$ip];
+			//myadmin_log('dns', 'info', json_encode($response), __LINE__, __FILE__);
+			if (count($response->answer)) {
+				foreach ($response->answer as $rr)
+					if ($rr->type == 'PTR')
+						$tzone[implode('.', array_reverse(explode('.', str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
+				$cached_zones[$zone] = $tzone;
+				//myadmin_log('dns', 'debug', "City AXFR Loaded {$zone} with ".sizeof($tzone)." IPs", __LINE__, __FILE__);
 			}
 		}
+		if (isset($cached_zones[$zone]) && isset($cached_zones[$zone][$ip]))
+			return $cached_zones[$zone][$ip];
 	} else {
 		$host = gethostbyaddr($ip);
 		if ($host != $ip) {
