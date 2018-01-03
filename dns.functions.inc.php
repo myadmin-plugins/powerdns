@@ -319,7 +319,7 @@ function add_dns_domain($domain, $ip) {
 		}
 	}
 	if ($GLOBALS['tf']->ima != 'admin') {
-		$query = "select count(*) from domains where domains.account='$custid'";
+		$query = "select count(*) from domains where domains.account='{$custid}'";
 		$result = $db->query($query);
 		$db->next_record(MYSQL_NUM);
 		$domains = $db->f(0);
