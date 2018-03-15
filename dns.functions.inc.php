@@ -37,7 +37,7 @@ function get_hostname($ip) {
 	global $cached_zones;
 	$parts = explode('.', $ip);
 	$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
-	if (is_local_ip($ip) && !in_array($parts[0].'.'.$parts[1].'.'.$parts[2], array('173.225.102', '173.225.111'))) {
+	if (is_local_ip($ip) && !in_array($parts[0].'.'.$parts[1].'.'.$parts[2], array('173.225.102', '173.225.111', '208.73.207'))) {
 		if (!isset($cached_zones[$zone])) {
 			require_once __DIR__.'/../../vendor/pear/net_dns2/Net/DNS2.php';
 			$resolver = new Net_DNS2_Resolver(['nameservers' => ['66.45.228.79']]);
