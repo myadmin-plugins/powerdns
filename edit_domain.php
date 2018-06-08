@@ -59,6 +59,7 @@ function edit_domain() {
 		}
 		$smarty = new TFSmarty();
 		$smarty->assign('id', $domain_id);
+		$smarty->assign('csrf_token', $csrf_token);
 		$records = get_dns_records($domain_id);
 		if ($records !== false)
 			foreach ($records as $idx => $record) {
