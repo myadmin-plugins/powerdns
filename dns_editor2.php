@@ -3,14 +3,14 @@
 use \MyDb\Mdb2\Db as db_mdb2;
 
 /**
- * dns_editor()
+ * dns_editor2()
  * The DNS Editor
  *
  * @return void
  * @throws \Exception
  * @throws \SmartyException
  */
-function dns_editor() {
+function dns_editor2() {
 	page_title('DNS Editor');
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
@@ -81,7 +81,7 @@ function dns_editor() {
 					$table->add_field($table->make_input('content', htmlspecial($record['content']), 25));
 					$table->add_field($table->make_input('ttl', $record['ttl'], 5));
 					$table->add_field($table->make_input('prio', $record['prio'], 3));
-					$table->add_field($table->make_submit('Update') . $table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, '<input type=button value=Cancel>'));
+					$table->add_field($table->make_submit('Update') . $table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, '<input type=button value=Cancel>'));
 					$table->add_row();
 				} else {
 					$table->add_field($record['name']);
@@ -97,9 +97,9 @@ function dns_editor() {
 						$table->add_field();
 					if ($record['type'] != 'SOA')
 					{
-						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'). ' '. $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
+						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'). ' '. $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
 					} else {
-						$table->add_field($table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'));
+						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'));
 					}
 					$table->add_row();
 				}
@@ -129,5 +129,6 @@ function dns_editor() {
 		add_output("There was an error with the query, or you dont have access to that domain or it doesn't exist");
 	}
 	add_output($table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, 'Go To Basic DNS Editor') . '<br>');
+	add_output($table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, 'Go To New DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 }

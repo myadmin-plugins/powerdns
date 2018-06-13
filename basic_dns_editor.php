@@ -46,7 +46,7 @@ function basic_dns_editor() {
 			unset($GLOBALS['tf']->variables->request['record']);
 		}
 		$table->add_hidden('edit', $domain_id);
-		$table->set_title('Basic DNS Domain Editor ' . $table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, '(Advanced)'));
+		$table->set_title('Basic DNS Domain Editor ' . $table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, '(Advanced)'));
 		$table->add_field('Hostname');
 		$table->add_field('Type');
 		$table->add_field('Address');
@@ -94,7 +94,7 @@ function basic_dns_editor() {
 					//$table->add_field();
 				}
 				if ($record['type'] != 'SOA')
-					$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token='.$csrf_token, 'Delete')));
+					$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token='.$csrf_token, 'Delete')));
 				else
 					$table->add_field();
 				$table->add_row();
@@ -124,6 +124,7 @@ function basic_dns_editor() {
 		add_output($table->get_table());
 	} else
 		add_output("There was an error with the query, or you don't have access to that domain or it doesn't exist");
-	add_output($table->make_link('choice=none.dns_editor&amp;edit=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
+	add_output($table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
+	add_output($table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, 'Go To Old Advanced DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 }
