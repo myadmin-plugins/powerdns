@@ -9,8 +9,6 @@
 
 use \MyDb\Mdb2\Db as db_mdb2;
 
-require_once __DIR__.'/../../vendor/poweradmin/poweradmin/inc/error.inc.php';
-
 global $rtypes, $server_types, $valid_tlds;
 
 // Version 2017072000, Last Updated Thu Jul 20 07:07:01 2017 UTC
@@ -64,10 +62,10 @@ function get_zone_name_from_id($zid) {
 		if ($result) {
 			return $result['name'];
 		} else {
-			error(sprintf('Zone does not exist.'));
+			echo '     <div class="error">Error: Zone does not exist</div>'.PHP_EOL;
 		}
 	} else {
-		error(sprintf(ERR_INV_ARGC, 'get_zone_name_from_id', "Not a valid domainid: $zid"));
+		echo '     <div class="error">Error: '._('Invalid argument(s) given to function '.__FUNCTION__.' Not a valid domain: '.$zid).'</div>'.PHP_EOL;		
 	}
 	return false;
 }
@@ -264,7 +262,7 @@ function update_soa_record($domain_id, $content) {
 	$response = $db_mdb2->query($sqlq);
 
 	if (isError($response)) {
-		error($response->getMessage());
+		echo '     <div class="error">Error: '.$response->getMessage().'</div>'.PHP_EOL;
 		return false;
 	}
 
@@ -487,7 +485,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 		if (!is_valid_hostname_fqdn($name, 1))
 			  return false;
 		if (!is_valid_rr_soa_content($content)) {
-		  error(ERR_DNS_CONTENT);
+		  echo '     <div class="error">Error: '._('Your content field doesnt have a legit value.').'</div>'.PHP_EOL;
 		  return false;
 		}
 	  break;
@@ -533,7 +531,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl) {
 	  break;
 
 	  default:
-		error(ERR_DNS_RR_TYPE);
+		echo '     <div class="error">Error: '._('Unknown record type.').'</div>'.PHP_EOL;
 		return false;
 	}
 
@@ -561,7 +559,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 
 	# The full domain name may not exceed a total length of 253 characters.
 	if (strlen($hostname) > 253) {
-		error(ERR_DNS_HN_TOO_LONG);
+		echo '     <div class="error">Error: '._('The hostname is too long.').'</div>'.PHP_EOL;
 		return false;
 	}
 
@@ -574,26 +572,26 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 	foreach ($hostname_labels as $hostname_label) {
 		if ($wildcard == 1 && !isset($first)) {
 			if (!preg_match('/^(\*|[\w-\/]+)$/', $hostname_label)) {
-				error(ERR_DNS_HN_INV_CHARS);
+				echo '     <div class="error">Error: '._('You have invalid characters in your hostname.').'</div>'.PHP_EOL;
 				return false;
 			}
 			$first = 1;
 		} else {
 			if (!preg_match('/^[\w-\/]+$/', $hostname_label)) {
-				error(ERR_DNS_HN_INV_CHARS);
+				echo '     <div class="error">Error: '._('You have invalid characters in your hostname.').'</div>'.PHP_EOL;
 				return false;
 			}
 		}
 		if (substr($hostname_label, 0, 1) == '-') {
-			error(ERR_DNS_HN_DASH);
+			echo '     <div class="error">Error: '._('A hostname can not start or end with a dash.').'</div>'.PHP_EOL;
 			return false;
 		}
 		if (substr($hostname_label, -1, 1) == '-') {
-			error(ERR_DNS_HN_DASH);
+			echo '     <div class="error">Error: '._('A hostname can not start or end with a dash.').'</div>'.PHP_EOL;
 			return false;
 		}
 		if ('' === $hostname_label || strlen($hostname_label) > 63) {
-			error(ERR_DNS_HN_LENGTH);
+			echo '     <div class="error">Error: '._('Given hostname or one of the labels is too short or too long.').'</div>'.PHP_EOL;
 			return false;
 		}
 	}
@@ -605,26 +603,26 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard) {
 			$array = explode('/', $hostname_labels[1]);
 		}
 		if (count($array) != 2) {
-			error(ERR_DNS_HOSTNAME);
+			echo '     <div class="error">Error: '._('Invalid hostname.').'</div>'.PHP_EOL;
 			return false;
 		}
 		if (!is_numeric($array[0]) || $array[0] < 0 || $array[0] > 255) {
-			error(ERR_DNS_HOSTNAME);
+			echo '     <div class="error">Error: '._('Invalid hostname.').'</div>'.PHP_EOL;
 			return false;
 		}
 		if (!is_numeric($array[1]) || $array[1] < 25 || $array[1] > 31) {
-			error(ERR_DNS_HOSTNAME);
+			echo '     <div class="error">Error: '._('Invalid hostname.').'</div>'.PHP_EOL;
 			return false;
 		}
 	} else {
 		if (substr_count($hostname, '/') > 0) {
-			error(ERR_DNS_HN_SLASH);
+			echo '     <div class="error">Error: '._('Given hostname has too many slashes.').'</div>'.PHP_EOL;
 			return false;
 		}
 	}
 
 	if ($dns_strict_tld_check && !in_array(strtolower($hostname_labels[$label_count - 1]), $valid_tlds)) {
-		error(ERR_DNS_INV_TLD);
+		echo '     <div class="error">Error: '._('You are using an invalid top level domain.').'</div>'.PHP_EOL;
 		return false;
 	}
 
@@ -643,7 +641,7 @@ function is_valid_ipv4($ipv4, $answer = true) {
 
   if(filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === FALSE) {
 	if($answer) {
-	  error(ERR_DNS_IPV4);
+	  echo '     <div class="error">Error: '._('This is not a valid IPv4 address.').'</div>'.PHP_EOL;
 	}
 	return false;
   }
@@ -663,7 +661,7 @@ function is_valid_ipv6($ipv6, $answer = true) {
 
   if(filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE) {
 	if($answer) {
-	  error(ERR_DNS_IPV6);
+	  echo '     <div class="error">Error: '._('This is not a valid IPv6 address.').'</div>'.PHP_EOL;
 	}
 	return false;
   }
@@ -716,7 +714,7 @@ function are_multipe_valid_ips($ips) {
  */
 function is_valid_printable($string) {
 	if (!preg_match('/^[[:print:]]+$/', trim($string))) {
-		error(ERR_DNS_PRINTABLE);
+		echo '     <div class="error">Error: '._('Invalid characters have been used in this record.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -740,7 +738,7 @@ function is_valid_rr_cname_name($name) {
 	$response = $db_mdb2->queryOne($query);
 
 	if (!empty($response)) {
-		error(ERR_DNS_CNAME);
+		echo '     <div class="error">Error: '._('This is not a valid CNAME. Did you assign an MX or NS record to the record?').'</div>'.PHP_EOL;
 		return false;
 	}
 
@@ -764,7 +762,7 @@ function is_valid_rr_cname_exists($name, $rid) {
 
 	$response = $db_mdb2->queryOne($query);
 	if ($response) {
-		error(ERR_DNS_CNAME_EXISTS);
+		echo '     <div class="error">Error: '._('This is not a valid record. There is already exists a CNAME with this name.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -787,7 +785,7 @@ function is_valid_rr_cname_unique($name, $rid) {
 
 	$response = $db_mdb2->queryOne($query);
 	if ($response) {
-		error(ERR_DNS_CNAME_UNIQUE);
+		echo '     <div class="error">Error: '._('This is not a valid CNAME. There is already exists an A, AAAA or CNAME with this name.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -803,7 +801,7 @@ function is_valid_rr_cname_unique($name, $rid) {
 function is_not_empty_cname_rr($name, $zone) {
 
 	if ($name == $zone) {
-		error(ERR_DNS_CNAME_EMPTY);
+		echo '     <div class="error">Error: '._('Empty CNAME records are not allowed.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -824,7 +822,7 @@ function is_valid_non_alias_target($target) {
 
 	$response = $db_mdb2->queryOne($query);
 	if ($response) {
-		error(ERR_DNS_NON_ALIAS_TARGET);
+		echo '     <div class="error">Error: '._('You can not point a NS or MX record to a CNAME record. Remove or rame the CNAME record first, or take another name.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -846,7 +844,7 @@ function is_valid_rr_hinfo_content($content) {
 
 	for ($i = 0; $i < 2; $i++) {
 		if (!preg_match("/^([^\s]{1,1000})|\"([^\"]{1,998}\")$/i", $fields[$i])) {
-			error(ERR_DNS_HINFO_INV_CONTENT);
+			echo '     <div class="error">Error: '._('Invalid value for content field of HINFO record.').'</div>'.PHP_EOL;
 			return false;
 		}
 	}
@@ -927,7 +925,7 @@ function is_valid_rr_soa_content(&$content) {
  */
 function is_valid_rr_soa_name($name, $zone) {
 	if ($name != $zone) {
-		error(ERR_DNS_SOA_NAME);
+		echo '     <div class="error">Error: '._('Invalid value for name field of SOA record. It should be the name of the zone.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -945,7 +943,7 @@ function is_valid_rr_soa_name($name, $zone) {
 function is_valid_rr_prio(&$prio, $type) {
 	if ($type == 'MX' || $type == 'SRV') {
 		if (!is_numeric($prio) || $prio < 0 || $prio > 65535) {
-			error(ERR_DNS_INV_PRIO);
+			echo '     <div class="error">Error: '._('Invalid value for prio field. It should be numeric.').'</div>'.PHP_EOL;
 			return false;
 		}
 	} else {
@@ -964,21 +962,21 @@ function is_valid_rr_prio(&$prio, $type) {
 function is_valid_rr_srv_name(&$name) {
 
 	if (strlen($name) > 255) {
-		error(ERR_DNS_HN_TOO_LONG);
+		echo '     <div class="error">Error: '._('The hostname is too long.').'</div>'.PHP_EOL;
 		return false;
 	}
 
 	$fields = explode('.', $name, 3);
 	if (!preg_match('/^_[\w-]+$/i', $fields[0])) {
-		error(ERR_DNS_SRV_NAME_SERVICE, $name);
+		echo '     <div class="error">Error: '._('Invalid service value in name field of SRV record.').' (Record: '.$name.')</div>'.PHP_EOL;
 		return false;
 	}
 	if (!preg_match('/^_[\w]+$/i', $fields[1])) {
-		error(ERR_DNS_SRV_NAME_PROTO, $name);
+		echo '     <div class="error">Error: '._('Invalid protocol value in name field of SRV record.').' (Record: '.$name.')</div>'.PHP_EOL;
 		return false;
 	}
 	if (!is_valid_hostname_fqdn($fields[2], 0)) {
-		error(ERR_DNS_SRV_NAME, $name);
+		echo '     <div class="error">Error: '._('Invalid FQDN value in name field of SRV record.').' (Record: '.$name.')</div>'.PHP_EOL;
 		return false;
 	}
 	$name = implode('.', $fields);
@@ -994,15 +992,15 @@ function is_valid_rr_srv_name(&$name) {
 function is_valid_rr_srv_content(&$content) {
 	$fields = preg_split("/\s+/", trim($content), 3);
 	if (!is_numeric($fields[0]) || $fields[0] < 0 || $fields[0] > 65535) {
-		error(ERR_DNS_SRV_WGHT, $content);
+		echo '     <div class="error">Error: '._('Invalid value for the priority field of the SRV record.').' (Record: '.$content.')</div>'.PHP_EOL;
 		return false;
 	}
 	if (!is_numeric($fields[1]) || $fields[1] < 0 || $fields[1] > 65535) {
-		error(ERR_DNS_SRV_PORT, $content);
+		echo '     <div class="error">Error: '._('Invalid value for the weight field of the SRV record.').' (Record: '.$content.')</div>'.PHP_EOL;
 		return false;
 	}
 	if ($fields[2] == '' || ($fields[2] != '.' && !is_valid_hostname_fqdn($fields[2], 0))) {
-		error(ERR_DNS_SRV_TRGT, $content);
+		echo '     <div class="error">Error: '._('Invalid SRV target.').' (Record: '.$content.')</div>'.PHP_EOL;
 		return false;
 	}
 	$content = implode(' ', $fields);
@@ -1023,7 +1021,7 @@ function is_valid_rr_ttl(&$ttl) {
 	}
 
 	if (!is_numeric($ttl) || $ttl < 0 || $ttl > 2147483647) {
-		error(ERR_DNS_INV_TTL);
+		echo '     <div class="error">Error: '._('Invalid value for TTL field. It should be numeric.').'</div>'.PHP_EOL;
 		return false;
 	}
 
