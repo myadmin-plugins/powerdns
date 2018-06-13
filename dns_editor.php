@@ -7,7 +7,7 @@
  * @throws \Exception
  * @throws \SmartyException
  */
-function edit_domain() {
+function dns_editor() {
 	page_title('DNS Editor');
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = (int)$GLOBALS['tf']->variables->request['id'];
@@ -18,16 +18,16 @@ function edit_domain() {
 		return;
 	}
 	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
-		$verify_csrf = verify_csrf('edit_domain');
-	$csrf_token = $GLOBALS['tf']->session->get_csrf('edit_domain');
+		$verify_csrf = verify_csrf('dns_editor');
+	$csrf_token = $GLOBALS['tf']->session->get_csrf('dns_editor');
 	add_js('bootstrap');
 	add_js('select2');
 	$GLOBALS['tf']->add_html_head_css_file('/css/dns.css');
-	$GLOBALS['tf']->add_html_head_js_file('/js/edit_domain.js');        
+	$GLOBALS['tf']->add_html_head_js_file('/js/dns_editor.js');        
 	$smarty = new TFSmarty();
 	$smarty->assign('id', $domain_id);
 	$smarty->assign('csrf_token', $csrf_token);
-	add_output($smarty->fetch('dns/edit_domain.tpl'));
+	add_output($smarty->fetch('dns/dns_editor.tpl'));
 	add_output($table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, 'Go To Basic DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, 'Go Back to Old DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
