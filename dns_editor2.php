@@ -14,7 +14,7 @@ function dns_editor2() {
 	page_title('DNS Editor');
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
-	$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
+	$domain_id = isset($GLOBALS['tf']->variables->request['edit']) ? (int)$GLOBALS['tf']->variables->request['edit'] : (int)$GLOBALS['tf']->variables->request['id'];
 	$table = new TFTable;
 	$domain = get_dns_domain($domain_id, FALSE, 'view_service');
 	if (!isset($GLOBALS['tf']->variables->request['update']) && !isset($GLOBALS['tf']->variables->request['delete'])) {
