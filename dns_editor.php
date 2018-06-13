@@ -9,7 +9,6 @@
  */
 function dns_editor() {
 	page_title('DNS Editor');
-	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = (int)$GLOBALS['tf']->variables->request['id'];
 	$table = new TFTable;
 	$domain = get_dns_domain($domain_id, FALSE, 'view_service');
