@@ -314,7 +314,7 @@ function add_dns_domain($domain, $ip) {
 	$result = $db->query($query, __LINE__, __FILE__);
 	if ($result) {
 		if ($db->num_rows() > 0) {
-			$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact john@interserver.net';
+			$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact support@interserver.net';
 			return $return;
 		}
 	}
@@ -324,7 +324,7 @@ function add_dns_domain($domain, $ip) {
 		$db->next_record(MYSQL_NUM);
 		$domains = $db->f(0);
 		if ($custid != 9110 && $domains >= MAX_DNS_DOMAINS) {
-			$return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact john@interserver.net if you want more';
+			$return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact support@interserver.net if you want more';
 			return $return;
 		}
 	}
@@ -468,7 +468,7 @@ function add_dns_domain($domain, $ip) {
 		$return['status_text'] = 'Domain ' . $domain . ' Added!';
 	} else {
 		$return['status'] = 'error';
-		$return['status_text'] = 'Database specific error, please contact john@interserver.net and we can assist you further';
+		$return['status_text'] = 'Database specific error, please contact support@interserver.net and we can assist you further';
 	}
 	return $return;
 }
