@@ -144,7 +144,7 @@ function delete_dns_record($domain_id, $record_id) {
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	if (get_dns_domain($domain_id) !== false) {
 		$db->query("delete from records where domain_id='{$domain_id}' and id='{$record_id}'");
-		if ($db->affected_rows() == 1)
+		if ($db->affectedRows() == 1)
 			return true;
 	}
 	return false;
@@ -237,7 +237,7 @@ function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl,
 	$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1', change_date='" . time() . "' where domain_id='{$domain_id}' and id='{$record_id}'";
 	$db->query($query);
 	update_soa_serial($domain_id);
-	if ($db->affected_rows() == 1) {
+	if ($db->affectedRows() == 1) {
 		return true;
 	} else {
 		return false;
@@ -258,7 +258,7 @@ function delete_dns_domain($domain_id) {
 	if (get_dns_domain($domain_id) !== false) {
 		$db->query("delete from records where domain_id=$domain_id");
 		$db->query("delete from domains where id=$domain_id");
-		if ($db->affected_rows() == 1)
+		if ($db->affectedRows() == 1)
 			return true;
 	}
 	return false;
@@ -510,7 +510,7 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse') {
 	]
 			   ));
 	//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__);
-	if ($db->affected_rows() == 1) {
+	if ($db->affectedRows() == 1) {
 		return true;
 	} else {
 		return false;
