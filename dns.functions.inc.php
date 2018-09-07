@@ -33,7 +33,8 @@ define('MAX_DNS_DOMAINS', 250);
  * @param string $ip IP Address
  * @return string|false Hostname
  */
-function get_hostname($ip) {
+function get_hostname($ip)
+{
 	global $cached_zones;
 	$parts = explode('.', $ip);
 	$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
@@ -57,15 +58,18 @@ function get_hostname($ip) {
 			}
 			//myadmin_log('dns', 'info', json_encode($response), __LINE__, __FILE__);
 			if (count($response->answer)) {
-				foreach ($response->answer as $rr)
-					if ($rr->type == 'PTR')
+				foreach ($response->answer as $rr) {
+					if ($rr->type == 'PTR') {
 						$tzone[implode('.', array_reverse(explode('.', str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
+					}
+				}
 				$cached_zones[$zone] = $tzone;
 				//myadmin_log('dns', 'debug', "City AXFR Loaded {$zone} with ".sizeof($tzone)." IPs", __LINE__, __FILE__);
 			}
 		}
-		if (isset($cached_zones[$zone]) && isset($cached_zones[$zone][$ip]))
+		if (isset($cached_zones[$zone]) && isset($cached_zones[$zone][$ip])) {
 			return $cached_zones[$zone][$ip];
+		}
 	} else {
 		$host = gethostbyaddr($ip);
 		if ($host != $ip) {
@@ -87,15 +91,17 @@ function get_hostname($ip) {
  * @param bool|string $acl optional name of acl to limitadmins by
  * @return array|false Either an array containing some information about the domain or false on failure.
  */
-function get_dns_domain($domain_id, $bypass = false, $acl = false) {
+function get_dns_domain($domain_id, $bypass = false, $acl = false)
+{
 	$domain_id = (int)$domain_id;
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
 	function_requirements('has_acl');
-	if ($bypass === true || ($GLOBALS['tf']->ima == 'admin' && ($acl == false || has_acl($acl))))
+	if ($bypass === true || ($GLOBALS['tf']->ima == 'admin' && ($acl == false || has_acl($acl)))) {
 		$db->query("select * from domains where id='{$domain_id}'");
-	else
+	} else {
 		$db->query("select * from domains where id='{$domain_id}' and account='{$custid}'");
+	}
 	if ($db->num_rows() > 0) {
 		$db->next_record(MYSQL_ASSOC);
 		return $db->Record;
@@ -112,20 +118,24 @@ function get_dns_domain($domain_id, $bypass = false, $acl = false) {
 * @param bool $bypass
 * @return array|false Either an array containing some information about the domain or false on failure.
 */
-function get_dns_records($domain_id, $bypass = false) {
+function get_dns_records($domain_id, $bypass = false)
+{
 	$domain_id = (int)$domain_id;
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
-	if ($GLOBALS['tf']->ima == 'admin' || $bypass == true)
+	if ($GLOBALS['tf']->ima == 'admin' || $bypass == true) {
 		$db->query("select * from records where domain_id='{$domain_id}'");
-	else
+	} else {
 		$db->query("select records.* from records, domains where domains.id='{$domain_id}' and account='{$custid}' and domain_id=domains.id");
+	}
 	$results = [];
-	if ($db->num_rows() > 0)
-		while ($db->next_record(MYSQL_ASSOC))
+	if ($db->num_rows() > 0) {
+		while ($db->next_record(MYSQL_ASSOC)) {
 			$results[] = $db->Record;
-	else
+		}
+	} else {
 		return false;
+	}
 	return $results;
 }
 
@@ -138,14 +148,16 @@ function get_dns_records($domain_id, $bypass = false) {
  * @param integer $record_id The ID of the domains record to remove.
  * @return bool will return true if it succeeded, or false if there was some type of error.
  */
-function delete_dns_record($domain_id, $record_id) {
+function delete_dns_record($domain_id, $record_id)
+{
 	$domain_id = (int)$domain_id;
 	$record_id = (int)$record_id;
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	if (get_dns_domain($domain_id) !== false) {
 		$db->query("delete from records where domain_id='{$domain_id}' and id='{$record_id}'");
-		if ($db->affectedRows() == 1)
+		if ($db->affectedRows() == 1) {
 			return true;
+		}
 	}
 	return false;
 }
@@ -165,14 +177,18 @@ function delete_dns_record($domain_id, $record_id) {
  * @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
  * @return int|false The ID of the newly added record, or false on error..
  */
-function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false) {
+function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false)
+{
 	$domain_id = (int)$domain_id;
-	if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl))
+	if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl)) {
 		return false;
-	if (!$domain_info = get_dns_domain($domain_id, $bypass))
+	}
+	if (!$domain_info = get_dns_domain($domain_id, $bypass)) {
 		return false;
-	if ($type == 'SPF')
+	}
+	if ($type == 'SPF') {
 		$content = '\"' . $content . '\"';
+	}
 	if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 		$ordername = str_replace('.', ' ', strrev($matches['ordername']));
 	} else {
@@ -211,13 +227,16 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
  * @param int $prio dns record priority
  * @return bool True on success, False on failure.
  */
-function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio) {
+function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio)
+{
 	$domain_id = (int)$domain_id;
 	$record_id = (int)$record_id;
-	if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl))
+	if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl)) {
 		return false;
-	if (!$domain_info = get_dns_domain($domain_id))
+	}
+	if (!$domain_info = get_dns_domain($domain_id)) {
 		return false;
+	}
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	if (preg_match('/^(?P<ordername>.*)\.' . str_replace('.', '\\.', $domain_info['name']) . '$/', $name, $matches)) {
 		$ordername = str_replace('.', ' ', strrev($matches['ordername']));
@@ -252,14 +271,16 @@ function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl,
  * @param int $domain_id The ID of the domain in question.
  * @return bool will return true if it succeeded, or false if there was some type of error.
  */
-function delete_dns_domain($domain_id) {
+function delete_dns_domain($domain_id)
+{
 	$domain_id = (int)$domain_id;
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	if (get_dns_domain($domain_id) !== false) {
 		$db->query("delete from records where domain_id=$domain_id");
 		$db->query("delete from domains where id=$domain_id");
-		if ($db->affectedRows() == 1)
+		if ($db->affectedRows() == 1) {
 			return true;
+		}
 	}
 	return false;
 }
@@ -276,7 +297,8 @@ function delete_dns_domain($domain_id) {
  * @param string $ip ip address to assign it to.
  * @return array array with status and status_text
  */
-function add_dns_domain($domain, $ip) {
+function add_dns_domain($domain, $ip)
+{
 	$return['status'] = 'error';
 	$return['status_text'] = '';
 	$domain = strtolower($domain);
@@ -482,23 +504,28 @@ function add_dns_domain($domain, $ip) {
  * @param string $action optional, defaults to set_reverse, can also be remove_reverse
  * @return bool true if it was able to make the requested changes, false if it wasn't.
  */
-function reverse_dns($ip, $host = '', $action = 'set_reverse') {
-	if (!validIp($ip, FALSE))
+function reverse_dns($ip, $host = '', $action = 'set_reverse')
+{
+	if (!validIp($ip, false)) {
 		return false;
+	}
 	$actions = ['set_reverse', 'remove_reverse'];
-	if (!in_array($action, $actions))
+	if (!in_array($action, $actions)) {
 		$action = 'set_reverse';
+	}
 	if ($action == 'set_reverse') {
 		if (!valid_hostname($host)) {
 			dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
 			return false;
 		}
-		if (mb_strpos($host, '_') !== false)
+		if (mb_strpos($host, '_') !== false) {
 			dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
+		}
 	}
 	$username = $GLOBALS['tf']->accounts->data['account_lid'];
-	if (null === $username || $username == '')
+	if (null === $username || $username == '') {
 		$username = 'unknown';
+	}
 	global $dbh_city;
 	$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
 	$db->query(make_insert_query('changes', [

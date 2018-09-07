@@ -10,13 +10,14 @@ use \MyDb\Mdb2\Db as db_mdb2;
  * @throws \Exception
  * @throws \SmartyException
  */
-function dns_editor2() {
+function dns_editor2()
+{
 	page_title('DNS Editor');
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = isset($GLOBALS['tf']->variables->request['edit']) ? (int)$GLOBALS['tf']->variables->request['edit'] : (int)$GLOBALS['tf']->variables->request['id'];
 	$table = new TFTable;
-	$domain = get_dns_domain($domain_id, FALSE, 'view_service');
+	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if (!isset($GLOBALS['tf']->variables->request['update']) && !isset($GLOBALS['tf']->variables->request['delete'])) {
 	} else {
 		$verify_csrf = verify_csrf('dns_editor');
@@ -63,17 +64,18 @@ function dns_editor2() {
 		$table->add_field();
 		$table->add_row();
 		$records = get_dns_records($domain_id);
-		if ($records !== false)
+		if ($records !== false) {
 			foreach ($records as $idx => $record) {
 				if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id']) {
 					$table->add_hidden('update', $record['id']);
 					$table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="' . trim(str_replace($domain['name'], '', $record['name']), '.') . '" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
 					$sel = "<select name=\"type\">\n";
 					foreach (get_record_types() as $type_available) {
-						if ($type_available == $record['type'])
+						if ($type_available == $record['type']) {
 							$add = ' SELECTED';
-						else
+						} else {
 							$add = '';
+						}
 						$sel .= ' <option' . $add . ' value="' . $type_available . '" >' . $type_available . "</option>\n";
 					}
 					$sel .= "</select>\n";
@@ -86,17 +88,18 @@ function dns_editor2() {
 				} else {
 					$table->add_field($record['name']);
 					$table->add_field($record['type']);
-					if (mb_strlen($record['content']) > 30)
+					if (mb_strlen($record['content']) > 30) {
 						$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . mb_substr($record['content'], 0, 30) . '...</a>');
-					else
+					} else {
 						$table->add_field($record['content']);
+					}
 					$table->add_field($record['ttl']);
-					if (in_array($record['type'], ['MX', 'SRV']))
+					if (in_array($record['type'], ['MX', 'SRV'])) {
 						$table->add_field($record['prio']);
-					else
+					} else {
 						$table->add_field();
-					if ($record['type'] != 'SOA')
-					{
+					}
+					if ($record['type'] != 'SOA') {
 						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'). ' '. $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
 					} else {
 						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'));
@@ -104,6 +107,7 @@ function dns_editor2() {
 					$table->add_row();
 				}
 			}
+		}
 		if (!isset($GLOBALS['tf']->variables->request['record'])) {
 			$table->add_hidden('update', -1);
 			$table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');

@@ -6,7 +6,8 @@
  * @throws \Exception
  * @throws \SmartyException
  */
-function dns_resolvers() {
+function dns_resolvers()
+{
 	$table = new TFTable;
 	$table->set_title('DNS Servers');
 	$table->add_field('Primary DNS', 'l');

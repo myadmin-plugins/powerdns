@@ -6,7 +6,8 @@
  * @throws \Exception
  * @throws \SmartyException
  */
-function dns_manager() {
+function dns_manager()
+{
 	page_title('DNS Manager');
 	function_requirements('crud_dns_manager');
 	crud_dns_manager();

@@ -1,6 +1,7 @@
 <?php
 
-function basic_dns_editor() {
+function basic_dns_editor()
+{
 	page_title('Basic DNS Editor');
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
@@ -10,22 +11,25 @@ function basic_dns_editor() {
 		'MX' => 'Send Mail To'
 	];
 	$table = new TFTable;
-	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
+	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete'])) {
 		$verify_csrf = verify_csrf('basic_dns_editor');
+	}
 	$csrf_token = $table->csrf('basic_dns_editor');
-	$domain = get_dns_domain($domain_id, FALSE, 'view_service');
+	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain !== false) {
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
-			if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '')
+			if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '') {
 				$GLOBALS['tf']->variables->request['prio'] = 10;
+			}
 			if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'])) {
 				$record = $GLOBALS['tf']->variables->request['update'];
 				$name = $GLOBALS['tf']->variables->request['name'];
 				$type = $GLOBALS['tf']->variables->request['type'];
-				if ($type == 'SPF')
+				if ($type == 'SPF') {
 					$content = $GLOBALS['tf']->variables->request['content'];
-				else
+				} else {
 					$content = $GLOBALS['tf']->variables->request['content'];
+				}
 				$ttl = $GLOBALS['tf']->variables->request['ttl'];
 				$prio = $GLOBALS['tf']->variables->request['prio'];
 				if (isset($GLOBALS['tf']->variables->request['update']) && $GLOBALS['tf']->variables->request['update'] == -1) {
@@ -35,8 +39,9 @@ function basic_dns_editor() {
 					add_output('Record Updated');
 					update_dns_record($domain_id, $record, $name, $content, $type, $ttl, $prio);
 				}
-			} else
+			} else {
 				add_output('There were errors validating your data');
+			}
 			unset($GLOBALS['tf']->variables->request['update']);
 			unset($GLOBALS['tf']->variables->request['record']);
 		}
@@ -56,17 +61,19 @@ function basic_dns_editor() {
 		$table->add_row();
 		$records = get_dns_records($domain_id);
 		foreach ($records as $idx => $record) {
-			if (in_array($record['type'], ['SOA', 'NS']))
+			if (in_array($record['type'], ['SOA', 'NS'])) {
 				continue;
+			}
 			if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id']) {
 				$table->add_hidden('update', $record['id']);
 				$table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="' . trim(str_replace($domain['name'], '', $record['name']), '.') . '" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
 				$sel = "<select name=\"type\">\n";
 				foreach ($types as $type_available => $type_desc) {
-					if ($type_available == $record['type'])
+					if ($type_available == $record['type']) {
 						$add = ' SELECTED';
-					else
+					} else {
 						$add = '';
+					}
 					$sel .= ' <option' . $add . ' value="' . $type_available . '" >' . $type_desc . "</option>\n";
 				}
 				$sel .= "</select>\n";
@@ -80,23 +87,26 @@ function basic_dns_editor() {
 				$table->add_row();
 			} else {
 				$table->add_field($record['name']);
-				if (isset($types[$record['type']]))
+				if (isset($types[$record['type']])) {
 					$type = $types[$record['type']];
+				}
 				$table->add_field($type);
-				if (mb_strlen($record['content']) > 30)
+				if (mb_strlen($record['content']) > 30) {
 					$table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . mb_substr($record['content'], 0, 30) . '...</a>');
-				else
+				} else {
 					$table->add_field($record['content']);
+				}
 				//$table->add_field($record['ttl']);
 				if (in_array($record['type'], ['MX', 'SRV'])) {
 					//$table->add_field($record['prio']);
 				} else {
 					//$table->add_field();
 				}
-				if ($record['type'] != 'SOA')
+				if ($record['type'] != 'SOA') {
 					$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token='.$csrf_token, 'Delete')));
-				else
+				} else {
 					$table->add_field();
+				}
 				$table->add_row();
 			}
 		}
@@ -105,10 +115,11 @@ function basic_dns_editor() {
 			$table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
 			$sel = "<select name=\"type\">\n";
 			foreach ($types as $type_available => $type_desc) {
-				if ($type_available == 'A')
+				if ($type_available == 'A') {
 					$add = ' SELECTED';
-				else
+				} else {
 					$add = '';
+				}
 				$sel .= ' <option' . $add . ' value="' . $type_available . '" >' . $type_desc . "</option>\n";
 			}
 			$sel .= "</select>\n";
@@ -122,8 +133,9 @@ function basic_dns_editor() {
 			$table->add_row();
 		}
 		add_output($table->get_table());
-	} else
+	} else {
 		add_output("There was an error with the query, or you don't have access to that domain or it doesn't exist");
+	}
 	add_output($table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, 'Go To Old Advanced DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));

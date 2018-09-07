@@ -7,22 +7,24 @@
  * @throws \Exception
  * @throws \SmartyException
  */
-function dns_editor() {
+function dns_editor()
+{
 	page_title('DNS Editor');
 	$domain_id = isset($GLOBALS['tf']->variables->request['id']) ? (int)$GLOBALS['tf']->variables->request['id'] : (int)$GLOBALS['tf']->variables->request['edit'];
 	$table = new TFTable;
-	$domain = get_dns_domain($domain_id, FALSE, 'view_service');
+	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain === false) {
 		add_output("There was an error with the query, or you dont have access to that domain or it doesn't exist");
 		return;
 	}
-	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete']))
+	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete'])) {
 		$verify_csrf = verify_csrf('dns_editor');
+	}
 	$csrf_token = $GLOBALS['tf']->session->get_csrf('dns_editor');
 	add_js('bootstrap');
 	add_js('select2');
 	$GLOBALS['tf']->add_html_head_css_file('/css/dns.css');
-	$GLOBALS['tf']->add_html_head_js_file('/js/dns_editor.js');        
+	$GLOBALS['tf']->add_html_head_js_file('/js/dns_editor.js');
 	$smarty = new TFSmarty();
 	$smarty->assign('id', $domain_id);
 	$smarty->assign('csrf_token', $csrf_token);
