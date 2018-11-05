@@ -69,7 +69,7 @@ function get_zone_name_from_id($zid)
 			echo '     <div class="error">Error: Zone does not exist</div>'.PHP_EOL;
 		}
 	} else {
-		echo '     <div class="error">Error: '._('Invalid argument(s) given to function '.__FUNCTION__.' Not a valid domain: '.$zid).'</div>'.PHP_EOL;
+		echo '     <div class="error">Error: '._('Invalid argument(s) given to function').' '.__FUNCTION__.' '._('Not a valid domain').': '.$zid.'</div>'.PHP_EOL;
 	}
 	return false;
 }
