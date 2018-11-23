@@ -884,7 +884,7 @@ function is_valid_non_alias_target($target)
 
 	$response = $db_mdb2->queryOne($query);
 	if ($response) {
-		echo '     <div class="error">'._('Error').': '._('You can not point a NS or MX record to a CNAME record. Remove or rame the CNAME record first, or take another name.').'</div>'.PHP_EOL;
+		echo '     <div class="error">'._('Error').': '._('You can not point a NS or MX record to a CNAME record.').' '._('Remove or rame the CNAME record first, or take another name.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -990,7 +990,7 @@ function is_valid_rr_soa_content(&$content)
 function is_valid_rr_soa_name($name, $zone)
 {
 	if ($name != $zone) {
-		echo '     <div class="error">'._('Error').': '._('Invalid value for name field of SOA record. It should be the name of the zone.').'</div>'.PHP_EOL;
+		echo '     <div class="error">'._('Error').': '._('Invalid value for name field of SOA record.').' '._('It should be the name of the zone.').'</div>'.PHP_EOL;
 		return false;
 	}
 	return true;
@@ -1009,7 +1009,7 @@ function is_valid_rr_prio(&$prio, $type)
 {
 	if ($type == 'MX' || $type == 'SRV') {
 		if (!is_numeric($prio) || $prio < 0 || $prio > 65535) {
-			echo '     <div class="error">'._('Error').': '._('Invalid value for prio field. It should be numeric.').'</div>'.PHP_EOL;
+			echo '     <div class="error">'._('Error').': '._('Invalid value for prio field.').' '._('It should be numeric.').'</div>'.PHP_EOL;
 			return false;
 		}
 	} else {
@@ -1088,7 +1088,7 @@ function is_valid_rr_ttl(&$ttl)
 	}
 
 	if (!is_numeric($ttl) || $ttl < 0 || $ttl > 2147483647) {
-		echo '     <div class="error">'._('Error').': '._('Invalid value for TTL field. It should be numeric.').'</div>'.PHP_EOL;
+		echo '     <div class="error">'._('Error').': '._('Invalid value for TTL field.').' '._('It should be numeric.').'</div>'.PHP_EOL;
 		return false;
 	}
 
