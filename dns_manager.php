@@ -8,7 +8,7 @@
  */
 function dns_manager()
 {
-	page_title('DNS Manager');
+	page_title(_('DNS Manager'));
 	function_requirements('crud_dns_manager');
 	crud_dns_manager();
 	$table = new TFTable;

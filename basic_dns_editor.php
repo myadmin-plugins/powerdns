@@ -2,7 +2,7 @@
 
 function basic_dns_editor()
 {
-	page_title('Basic DNS Editor');
+	page_title(_('Basic DNS Editor'));
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
 	$types = [

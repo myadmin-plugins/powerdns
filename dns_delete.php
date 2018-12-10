@@ -12,7 +12,7 @@ use \MyDb\Mdb2\Db as db_mdb2;
  */
 function dns_delete()
 {
-	page_title('Delete DNS Record');
+	page_title(_('Delete DNS Record'));
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);

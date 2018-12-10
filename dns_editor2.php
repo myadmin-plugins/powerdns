@@ -12,7 +12,7 @@ use \MyDb\Mdb2\Db as db_mdb2;
  */
 function dns_editor2()
 {
-	page_title('DNS Editor');
+	page_title(_('DNS Editor'));
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = isset($GLOBALS['tf']->variables->request['edit']) ? (int)$GLOBALS['tf']->variables->request['edit'] : (int)$GLOBALS['tf']->variables->request['id'];

@@ -9,7 +9,7 @@
  */
 function dns_add()
 {
-	page_title('DNS Editor');
+	page_title(_('DNS Editor'));
 	$table = new TFTable;
 	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete'])) {
 		$verify_csrf = verify_csrf('dns_add');
