@@ -312,8 +312,6 @@ function add_dns_domain($domain, $ip)
 		if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']])) {
 			$module = $GLOBALS['tf']->variables->request['module'];
 			//				$custid = get_custid($custid, $module);
-			$GLOBALS['tf']->accounts->set_db_module($module);
-			$GLOBALS['tf']->history->set_db_module($module);
 		}
 	}
 	$module = get_module_name($module);
