@@ -17,9 +17,11 @@ function dns_delete()
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);
 	$table = new TFTable;
+	function_requirements('get_dns_domain');
 	$result = get_dns_domain($domain_id);
 	if ($result !== false) {
 		if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes' && verify_csrf('dns_delete')) {
+			function_requirements('delete_dns_domain');
 			delete_dns_domain($domain_id);
 			add_output('Domain Removed');
 			$GLOBALS['tf']->redirect($GLOBALS['tf']->link('index.php', 'choice=none.dns_manager'));

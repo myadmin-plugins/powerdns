@@ -12,6 +12,7 @@ function dns_editor()
 	page_title(_('DNS Editor'));
 	$domain_id = isset($GLOBALS['tf']->variables->request['id']) ? (int)$GLOBALS['tf']->variables->request['id'] : (int)$GLOBALS['tf']->variables->request['edit'];
 	$table = new TFTable;
+	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain === false) {
 		add_output("There was an error with the query, or you dont have access to that domain or it doesn't exist");

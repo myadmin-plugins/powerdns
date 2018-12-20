@@ -17,6 +17,7 @@ function dns_editor2()
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = isset($GLOBALS['tf']->variables->request['edit']) ? (int)$GLOBALS['tf']->variables->request['edit'] : (int)$GLOBALS['tf']->variables->request['id'];
 	$table = new TFTable;
+	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if (!isset($GLOBALS['tf']->variables->request['update']) && !isset($GLOBALS['tf']->variables->request['delete'])) {
 	} else {
@@ -37,10 +38,12 @@ function dns_editor2()
 				$ttl = $GLOBALS['tf']->variables->request['ttl'];
 				$prio = $GLOBALS['tf']->variables->request['prio'];
 				if (isset($GLOBALS['tf']->variables->request['update']) && $GLOBALS['tf']->variables->request['update'] == -1) {
+					function_requirements('add_dns_record');
 					add_dns_record($domain_id, $name, $content, $type, $ttl, $prio);
 					add_output('Record Added');
 				} else {
 					add_output('Record Updated');
+					function_requirements('update_dns_record');
 					update_dns_record($domain_id, $record, $name, $content, $type, $ttl, $prio);
 				}
 			} else {

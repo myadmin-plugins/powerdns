@@ -15,6 +15,7 @@ function basic_dns_editor()
 		$verify_csrf = verify_csrf('basic_dns_editor');
 	}
 	$csrf_token = $table->csrf('basic_dns_editor');
+	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain !== false) {
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
@@ -33,10 +34,12 @@ function basic_dns_editor()
 				$ttl = $GLOBALS['tf']->variables->request['ttl'];
 				$prio = $GLOBALS['tf']->variables->request['prio'];
 				if (isset($GLOBALS['tf']->variables->request['update']) && $GLOBALS['tf']->variables->request['update'] == -1) {
+					function_requirements('add_dns_record');
 					add_dns_record($domain_id, $name, $content, $type, $ttl, $prio);
 					add_output('Record Added');
 				} else {
 					add_output('Record Updated');
+					function_requirements('update_dns_record');
 					update_dns_record($domain_id, $record, $name, $content, $type, $ttl, $prio);
 				}
 			} else {
