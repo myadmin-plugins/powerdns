@@ -72,10 +72,65 @@ class Plugin
 	public static function getRequirements(GenericEvent $event)
 	{
         /**
-         * @var \MyAdmin\Plugins\Loader $this->loader
+         * @var \MyAdmin\Plugins\Loader $loader
          */
         $loader = $event->getSubject();
-	}
+        $loader->add_page_requirement('get_hostname', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('get_dns_domain', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('get_dns_records', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('delete_dns_record', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('add_dns_record', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('update_dns_record', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('delete_dns_domain', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('add_dns_domain', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('reverse_dns', '/../vendor/detain/myadmin-powerdns/src/dns.functions.inc.php');
+        $loader->add_page_requirement('get_db_mdb2', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('get_zone_name_from_id', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('endsWith', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_email', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('get_record_types', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('set_timezone', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('isError', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('get_soa_record', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('get_soa_serial', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('get_next_date', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('get_next_serial', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('set_soa_serial', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('update_soa_record', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('update_soa_serial', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('validate_input', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_hostname_fqdn', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_ipv4', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_ipv6', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('are_multipe_valid_ips', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_printable', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_cname_name', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_cname_exists', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_cname_unique', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_not_empty_cname_rr', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_non_alias_target', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_hinfo_content', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_soa_content', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_soa_name', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_prio', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_srv_name', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_srv_content', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_rr_ttl', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_search', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_spf', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('is_valid_loc', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
+        $loader->add_page_requirement('add_domain', '/../vendor/detain/myadmin-powerdns/src/add_domain.php');
+        $loader->add_page_requirement('basic_dns_editor', '/../vendor/detain/myadmin-powerdns/src/basic_dns_editor.php');
+        $loader->add_page_requirement('dns_add', '/../vendor/detain/myadmin-powerdns/src/dns_add.php');
+        $loader->add_requirement('add_dns_default_domain', '/../vendor/detain/myadmin-powerdns/src/dns_default_domains.php');
+        $loader->add_page_requirement('dns_delete', '/../vendor/detain/myadmin-powerdns/src/dns_delete.php');
+        $loader->add_page_requirement('dns_editor2', '/../vendor/detain/myadmin-powerdns/src/dns_editor2.php');
+        $loader->add_page_requirement('dns_editor', '/../vendor/detain/myadmin-powerdns/src/dns_editor.php');
+        $loader->add_page_requirement('dns_list', '/../vendor/detain/myadmin-powerdns/src/dns_list.php');
+        $loader->add_page_requirement('dns_manager', '/../vendor/detain/myadmin-powerdns/src/dns_manager.php');
+        $loader->add_page_requirement('dns_resolvers', '/../vendor/detain/myadmin-powerdns/src/dns_resolvers.php');
+        $loader->add_page_requirement('list_domains', '/../vendor/detain/myadmin-powerdns/src/list_domains.php');
+    }
 
 	/**
 	 * @param \Symfony\Component\EventDispatcher\GenericEvent $event
