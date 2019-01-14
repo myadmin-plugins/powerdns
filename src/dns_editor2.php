@@ -23,7 +23,7 @@ function dns_editor2()
 	} else {
 		$verify_csrf = verify_csrf('dns_editor');
 	}
-	$csrf_token = $table->csrf('dns_editor');
+	$csrf_token = $table->csrf('dns_editor', false);
 	if ($domain !== false) {
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
 			if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'])) {

@@ -12,9 +12,9 @@ function basic_dns_editor()
 	];
 	$table = new TFTable;
 	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete'])) {
-		$verify_csrf = verify_csrf('basic_dns_editor');
+		$verify_csrf = verify_csrf('dns_editor');
 	}
-	$csrf_token = $table->csrf('basic_dns_editor');
+	$csrf_token = $table->csrf('dns_editor', false);
 	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain !== false) {

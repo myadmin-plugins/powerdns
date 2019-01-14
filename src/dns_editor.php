@@ -21,7 +21,7 @@ function dns_editor()
 	if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete'])) {
 		$verify_csrf = verify_csrf('dns_editor');
 	}
-	$csrf_token = $GLOBALS['tf']->session->get_csrf('dns_editor');
+	$csrf_token = $GLOBALS['tf']->session->get_csrf('dns_editor', false);
 	add_js('bootstrap');
 	add_js('select2');
 	$GLOBALS['tf']->add_html_head_css_file('/css/dns.css');
