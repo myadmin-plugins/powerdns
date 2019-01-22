@@ -304,8 +304,6 @@ function add_dns_domain($domain, $ip)
 	$domain = strtolower($domain);
 	//myadmin_log('dns', 'info', "new db_mdb2(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-	$db2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '216.158.234.243');
-	$db3 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, '199.231.191.75');
 	$custid = $GLOBALS['tf']->session->account_id;
 	$module = 'default';
 	if (isset($GLOBALS['tf']->variables->request['module'])) {
@@ -380,22 +378,9 @@ function add_dns_domain($domain, $ip)
 		'account' => $custid
 	]
 	);
-	$query2 = make_insert_query('domains', [
-		'name' => $domain,
-		'master' => POWERDNS_HOST,
-		'type' => 'SLAVE',
-		'account' => 'admin'
-	], [
-		'master' => POWERDNS_HOST,
-		'type' => 'SLAVE',
-		'account' => 'admin'
-								]
-	);
 	$result = $db->query($query);
 	if ($result) {
 		$domain_id = $db->getLastInsertId('domains', 'id');
-		$db2->query($query2);
-		//$db3->query($query2);
 		$db->query(make_insert_query('records', [
 			'domain_id' => $domain_id,
 			'name' => $domain,
