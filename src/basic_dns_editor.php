@@ -18,6 +18,9 @@ function basic_dns_editor()
 	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain !== false) {
+        if ($GLOBALS['tf']->ima == 'admin') {
+            add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
+        }
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
 			if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '') {
 				$GLOBALS['tf']->variables->request['prio'] = 10;
@@ -137,7 +140,7 @@ function basic_dns_editor()
 		}
 		add_output($table->get_table());
 	} else {
-		add_output("There was an error with the query, or you don't have access to that domain or it doesn't exist");
+		add_output('<div class="container alert alert-danger">There was an error with the query, or you do not have access to that domain or it does not exist.</div>');
 	}
 	add_output($table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, 'Go To Old Advanced DNS Editor') . '<br>');
