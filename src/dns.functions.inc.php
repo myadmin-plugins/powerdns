@@ -332,7 +332,8 @@ function add_dns_domain($domain, $ip)
 	$result = $db->query($query, __LINE__, __FILE__);
 	if ($result) {
 		if ($db->num_rows() > 0) {
-			$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact support@interserver.net';
+            $db->next_record(MYSQLI_ASSOC);
+            $return['status_text'] = 'That Domain Is Already Setup On Our Servers under '.$GLOBALS['tf']->accounts->cross_reference($db->Record['account']).', Try Another Or Contact support@interserver.net';
 			return $return;
 		}
 	}
