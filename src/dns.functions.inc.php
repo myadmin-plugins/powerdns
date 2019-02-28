@@ -520,7 +520,7 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse')
 		'action' => $action
 	]
 			   ));
-	//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__);
+	//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__, $module);
 	if ($db->affectedRows() == 1) {
 		return true;
 	} else {
