@@ -21,6 +21,6 @@
 	define('VERBOSE_MODE', false);
 	$GLOBALS['tf']->session->create($custid, 'admin');
 	$sid = $GLOBALS['tf']->session->sessionid;
-    function_requirements('add_dns_domain');
+	function_requirements('add_dns_domain');
 	print_r(add_dns_domain($dns_domain, $dns_ip));
 	$GLOBALS['tf']->session->destroy();

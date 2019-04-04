@@ -18,9 +18,9 @@ function basic_dns_editor()
 	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain !== false) {
-        if ($GLOBALS['tf']->ima == 'admin') {
-            add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
-        }
+		if ($GLOBALS['tf']->ima == 'admin') {
+			add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
+		}
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
 			if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '') {
 				$GLOBALS['tf']->variables->request['prio'] = 10;

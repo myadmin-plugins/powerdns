@@ -29,9 +29,9 @@ function dns_editor()
 	$smarty = new TFSmarty();
 	$smarty->assign('id', $domain_id);
 	$smarty->assign('csrf_token', $csrf_token);
-    if ($GLOBALS['tf']->ima == 'admin') {
-        add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
-    }
+	if ($GLOBALS['tf']->ima == 'admin') {
+		add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
+	}
 	add_output($smarty->fetch('dns/dns_editor.tpl'));
 	add_output($table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, 'Go To Basic DNS Editor') . '<br>');
 	add_output($table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, 'Go Back to Old DNS Editor') . '<br>');

@@ -195,7 +195,9 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
 		$ordername = '';
 	}
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-	$query = make_insert_query('records', [
+	$query = make_insert_query(
+		'records',
+		[
 		'domain_id' => $domain_id,
 		'name' => $name,
 		'content' => $content,
@@ -332,8 +334,8 @@ function add_dns_domain($domain, $ip)
 	$result = $db->query($query, __LINE__, __FILE__);
 	if ($result) {
 		if ($db->num_rows() > 0) {
-            $db->next_record(MYSQLI_ASSOC);
-            $return['status_text'] = 'That Domain Is Already Setup On Our Servers under '.$GLOBALS['tf']->accounts->cross_reference($db->Record['account']).', Try Another Or Contact support@interserver.net';
+			$db->next_record(MYSQLI_ASSOC);
+			$return['status_text'] = 'That Domain Is Already Setup On Our Servers under '.$GLOBALS['tf']->accounts->cross_reference($db->Record['account']).', Try Another Or Contact support@interserver.net';
 			return $return;
 		}
 	}
@@ -373,7 +375,9 @@ function add_dns_domain($domain, $ip)
 			return $return;
 		}
 	}
-	$query = make_insert_query('domains', [
+	$query = make_insert_query(
+		'domains',
+		[
 		'name' => $domain,
 		'type' => 'MASTER',
 		'account' => $custid
@@ -382,7 +386,9 @@ function add_dns_domain($domain, $ip)
 	$result = $db->query($query);
 	if ($result) {
 		$domain_id = $db->getLastInsertId('domains', 'id');
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => 'cdns1.interserver.net. dns.interserver.net ' . date('Ymd') . '01',
@@ -393,7 +399,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => 'cdns1.interserver.net',
@@ -404,7 +412,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => 'cdns2.interserver.net',
@@ -415,7 +425,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => 'cdns3.interserver.net',
@@ -426,7 +438,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => $ip,
@@ -437,7 +451,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => '*.' . $domain,
 			'content' => $ip,
@@ -448,7 +464,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => 'localhost.' . $domain,
 			'content' => '127.0.0.1',
@@ -459,7 +477,9 @@ function add_dns_domain($domain, $ip)
 			'prio' => null
 		]
 				   ));
-		$db->query(make_insert_query('records', [
+		$db->query(make_insert_query(
+			'records',
+			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => 'mail.' . $domain,
@@ -512,7 +532,9 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse')
 	}
 	global $dbh_city;
 	$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
-	$db->query(make_insert_query('changes', [
+	$db->query(make_insert_query(
+		'changes',
+		[
 		'id' => null,
 		'username' => $username,
 		'ip' => $ip,
