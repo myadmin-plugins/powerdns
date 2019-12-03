@@ -14,7 +14,7 @@ include __DIR__ . '/pdns.functions.inc.php';
 /**
  * max domains hosted on our dns server per client
  */
-define('MAX_DNS_DOMAINS', 250);
+define('MAX_DNS_DOMAINS', 500);
 
 /**
  * get_hostname()
@@ -335,10 +335,10 @@ function add_dns_domain($domain, $ip)
 	if ($result) {
 		if ($db->num_rows() > 0) {
 			$db->next_record(MYSQLI_ASSOC);
-            if ($GLOBALS['tf']->ima == 'admin')
-                $return['status_text'] = 'That Domain Is Already Setup On Our Servers under '.$GLOBALS['tf']->accounts->cross_reference($db->Record['account']).', Try Another Or Contact support@interserver.net';
-            else
-                $return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact support@interserver.net';
+			if ($GLOBALS['tf']->ima == 'admin')
+				$return['status_text'] = 'That Domain Is Already Setup On Our Servers under '.$GLOBALS['tf']->accounts->cross_reference($db->Record['account']).', Try Another Or Contact support@interserver.net';
+			else
+				$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact support@interserver.net';
 			return $return;
 		}
 	}
