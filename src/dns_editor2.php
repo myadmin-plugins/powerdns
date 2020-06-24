@@ -31,7 +31,7 @@ function dns_editor2()
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
 			if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'])) {
 				$record = $GLOBALS['tf']->variables->request['update'];
-				$name = $GLOBALS['tf']->variables->request['name'];
+				$name = trim($GLOBALS['tf']->variables->request['name']);
 				$type = $GLOBALS['tf']->variables->request['type'];
 				if ($type == 'SPF') {
 					$content = $GLOBALS['tf']->variables->request['content'];

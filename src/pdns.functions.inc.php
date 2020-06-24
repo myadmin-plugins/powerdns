@@ -627,13 +627,13 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard)
 
 	foreach ($hostname_labels as $hostname_label) {
 		if ($wildcard == 1 && !isset($first)) {
-			if (!preg_match('/^(\*|[\w-\/]+)$/', $hostname_label)) {
+			if (!preg_match('/^(\*|[\w\/]+)$/', $hostname_label)) {
 				echo '     <div class="error">'._('Error').': '._('You have invalid characters in your hostname.').'</div>'.PHP_EOL;
 				return false;
 			}
 			$first = 1;
 		} else {
-			if (!preg_match('/^[\w-\/]+$/', $hostname_label)) {
+			if (!preg_match('/^[\w\/]+$/', $hostname_label)) {
 				echo '     <div class="error">'._('Error').': '._('You have invalid characters in your hostname.').'</div>'.PHP_EOL;
 				return false;
 			}
