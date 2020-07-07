@@ -529,10 +529,11 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse')
 			dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
 		}
 	}
-	$username = $GLOBALS['tf']->accounts->data['account_lid'];
-	if (null === $username || $username == '') {
+	if (null === $GLOBALS['tf']->accounts->data || null === $GLOBALS['tf']->accounts->data['account_lid'] || $GLOBALS['tf']->accounts->data['account_lid'] == '') {
 		$username = 'unknown';
-	}
+	} else {
+        $username = $GLOBALS['tf']->accounts->data['account_lid'];
+    }
 	global $dbh_city;
 	$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
 	$db->query(make_insert_query(
