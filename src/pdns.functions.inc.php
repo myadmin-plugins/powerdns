@@ -624,16 +624,16 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard)
 	if ($dns_top_level_tld_check && $label_count == 1) {
 		return false;
 	}
-
+    //myadmin_log('myadmin', 'debug', 'checking hostname '.$hostname.' labels '.json_encode($hostname_labels), _LINE__, __FILE__);
 	foreach ($hostname_labels as $hostname_label) {
 		if ($wildcard == 1 && !isset($first)) {
-			if (!preg_match('/^(\*|[\w\/]+)$/', $hostname_label)) {
+			if (!preg_match('/^(\*|[\w\-\/]+)$/', $hostname_label)) {
 				echo '     <div class="error">'._('Error').': '._('You have invalid characters in your hostname.').'</div>'.PHP_EOL;
 				return false;
 			}
 			$first = 1;
 		} else {
-			if (!preg_match('/^[\w\/]+$/', $hostname_label)) {
+			if (!preg_match('/^[\w\-\/]+$/', $hostname_label)) {
 				echo '     <div class="error">'._('Error').': '._('You have invalid characters in your hostname.').'</div>'.PHP_EOL;
 				return false;
 			}
