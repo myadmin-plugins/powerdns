@@ -38,47 +38,27 @@ function get_hostname($ip)
 	global $cached_zones;
 	$parts = explode('.', $ip);
 	$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
-	if (is_local_ip($ip) && !in_array($parts[0].'.'.$parts[1].'.'.$parts[2], array('173.225.102', '173.225.111', '208.73.207'))) {
-		if (!isset($cached_zones[$zone])) {
-			require_once __DIR__.'/../../../pear/net_dns2/Net/DNS2.php';
-			$resolver = new Net_DNS2_Resolver(['nameservers' => ['66.45.228.79']]);
-			//$resolver->nameservers = array('66.45.228.79');
-			$tzone = [];
-			try {
-				$response = $resolver->query($zone, 'AXFR');
-			} catch (Net_DNS2_Exception $e) {
-				myadmin_log('dns', 'warning', "get_hostname({$ip}) -> Net_DNS_Resolver query failed: ".$e->getMessage(), __LINE__, __FILE__);
-				$host = gethostbyaddr($ip);
-				if ($host != $ip) {
-					$cached_zones[$zone][$ip] = $host;
-					unset($host);
-					return $cached_zones[$zone][$ip];
+	if (!isset($cached_zones[$zone])) {
+		if (is_local_ip($ip) && !in_array($parts[0].'.'.$parts[1].'.'.$parts[2], array('173.225.102', '173.225.111', '208.73.207'))) {
+			preg_match_all('/^(?P<ippart>\d+)\.'.preg_quote($zone, '/').'\.\s+(?P<ttl>\d+)\s+(?P<proto>\S+)\s+(?P<type>\S+)\s+(?P<host>\S.*)$/msuU', trim(`dig axfr @66.45.228.79 {$zone}`), $matches);
+			$ips = [];
+			foreach ($matches['ippart'] as $idx => $ippart) { 
+				if ($matches['type'][$idx] == 'PTR') {
+					$ips[$parts[0].'.'.$parts[1].'.'.$parts[2].'.'.$ippart] = substr($matches['host'][$idx], 0, -1);
 				}
-				return false;
 			}
-			//myadmin_log('dns', 'info', json_encode($response), __LINE__, __FILE__);
-			if (count($response->answer)) {
-				foreach ($response->answer as $rr) {
-					if ($rr->type == 'PTR') {
-						$tzone[implode('.', array_reverse(explode('.', str_replace('.in-addr.arpa', '', $rr->name))))] = $rr->ptrdname;
-					}
-				}
-				$cached_zones[$zone] = $tzone;
-				//myadmin_log('dns', 'debug', "City AXFR Loaded {$zone} with ".sizeof($tzone)." IPs", __LINE__, __FILE__);
-			}
-		}
-		if (isset($cached_zones[$zone]) && isset($cached_zones[$zone][$ip])) {
-			return $cached_zones[$zone][$ip];
-		}
-	} else {
-		$host = gethostbyaddr($ip);
-		if ($host != $ip) {
-			$cached_zones[$zone][$ip] = $host;
-			unset($host);
-			return $cached_zones[$zone][$ip];
+			$cached_zones[$zone] = $ips;
+		} else {
+			$cached_zones[$zone] = [];
 		}
 	}
-	return false;
+	if (!array_key_exists($ip, $cached_zones[$zone])) {
+		$host = gethostbyaddr($ip);
+		if ($host != $ip && $host !== false) {
+			$cached_zones[$zone][$ip] = $host;
+		}
+	}
+	return array_key_exists($ip, $cached_zones[$zone]) ? $cached_zones[$zone][$ip] : false;
 }
 
 /**
@@ -532,8 +512,8 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse')
 	if (null === $GLOBALS['tf']->accounts->data || null === $GLOBALS['tf']->accounts->data['account_lid'] || $GLOBALS['tf']->accounts->data['account_lid'] == '') {
 		$username = 'unknown';
 	} else {
-        $username = $GLOBALS['tf']->accounts->data['account_lid'];
-    }
+		$username = $GLOBALS['tf']->accounts->data['account_lid'];
+	}
 	global $dbh_city;
 	$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
 	$db->query(make_insert_query(
