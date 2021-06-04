@@ -10,7 +10,7 @@ function add_dns_default_domain($domain_id = null)
 	if ($domain_id && htmlspecial($domain_id)) {
 		$pdb = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 		$db_domains = get_module_db('domains');
-		$db_domains->query('select domain_id,domain_username,domain_password,domain_hostname,domain_invoice,domain_type,domain_cost,domain_custid from domains where domain_id = $domain_id and domain_status = "active" and domain_custid not in (select account_id from accounts where account_ima="admin") limit 1');
+		$db_domains->query('select domain_id,domain_username,domain_password,domain_hostname,domain_invoice,domain_type,domain_custid from domains where domain_id = $domain_id and domain_status = "active" and domain_custid not in (select account_id from accounts where account_ima="admin") limit 1');
 		function_requirements('dns_manager');
 		while ($db_domains->next_record(MYSQL_ASSOC)) {
 			$pdb->query("select records.* from domains left join records on domains.id=records.domain_id and (domains.name = records.name or records.name='') and (records.type='A' OR records.type IS NULL ) where domains.name = '{$db_domains->Record['domain_hostname']}'");
