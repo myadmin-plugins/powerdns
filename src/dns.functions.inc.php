@@ -235,7 +235,7 @@ function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl,
 	}
 	$ttl = $db->real_escape($ttl);
 	$prio = $db->real_escape($prio);
-	$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1', change_date='" . time() . "' where domain_id='{$domain_id}' and id='{$record_id}'";
+	$query = "update records set name='{$name}', type='{$type}', content='{$content}', ttl='{$ttl}', prio='{$prio}', ordername='{$ordername}', auth='1' where domain_id='{$domain_id}' and id='{$record_id}'";
 	$db->query($query);
 	update_soa_serial($domain_id);
 	if ($db->affectedRows() == 1) {
