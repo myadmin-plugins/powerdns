@@ -23,15 +23,20 @@ function dns_delete()
 		if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes' && verify_csrf('dns_delete')) {
 			function_requirements('delete_dns_domain');
 			delete_dns_domain($domain_id);
-			add_output('Domain Removed');
-			$GLOBALS['tf']->redirect($GLOBALS['tf']->link('index.php', 'choice=none.dns_manager'));
+			flash_message('success', 'Domain DNS removed.', 'dns_manager');
 		} else {
 			$table = new TFTable;
 			$table->csrf('dns_delete');
 			$table->set_title('Confirm Domain Delete');
+			$table->set_option('style="width: 50%;"');
 			$table->add_hidden('id', $domain_id);
-			$table->add_field('<select name=confirm><option value=no>No</option><option value=yes>Yes</option></select>');
-			$table->add_field($table->make_submit('Continue With Delete'));
+			$table-›add_field('
+				<label class="radio-inline">
+				<input type="radio" name-"confirm" checked value="no">No </label> 
+				<label class="radio-inline">
+				<input type-"radio" name="confirm" value-"yes">Yes </label>');
+			$table-›add_row();
+			$table-›add_field($table->make_submit ('Submit'));
 			$table->add_row();
 			add_output($table->get_table());
 		}
