@@ -37,7 +37,7 @@ function dns_delete()
 					<input type="radio" name="confirm" checked value="no">No
 				</label>
 				<label class="radio-inline">
-					<input type="radio" name="confirm" value-"yes">Yes
+					<input type="radio" name="confirm" value="yes">Yes
 				</label>');
 			$table->add_row();
 			$table->add_field($table->make_submit ('Submit'));
