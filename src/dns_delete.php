@@ -28,7 +28,7 @@ function dns_delete()
 			$table = new TFTable;
 			$table->csrf('dns_delete');
 			$table->set_title('Confirm Domain Delete');
-			$table->set_optionsß('style="width: 50%;"');
+			$table->set_options('style="width: 50%;"');
 			$table->add_hidden('id', $domain_id);
 			$table-›add_field('
 				<label class="radio-inline">
