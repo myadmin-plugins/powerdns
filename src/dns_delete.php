@@ -30,13 +30,13 @@ function dns_delete()
 			$table->set_title('Confirm Domain Delete');
 			$table->set_options('style="width: 50%;"');
 			$table->add_hidden('id', $domain_id);
-			$table-›add_field('
+			$table->add_field('
 				<label class="radio-inline">
 				<input type="radio" name-"confirm" checked value="no">No </label> 
 				<label class="radio-inline">
 				<input type-"radio" name="confirm" value-"yes">Yes </label>');
-			$table-›add_row();
-			$table-›add_field($table->make_submit ('Submit'));
+			$table->add_row();
+			$table->add_field($table->make_submit ('Submit'));
 			$table->add_row();
 			add_output($table->get_table());
 		}
