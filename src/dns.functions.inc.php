@@ -374,7 +374,7 @@ function add_dns_domain($domain, $ip)
 			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
-			'content' => 'cdns1.interserver.net. dns.interserver.net. ' . date('Ymd') . '01 10800 3600 604800 3600',
+			'content' => 'cdns1.interserver.net. dns.interserver.net. '.date('Ymd').'01 10800 3600 604800 3600',
 			'type' => 'SOA',
 			'ttl' => 86400,
 			'ordername' => '',
