@@ -42,7 +42,7 @@ function get_hostname($ip)
 		if (is_local_ip($ip) && !in_array($parts[0].'.'.$parts[1].'.'.$parts[2], array('173.225.102', '173.225.111', '208.73.207'))) {
 			preg_match_all('/^(?P<ippart>\d+)\.'.preg_quote($zone, '/').'\.\s+(?P<ttl>\d+)\s+(?P<proto>\S+)\s+(?P<type>\S+)\s+(?P<host>\S.*)$/muU', trim(`dig axfr @66.45.228.79 {$zone}`), $matches);
 			$ips = [];
-			foreach ($matches['ippart'] as $idx => $ippart) { 
+			foreach ($matches['ippart'] as $idx => $ippart) {
 				if ($matches['type'][$idx] == 'PTR') {
 					$ips[$parts[0].'.'.$parts[1].'.'.$parts[2].'.'.$ippart] = substr($matches['host'][$idx], 0, -1);
 				}
@@ -374,7 +374,7 @@ function add_dns_domain($domain, $ip)
 			[
 			'domain_id' => $domain_id,
 			'name' => $domain,
-			'content' => 'cdns1.interserver.net. dns.interserver.net ' . date('Ymd') . '01',
+			'content' => 'cdns1.interserver.net. dns.interserver.net. ' . date('Ymd') . '01 10800 3600 604800 3600',
 			'type' => 'SOA',
 			'ttl' => 86400,
 			'ordername' => '',
