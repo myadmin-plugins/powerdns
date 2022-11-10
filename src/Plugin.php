@@ -141,7 +141,7 @@ class Plugin
 		 **/
 		$settings = $event->getSubject();
 //		$settings->add_text_setting(_('Support'), _('PowerDNS'), 'kayako_api_url', _('PowerDNS API URL'), _('PowerDNS API URL'), POWERDNS_API_URL);
-//		$settings->add_text_setting(_('Support'), _('PowerDNS'), 'kayako_api_key', _('PowerDNS API Key'), _('PowerDNS API Key'), POWERDNS_API_KEY);
-//		$settings->add_text_setting(_('Support'), _('PowerDNS'), 'kayako_api_secret', _('PowerDNS API Secret'), _('PowerDNS API Secret'), POWERDNS_API_SECRET);
+//		$settings->add_password_setting(_('Support'), _('PowerDNS'), 'kayako_api_key', _('PowerDNS API Key'), _('PowerDNS API Key'), POWERDNS_API_KEY);
+//		$settings->add_password_setting(_('Support'), _('PowerDNS'), 'kayako_api_secret', _('PowerDNS API Secret'), _('PowerDNS API Secret'), POWERDNS_API_SECRET);
 	}
 }
