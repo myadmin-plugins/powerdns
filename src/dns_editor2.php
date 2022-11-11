@@ -26,7 +26,7 @@ function dns_editor2()
 	$csrf_token = $table->csrf('dns_editor', false);
 	if ($domain !== false) {
 		if ($GLOBALS['tf']->ima == 'admin') {
-			add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
+			add_output(_('Domain Owner') . ':' . $GLOBALS['tf']->accounts->cross_reference($domain['account']) . '<br>');
 		}
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
 			if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'])) {
@@ -106,7 +106,7 @@ function dns_editor2()
 						$table->add_field();
 					}
 					if ($record['type'] != 'SOA') {
-						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'). ' '. $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
+						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete'));
 					} else {
 						$table->add_field($table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'], 'Edit'));
 					}
@@ -138,7 +138,4 @@ function dns_editor2()
 	} else {
 		add_output("There was an error with the query, or you dont have access to that domain or it doesn't exist");
 	}
-	add_output($table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, 'Go To Basic DNS Editor') . '<br>');
-	add_output($table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, 'Go To New DNS Editor') . '<br>');
-	add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
 }

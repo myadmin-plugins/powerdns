@@ -2,6 +2,7 @@
 
 function basic_dns_editor()
 {
+	$smarty = new TFSmarty();
 	page_title(_('Basic DNS Editor'));
 	$custid = $GLOBALS['tf']->session->account_id;
 	$domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
@@ -19,7 +20,7 @@ function basic_dns_editor()
 	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain !== false) {
 		if ($GLOBALS['tf']->ima == 'admin') {
-			add_output(_('Domain Owner').':'.$GLOBALS['tf']->accounts->cross_reference($domain['account']).'<br>');
+			add_output(_('Domain Owner') . ':' . $GLOBALS['tf']->accounts->cross_reference($domain['account']) . '<br>');
 		}
 		if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
 			if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '') {
@@ -109,7 +110,7 @@ function basic_dns_editor()
 					//$table->add_field();
 				}
 				if ($record['type'] != 'SOA') {
-					$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token='.$csrf_token, 'Delete')));
+					$table->add_field($table->make_link('choice=none.basic_dns_editor&edit=' . $domain_id . '&record=' . $record['id'], 'Edit') . ' ' . (($record['type'] == 'A' && $record['name'] == $domain['name']) ? '' : $table->make_link('choice=none.dns_editor2&edit=' . $domain_id . '&record=' . $record['id'] . '&delete=1&csrf_token=' . $csrf_token, 'Delete')));
 				} else {
 					$table->add_field();
 				}
@@ -142,7 +143,7 @@ function basic_dns_editor()
 	} else {
 		add_output('<div class="container alert alert-danger">There was an error with the query, or you do not have access to that domain or it does not exist.</div>');
 	}
-	add_output($table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, 'Go To Advanced DNS Editor') . '<br>');
-	add_output($table->make_link('choice=none.dns_editor2&amp;edit=' . $domain_id, 'Go To Old Advanced DNS Editor') . '<br>');
-	add_output($table->make_link('choice=none.dns_manager', 'Go Back To DNS Manager'));
+	add_output($smarty->fetch('dns/basic_dns_editor.tpl'));
+	page_heading('Basic DNS Editor');
+	breadcrums(['home' => 'Home', 'basic_dns_editor' => 'Basic DNS Editor']);
 }
