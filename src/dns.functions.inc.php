@@ -288,27 +288,20 @@ function add_dns_domain($domain, $ip)
 	//myadmin_log('dns', 'info', "new db_mdb2(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
 	$db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
 	$custid = $GLOBALS['tf']->session->account_id;
-	$module = 'default';
-	if (isset($GLOBALS['tf']->variables->request['module'])) {
-		if (isset($GLOBALS['modules'][$GLOBALS['tf']->variables->request['module']])) {
-			$module = $GLOBALS['tf']->variables->request['module'];
-			//				$custid = get_custid($custid, $module);
-		}
-	}
-	$module = get_module_name($module);
+	$module = get_module_name('default');
 	$settings = get_module_settings($module);
 	$data = $GLOBALS['tf']->accounts->read($custid);
 	if (!valid_domain($domain)) {
 		$return['status_text'] = 'Invalid Domain Name';
-		return flash_message('error', $return['status_text']);
+		return $return;
 	}
 	if (!validIp($ip)) {
 		$return['status_text'] = 'Invalid IP Address';
-		return flash_message('error', $return['status_text']);
+		return $return;
 	}
 	if ($ip == '216.158.228.164') {
 		$return['status_text'] = 'I think you meant to add your VPS IP, not the DNS servers IP.';
-		return flash_message('error', $return['status_text']);
+		return $return;
 	}
 	$query = "select * from domains where name='" . $db->real_escape($domain) . "'";
 	//myadmin_log('dns', 'info', $query, __LINE__, __FILE__);
@@ -320,7 +313,7 @@ function add_dns_domain($domain, $ip)
 				$return['status_text'] = 'That Domain Is Already Setup On Our Servers under ' . $GLOBALS['tf']->accounts->cross_reference($db->Record['account']) . ', Try Another Or Contact support@interserver.net';
 			else
 				$return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact support@interserver.net';
-			return flash_message('error', $return['status_text']);
+			return $return;
 		}
 	}
 	if ($GLOBALS['tf']->ima != 'admin') {
@@ -330,7 +323,7 @@ function add_dns_domain($domain, $ip)
 		$domains = $db->f(0);
 		if ($custid != 9110 && $domains >= MAX_DNS_DOMAINS) {
 			$return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact support@interserver.net if you want more';
-			return flash_message('error', $return['status_text']);
+			return $return;
 		}
 	}
 	if ($GLOBALS['tf']->ima != 'admin') {
@@ -350,29 +343,23 @@ function add_dns_domain($domain, $ip)
 		}
 		$tdomain = str_replace('.' . $tld, '', $domain);
 		if (mb_strpos($tdomain, '.') !== false) {
-			$return['status_text'] =
-				'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry (matched ' . $tdomain . ' for ' . $tld . ')';
-			return flash_message('error', $return['status_text']);
+			$return['status_text'] = 'Subdomains being added has been disabled for now.   You probably meant to add just the domain.  Contact support@interserver.net if you still want to add the subdomain as a DNS entry (matched ' . $tdomain . ' for ' . $tld . ')';
+			return $return;
 		}
 		if ($found_tld == false) {
 			$return['status_text'] = 'This domain does not appear to have a valid TLD';
-			return flash_message('error', $return['status_text']);
+			return $return;
 		}
 	}
-	$query = make_insert_query(
-		'domains',
-		[
-			'name' => $domain,
-			'type' => 'MASTER',
-			'account' => $custid
-		]
-	);
+	$query = make_insert_query('domains',[
+		'name' => $domain,
+		'type' => 'MASTER',
+		'account' => $custid
+	]);
 	$result = $db->query($query);
 	if ($result) {
 		$domain_id = $db->getLastInsertId('domains', 'id');
-		$db->query(make_insert_query(
-			'records',
-			[
+		$db->query(make_insert_query('records',[
 			'domain_id' => $domain_id,
 			'name' => $domain,
 			'content' => 'cdns1.interserver.net. dns.interserver.net. '.date('Ymd').'01 10800 3600 604800 3600',
@@ -381,106 +368,84 @@ function add_dns_domain($domain, $ip)
 			'ordername' => '',
 			'auth' => 1,
 			'prio' => null
-		]
-				   ));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => $domain,
-				'content' => 'cdns1.interserver.net',
-				'type' => 'NS',
-				'ttl' => 86400,
-				'ordername' => '',
-				'auth' => 1,
-				'prio' => null
-			]
-		));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => $domain,
-				'content' => 'cdns2.interserver.net',
-				'type' => 'NS',
-				'ttl' => 86400,
-				'ordername' => '',
-				'auth' => 1,
-				'prio' => null
-			]
-		));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => $domain,
-				'content' => 'cdns3.interserver.net',
-				'type' => 'NS',
-				'ttl' => 86400,
-				'ordername' => '',
-				'auth' => 1,
-				'prio' => null
-			]
-		));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => $domain,
-				'content' => $ip,
-				'type' => 'A',
-				'ttl' => 86400,
-				'ordername' => '',
-				'auth' => 1,
-				'prio' => null
-			]
-		));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => '*.' . $domain,
-				'content' => $ip,
-				'type' => 'A',
-				'ttl' => 86400,
-				'ordername' => '*',
-				'auth' => 1,
-				'prio' => null
-			]
-		));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => 'localhost.' . $domain,
-				'content' => '127.0.0.1',
-				'type' => 'A',
-				'ttl' => 86400,
-				'ordername' => 'localhost',
-				'auth' => 1,
-				'prio' => null
-			]
-		));
-		$db->query(make_insert_query(
-			'records',
-			[
-				'domain_id' => $domain_id,
-				'name' => $domain,
-				'content' => 'mail.' . $domain,
-				'type' => 'MX',
-				'ttl' => 86400,
-				'ordername' => '',
-				'auth' => 1,
-				'prio' => 25
-			]
-		));
+		]));
+		$db->query(make_insert_query('records',[
+			'domain_id' => $domain_id,
+			'name' => $domain,
+			'content' => 'cdns1.interserver.net',
+			'type' => 'NS',
+			'ttl' => 86400,
+			'ordername' => '',
+			'auth' => 1,
+			'prio' => null
+		]));
+		$db->query(make_insert_query('records', [
+			'domain_id' => $domain_id,
+			'name' => $domain,
+			'content' => 'cdns2.interserver.net',
+			'type' => 'NS',
+			'ttl' => 86400,
+			'ordername' => '',
+			'auth' => 1,
+			'prio' => null
+		]));
+		$db->query(make_insert_query('records', [
+			'domain_id' => $domain_id,
+			'name' => $domain,
+			'content' => 'cdns3.interserver.net',
+			'type' => 'NS',
+			'ttl' => 86400,
+			'ordername' => '',
+			'auth' => 1,
+			'prio' => null
+		]));
+		$db->query(make_insert_query('records',[
+			'domain_id' => $domain_id,
+			'name' => $domain,
+			'content' => $ip,
+			'type' => 'A',
+			'ttl' => 86400,
+			'ordername' => '',
+			'auth' => 1,
+			'prio' => null
+		]));
+		$db->query(make_insert_query('records',[
+			'domain_id' => $domain_id,
+			'name' => '*.' . $domain,
+			'content' => $ip,
+			'type' => 'A',
+			'ttl' => 86400,
+			'ordername' => '*',
+			'auth' => 1,
+			'prio' => null
+		]));
+		$db->query(make_insert_query('records',[
+			'domain_id' => $domain_id,
+			'name' => 'localhost.' . $domain,
+			'content' => '127.0.0.1',
+			'type' => 'A',
+			'ttl' => 86400,
+			'ordername' => 'localhost',
+			'auth' => 1,
+			'prio' => null
+		]));
+		$db->query(make_insert_query('records',[
+			'domain_id' => $domain_id,
+			'name' => $domain,
+			'content' => 'mail.' . $domain,
+			'type' => 'MX',
+			'ttl' => 86400,
+			'ordername' => '',
+			'auth' => 1,
+			'prio' => 25
+		]));
 		$return['status'] = 'success';
 		$return['status_text'] = 'Domain ' . $domain . ' Added!';
 	} else {
 		$return['status'] = 'error';
 		$return['status_text'] = 'Database specific error, please contact support@interserver.net and we can assist you further';
 	}
-	return flash_message($return['status'], $return['status_text']);
+	return $return;
 }
 
 /**
