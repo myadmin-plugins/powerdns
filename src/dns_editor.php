@@ -13,7 +13,6 @@ function dns_editor()
 	$domain_id = isset($GLOBALS['tf']->variables->request['id']) ? (int)$GLOBALS['tf']->variables->request['id'] : (int)$GLOBALS['tf']->variables->request['edit'];
 	function_requirements('get_dns_domain');
 	$domain = get_dns_domain($domain_id, false, 'view_service');
-	$domain = get_dns_domain($domain_id, false, 'view_service');
 	if ($domain === false) {
 		add_output("There was an error with the query, or you dont have access to that domain or it doesn't exist");
 		return;
