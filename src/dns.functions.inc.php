@@ -480,18 +480,23 @@ function reverse_dns($ip, $host = '', $action = 'set_reverse')
 	} else {
 		$username = $GLOBALS['tf']->accounts->data['account_lid'];
 	}
-	global $dbh_city;
-	$db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
-	$db->query(make_insert_query(
-		'changes',
-		[
-			'id' => null,
-			'username' => $username,
-			'ip' => $ip,
-			'hostname' => $host,
-			'action' => $action
-		]
-	));
+    global $dbh_city;
+    try {
+	    $db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
+	    $db->query(make_insert_query(
+		    'changes',
+		    [
+			    'id' => null,
+			    'username' => $username,
+			    'ip' => $ip,
+			    'hostname' => $host,
+			    'action' => $action
+		    ]
+	    ));
+    } catch (\Exception $e) {
+        mysadmin_log('myadmin', 'debug', 'got exception '.$e->getMessage(), __LINE__, __FILE__);
+        return false;
+    }
 	//myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__, $module);
 	if ($db->affectedRows() == 1) {
 		return true;
