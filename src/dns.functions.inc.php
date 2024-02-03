@@ -40,7 +40,7 @@ function get_hostname($ip)
 	$parts = explode('.', $ip);
 	$zone = $parts[2] . '.' . $parts[1] . '.' . $parts[0] . '.in-addr.arpa';
 	if (!isset($cached_zones[$zone])) {
-		if (is_local_ip($ip) && !in_array($parts[0] . '.' . $parts[1] . '.' . $parts[2], array('173.225.102', '173.225.111', '208.73.207'))) {
+		if (is_local_ip($ip) && !in_array($parts[0] . '.' . $parts[1] . '.' . $parts[2], ['173.225.102', '173.225.111', '208.73.207'])) {
 			preg_match_all('/^(?P<ippart>\d+)\.' . preg_quote($zone, '/') . '\.\s+(?P<ttl>\d+)\s+(?P<proto>\S+)\s+(?P<type>\S+)\s+(?P<host>\S.*)$/muU', trim(`dig axfr @66.45.228.79 {$zone}`), $matches);
 			$ips = [];
 			foreach ($matches['ippart'] as $idx => $ippart) {
