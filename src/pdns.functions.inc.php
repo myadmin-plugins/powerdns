@@ -24,31 +24,31 @@ $rtypes = ['A', 'A6', 'AAAA', 'AFSDB', 'ALIAS', 'CAA', 'CDNSKEY', 'CDS', 'CERT',
 
 // If fancy records is enabled, extend this field.
 if (isset($dns_fancy) && $dns_fancy) {
-	$rtypes[14] = 'URL';
-	$rtypes[15] = 'MBOXFW';
-	$rtypes[16] = 'CURL';
+    $rtypes[14] = 'URL';
+    $rtypes[15] = 'MBOXFW';
+    $rtypes[16] = 'CURL';
 }
 
 if (!function_exists('_')) {
-	/**
-	 * @param $text
-	 * @return mixed
-	 */
-	function _($text)
-	{
-		return $text;
-	}
+    /**
+     * @param $text
+     * @return mixed
+     */
+    function _($text)
+    {
+        return $text;
+    }
 }
 /**
  * @return \MyDb\Mdb2\Db
  */
 function get_db_mdb2()
 {
-	global $db_mdb2;
-	if (!isset($db_mdb2) || !is_object($db_mdb2)) {
-		$db_mdb2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-	}
-	return $db_mdb2;
+    global $db_mdb2;
+    if (!isset($db_mdb2) || !is_object($db_mdb2)) {
+        $db_mdb2 = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
+    }
+    return $db_mdb2;
 }
 
 
@@ -60,18 +60,18 @@ function get_db_mdb2()
  */
 function get_zone_name_from_id($zid)
 {
-	$db_mdb2 = get_db_mdb2();
-	if (is_numeric($zid)) {
-		$result = $db_mdb2->queryRow('SELECT name FROM domains WHERE id=' . $db_mdb2->quote($zid, 'integer'));
-		if ($result) {
-			return $result['name'];
-		} else {
-			echo _('Error').': Zone does not exist'.PHP_EOL;
-		}
-	} else {
-		echo _('Error').': '._('Invalid argument(s) given to function').' '.__FUNCTION__.' '._('Not a valid domain').': '.$zid.PHP_EOL;
-	}
-	return false;
+    $db_mdb2 = get_db_mdb2();
+    if (is_numeric($zid)) {
+        $result = $db_mdb2->queryRow('SELECT name FROM domains WHERE id=' . $db_mdb2->quote($zid, 'integer'));
+        if ($result) {
+            return $result['name'];
+        } else {
+            echo _('Error').': Zone does not exist'.PHP_EOL;
+        }
+    } else {
+        echo _('Error').': '._('Invalid argument(s) given to function').' '.__FUNCTION__.' '._('Not a valid domain').': '.$zid.PHP_EOL;
+    }
+    return false;
 }
 
 /**
@@ -81,9 +81,9 @@ function get_zone_name_from_id($zid)
  */
 function endsWith($needle, $haystack)
 {
-	$length = mb_strlen($haystack);
-	$nLength = mb_strlen($needle);
-	return $nLength <= $length && strncmp(mb_substr($haystack, -$nLength), $needle, $nLength) === 0;
+    $length = mb_strlen($haystack);
+    $nLength = mb_strlen($needle);
+    return $nLength <= $length && strncmp(mb_substr($haystack, -$nLength), $needle, $nLength) === 0;
 }
 
 /**
@@ -93,11 +93,11 @@ function endsWith($needle, $haystack)
  */
 function is_valid_email($address)
 {
-	$fields = explode('@', $address, 2);
-	if ((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
-		return false;
-	}
-	return true;
+    $fields = explode('@', $address, 2);
+    if ((!preg_match('/^[0-9a-z]([-_.]?[0-9a-z])*$/i', $fields[0])) || (!isset($fields[1]) || $fields[1] == '' || !is_valid_hostname_fqdn($fields[1], 0))) {
+        return false;
+    }
+    return true;
 }
 
 /** Retrieve all supported dns record types
@@ -108,27 +108,27 @@ function is_valid_email($address)
  */
 function get_record_types()
 {
-	global $rtypes;
-	return $rtypes;
+    global $rtypes;
+    return $rtypes;
 }
 
 if (!function_exists('set_timezone')) {
-	// Set timezone (required for PHP5)
-	/**
-	 * set_timezone()
-	 * @return void
-	 */
-	function set_timezone()
-	{
-		global $timezone;
-		if (function_exists('date_default_timezone_set')) {
-			if (isset($timezone)) {
-				date_default_timezone_set($timezone);
-			} elseif (!ini_get('date.timezone')) {
-				date_default_timezone_set('America/New_York');
-			}
-		}
-	}
+    // Set timezone (required for PHP5)
+    /**
+     * set_timezone()
+     * @return void
+     */
+    function set_timezone()
+    {
+        global $timezone;
+        if (function_exists('date_default_timezone_set')) {
+            if (isset($timezone)) {
+                date_default_timezone_set($timezone);
+            } elseif (!ini_get('date.timezone')) {
+                date_default_timezone_set('America/New_York');
+            }
+        }
+    }
 }
 /**
  * isError()
@@ -138,8 +138,8 @@ if (!function_exists('set_timezone')) {
  */
 function isError($result)
 {
-	require_once 'PEAR.php';
-	return PEAR::isError($result);
+    require_once 'PEAR.php';
+    return PEAR::isError($result);
 }
 
 /** Get SOA record content for Zone ID
@@ -149,10 +149,10 @@ function isError($result)
  */
 function get_soa_record($zone_id)
 {
-	$db_mdb2 = get_db_mdb2();
-	$sqlq = 'SELECT content FROM records WHERE type = ' . $db_mdb2->quote('SOA', 'text') . ' AND domain_id = ' . $db_mdb2->quote($zone_id, 'integer');
-	$result = $db_mdb2->queryOne($sqlq);
-	return $result;
+    $db_mdb2 = get_db_mdb2();
+    $sqlq = 'SELECT content FROM records WHERE type = ' . $db_mdb2->quote('SOA', 'text') . ' AND domain_id = ' . $db_mdb2->quote($zone_id, 'integer');
+    $result = $db_mdb2->queryOne($sqlq);
+    return $result;
 }
 
 /** Get SOA Serial Number
@@ -162,8 +162,8 @@ function get_soa_record($zone_id)
  */
 function get_soa_serial($soa_rec)
 {
-	$soa = explode(' ', $soa_rec);
-	return $soa[2];
+    $soa = explode(' ', $soa_rec);
+    return $soa[2];
 }
 
 /** Get Next Date
@@ -173,8 +173,8 @@ function get_soa_serial($soa_rec)
  */
 function get_next_date($curr_date)
 {
-	$next_date = date('Ymd', strtotime('+1 day', strtotime($curr_date)));
-	return $next_date;
+    $next_date = date('Ymd', strtotime('+1 day', strtotime($curr_date)));
+    return $next_date;
 }
 
 /** Get Next Serial
@@ -203,51 +203,51 @@ function get_next_date($curr_date)
  */
 function get_next_serial($curr_serial, $today = '')
 {
-	// Autoserial
-	if ($curr_serial == 0) {
-		return 0;
-	}
-	// Serial number could be a not date based
-	if ($curr_serial < 1979999999) {
-		return $curr_serial+1;
-	}
-	// Reset the serial number, Bind was written in the early 1980s
-	if ($curr_serial == 1979999999) {
-		return 1;
-	}
-	if ($today == '') {
-		set_timezone();
-		$today = date('Ymd');
-	}
-	$revision = (int) mb_substr($curr_serial, -2);
-	$ser_date = mb_substr($curr_serial, 0, 8);
-	if ($curr_serial == '0') {
-		$serial = $curr_serial;
-	} elseif ($curr_serial == $today . '99') {
-		$serial = get_next_date($today) . '00';
-	} else {
-		if (strcmp($today, $ser_date) === 0) {
-			// Current serial starts with date of today, so we need to update the revision only.
-			++$revision;
-		} elseif (strncmp($today, $curr_serial, 8) === -1) {
-			// Reuse existing serial date if it's in the future
-			$today = mb_substr($curr_serial, 0, 8);
-			// Get next date if revision reaches maximum per day (99) limit otherwise increment the counter
-			if ($revision == 99) {
-				$today = get_next_date($today);
-				$revision = '00';
-			} else {
-				++$revision;
-			}
-		} else {
-			// Current serial did not start of today, so it's either an older
-			// serial, therefore set a fresh serial
-			$revision = '00';
-		}
-		// Create new serial out of existing/updated date and revision
-		$serial = $today . str_pad($revision, 2, '0', STR_PAD_LEFT);
-	}
-	return $serial;
+    // Autoserial
+    if ($curr_serial == 0) {
+        return 0;
+    }
+    // Serial number could be a not date based
+    if ($curr_serial < 1979999999) {
+        return $curr_serial+1;
+    }
+    // Reset the serial number, Bind was written in the early 1980s
+    if ($curr_serial == 1979999999) {
+        return 1;
+    }
+    if ($today == '') {
+        set_timezone();
+        $today = date('Ymd');
+    }
+    $revision = (int) mb_substr($curr_serial, -2);
+    $ser_date = mb_substr($curr_serial, 0, 8);
+    if ($curr_serial == '0') {
+        $serial = $curr_serial;
+    } elseif ($curr_serial == $today . '99') {
+        $serial = get_next_date($today) . '00';
+    } else {
+        if (strcmp($today, $ser_date) === 0) {
+            // Current serial starts with date of today, so we need to update the revision only.
+            ++$revision;
+        } elseif (strncmp($today, $curr_serial, 8) === -1) {
+            // Reuse existing serial date if it's in the future
+            $today = mb_substr($curr_serial, 0, 8);
+            // Get next date if revision reaches maximum per day (99) limit otherwise increment the counter
+            if ($revision == 99) {
+                $today = get_next_date($today);
+                $revision = '00';
+            } else {
+                ++$revision;
+            }
+        } else {
+            // Current serial did not start of today, so it's either an older
+            // serial, therefore set a fresh serial
+            $revision = '00';
+        }
+        // Create new serial out of existing/updated date and revision
+        $serial = $today . str_pad($revision, 2, '0', STR_PAD_LEFT);
+    }
+    return $serial;
 }
 
 /** Set SOA serial in SOA content
@@ -258,13 +258,13 @@ function get_next_serial($curr_serial, $today = '')
  */
 function set_soa_serial($soa_rec, $serial)
 {
-	// Split content of current SOA record into an array.
-	$soa = explode(' ', $soa_rec);
-	$soa[2] = $serial;
-	// Build new SOA record content
-	$soa_rec = implode(' ', $soa);
-	rtrim($soa_rec);
-	return $soa_rec;
+    // Split content of current SOA record into an array.
+    $soa = explode(' ', $soa_rec);
+    $soa[2] = $serial;
+    // Build new SOA record content
+    $soa_rec = implode(' ', $soa);
+    rtrim($soa_rec);
+    return $soa_rec;
 }
 
 /** Update SOA record
@@ -276,17 +276,17 @@ function set_soa_serial($soa_rec, $serial)
  */
 function update_soa_record($domain_id, $content)
 {
-	$db_mdb2 = get_db_mdb2();
+    $db_mdb2 = get_db_mdb2();
 
-	$sqlq = 'UPDATE records SET content = ' . $db_mdb2->quote($content, 'text') . ' WHERE domain_id = ' . $db_mdb2->quote($domain_id, 'integer') . ' AND type = ' . $db_mdb2->quote('SOA', 'text');
-	$response = $db_mdb2->query($sqlq);
+    $sqlq = 'UPDATE records SET content = ' . $db_mdb2->quote($content, 'text') . ' WHERE domain_id = ' . $db_mdb2->quote($domain_id, 'integer') . ' AND type = ' . $db_mdb2->quote('SOA', 'text');
+    $response = $db_mdb2->query($sqlq);
 
-	if (isError($response)) {
-		echo _('Error').': '.$response->getMessage().PHP_EOL;
-		return false;
-	}
+    if (isError($response)) {
+        echo _('Error').': '.$response->getMessage().PHP_EOL;
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Update SOA serial
@@ -298,17 +298,17 @@ function update_soa_record($domain_id, $content)
  */
 function update_soa_serial($domain_id)
 {
-	$soa_rec = get_soa_record($domain_id);
-	if ($soa_rec == null) {
-		return false;
-	}
-	$curr_serial = get_soa_serial($soa_rec);
-	$new_serial = get_next_serial($curr_serial);
-	if ($curr_serial != $new_serial) {
-		$soa_rec = set_soa_serial($soa_rec, $new_serial);
-		return update_soa_record($domain_id, $soa_rec);
-	}
-	return true;
+    $soa_rec = get_soa_record($domain_id);
+    if ($soa_rec == null) {
+        return false;
+    }
+    $curr_serial = get_soa_serial($soa_rec);
+    $new_serial = get_next_serial($curr_serial);
+    if ($curr_serial != $new_serial) {
+        $soa_rec = set_soa_serial($soa_rec, $new_serial);
+        return update_soa_record($domain_id, $soa_rec);
+    }
+    return true;
 }
 
 
@@ -326,275 +326,275 @@ function update_soa_serial($domain_id)
  */
 function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl)
 {
-	$zone = get_zone_name_from_id($zid);    // TODO check for return
+    $zone = get_zone_name_from_id($zid);    // TODO check for return
 
-	if (!endsWith(strtolower($zone), strtolower($name))) {
-		if (isset($name) && $name != '') {
-			$name = $name . '.' . $zone;
-		} else {
-			$name = $zone;
-		}
-	}
+    if (!endsWith(strtolower($zone), strtolower($name))) {
+        if (isset($name) && $name != '') {
+            $name = $name . '.' . $zone;
+        } else {
+            $name = $zone;
+        }
+    }
 
-	switch ($type) {
+    switch ($type) {
 
-	  case 'A':
-		if (!is_valid_ipv4($content)) {
-			return false;
-		}
-		if (!is_valid_rr_cname_exists($name, $rid)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-	  break;
+      case 'A':
+        if (!is_valid_ipv4($content)) {
+            return false;
+        }
+        if (!is_valid_rr_cname_exists($name, $rid)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+      break;
 
-	  case 'A6': // TODO: implement validation.
-	  break;
+      case 'A6': // TODO: implement validation.
+      break;
 
-	  case 'AAAA':
-		if (!is_valid_ipv6($content)) {
-			return false;
-		}
-		if (!is_valid_rr_cname_exists($name, $rid)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-	  break;
+      case 'AAAA':
+        if (!is_valid_ipv6($content)) {
+            return false;
+        }
+        if (!is_valid_rr_cname_exists($name, $rid)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+      break;
 
-	  case 'AFSDB': // TODO: implement validation.
-	  break;
+      case 'AFSDB': // TODO: implement validation.
+      break;
 
-	  case 'ALIAS': // TODO: implement validation.
-	  break;
+      case 'ALIAS': // TODO: implement validation.
+      break;
 
-	  case 'CAA': // TODO: implement validation.
-	  break;
+      case 'CAA': // TODO: implement validation.
+      break;
 
-	  case 'CDNSKEY': // TODO: implement validation.
-	  break;
+      case 'CDNSKEY': // TODO: implement validation.
+      break;
 
-	  case 'CDS': // TODO: implement validation.
-	  break;
+      case 'CDS': // TODO: implement validation.
+      break;
 
-	  case 'CERT': // TODO: implement validation.
-	  break;
+      case 'CERT': // TODO: implement validation.
+      break;
 
-	  case 'CNAME':
-		if (!is_valid_rr_cname_name($name)) {
-			return false;
-		}
-		if (!is_valid_rr_cname_unique($name, $rid)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($content, 0)) {
-			return false;
-		}
-		if (!is_not_empty_cname_rr($name, $zone)) {
-			return false;
-		}
-		break;
+      case 'CNAME':
+        if (!is_valid_rr_cname_name($name)) {
+            return false;
+        }
+        if (!is_valid_rr_cname_unique($name, $rid)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($content, 0)) {
+            return false;
+        }
+        if (!is_not_empty_cname_rr($name, $zone)) {
+            return false;
+        }
+        break;
 
-	  case 'DHCID': // TODO: implement validation
-	  break;
+      case 'DHCID': // TODO: implement validation
+      break;
 
-	  case 'DLV': // TODO: implement validation
-	  break;
+      case 'DLV': // TODO: implement validation
+      break;
 
-	  case 'DNAME': // TODO: implement validation.
-	  break;
+      case 'DNAME': // TODO: implement validation.
+      break;
 
-	  case 'DNSKEY': // TODO: implement validation
-	  break;
+      case 'DNSKEY': // TODO: implement validation
+      break;
 
-	  case 'DS': // TODO: implement validation
-	  break;
+      case 'DS': // TODO: implement validation
+      break;
 
-	  case 'EUI48': // TODO: implement validation
-	  break;
+      case 'EUI48': // TODO: implement validation
+      break;
 
-	  case 'EUI64': // TODO: implement validation
-	  break;
+      case 'EUI64': // TODO: implement validation
+      break;
 
-	  case 'HINFO':
-		if (!is_valid_rr_hinfo_content($content)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-	  break;
+      case 'HINFO':
+        if (!is_valid_rr_hinfo_content($content)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+      break;
 
-	  case 'IPSECKEY': // TODO: implement validation
-	  break;
+      case 'IPSECKEY': // TODO: implement validation
+      break;
 
-	  case 'KEY': // TODO: implement validation
-	  break;
+      case 'KEY': // TODO: implement validation
+      break;
 
-	  case 'KX': // TODO: implement validation
-	  break;
+      case 'KX': // TODO: implement validation
+      break;
 
-	  case 'LOC':
-		if (!is_valid_loc($content)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-	  break;
+      case 'LOC':
+        if (!is_valid_loc($content)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+      break;
 
-	  case 'MAILA': // TODO: implement validation.
-	  break;
+      case 'MAILA': // TODO: implement validation.
+      break;
 
-	  case 'MAILB': // TODO: implement validation.
-	  break;
+      case 'MAILB': // TODO: implement validation.
+      break;
 
-	  case 'MINFO': // TODO: implement validation
-	  break;
+      case 'MINFO': // TODO: implement validation
+      break;
 
-	  case 'MR': // TODO: implement validation
-	  break;
+      case 'MR': // TODO: implement validation
+      break;
 
-	  case 'MX':
-		if (!is_valid_hostname_fqdn($content, 0)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-		if (!is_valid_non_alias_target($content)) {
-			return false;
-		}
-	  break;
+      case 'MX':
+        if (!is_valid_hostname_fqdn($content, 0)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+        if (!is_valid_non_alias_target($content)) {
+            return false;
+        }
+      break;
 
-	  case 'NAPTR': // TODO: implement validation
-	  break;
+      case 'NAPTR': // TODO: implement validation
+      break;
 
-	  case 'NS':
-		if (!is_valid_hostname_fqdn($content, 0)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-		if (!is_valid_non_alias_target($content)) {
-			return false;
-		}
-	  break;
+      case 'NS':
+        if (!is_valid_hostname_fqdn($content, 0)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+        if (!is_valid_non_alias_target($content)) {
+            return false;
+        }
+      break;
 
-	  case 'NSEC': // TODO: implement validation
-	  break;
+      case 'NSEC': // TODO: implement validation
+      break;
 
-	  case 'NSEC3': // TODO: implement validation
-	  break;
+      case 'NSEC3': // TODO: implement validation
+      break;
 
-	  case 'NSEC3PARAM': // TODO: implement validation
-	  break;
+      case 'NSEC3PARAM': // TODO: implement validation
+      break;
 
-	  case 'OPENPGPKEY': // TODO: implement validation.
-	  break;
+      case 'OPENPGPKEY': // TODO: implement validation.
+      break;
 
-	  case 'OPT': // TODO: implement validation
-	  break;
+      case 'OPT': // TODO: implement validation
+      break;
 
-	  case 'PTR':
-		if (!is_valid_hostname_fqdn($content, 0)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-	  break;
+      case 'PTR':
+        if (!is_valid_hostname_fqdn($content, 0)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+      break;
 
-	  case 'RKEY': // TODO: implement validation
-	  break;
+      case 'RKEY': // TODO: implement validation
+      break;
 
-	  case 'RP': // TODO: implement validation
-	  break;
+      case 'RP': // TODO: implement validation
+      break;
 
-	  case 'RRSIG': // TODO: implement validation
-	  break;
+      case 'RRSIG': // TODO: implement validation
+      break;
 
-	  case 'SIG': // TODO: implement validation.
-	  break;
+      case 'SIG': // TODO: implement validation.
+      break;
 
-	  case 'SOA':
-		if (!is_valid_rr_soa_name($name, $zone)) {
-			return false;
-		}
-		if (!is_valid_hostname_fqdn($name, 1)) {
-			return false;
-		}
-		if (!is_valid_rr_soa_content($content)) {
-			echo ''._('Error').': '._('Your content field doesnt have a legit value.').PHP_EOL;
-			return false;
-		}
-	  break;
+      case 'SOA':
+        if (!is_valid_rr_soa_name($name, $zone)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1)) {
+            return false;
+        }
+        if (!is_valid_rr_soa_content($content)) {
+            echo ''._('Error').': '._('Your content field doesnt have a legit value.').PHP_EOL;
+            return false;
+        }
+      break;
 
-	  case 'SPF':
-		if (!is_valid_spf($content)) {
-			return false;
-		}
-	  break;
+      case 'SPF':
+        if (!is_valid_spf($content)) {
+            return false;
+        }
+      break;
 
-	  case 'SRV':
-		if (!is_valid_rr_srv_name($name)) {
-			return false;
-		}
-		if (!is_valid_rr_srv_content($content)) {
-			return false;
-		}
-	  break;
+      case 'SRV':
+        if (!is_valid_rr_srv_name($name)) {
+            return false;
+        }
+        if (!is_valid_rr_srv_content($content)) {
+            return false;
+        }
+      break;
 
-	  case 'SSHFP': // TODO: implement validation
-	  break;
+      case 'SSHFP': // TODO: implement validation
+      break;
 
-	  case 'TKEY': // TODO: implement validation.
-	  break;
+      case 'TKEY': // TODO: implement validation.
+      break;
 
-	  case 'TLSA': // TODO: implement validation
-	  break;
+      case 'TLSA': // TODO: implement validation
+      break;
 
-	  case 'TSIG': // TODO: implement validation
-	  break;
+      case 'TSIG': // TODO: implement validation
+      break;
 
-	  case 'TXT':
-		if (!is_valid_printable($name)) {
-			return false;
-		}
-		if (!is_valid_printable($content)) {
-			return false;
-		}
-	  break;
+      case 'TXT':
+        if (!is_valid_printable($name)) {
+            return false;
+        }
+        if (!is_valid_printable($content)) {
+            return false;
+        }
+      break;
 
-	  case 'WKS': // TODO: implement validation
-	  break;
+      case 'WKS': // TODO: implement validation
+      break;
 
-	  case 'MBOXFW': // TODO: implement validation
-	  break;
+      case 'MBOXFW': // TODO: implement validation
+      break;
 
-	  case 'URL': // TODO: implement validation.
-	  break;
+      case 'URL': // TODO: implement validation.
+      break;
 
-	  default:
-		echo _('Error').': '._('Unknown record type.').PHP_EOL;
-		return false;
-	}
+      default:
+        echo _('Error').': '._('Unknown record type.').PHP_EOL;
+        return false;
+    }
 
-	if (!is_valid_rr_prio($prio, $type)) {
-		return false;
-	}
-	if (!is_valid_rr_ttl($ttl)) {
-		return false;
-	}
+    if (!is_valid_rr_prio($prio, $type)) {
+        return false;
+    }
+    if (!is_valid_rr_ttl($ttl)) {
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Test if hostname is valid FQDN
@@ -606,83 +606,83 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl)
  */
 function is_valid_hostname_fqdn(&$hostname, $wildcard)
 {
-	global $dns_top_level_tld_check;
-	global $dns_strict_tld_check;
-	global $valid_tlds;
+    global $dns_top_level_tld_check;
+    global $dns_strict_tld_check;
+    global $valid_tlds;
 
-	$hostname = preg_replace("/\.$/", '', $hostname);
+    $hostname = preg_replace("/\.$/", '', $hostname);
 
-	# The full domain name may not exceed a total length of 253 characters.
-	if (strlen($hostname) > 253) {
-		echo _('Error').': '._('The hostname is too long.').PHP_EOL;
-		return false;
-	}
+    # The full domain name may not exceed a total length of 253 characters.
+    if (strlen($hostname) > 253) {
+        echo _('Error').': '._('The hostname is too long.').PHP_EOL;
+        return false;
+    }
 
-	$hostname_labels = explode('.', $hostname);
-	$label_count = count($hostname_labels);
+    $hostname_labels = explode('.', $hostname);
+    $label_count = count($hostname_labels);
 
-	if ($dns_top_level_tld_check && $label_count == 1) {
-		return false;
-	}
+    if ($dns_top_level_tld_check && $label_count == 1) {
+        return false;
+    }
     //myadmin_log('myadmin', 'debug', 'checking hostname '.$hostname.' labels '.json_encode($hostname_labels), _LINE__, __FILE__);
-	foreach ($hostname_labels as $hostname_label) {
-		if ($wildcard == 1 && !isset($first)) {
-			if (!preg_match('/^(\*|[\w\-\/]+)$/', $hostname_label)) {
-				echo _('Error').': '._('You have invalid characters in your hostname.').PHP_EOL;
-				return false;
-			}
-			$first = 1;
-		} else {
-			if (!preg_match('/^[\w\-\/]+$/', $hostname_label)) {
-				echo _('Error').': '._('You have invalid characters in your hostname.').PHP_EOL;
-				return false;
-			}
-		}
-		if (substr($hostname_label, 0, 1) == '-') {
-			echo _('Error').': '._('A hostname can not start or end with a dash.').PHP_EOL;
-			return false;
-		}
-		if (substr($hostname_label, -1, 1) == '-') {
-			echo _('Error').': '._('A hostname can not start or end with a dash.').PHP_EOL;
-			return false;
-		}
-		if ('' === $hostname_label || strlen($hostname_label) > 63) {
-			echo _('Error').': '._('Given hostname or one of the labels is too short or too long.').PHP_EOL;
-			return false;
-		}
-	}
+    foreach ($hostname_labels as $hostname_label) {
+        if ($wildcard == 1 && !isset($first)) {
+            if (!preg_match('/^(\*|[\w\-\/]+)$/', $hostname_label)) {
+                echo _('Error').': '._('You have invalid characters in your hostname.').PHP_EOL;
+                return false;
+            }
+            $first = 1;
+        } else {
+            if (!preg_match('/^[\w\-\/]+$/', $hostname_label)) {
+                echo _('Error').': '._('You have invalid characters in your hostname.').PHP_EOL;
+                return false;
+            }
+        }
+        if (substr($hostname_label, 0, 1) == '-') {
+            echo _('Error').': '._('A hostname can not start or end with a dash.').PHP_EOL;
+            return false;
+        }
+        if (substr($hostname_label, -1, 1) == '-') {
+            echo _('Error').': '._('A hostname can not start or end with a dash.').PHP_EOL;
+            return false;
+        }
+        if ('' === $hostname_label || strlen($hostname_label) > 63) {
+            echo _('Error').': '._('Given hostname or one of the labels is too short or too long.').PHP_EOL;
+            return false;
+        }
+    }
 
-	if ($hostname_labels[$label_count - 1] == 'arpa' && (substr_count($hostname_labels[0], '/') == 1 xor substr_count($hostname_labels[1], '/') == 1)) {
-		if (substr_count($hostname_labels[0], '/') == 1) {
-			$array = explode('/', $hostname_labels[0]);
-		} else {
-			$array = explode('/', $hostname_labels[1]);
-		}
-		if (count($array) != 2) {
-			echo _('Error').': '._('Invalid hostname.').PHP_EOL;
-			return false;
-		}
-		if (!is_numeric($array[0]) || $array[0] < 0 || $array[0] > 255) {
-			echo _('Error').': '._('Invalid hostname.').PHP_EOL;
-			return false;
-		}
-		if (!is_numeric($array[1]) || $array[1] < 25 || $array[1] > 31) {
-			echo _('Error').': '._('Invalid hostname.').PHP_EOL;
-			return false;
-		}
-	} else {
-		if (substr_count($hostname, '/') > 0) {
-			echo _('Error').': '._('Given hostname has too many slashes.').PHP_EOL;
-			return false;
-		}
-	}
+    if ($hostname_labels[$label_count - 1] == 'arpa' && (substr_count($hostname_labels[0], '/') == 1 xor substr_count($hostname_labels[1], '/') == 1)) {
+        if (substr_count($hostname_labels[0], '/') == 1) {
+            $array = explode('/', $hostname_labels[0]);
+        } else {
+            $array = explode('/', $hostname_labels[1]);
+        }
+        if (count($array) != 2) {
+            echo _('Error').': '._('Invalid hostname.').PHP_EOL;
+            return false;
+        }
+        if (!is_numeric($array[0]) || $array[0] < 0 || $array[0] > 255) {
+            echo _('Error').': '._('Invalid hostname.').PHP_EOL;
+            return false;
+        }
+        if (!is_numeric($array[1]) || $array[1] < 25 || $array[1] > 31) {
+            echo _('Error').': '._('Invalid hostname.').PHP_EOL;
+            return false;
+        }
+    } else {
+        if (substr_count($hostname, '/') > 0) {
+            echo _('Error').': '._('Given hostname has too many slashes.').PHP_EOL;
+            return false;
+        }
+    }
 
-	if ($dns_strict_tld_check && !in_array(strtolower($hostname_labels[$label_count - 1]), $valid_tlds)) {
-		echo _('Error').': '._('You are using an invalid top level domain.').PHP_EOL;
-		return false;
-	}
+    if ($dns_strict_tld_check && !in_array(strtolower($hostname_labels[$label_count - 1]), $valid_tlds)) {
+        echo _('Error').': '._('You are using an invalid top level domain.').PHP_EOL;
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Test if IPv4 address is valid
@@ -695,14 +695,14 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard)
  */
 function is_valid_ipv4($ipv4, $answer = true)
 {
-	if (filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
-		if ($answer) {
-			echo _('Error').': '._('This is not a valid IPv4 address.').PHP_EOL;
-		}
-		return false;
-	}
+    if (filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
+        if ($answer) {
+            echo _('Error').': '._('This is not a valid IPv4 address.').PHP_EOL;
+        }
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Test if IPv6 address is valid
@@ -715,14 +715,14 @@ function is_valid_ipv4($ipv4, $answer = true)
  */
 function is_valid_ipv6($ipv6, $answer = true)
 {
-	if (filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
-		if ($answer) {
-			echo _('Error').': '._('This is not a valid IPv6 address.').PHP_EOL;
-		}
-		return false;
-	}
+    if (filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
+        if ($answer) {
+            echo _('Error').': '._('This is not a valid IPv6 address.').PHP_EOL;
+        }
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Test if multiple IP addresses are valid
@@ -737,30 +737,30 @@ function are_multipe_valid_ips($ips)
 {
 
 // multiple master NS-records are permitted and must be separated by ,
-	// eg. "192.0.0.1, 192.0.0.2, 2001:1::1"
+    // eg. "192.0.0.1, 192.0.0.2, 2001:1::1"
 
-	$are_valid = false;
-	$multiple_ips = explode(',', $ips);
-	if (is_array($multiple_ips)) {
-		foreach ($multiple_ips as $m_ip) {
-			$trimmed_ip = trim($m_ip);
-			if (is_valid_ipv4($trimmed_ip, false) || is_valid_ipv6($trimmed_ip, true)) {
-				$are_valid = true;
-			} else {
-				// as soon there is an invalid ip-addr
-				// exit and return false
-				echo "hin:=$trimmed_ip=";
-				return false;
-			}
-		}
-	} elseif (is_valid_ipv4($ips) || is_valid_ipv6($ips)) {
-		$are_valid = true;
-	}
-	if ($are_valid) {
-		return true;
-	} else {
-		return false;
-	}
+    $are_valid = false;
+    $multiple_ips = explode(',', $ips);
+    if (is_array($multiple_ips)) {
+        foreach ($multiple_ips as $m_ip) {
+            $trimmed_ip = trim($m_ip);
+            if (is_valid_ipv4($trimmed_ip, false) || is_valid_ipv6($trimmed_ip, true)) {
+                $are_valid = true;
+            } else {
+                // as soon there is an invalid ip-addr
+                // exit and return false
+                echo "hin:=$trimmed_ip=";
+                return false;
+            }
+        }
+    } elseif (is_valid_ipv4($ips) || is_valid_ipv6($ips)) {
+        $are_valid = true;
+    }
+    if ($are_valid) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 /** Test if string is printable
@@ -771,11 +771,11 @@ function are_multipe_valid_ips($ips)
  */
 function is_valid_printable($string)
 {
-	if (!preg_match('/^[[:print:]]+$/', trim($string))) {
-		echo _('Error').': '._('Invalid characters have been used in this record.').PHP_EOL;
-		return false;
-	}
-	return true;
+    if (!preg_match('/^[[:print:]]+$/', trim($string))) {
+        echo _('Error').': '._('Invalid characters have been used in this record.').PHP_EOL;
+        return false;
+    }
+    return true;
 }
 
 /** Test if CNAME is valid
@@ -788,20 +788,20 @@ function is_valid_printable($string)
  */
 function is_valid_rr_cname_name($name)
 {
-	$db_mdb2 = get_db_mdb2();
+    $db_mdb2 = get_db_mdb2();
 
-	$query = 'SELECT id FROM records
+    $query = 'SELECT id FROM records
 			WHERE content = ' . $db_mdb2->quote($name, 'text') . '
 			AND (type = ' . $db_mdb2->quote('MX', 'text') . ' OR type = ' . $db_mdb2->quote('NS', 'text') . ')';
 
-	$response = $db_mdb2->queryOne($query);
+    $response = $db_mdb2->queryOne($query);
 
-	if (!empty($response)) {
-		echo _('Error').': '._('This is not a valid CNAME.').' '._('Did you assign an MX or NS record to the record?').PHP_EOL;
-		return false;
-	}
+    if (!empty($response)) {
+        echo _('Error').': '._('This is not a valid CNAME.').' '._('Did you assign an MX or NS record to the record?').PHP_EOL;
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Check if CNAME already exists
@@ -813,19 +813,19 @@ function is_valid_rr_cname_name($name)
  */
 function is_valid_rr_cname_exists($name, $rid)
 {
-	$db_mdb2 = get_db_mdb2();
+    $db_mdb2 = get_db_mdb2();
 
-	$where = ($rid > 0 ? ' AND id != ' . $db_mdb2->quote($rid, 'integer') : '');
-	$query = 'SELECT id FROM records
+    $where = ($rid > 0 ? ' AND id != ' . $db_mdb2->quote($rid, 'integer') : '');
+    $query = 'SELECT id FROM records
 						WHERE name = ' . $db_mdb2->quote($name, 'text') . $where . "
 						AND TYPE = 'CNAME'";
 
-	$response = $db_mdb2->queryOne($query);
-	if ($response) {
-		echo _('Error').': '._('This is not a valid record.').' '._('There is already exists a CNAME with this name.').PHP_EOL;
-		return false;
-	}
-	return true;
+    $response = $db_mdb2->queryOne($query);
+    if ($response) {
+        echo _('Error').': '._('This is not a valid record.').' '._('There is already exists a CNAME with this name.').PHP_EOL;
+        return false;
+    }
+    return true;
 }
 
 /** Check if CNAME is unique (doesn't overlap A/AAAA)
@@ -837,19 +837,19 @@ function is_valid_rr_cname_exists($name, $rid)
  */
 function is_valid_rr_cname_unique($name, $rid)
 {
-	$db_mdb2 = get_db_mdb2();
+    $db_mdb2 = get_db_mdb2();
 
-	$where = ($rid > 0 ? ' AND id != ' . $db_mdb2->quote($rid, 'integer') : '');
-	$query = 'SELECT id FROM records
+    $where = ($rid > 0 ? ' AND id != ' . $db_mdb2->quote($rid, 'integer') : '');
+    $query = 'SELECT id FROM records
 						WHERE name = ' . $db_mdb2->quote($name, 'text') . $where . "
 						AND TYPE IN ('A', 'AAAA', 'CNAME')";
 
-	$response = $db_mdb2->queryOne($query);
-	if ($response) {
-		echo _('Error').': '._('This is not a valid CNAME.').' '._('There is already exists an A, AAAA or CNAME with this name.').PHP_EOL;
-		return false;
-	}
-	return true;
+    $response = $db_mdb2->queryOne($query);
+    if ($response) {
+        echo _('Error').': '._('This is not a valid CNAME.').' '._('There is already exists an A, AAAA or CNAME with this name.').PHP_EOL;
+        return false;
+    }
+    return true;
 }
 
 /**
@@ -861,11 +861,11 @@ function is_valid_rr_cname_unique($name, $rid)
  */
 function is_not_empty_cname_rr($name, $zone)
 {
-	if ($name == $zone) {
-		echo _('Error').': '._('Empty CNAME records are not allowed.').PHP_EOL;
-		return false;
-	}
-	return true;
+    if ($name == $zone) {
+        echo _('Error').': '._('Empty CNAME records are not allowed.').PHP_EOL;
+        return false;
+    }
+    return true;
 }
 
 /** Check if target is not a CNAME
@@ -876,18 +876,18 @@ function is_not_empty_cname_rr($name, $zone)
  */
 function is_valid_non_alias_target($target)
 {
-	$db_mdb2 = get_db_mdb2();
+    $db_mdb2 = get_db_mdb2();
 
-	$query = 'SELECT id FROM records
+    $query = 'SELECT id FROM records
 			WHERE name = ' . $db_mdb2->quote($target, 'text') . '
 			AND TYPE = ' . $db_mdb2->quote('CNAME', 'text');
 
-	$response = $db_mdb2->queryOne($query);
-	if ($response) {
-		echo _('Error').': '._('You can not point a NS or MX record to a CNAME record.').' '._('Remove or rame the CNAME record first, or take another name.').PHP_EOL;
-		return false;
-	}
-	return true;
+    $response = $db_mdb2->queryOne($query);
+    if ($response) {
+        echo _('Error').': '._('You can not point a NS or MX record to a CNAME record.').' '._('Remove or rame the CNAME record first, or take another name.').PHP_EOL;
+        return false;
+    }
+    return true;
 }
 
 /** Check if HINFO content is valid
@@ -898,20 +898,20 @@ function is_valid_non_alias_target($target)
  */
 function is_valid_rr_hinfo_content($content)
 {
-	if ($content[0] == '"') {
-		$fields = preg_split('/(?<=") /', $content, 2);
-	} else {
-		$fields = explode(' ', $content, 2);
-	}
+    if ($content[0] == '"') {
+        $fields = preg_split('/(?<=") /', $content, 2);
+    } else {
+        $fields = explode(' ', $content, 2);
+    }
 
-	for ($i = 0; $i < 2; $i++) {
-		if (!preg_match("/^([^\s]{1,1000})|\"([^\"]{1,998}\")$/i", $fields[$i])) {
-			echo _('Error').': '._('Invalid value for content field of HINFO record.').PHP_EOL;
-			return false;
-		}
-	}
+    for ($i = 0; $i < 2; $i++) {
+        if (!preg_match("/^([^\s]{1,1000})|\"([^\"]{1,998}\")$/i", $fields[$i])) {
+            echo _('Error').': '._('Invalid value for content field of HINFO record.').PHP_EOL;
+            return false;
+        }
+    }
 
-	return true;
+    return true;
 }
 
 /** Check if SOA content is valid
@@ -922,60 +922,60 @@ function is_valid_rr_hinfo_content($content)
  */
 function is_valid_rr_soa_content(&$content)
 {
-	$fields = preg_split("/\s+/", trim($content));
-	$field_count = count($fields);
+    $fields = preg_split("/\s+/", trim($content));
+    $field_count = count($fields);
 
-	if ($field_count == 0 || $field_count > 7) {
-		return false;
-	} else {
-		if (!is_valid_hostname_fqdn($fields[0], 0) || preg_match('/\.arpa\.?$/', $fields[0])) {
-			return false;
-		}
-		$final_soa = $fields[0];
+    if ($field_count == 0 || $field_count > 7) {
+        return false;
+    } else {
+        if (!is_valid_hostname_fqdn($fields[0], 0) || preg_match('/\.arpa\.?$/', $fields[0])) {
+            return false;
+        }
+        $final_soa = $fields[0];
 
-		if (isset($fields[1])) {
-			$addr_input = $fields[1];
-		} else {
-			global $dns_hostmaster;
-			$addr_input = $dns_hostmaster;
-		}
-		if (!preg_match('/@/', $addr_input)) {
-			$addr_input = preg_split('/(?<!\\\)\./', $addr_input, 2);
-			$addr_to_check = str_replace("\\", '', $addr_input[0]) . '@' . $addr_input[1];
-		} else {
-			$addr_to_check = $addr_input;
-		}
+        if (isset($fields[1])) {
+            $addr_input = $fields[1];
+        } else {
+            global $dns_hostmaster;
+            $addr_input = $dns_hostmaster;
+        }
+        if (!preg_match('/@/', $addr_input)) {
+            $addr_input = preg_split('/(?<!\\\)\./', $addr_input, 2);
+            $addr_to_check = str_replace("\\", '', $addr_input[0]) . '@' . $addr_input[1];
+        } else {
+            $addr_to_check = $addr_input;
+        }
 
-		if (!is_valid_email($addr_to_check)) {
-			return false;
-		} else {
-			$addr_final = explode('@', $addr_to_check, 2);
-			$final_soa .= ' ' . str_replace('.', "\\.", $addr_final[0]) . '.' . $addr_final[1];
-		}
+        if (!is_valid_email($addr_to_check)) {
+            return false;
+        } else {
+            $addr_final = explode('@', $addr_to_check, 2);
+            $final_soa .= ' ' . str_replace('.', "\\.", $addr_final[0]) . '.' . $addr_final[1];
+        }
 
-		if (isset($fields[2])) {
-			if (!is_numeric($fields[2])) {
-				return false;
-			}
-			$final_soa .= ' ' . $fields[2];
-		} else {
-			$final_soa .= ' 0';
-		}
+        if (isset($fields[2])) {
+            if (!is_numeric($fields[2])) {
+                return false;
+            }
+            $final_soa .= ' ' . $fields[2];
+        } else {
+            $final_soa .= ' 0';
+        }
 
-		if ($field_count != 7) {
-			return false;
-		} else {
-			for ($i = 3; $i < 7; $i++) {
-				if (!is_numeric($fields[$i])) {
-					return false;
-				} else {
-					$final_soa .= ' ' . $fields[$i];
-				}
-			}
-		}
-	}
-	$content = $final_soa;
-	return true;
+        if ($field_count != 7) {
+            return false;
+        } else {
+            for ($i = 3; $i < 7; $i++) {
+                if (!is_numeric($fields[$i])) {
+                    return false;
+                } else {
+                    $final_soa .= ' ' . $fields[$i];
+                }
+            }
+        }
+    }
+    $content = $final_soa;
+    return true;
 }
 
 /** Check if SOA name is valid
@@ -989,11 +989,11 @@ function is_valid_rr_soa_content(&$content)
  */
 function is_valid_rr_soa_name($name, $zone)
 {
-	if ($name != $zone) {
-		echo _('Error').': '._('Invalid value for name field of SOA record.').' '._('It should be the name of the zone.').PHP_EOL;
-		return false;
-	}
-	return true;
+    if ($name != $zone) {
+        echo _('Error').': '._('Invalid value for name field of SOA record.').' '._('It should be the name of the zone.').PHP_EOL;
+        return false;
+    }
+    return true;
 }
 
 /** Check if Priority is valid
@@ -1007,16 +1007,16 @@ function is_valid_rr_soa_name($name, $zone)
  */
 function is_valid_rr_prio(&$prio, $type)
 {
-	if ($type == 'MX' || $type == 'SRV') {
-		if (!is_numeric($prio) || $prio < 0 || $prio > 65535) {
-			echo _('Error').': '._('Invalid value for prio field.').' '._('It should be numeric.').PHP_EOL;
-			return false;
-		}
-	} else {
-		$prio = 0;
-	}
+    if ($type == 'MX' || $type == 'SRV') {
+        if (!is_numeric($prio) || $prio < 0 || $prio > 65535) {
+            echo _('Error').': '._('Invalid value for prio field.').' '._('It should be numeric.').PHP_EOL;
+            return false;
+        }
+    } else {
+        $prio = 0;
+    }
 
-	return true;
+    return true;
 }
 
 /** Check if SRV name is valid
@@ -1027,26 +1027,26 @@ function is_valid_rr_prio(&$prio, $type)
  */
 function is_valid_rr_srv_name(&$name)
 {
-	if (strlen($name) > 255) {
-		echo _('Error').': '._('The hostname is too long.').PHP_EOL;
-		return false;
-	}
+    if (strlen($name) > 255) {
+        echo _('Error').': '._('The hostname is too long.').PHP_EOL;
+        return false;
+    }
 
-	$fields = explode('.', $name, 3);
-	if (!preg_match('/^_[\w-]+$/i', $fields[0])) {
-		echo _('Error').': '._('Invalid service value in name field of SRV record.').' (Record: '.$name.')'.PHP_EOL;
-		return false;
-	}
-	if (!preg_match('/^_[\w]+$/i', $fields[1])) {
-		echo _('Error').': '._('Invalid protocol value in name field of SRV record.').' (Record: '.$name.')'.PHP_EOL;
-		return false;
-	}
-	if (!is_valid_hostname_fqdn($fields[2], 0)) {
-		echo _('Error').': '._('Invalid FQDN value in name field of SRV record.').' (Record: '.$name.')'.PHP_EOL;
-		return false;
-	}
-	$name = implode('.', $fields);
-	return true;
+    $fields = explode('.', $name, 3);
+    if (!preg_match('/^_[\w-]+$/i', $fields[0])) {
+        echo _('Error').': '._('Invalid service value in name field of SRV record.').' (Record: '.$name.')'.PHP_EOL;
+        return false;
+    }
+    if (!preg_match('/^_[\w]+$/i', $fields[1])) {
+        echo _('Error').': '._('Invalid protocol value in name field of SRV record.').' (Record: '.$name.')'.PHP_EOL;
+        return false;
+    }
+    if (!is_valid_hostname_fqdn($fields[2], 0)) {
+        echo _('Error').': '._('Invalid FQDN value in name field of SRV record.').' (Record: '.$name.')'.PHP_EOL;
+        return false;
+    }
+    $name = implode('.', $fields);
+    return true;
 }
 
 /** Check if SRV content is valid
@@ -1057,21 +1057,21 @@ function is_valid_rr_srv_name(&$name)
  */
 function is_valid_rr_srv_content(&$content)
 {
-	$fields = preg_split("/\s+/", trim($content), 3);
-	if (!is_numeric($fields[0]) || $fields[0] < 0 || $fields[0] > 65535) {
-		echo _('Error').': '._('Invalid value for the priority field of the SRV record.').' (Record: '.$content.')'.PHP_EOL;
-		return false;
-	}
-	if (!is_numeric($fields[1]) || $fields[1] < 0 || $fields[1] > 65535) {
-		echo _('Error').': '._('Invalid value for the weight field of the SRV record.').' (Record: '.$content.')'.PHP_EOL;
-		return false;
-	}
-	if ($fields[2] == '' || ($fields[2] != '.' && !is_valid_hostname_fqdn($fields[2], 0))) {
-		echo _('Error').': '._('Invalid SRV target.').' (Record: '.$content.')'.PHP_EOL;
-		return false;
-	}
-	$content = implode(' ', $fields);
-	return true;
+    $fields = preg_split("/\s+/", trim($content), 3);
+    if (!is_numeric($fields[0]) || $fields[0] < 0 || $fields[0] > 65535) {
+        echo _('Error').': '._('Invalid value for the priority field of the SRV record.').' (Record: '.$content.')'.PHP_EOL;
+        return false;
+    }
+    if (!is_numeric($fields[1]) || $fields[1] < 0 || $fields[1] > 65535) {
+        echo _('Error').': '._('Invalid value for the weight field of the SRV record.').' (Record: '.$content.')'.PHP_EOL;
+        return false;
+    }
+    if ($fields[2] == '' || ($fields[2] != '.' && !is_valid_hostname_fqdn($fields[2], 0))) {
+        echo _('Error').': '._('Invalid SRV target.').' (Record: '.$content.')'.PHP_EOL;
+        return false;
+    }
+    $content = implode(' ', $fields);
+    return true;
 }
 
 /** Check if TTL is valid and within range
@@ -1082,17 +1082,17 @@ function is_valid_rr_srv_content(&$content)
  */
 function is_valid_rr_ttl(&$ttl)
 {
-	if (!isset($ttl) || $ttl == '') {
-		global $dns_ttl;
-		$ttl = $dns_ttl;
-	}
+    if (!isset($ttl) || $ttl == '') {
+        global $dns_ttl;
+        $ttl = $dns_ttl;
+    }
 
-	if (!is_numeric($ttl) || $ttl < 0 || $ttl > 2147483647) {
-		echo _('Error').': '._('Invalid value for TTL field.').' '._('It should be numeric.').PHP_EOL;
-		return false;
-	}
+    if (!is_numeric($ttl) || $ttl < 0 || $ttl > 2147483647) {
+        echo _('Error').': '._('Invalid value for TTL field.').' '._('It should be numeric.').PHP_EOL;
+        return false;
+    }
 
-	return true;
+    return true;
 }
 
 /** Check if search string is valid
@@ -1104,11 +1104,11 @@ function is_valid_rr_ttl(&$ttl)
 function is_valid_search($search_string)
 {
 
-	// Only allow for alphanumeric, numeric, dot, dash, underscore and
-	// percent in search string. The last two are wildcards for SQL.
-	// Needs extension probably for more usual record types.
+    // Only allow for alphanumeric, numeric, dot, dash, underscore and
+    // percent in search string. The last two are wildcards for SQL.
+    // Needs extension probably for more usual record types.
 
-	return preg_match('/^[a-z0-9.\-%_]+$/i', $search_string);
+    return preg_match('/^[a-z0-9.\-%_]+$/i', $search_string);
 }
 
 /** Check if SPF content is valid
@@ -1119,13 +1119,13 @@ function is_valid_search($search_string)
  */
 function is_valid_spf($content)
 {
-	//Regex from http://www.schlitt.net/spf/tests/spf_record_regexp-03.txt
-	$regex = "^[Vv]=[Ss][Pp][Ff]1( +([-+?~]?([Aa][Ll][Ll]|[Ii][Nn][Cc][Ll][Uu][Dd][Ee]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Aa](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Mm][Xx](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Pp][Tt][Rr](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?|[Ii][Pp]4:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/([1-9]|1[0-9]|2[0-9]|3[0-2]))?|[Ii][Pp]6:(::|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,8}:|([0-9A-Fa-f]{1,4}:){7}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,5}|([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,6}|[0-9A-Fa-f]{1,4}:(:[0-9A-Fa-f]{1,4}){1,7}|:(:[0-9A-Fa-f]{1,4}){1,8}|([0-9A-Fa-f]{1,4}:){6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){6}:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|::([0-9A-Fa-f]{1,4}:){0,6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(/([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?|[Ee][Xx][Ii][Ss][Tt][Ss]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))|[Rr][Ee][Dd][Ii][Rr][Ee][Cc][Tt]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Ee][Xx][Pp]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[A-Za-z][-.0-9A-Z_a-z]*=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*))* *$^";
-	if (!preg_match($regex, $content)) {
-		return false;
-	} else {
-		return true;
-	}
+    //Regex from http://www.schlitt.net/spf/tests/spf_record_regexp-03.txt
+    $regex = "^[Vv]=[Ss][Pp][Ff]1( +([-+?~]?([Aa][Ll][Ll]|[Ii][Nn][Cc][Ll][Uu][Dd][Ee]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Aa](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Mm][Xx](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Pp][Tt][Rr](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?|[Ii][Pp]4:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/([1-9]|1[0-9]|2[0-9]|3[0-2]))?|[Ii][Pp]6:(::|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,8}:|([0-9A-Fa-f]{1,4}:){7}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,5}|([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,6}|[0-9A-Fa-f]{1,4}:(:[0-9A-Fa-f]{1,4}){1,7}|:(:[0-9A-Fa-f]{1,4}){1,8}|([0-9A-Fa-f]{1,4}:){6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){6}:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|::([0-9A-Fa-f]{1,4}:){0,6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(/([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?|[Ee][Xx][Ii][Ss][Tt][Ss]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))|[Rr][Ee][Dd][Ii][Rr][Ee][Cc][Tt]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Ee][Xx][Pp]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[A-Za-z][-.0-9A-Z_a-z]*=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*))* *$^";
+    if (!preg_match($regex, $content)) {
+        return false;
+    } else {
+        return true;
+    }
 }
 
 /** Check if LOC content is valid
@@ -1136,10 +1136,10 @@ function is_valid_spf($content)
  */
 function is_valid_loc($content)
 {
-	$regex = "^(90|[1-8]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [NS] (180|1[0-7]\d|[1-9]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [EW] (-(100000(\.00)?|\d{1,5}(\.\d\d)?)|([1-3]?\d{1,7}(\.\d\d)?|4([01][0-9]{6}|2([0-7][0-9]{5}|8([0-3][0-9]{4}|4([0-8][0-9]{3}|9([0-5][0-9]{2}|6([0-6][0-9]|7[01]))))))(\.\d\d)?|42849672(\.([0-8]\d|9[0-5]))?))[m]?( (\d{1,7}|[1-8]\d{7})(\.\d\d)?[m]?){0,3}$^";
-	if (!preg_match($regex, $content)) {
-		return false;
-	} else {
-		return true;
-	}
+    $regex = "^(90|[1-8]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [NS] (180|1[0-7]\d|[1-9]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [EW] (-(100000(\.00)?|\d{1,5}(\.\d\d)?)|([1-3]?\d{1,7}(\.\d\d)?|4([01][0-9]{6}|2([0-7][0-9]{5}|8([0-3][0-9]{4}|4([0-8][0-9]{3}|9([0-5][0-9]{2}|6([0-6][0-9]|7[01]))))))(\.\d\d)?|42849672(\.([0-8]\d|9[0-5]))?))[m]?( (\d{1,7}|[1-8]\d{7})(\.\d\d)?[m]?){0,3}$^";
+    if (!preg_match($regex, $content)) {
+        return false;
+    } else {
+        return true;
+    }
 }
