@@ -109,7 +109,16 @@ function is_valid_email($address)
 function get_record_types()
 {
     global $rtypes;
-    return $rtypes;
+	$skip = ['SPF'];
+	$return = $rtypes;
+	foreach ($skip as $type) {
+		if (($key = array_search('SPF', $return)) !== false) {
+		    // Remove the element
+		    unset($return[$key]);
+		}
+	}
+	$return = array_values($return);
+    return $return;
 }
 
 if (!function_exists('set_timezone')) {
