@@ -9,6 +9,7 @@
  */
 
 use \MyDb\Mdb2\Db as db_mdb2;
+use Detain\SshPool\SshPool;
 
 include __DIR__ . '/pdns.functions.inc.php';
 
@@ -54,9 +55,9 @@ function get_hostname($ip)
         }
     }
     if (!array_key_exists($ip, $cached_zones[$zone])) {
-        $host = gethostbyaddr($ip);
-        if ($host != $ip && $host !== false) {
-            $cached_zones[$zone][$ip] = $host;
+        $hostname = gethostbyaddr($ip);
+        if ($hostname != $ip && $hostname !== false) {
+            $cached_zones[$zone][$ip] = $hostname;
         }
     }
     return array_key_exists($ip, $cached_zones[$zone]) ? $cached_zones[$zone][$ip] : false;
@@ -454,54 +455,81 @@ function add_dns_domain($domain, $ip)
  * sets up reverse dns for a given IP address.
  *
  * @param string $ip the ip address you want reverse changed for.
- * @param string $host the hostname you'd you want to set DNS on the IP to.
+ * @param string $hostname the hostname you'd you want to set DNS on the IP to.
  * @param string $action optional, defaults to set_reverse, can also be remove_reverse
  * @return bool true if it was able to make the requested changes, false if it wasn't.
  */
-function reverse_dns($ip, $host = '', $action = 'set_reverse')
+function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
 {
-    if (!validIp($ip, false)) {
-        return false;
-    }
     $actions = ['set_reverse', 'remove_reverse'];
     if (!in_array($action, $actions)) {
         $action = 'set_reverse';
     }
     if ($action == 'set_reverse') {
-        if (!valid_hostname($host)) {
-            dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$host</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
+        if (!valid_hostname($hostname)) {
+            dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$hostname</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
             return false;
         }
-        if (mb_strpos($host, '_') !== false) {
+        if (mb_strpos($hostname, '_') !== false) {
             dialog('Invalid Character _', 'The _ character is not allowed in reverse DNS entries');
         }
     }
-    if (null === $GLOBALS['tf']->accounts->data || null === $GLOBALS['tf']->accounts->data['account_lid'] || $GLOBALS['tf']->accounts->data['account_lid'] == '') {
-        $username = 'unknown';
-    } else {
-        $username = $GLOBALS['tf']->accounts->data['account_lid'];
+    if (!filter_var($ip, FILTER_VALIDATE_IP)) {
+        dialog('Invalid IP' ,"Invalid IP '{$ip}'");
+        return false;
     }
-    global $dbh_city;
+    global $ssh;
+    $homeDir = get_current_user() == 'www-data' ? '/var/www' : '/home/'.get_current_user();
     try {
-        $db = new db_mdb2('dns', 'dns', 'python', '66.45.228.79');
-        $db->query(make_insert_query(
-            'changes',
-            [
-                'id' => null,
-                'username' => $username,
-                'ip' => $ip,
-                'hostname' => $host,
-                'action' => $action
-            ]
-        ));
+        $ssh = new SshPool('66.45.228.79', 22, 'root', '', $homeDir.'/.ssh/id_rsa.pub', $homeDir.'/.ssh/id_rsa');
     } catch (\Exception $e) {
-        myadmin_log('myadmin', 'debug', 'got exception '.$e->getMessage(), __LINE__, __FILE__);
+        echo "Error establishing connection ".$e->getMessage();
         return false;
     }
-    //myadmin_log('dns', 'info', "Reverse DNS $ip => $host", __LINE__, __FILE__, $module);
-    if ($db->affectedRows() == 1) {
-        return true;
+    $ssh->setMaxRetries(0);
+    $ssh->setMaxThreads(1);
+    $ipParts = explode('.', $ip);
+    $arpa = "{$ipParts[2]}.{$ipParts[1]}.{$ipParts[0]}.in-addr.arpa";
+    // check for zone entry in bind conf
+    $ssh->addCommand("grep '^[ \t]*zone[ \t]*\"{$arpa}\"' /etc/named.conf", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($ip, $arpa) {
+        global $ssh;
+        if (trim($stdout) == '') {
+            // no zone entry, create it
+            $ssh->addCommand('echo -e \'\nzone "'.$arpa.'" {\n    type master;\n    file "/var/named/'.$arpa.'";\n};\n\' >> /etc/named.conf;');
+            $ssh->run();
+        }
+    });
+    $ssh->run();
+    // ensure zone file exists
+    $ssh->addCommand("ls /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($ip, $arpa, $hostname, $ipParts) {
+        global $ssh;
+        if ($exitStatus != 0 || trim($stdout) == '') {
+            // create zone file
+            $time = time();
+            $ssh->addCommand("echo '\$TTL 86400\n@               IN      SOA     dns.trouble-free.net. root.dns.trouble-free.net. (\n                        {$time}       ; serial\n                        28800           ; refresh\n                        14400           ; retry\n                        3600000         ; expire\n                        86400           ; default_ttl\n                        )\n                IN      NS      dns.trouble-free.net.\n                IN      NS      dns2.trouble-free.net.\n\n' > /var/named/{$arpa}");
+            $ssh->run();
+        }
+    });                                    
+    $ssh->run();
+    if ($hostname != '' && $action == 'set_reverse') {
+        // handle zone file entry
+        $ssh->addCommand("grep \"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR\" /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($ip, $arpa, $hostname, $ipParts) {
+            global $ssh;
+            if (trim($stdout) == '') {
+                // no zone entry, create it
+                $ssh->addCommand("echo \"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\" >> /var/named/{$arpa}");        
+            } else {
+                $ssh->addCommand("sed s#\"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$\"#\"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\"#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};");        
+            }
+            $ssh->run();
+        });
     } else {
-        return false;
+        // remove entry
+        $ssh->addCommand("sed s#\"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$\"#\"\"#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};");
     }
+    $ssh->run();
+    // reload bind        
+    $ssh->addCommand("/usr/local/sbin/rndc reload");
+    $ssh->run();
+    return true;
 }
