@@ -49,12 +49,13 @@ function get_hostname($ip)
                     $ips[$parts[0] . '.' . $parts[1] . '.' . $parts[2] . '.' . $ippart] = substr($matches['host'][$idx], 0, -1);
                 }
             }
+            $ips['dig'] = true;
             $cached_zones[$zone] = $ips;
         } else {
             $cached_zones[$zone] = [];
         }
     }
-    if (!array_key_exists($ip, $cached_zones[$zone])) {
+    if (!array_key_exists($ip, $cached_zones[$zone]) && !array_key_exists('dig', $cached_zones[$zone])) {
         $hostname = gethostbyaddr($ip);
         if ($hostname != $ip && $hostname !== false) {
             $cached_zones[$zone][$ip] = $hostname;
