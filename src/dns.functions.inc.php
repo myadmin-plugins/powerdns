@@ -533,7 +533,7 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
     if ($hostname != '' && $action == 'set_reverse') {
         // handle zone file entry
         $ssh->addCommand("grep '^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR' /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug, $ip, $arpa, $hostname, $ipParts) {
-            if ($exitStatus != 0 || $debug === true) {
+            if ($debug === true) {
                 myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
             }
             global $ssh;
