@@ -1,12 +1,12 @@
 <?php
 
 /**
- * DNS Related Functionality
- * @author Joe Huss <detain@interserver.net>
- * @copyright 2025
- * @package MyAdmin
- * @category DNS
- */
+* DNS Related Functionality
+* @author Joe Huss <detain@interserver.net>
+* @copyright 2025
+* @package MyAdmin
+* @category DNS
+*/
 
 use \MyDb\Mdb2\Db as db_mdb2;
 use Detain\SshPool\SshPool;
@@ -14,27 +14,27 @@ use Detain\SshPool\SshPool;
 include __DIR__ . '/pdns.functions.inc.php';
 
 /**
- * max domains hosted on our dns server per client
- */
+* max domains hosted on our dns server per client
+*/
 define('MAX_DNS_DOMAINS', 500);
 
 /**
- * get_hostname()
- * ok this is a fucking awesome insanely fast way to lookup reverse dns settings for ips
- * basically what I did was i gave My and Nucleus   ACL (AXFR) permission on City,
- * so that instead of having to lookup ips one at a time they can load an entire 256
- * IPs at a time.   It caches all the IPs, and only does another query if it does not
- * already have the IP cached.   This allows us to do lookups 2600% Faster than most
- * any other way.    This was needed because as we're looking at reverse dns settings for
- * clients with multiple vlans and potentially tons of IPs, thats a TON of queries to
- * be making normally to get all the reverse dns settings for them from city, but this way
- * it will only be a couple queries no matter how many ips.   It also caches all results.
- *
- * @see API
- *
- * @param string $ip IP Address
- * @return string|false Hostname
- */
+* get_hostname()
+* ok this is a fucking awesome insanely fast way to lookup reverse dns settings for ips
+* basically what I did was i gave My and Nucleus   ACL (AXFR) permission on City,
+* so that instead of having to lookup ips one at a time they can load an entire 256
+* IPs at a time.   It caches all the IPs, and only does another query if it does not
+* already have the IP cached.   This allows us to do lookups 2600% Faster than most
+* any other way.    This was needed because as we're looking at reverse dns settings for
+* clients with multiple vlans and potentially tons of IPs, thats a TON of queries to
+* be making normally to get all the reverse dns settings for them from city, but this way
+* it will only be a couple queries no matter how many ips.   It also caches all results.
+*
+* @see API
+*
+* @param string $ip IP Address
+* @return string|false Hostname
+*/
 function get_hostname($ip)
 {
     global $cached_zones;
@@ -65,15 +65,15 @@ function get_hostname($ip)
 }
 
 /**
- * get_dns_domain()
- * Gets the DNS Entry for a given domain id.
- *
- * @see API
- * @param integer $domain_id The ID of the domain in question.
- * @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
- * @param bool|string $acl optional name of acl to limitadmins by
- * @return array|false Either an array containing some information about the domain or false on failure.
- */
+* get_dns_domain()
+* Gets the DNS Entry for a given domain id.
+*
+* @see API
+* @param integer $domain_id The ID of the domain in question.
+* @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
+* @param bool|string $acl optional name of acl to limitadmins by
+* @return array|false Either an array containing some information about the domain or false on failure.
+*/
 function get_dns_domain($domain_id, $bypass = false, $acl = false)
 {
     $domain_id = (int)$domain_id;
@@ -93,14 +93,14 @@ function get_dns_domain($domain_id, $bypass = false, $acl = false)
 }
 
 /**
- * To be used in combination with {@}get_dns_domain
- * This gets all the records for a given domain.
- *
- * @see API
- * @param int $domain_id The ID of the domain in question.
- * @param bool $bypass
- * @return array|false Either an array containing some information about the domain or false on failure.
- */
+* To be used in combination with {@}get_dns_domain
+* This gets all the records for a given domain.
+*
+* @see API
+* @param int $domain_id The ID of the domain in question.
+* @param bool $bypass
+* @return array|false Either an array containing some information about the domain or false on failure.
+*/
 function get_dns_records($domain_id, $bypass = false)
 {
     $domain_id = (int)$domain_id;
@@ -123,14 +123,14 @@ function get_dns_records($domain_id, $bypass = false)
 }
 
 /**
- * delete_dns_record()
- * deletes a single dns record from a domain
- *
- * @see API
- * @param integer $domain_id The ID of the domain in question.
- * @param integer $record_id The ID of the domains record to remove.
- * @return bool will return true if it succeeded, or false if there was some type of error.
- */
+* delete_dns_record()
+* deletes a single dns record from a domain
+*
+* @see API
+* @param integer $domain_id The ID of the domain in question.
+* @param integer $record_id The ID of the domains record to remove.
+* @return bool will return true if it succeeded, or false if there was some type of error.
+*/
 function delete_dns_record($domain_id, $record_id)
 {
     $domain_id = (int)$domain_id;
@@ -146,20 +146,20 @@ function delete_dns_record($domain_id, $record_id)
 }
 
 /**
- * add_dns_record()
- * Adds a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
- * after the update so you dont need to worry about that.
- *
- * @see API
- * @param integer $domain_id The ID of the domain in question.
- * @param string $name the hostname being set on the dns record.
- * @param string $content the value of the dns record, or what its set to.
- * @param string $type  dns record type.
- * @param integer $ttl dns record time to live, or update time.
- * @param integer $prio dns record priority
- * @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
- * @return int|false The ID of the newly added record, or false on error..
- */
+* add_dns_record()
+* Adds a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
+* after the update so you dont need to worry about that.
+*
+* @see API
+* @param integer $domain_id The ID of the domain in question.
+* @param string $name the hostname being set on the dns record.
+* @param string $content the value of the dns record, or what its set to.
+* @param string $type  dns record type.
+* @param integer $ttl dns record time to live, or update time.
+* @param integer $prio dns record priority
+* @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
+* @return int|false The ID of the newly added record, or false on error..
+*/
 function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false)
 {
     $domain_id = (int)$domain_id;
@@ -198,20 +198,20 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
 }
 
 /**
- * update_dns_record()
- * Update a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
- * after the update so you dont need to worry about that.
- *
- * @see API
- * @param integer $domain_id The ID of the domain in question.
- * @param integer $record_id The ID of the record to update
- * @param string $name the hostname being set on the dns record.
- * @param string $content the value of the dns record, or what its set to.
- * @param string $type  dns record type.
- * @param int $ttl dns record time to live, or update time.
- * @param int $prio dns record priority
- * @return bool True on success, False on failure.
- */
+* update_dns_record()
+* Update a DNS Record for a given domain id.  It will take care of updating the SOA/Serial number
+* after the update so you dont need to worry about that.
+*
+* @see API
+* @param integer $domain_id The ID of the domain in question.
+* @param integer $record_id The ID of the record to update
+* @param string $name the hostname being set on the dns record.
+* @param string $content the value of the dns record, or what its set to.
+* @param string $type  dns record type.
+* @param int $ttl dns record time to live, or update time.
+* @param int $prio dns record priority
+* @return bool True on success, False on failure.
+*/
 function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio)
 {
     $domain_id = (int)$domain_id;
@@ -249,13 +249,13 @@ function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl,
 }
 
 /**
- * delete_dns_record()
- * deletes a domain from the system
- *
- * @see API
- * @param int $domain_id The ID of the domain in question.
- * @return bool will return true if it succeeded, or false if there was some type of error.
- */
+* delete_dns_record()
+* deletes a domain from the system
+*
+* @see API
+* @param int $domain_id The ID of the domain in question.
+* @return bool will return true if it succeeded, or false if there was some type of error.
+*/
 function delete_dns_domain($domain_id)
 {
     $domain_id = (int)$domain_id;
@@ -271,17 +271,17 @@ function delete_dns_domain($domain_id)
 }
 
 /**
- * add_dns_domain()
- * adds a new domain into our system.
- *
- * status will be "ok" if it added, or "error" if there was any problems
- * status_text will contain a description of the problem if any.
- *
- * @see API
- * @param string $domain domain name to host
- * @param string $ip ip address to assign it to.
- * @return array array with status and status_text
- */
+* add_dns_domain()
+* adds a new domain into our system.
+*
+* status will be "ok" if it added, or "error" if there was any problems
+* status_text will contain a description of the problem if any.
+*
+* @see API
+* @param string $domain domain name to host
+* @param string $ip ip address to assign it to.
+* @return array array with status and status_text
+*/
 function add_dns_domain($domain, $ip)
 {
     $return['status'] = 'error';
@@ -452,16 +452,20 @@ function add_dns_domain($domain, $ip)
 }
 
 /**
- * reverse_dns()
- * sets up reverse dns for a given IP address.
- *
- * @param string $ip the ip address you want reverse changed for.
- * @param string $hostname the hostname you'd you want to set DNS on the IP to.
- * @param string $action optional, defaults to set_reverse, can also be remove_reverse
- * @return bool true if it was able to make the requested changes, false if it wasn't.
- */
+* reverse_dns()
+* sets up reverse dns for a given IP address.
+*
+* @param string $ip the ip address you want reverse changed for.
+* @param string $hostname the hostname you'd you want to set DNS on the IP to.
+* @param string $action optional, defaults to set_reverse, can also be remove_reverse
+* @return bool true if it was able to make the requested changes, false if it wasn't.
+*/
 function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
 {
+    $debug = false;
+    if ($debug === true) {
+        myadmin_log('myadmiin', 'debug', "reverse_dns({$ip}, {$hostname}, {$action}) called", __LINE__, __FILE__);
+    }
     $actions = ['set_reverse', 'remove_reverse'];
     if (!in_array($action, $actions)) {
         $action = 'set_reverse';
@@ -492,45 +496,78 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
     $ipParts = explode('.', $ip);
     $arpa = "{$ipParts[2]}.{$ipParts[1]}.{$ipParts[0]}.in-addr.arpa";
     // check for zone entry in bind conf
-    $ssh->addCommand("grep '^[ \t]*zone[ \t]*\"{$arpa}\"' /etc/named.conf", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($ip, $arpa) {
+    $ssh->addCommand("grep '^[ \t]*zone[ \t]*\"{$arpa}\"' /etc/named.conf", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug, $ip, $arpa) {
+        if ($exitStatus != 0 || $debug === true) {
+            myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+        }
         global $ssh;
         if (trim($stdout) == '') {
             // no zone entry, create it
-            $ssh->addCommand('echo -e "\nzone \"'.$arpa.'\" {\n    type master;\n    file \"/var/named/'.$arpa.'\";\n};\n" >> /etc/named.conf;');
+            $ssh->addCommand("printf '\\nzone \"{$arpa}\" {\\n    type master;\\n    file \"/var/named/{$arpa}\";\\n};\\n' >> /etc/named.conf;", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
+                if ($exitStatus != 0 || $debug === true) {
+                    myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+                }
+            });
             $ssh->run();
         }
     });
     $ssh->run();
     // ensure zone file exists
-    $ssh->addCommand("ls /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($ip, $arpa, $hostname, $ipParts) {
+    $ssh->addCommand("ls /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug, $ip, $arpa, $hostname, $ipParts) {
+        if ($exitStatus != 0 || $debug === true) {
+            myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+        }
         global $ssh;
         if ($exitStatus != 0 || trim($stdout) == '') {
             // create zone file
             $time = time();
-            $ssh->addCommand("echo -e \"\$TTL 86400\n@               IN      SOA     dns.trouble-free.net. root.dns.trouble-free.net. (\n                        {$time}       ; serial\n                        28800           ; refresh\n                        14400           ; retry\n                        3600000         ; expire\n                        86400           ; default_ttl\n                        )\n                IN      NS      dns.trouble-free.net.\n                IN      NS      dns2.trouble-free.net.\n\n\" > /var/named/{$arpa}");
+            $ssh->addCommand("printf '\$TTL 86400\\n@               IN      SOA     dns.trouble-free.net. root.dns.trouble-free.net. (\\n                        {$time}       ; serial\\n                        28800           ; refresh\\n                        14400           ; retry\\n                        3600000         ; expire\\n                        86400           ; default_ttl\\n                        )\\n                IN      NS      dns.trouble-free.net.\\n                IN      NS      dns2.trouble-free.net.\\n\\n' > /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
+                if ($exitStatus != 0 || $debug === true) {
+                    myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+                }
+            });
             $ssh->run();
         }
     });                                    
     $ssh->run();
     if ($hostname != '' && $action == 'set_reverse') {
         // handle zone file entry
-        $ssh->addCommand("grep \"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR\" /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($ip, $arpa, $hostname, $ipParts) {
+        $ssh->addCommand("grep '^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR' /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug, $ip, $arpa, $hostname, $ipParts) {
+            if ($exitStatus != 0 || $debug === true) {
+                myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+            }
             global $ssh;
             if (trim($stdout) == '') {
                 // no zone entry, create it
-                $ssh->addCommand("echo -e \"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\" >> /var/named/{$arpa}");        
+                $ssh->addCommand("printf '{$ipParts[3]}\\tIN\\tPTR\\t{$hostname}.\\n' >> /var/named/{$arpa}", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
+                    if ($exitStatus != 0 || $debug === true) {
+                        myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+                    }
+                });        
             } else {
-                $ssh->addCommand("sed s#\"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$\"#\"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\"#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};");        
+                $ssh->addCommand("sed s#'^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$'#'{$ipParts[3]}\tIN\tPTR\t{$hostname}.'#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
+                    if ($exitStatus != 0 || $debug === true) {
+                        myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+                    }
+                });        
             }
             $ssh->run();
         });
     } else {
         // remove entry
-        $ssh->addCommand("sed s#\"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$\"#\"\"#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};");
+        $ssh->addCommand("sed s#'^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$'#''#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
+            if ($exitStatus != 0 || $debug === true) {
+                myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+            }
+        });
     }
     $ssh->run();
     // reload bind        
-    $ssh->addCommand("/usr/local/sbin/rndc reload");
+    $ssh->addCommand("/usr/local/sbin/rndc reload", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
+        if ($exitStatus != 0 || $debug === true) {
+            myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
+        }
+    });
     $ssh->run();
     return true;
 }
