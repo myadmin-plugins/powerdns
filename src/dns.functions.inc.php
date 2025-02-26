@@ -496,7 +496,7 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
         global $ssh;
         if (trim($stdout) == '') {
             // no zone entry, create it
-            $ssh->addCommand('echo -e \'\nzone "'.$arpa.'" {\n    type master;\n    file "/var/named/'.$arpa.'";\n};\n\' >> /etc/named.conf;');
+            $ssh->addCommand('echo -e "\nzone \"'.$arpa.'\" {\n    type master;\n    file \"/var/named/'.$arpa.'\";\n};\n" >> /etc/named.conf;');
             $ssh->run();
         }
     });
@@ -507,7 +507,7 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
         if ($exitStatus != 0 || trim($stdout) == '') {
             // create zone file
             $time = time();
-            $ssh->addCommand("echo '\$TTL 86400\n@               IN      SOA     dns.trouble-free.net. root.dns.trouble-free.net. (\n                        {$time}       ; serial\n                        28800           ; refresh\n                        14400           ; retry\n                        3600000         ; expire\n                        86400           ; default_ttl\n                        )\n                IN      NS      dns.trouble-free.net.\n                IN      NS      dns2.trouble-free.net.\n\n' > /var/named/{$arpa}");
+            $ssh->addCommand("echo -e \"\$TTL 86400\n@               IN      SOA     dns.trouble-free.net. root.dns.trouble-free.net. (\n                        {$time}       ; serial\n                        28800           ; refresh\n                        14400           ; retry\n                        3600000         ; expire\n                        86400           ; default_ttl\n                        )\n                IN      NS      dns.trouble-free.net.\n                IN      NS      dns2.trouble-free.net.\n\n\" > /var/named/{$arpa}");
             $ssh->run();
         }
     });                                    
@@ -518,7 +518,7 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
             global $ssh;
             if (trim($stdout) == '') {
                 // no zone entry, create it
-                $ssh->addCommand("echo \"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\" >> /var/named/{$arpa}");        
+                $ssh->addCommand("echo -e \"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\" >> /var/named/{$arpa}");        
             } else {
                 $ssh->addCommand("sed s#\"^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$\"#\"{$ipParts[3]}\tIN\tPTR\t{$hostname}.\"#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};");        
             }
