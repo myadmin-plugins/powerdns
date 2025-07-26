@@ -329,7 +329,7 @@ function update_soa_serial($domain_id)
  *
  * @return boolean true on success, false otherwise
  */
-function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$error)
+function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$error = '')
 {
     $zone = get_zone_name_from_id($zid);    // TODO check for return
 
@@ -610,7 +610,7 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_hostname_fqdn(&$hostname, $wildcard, &$error)
+function is_valid_hostname_fqdn(&$hostname, $wildcard, &$error = '')
 {
     global $dns_top_level_tld_check;
     global $dns_strict_tld_check;
@@ -699,7 +699,7 @@ function is_valid_hostname_fqdn(&$hostname, $wildcard, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_ipv4($ipv4, $answer = true, &$error)
+function is_valid_ipv4($ipv4, $answer = true, &$error = '')
 {
     if (filter_var($ipv4, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4) === false) {
         if ($answer) {
@@ -719,7 +719,7 @@ function is_valid_ipv4($ipv4, $answer = true, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_ipv6($ipv6, $answer = true, &$error)
+function is_valid_ipv6($ipv6, $answer = true, &$error = '')
 {
     if (filter_var($ipv6, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === false) {
         if ($answer) {
@@ -776,7 +776,7 @@ function are_multipe_valid_ips($ips)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_printable($string, &$error)
+function is_valid_printable($string, &$error = '')
 {
     if (!preg_match('/^[[:print:]]+$/', trim($string))) {
         $error = _('Invalid characters have been used in this record.');
@@ -794,7 +794,7 @@ function is_valid_printable($string, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_cname_name($name, &$error)
+function is_valid_rr_cname_name($name, &$error = '')
 {
     $db_mdb2 = get_db_mdb2();
 
@@ -820,7 +820,7 @@ function is_valid_rr_cname_name($name, &$error)
  *
  * @return boolean true if non-existant, false if exists
  */
-function is_valid_rr_cname_exists($name, $rid, &$error)
+function is_valid_rr_cname_exists($name, $rid, &$error = '')
 {
     $db_mdb2 = get_db_mdb2();
 
@@ -845,7 +845,7 @@ function is_valid_rr_cname_exists($name, $rid, &$error)
  *
  * @return boolean true if unique, false if duplicate
  */
-function is_valid_rr_cname_unique($name, $rid, &$error)
+function is_valid_rr_cname_unique($name, $rid, &$error = '')
 {
     $db_mdb2 = get_db_mdb2();
 
@@ -885,7 +885,7 @@ function is_not_empty_cname_rr($name, $zone)
  *
  * @return boolean true if not alias, false if CNAME exists
  */
-function is_valid_non_alias_target($target, &$error)
+function is_valid_non_alias_target($target, &$error = '')
 {
     $db_mdb2 = get_db_mdb2();
 
@@ -908,7 +908,7 @@ function is_valid_non_alias_target($target, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_hinfo_content($content, &$error)
+function is_valid_rr_hinfo_content($content, &$error = '')
 {
     if ($content[0] == '"') {
         $fields = preg_split('/(?<=") /', $content, 2);
@@ -933,7 +933,7 @@ function is_valid_rr_hinfo_content($content, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_soa_content(&$content, &$error)
+function is_valid_rr_soa_content(&$content, &$error = '')
 {
     $fields = preg_split("/\s+/", trim($content));
     $field_count = count($fields);
@@ -1002,7 +1002,7 @@ function is_valid_rr_soa_content(&$content, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_soa_name($name, $zone, &$error)
+function is_valid_rr_soa_name($name, $zone, &$error = '')
 {
     if ($name != $zone) {
         $error = _('Invalid value for name field of SOA record.').' '._('It should be the name of the zone.');
@@ -1021,7 +1021,7 @@ function is_valid_rr_soa_name($name, $zone, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_prio(&$prio, $type, &$error)
+function is_valid_rr_prio(&$prio, $type, &$error = '')
 {
     if ($type == 'MX' || $type == 'SRV') {
         if (!is_numeric($prio) || $prio < 0 || $prio > 65535) {
@@ -1042,7 +1042,7 @@ function is_valid_rr_prio(&$prio, $type, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_srv_name(&$name, &$error)
+function is_valid_rr_srv_name(&$name, &$error = '')
 {
     if (strlen($name) > 255) {
         $error = _('The hostname is too long.');
@@ -1073,7 +1073,7 @@ function is_valid_rr_srv_name(&$name, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_rr_srv_content(&$content, &$error)
+function is_valid_rr_srv_content(&$content, &$error = '')
 {
     $fields = preg_split("/\s+/", trim($content), 3);
     if (!is_numeric($fields[0]) || $fields[0] < 0 || $fields[0] > 65535) {
@@ -1099,7 +1099,7 @@ function is_valid_rr_srv_content(&$content, &$error)
  *
  * @return boolean true if valid,false otherwise
  */
-function is_valid_rr_ttl(&$ttl, &$error)
+function is_valid_rr_ttl(&$ttl, &$error = '')
 {
     if (!isset($ttl) || $ttl == '') {
         global $dns_ttl;
@@ -1121,7 +1121,7 @@ function is_valid_rr_ttl(&$ttl, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_search($search_string, &$error)
+function is_valid_search($search_string, &$error = '')
 {
 
     // Only allow for alphanumeric, numeric, dot, dash, underscore and
@@ -1138,7 +1138,7 @@ function is_valid_search($search_string, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_spf($content, &$error)
+function is_valid_spf($content, &$error = '')
 {
     //Regex from http://www.schlitt.net/spf/tests/spf_record_regexp-03.txt
     $regex = "^[Vv]=[Ss][Pp][Ff]1( +([-+?~]?([Aa][Ll][Ll]|[Ii][Nn][Cc][Ll][Uu][Dd][Ee]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Aa](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Mm][Xx](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?((/([1-9]|1[0-9]|2[0-9]|3[0-2]))?(//([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?)?|[Pp][Tt][Rr](:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))?|[Ii][Pp]4:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])(/([1-9]|1[0-9]|2[0-9]|3[0-2]))?|[Ii][Pp]6:(::|([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){1,8}:|([0-9A-Fa-f]{1,4}:){7}:[0-9A-Fa-f]{1,4}|([0-9A-Fa-f]{1,4}:){6}(:[0-9A-Fa-f]{1,4}){1,2}|([0-9A-Fa-f]{1,4}:){5}(:[0-9A-Fa-f]{1,4}){1,3}|([0-9A-Fa-f]{1,4}:){4}(:[0-9A-Fa-f]{1,4}){1,4}|([0-9A-Fa-f]{1,4}:){3}(:[0-9A-Fa-f]{1,4}){1,5}|([0-9A-Fa-f]{1,4}:){2}(:[0-9A-Fa-f]{1,4}){1,6}|[0-9A-Fa-f]{1,4}:(:[0-9A-Fa-f]{1,4}){1,7}|:(:[0-9A-Fa-f]{1,4}){1,8}|([0-9A-Fa-f]{1,4}:){6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){6}:([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|[0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])|::([0-9A-Fa-f]{1,4}:){0,6}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(/([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8]))?|[Ee][Xx][Ii][Ss][Tt][Ss]:(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}))|[Rr][Ee][Dd][Ii][Rr][Ee][Cc][Tt]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[Ee][Xx][Pp]=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*(\.([A-Za-z]|[A-Za-z]([-0-9A-Za-z]?)*[0-9A-Za-z])|%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\})|[A-Za-z][-.0-9A-Z_a-z]*=(%\{[CDHILOPR-Tcdhilopr-t]([1-9][0-9]?|10[0-9]|11[0-9]|12[0-8])?[Rr]?[+-/=_]*\}|%%|%_|%-|[!-$&-~])*))* *$^";
@@ -1156,7 +1156,7 @@ function is_valid_spf($content, &$error)
  *
  * @return boolean true if valid, false otherwise
  */
-function is_valid_loc($content, &$error)
+function is_valid_loc($content, &$error = '')
 {
     $regex = "^(90|[1-8]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [NS] (180|1[0-7]\d|[1-9]\d|0?\d)( ([1-5]\d|0?\d)( ([1-5]\d|0?\d)(\.\d{1,3})?)?)? [EW] (-(100000(\.00)?|\d{1,5}(\.\d\d)?)|([1-3]?\d{1,7}(\.\d\d)?|4([01][0-9]{6}|2([0-7][0-9]{5}|8([0-3][0-9]{4}|4([0-8][0-9]{3}|9([0-5][0-9]{2}|6([0-6][0-9]|7[01]))))))(\.\d\d)?|42849672(\.([0-8]\d|9[0-5]))?))[m]?( (\d{1,7}|[1-8]\d{7})(\.\d\d)?[m]?){0,3}$^";
     if (!preg_match($regex, $content)) {
