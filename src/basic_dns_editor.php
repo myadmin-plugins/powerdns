@@ -26,7 +26,7 @@ function basic_dns_editor()
             if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '') {
                 $GLOBALS['tf']->variables->request['prio'] = 10;
             }
-            if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'])) {
+            if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'], $error)) {
                 $record = $GLOBALS['tf']->variables->request['update'];
                 $name = $GLOBALS['tf']->variables->request['name'];
                 $type = $GLOBALS['tf']->variables->request['type'];
@@ -47,7 +47,7 @@ function basic_dns_editor()
                     update_dns_record($domain_id, $record, $name, $content, $type, $ttl, $prio);
                 }
             } else {
-                add_output('There were errors validating your data');
+                add_output('There were errors validating your data: '.$error);
             }
             unset($GLOBALS['tf']->variables->request['update']);
             unset($GLOBALS['tf']->variables->request['record']);

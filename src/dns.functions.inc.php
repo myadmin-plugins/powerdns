@@ -158,12 +158,14 @@ function delete_dns_record($domain_id, $record_id)
 * @param integer $ttl dns record time to live, or update time.
 * @param integer $prio dns record priority
 * @param bool $bypass defaults to false, whether ot not to bypass domain ownership check
+* @param string $error optional, Any error text will get stored here
+*
 * @return int|false The ID of the newly added record, or false on error..
 */
-function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false)
+function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false, &$error)
 {
     $domain_id = (int)$domain_id;
-    if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl)) {
+    if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl, $error)) {
         return false;
     }
     if (!$domain_info = get_dns_domain($domain_id, $bypass)) {
@@ -210,13 +212,15 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
 * @param string $type  dns record type.
 * @param int $ttl dns record time to live, or update time.
 * @param int $prio dns record priority
+* @param string $error optional, Any error text will get stored here
+*
 * @return bool True on success, False on failure.
 */
-function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio)
+function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio, &$error)
 {
     $domain_id = (int)$domain_id;
     $record_id = (int)$record_id;
-    if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl)) {
+    if (!validate_input($record_id, $domain_id, $type, $content, $name, $prio, $ttl, $error)) {
         return false;
     }
     if (!$domain_info = get_dns_domain($domain_id)) {
@@ -528,7 +532,7 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
             });
             $ssh->run();
         }
-    });                                    
+    });
     $ssh->run();
     if ($hostname != '' && $action == 'set_reverse') {
         // handle zone file entry
@@ -543,13 +547,13 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
                     if ($exitStatus != 0 || $debug === true) {
                         myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
                     }
-                });        
+                });
             } else {
                 $ssh->addCommand("sed s#'^[ \t]*{$ipParts[3]}[ \t]*IN[ \t]*PTR.*$'#'{$ipParts[3]}\tIN\tPTR\t{$hostname}.'#g /var/named/{$arpa} > /var/named/{$arpa}.backup; cat /var/named/{$arpa}.backup > /var/named/{$arpa};", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
                     if ($exitStatus != 0 || $debug === true) {
                         myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
                     }
-                });        
+                });
             }
             $ssh->run();
         });
@@ -562,7 +566,7 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
         });
     }
     $ssh->run();
-    // reload bind        
+    // reload bind
     $ssh->addCommand("/usr/local/sbin/rndc reload", null, null, function($cmd, $conId, $data, $exitStatus, $stdout, $stderr) use ($debug) {
         if ($exitStatus != 0 || $debug === true) {
             myadmin_log('myadmain', 'debug', __FUNCTION__.' cmd '.$cmd.' out '.$stdout.' err '.$stderr.' exit '.(int)$exitStatus, __LINE__, __FILE__);
