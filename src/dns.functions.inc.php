@@ -162,7 +162,7 @@ function delete_dns_record($domain_id, $record_id)
 *
 * @return int|false The ID of the newly added record, or false on error..
 */
-function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false, &$error)
+function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass = false, &$error = '')
 {
     $domain_id = (int)$domain_id;
     if (!validate_input(-1, $domain_id, $type, $content, $name, $prio, $ttl, $error)) {
@@ -216,7 +216,7 @@ function add_dns_record($domain_id, $name, $content, $type, $ttl, $prio, $bypass
 *
 * @return bool True on success, False on failure.
 */
-function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio, &$error)
+function update_dns_record($domain_id, $record_id, $name, $content, $type, $ttl, $prio, &$error = '')
 {
     $domain_id = (int)$domain_id;
     $record_id = (int)$record_id;
