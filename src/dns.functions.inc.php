@@ -332,8 +332,6 @@ function add_dns_domain($domain, $ip)
             $return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact support@interserver.net if you want more';
             return $return;
         }
-    }
-    if ($GLOBALS['tf']->ima != 'admin') {
         $tlds = array_merge(get_known_tlds(), get_effective_tld_rules());
         $tldsize = count($tlds);
         $found_tld = false;
