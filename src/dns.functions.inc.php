@@ -472,6 +472,9 @@ function reverse_dns($ip, $hostname = '', $action = 'set_reverse'): bool
     if (!in_array($action, $actions)) {
         $action = 'set_reverse';
     }
+    if (empty(trim($hostname))) {
+        $action = 'remove_reverse';
+    }
     if ($action == 'set_reverse') {
         if (!valid_hostname($hostname)) {
             dialog('Invalid', "Your reverse dns setting for <b>$ip</b> of <b>$hostname</b> does not appear to be a valid domain name.  Please try again or contact support@interserver.net for assistance.");
