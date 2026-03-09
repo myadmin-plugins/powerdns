@@ -328,7 +328,7 @@ function add_dns_domain($domain, $ip)
         $result = $db->query($query);
         $db->next_record(MYSQL_NUM);
         $domains = $db->f(0);
-        if ($custid != 9110 && $domains >= MAX_DNS_DOMAINS) {
+        if (!in_array($custid, [9110, 1036449]) && $domains >= MAX_DNS_DOMAINS) {
             $return['status_text'] = 'You already have ' . $domains . ' domains hosted here, please contact support@interserver.net if you want more';
             return $return;
         }
