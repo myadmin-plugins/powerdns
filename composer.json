@@ -1,39 +1,46 @@
 {
 	"name": "detain/myadmin-powerdns",
 	"type": "myadmin-plugin",
-	"description": "Kayako handling plugin for MyAdmin",
+	"description": "PowerDNS DNS management plugin for the MyAdmin control panel, providing domain hosting, record management, and reverse DNS functionality through a PowerDNS backend.",
 	"keywords": [
-		"abuse",
-		"administration",
-		"spam"
+		"dns",
+		"powerdns",
+		"domain",
+		"myadmin",
+		"plugin",
+		"nameserver",
+		"reverse-dns"
 	],
 	"license": "LGPL-2.1-only",
 	"authors": [
 		{
 			"name": "Joe Huss",
-			"homepage": "https:\/\/my.interserver.net\/"
+			"homepage": "https://my.interserver.net/"
 		}
 	],
 	"config": {
-		"bin-dir": "vendor\/bin",
-		"minimum-stability": "dev"
+		"bin-dir": "vendor/bin",
+		"minimum-stability": "dev",
+		"allow-plugins": {
+			"detain/myadmin-plugin-installer": true
+		}
 	},
 	"require": {
 		"php": ">=5.0.0",
 		"symfony/event-dispatcher": "^5.0@stable",
 		"detain/myadmin-plugin-installer": "dev-master"
-    },
+	},
 	"require-dev": {
-		"phpunit/phpunit": "*",
-		"phpunit/phpunit-mock-objects": "*",
-		"vlucas/phpdotenv": "*",
-		"codeclimate/php-test-reporter": "dev-master",
-		"satooshi/php-coveralls": "*",
-		"codacy/coverage": "dev-master"
+		"phpunit/phpunit": "^9.6"
 	},
 	"autoload": {
 		"psr-4": {
 			"Detain\\MyAdminPowerDns\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Detain\\MyAdminPowerDns\\Tests\\": "tests/"
 		}
 	}
 }
