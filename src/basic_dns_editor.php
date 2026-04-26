@@ -4,40 +4,40 @@ function basic_dns_editor()
 {
     $smarty = new TFSmarty();
     page_title(_('Basic DNS Editor'));
-    $custid = $GLOBALS['tf']->session->account_id;
-    $domain_id = (int)$GLOBALS['tf']->variables->request['edit'];
+    $custid = \MyAdmin\App::session()->account_id;
+    $domain_id = (int)\MyAdmin\App::variables()->request['edit'];
     $types = [
         'A' => 'Point To IP',
         'CNAME' => 'Points To Hostname',
         'MX' => 'Send Mail To'
     ];
     $table = new TFTable;
-    if (isset($GLOBALS['tf']->variables->request['update']) || isset($GLOBALS['tf']->variables->request['delete'])) {
+    if (isset(\MyAdmin\App::variables()->request['update']) || isset(\MyAdmin\App::variables()->request['delete'])) {
         $verify_csrf = verify_csrf('dns_editor');
     }
     $csrf_token = $table->csrf('dns_editor', false);
     function_requirements('get_dns_domain');
     $domain = get_dns_domain($domain_id, false, 'view_service');
     if ($domain !== false) {
-        if ($GLOBALS['tf']->ima == 'admin') {
-            add_output(_('Domain Owner') . ':' . $GLOBALS['tf']->accounts->cross_reference($domain['account']) . '<br>');
+        if (\MyAdmin\App::ima() == 'admin') {
+            add_output(_('Domain Owner') . ':' . \MyAdmin\App::accounts()->cross_reference($domain['account']) . '<br>');
         }
-        if (isset($GLOBALS['tf']->variables->request['update']) && $verify_csrf) {
-            if ($GLOBALS['tf']->variables->request['type'] == 'MX' && $GLOBALS['tf']->variables->request['prio'] == '') {
-                $GLOBALS['tf']->variables->request['prio'] = 10;
+        if (isset(\MyAdmin\App::variables()->request['update']) && $verify_csrf) {
+            if (\MyAdmin\App::variables()->request['type'] == 'MX' && \MyAdmin\App::variables()->request['prio'] == '') {
+                \MyAdmin\App::variables()->request['prio'] = 10;
             }
-            if (validate_input($GLOBALS['tf']->variables->request['update'], $domain_id, $GLOBALS['tf']->variables->request['type'], $GLOBALS['tf']->variables->request['content'], $GLOBALS['tf']->variables->request['name'], $GLOBALS['tf']->variables->request['prio'], $GLOBALS['tf']->variables->request['ttl'], $error)) {
-                $record = $GLOBALS['tf']->variables->request['update'];
-                $name = $GLOBALS['tf']->variables->request['name'];
-                $type = $GLOBALS['tf']->variables->request['type'];
+            if (validate_input(\MyAdmin\App::variables()->request['update'], $domain_id, \MyAdmin\App::variables()->request['type'], \MyAdmin\App::variables()->request['content'], \MyAdmin\App::variables()->request['name'], \MyAdmin\App::variables()->request['prio'], \MyAdmin\App::variables()->request['ttl'], $error)) {
+                $record = \MyAdmin\App::variables()->request['update'];
+                $name = \MyAdmin\App::variables()->request['name'];
+                $type = \MyAdmin\App::variables()->request['type'];
                 if ($type == 'SPF') {
-                    $content = $GLOBALS['tf']->variables->request['content'];
+                    $content = \MyAdmin\App::variables()->request['content'];
                 } else {
-                    $content = $GLOBALS['tf']->variables->request['content'];
+                    $content = \MyAdmin\App::variables()->request['content'];
                 }
-                $ttl = $GLOBALS['tf']->variables->request['ttl'];
-                $prio = $GLOBALS['tf']->variables->request['prio'];
-                if (isset($GLOBALS['tf']->variables->request['update']) && $GLOBALS['tf']->variables->request['update'] == -1) {
+                $ttl = \MyAdmin\App::variables()->request['ttl'];
+                $prio = \MyAdmin\App::variables()->request['prio'];
+                if (isset(\MyAdmin\App::variables()->request['update']) && \MyAdmin\App::variables()->request['update'] == -1) {
                     function_requirements('add_dns_record');
                     add_dns_record($domain_id, $name, $content, $type, $ttl, $prio);
                     add_output('Record Added');
@@ -49,13 +49,13 @@ function basic_dns_editor()
             } else {
                 add_output('There were errors validating your data: '.$error);
             }
-            unset($GLOBALS['tf']->variables->request['update']);
-            unset($GLOBALS['tf']->variables->request['record']);
+            unset(\MyAdmin\App::variables()->request['update']);
+            unset(\MyAdmin\App::variables()->request['record']);
         }
-        if (isset($GLOBALS['tf']->variables->request['delete']) && $GLOBALS['tf']->variables->request['delete'] == 1 && $verify_csrf) {
-            delete_dns_record($domain_id, $GLOBALS['tf']->variables->request['record']);
-            unset($GLOBALS['tf']->variables->request['delete']);
-            unset($GLOBALS['tf']->variables->request['record']);
+        if (isset(\MyAdmin\App::variables()->request['delete']) && \MyAdmin\App::variables()->request['delete'] == 1 && $verify_csrf) {
+            delete_dns_record($domain_id, \MyAdmin\App::variables()->request['record']);
+            unset(\MyAdmin\App::variables()->request['delete']);
+            unset(\MyAdmin\App::variables()->request['record']);
         }
         $table->add_hidden('edit', $domain_id);
         $table->set_title('Basic DNS Domain Editor ' . $table->make_link('choice=none.dns_editor&amp;id=' . $domain_id, '(Advanced)'));
@@ -71,7 +71,7 @@ function basic_dns_editor()
             if (in_array($record['type'], ['SOA', 'NS'])) {
                 continue;
             }
-            if (isset($GLOBALS['tf']->variables->request['record']) && $GLOBALS['tf']->variables->request['record'] == $record['id']) {
+            if (isset(\MyAdmin\App::variables()->request['record']) && \MyAdmin\App::variables()->request['record'] == $record['id']) {
                 $table->add_hidden('update', $record['id']);
                 $table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="' . trim(str_replace($domain['name'], '', $record['name']), '.') . '" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
                 $sel = "<select name=\"type\">\n";
@@ -117,7 +117,7 @@ function basic_dns_editor()
                 $table->add_row();
             }
         }
-        if (!isset($GLOBALS['tf']->variables->request['record'])) {
+        if (!isset(\MyAdmin\App::variables()->request['record'])) {
             $table->add_hidden('update', -1);
             $table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
             $sel = "<select name=\"type\">\n";

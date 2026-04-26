@@ -78,9 +78,9 @@ function get_dns_domain($domain_id, $bypass = false, $acl = false)
 {
     $domain_id = (int)$domain_id;
     $db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-    $custid = $GLOBALS['tf']->session->account_id;
+    $custid = \MyAdmin\App::session()->account_id;
     function_requirements('has_acl');
-    if ($bypass === true || ($GLOBALS['tf']->ima == 'admin' && ($acl == false || has_acl($acl)))) {
+    if ($bypass === true || (\MyAdmin\App::ima() == 'admin' && ($acl == false || has_acl($acl)))) {
         $db->query("select * from domains where id='{$domain_id}'");
     } else {
         $db->query("select * from domains where id='{$domain_id}' and account='{$custid}'");
@@ -105,8 +105,8 @@ function get_dns_records($domain_id, $bypass = false)
 {
     $domain_id = (int)$domain_id;
     $db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-    $custid = $GLOBALS['tf']->session->account_id;
-    if ($GLOBALS['tf']->ima == 'admin' || $bypass == true) {
+    $custid = \MyAdmin\App::session()->account_id;
+    if (\MyAdmin\App::ima() == 'admin' || $bypass == true) {
         $db->query("select * from records where domain_id='{$domain_id}'");
     } else {
         $db->query("select records.* from records, domains where domains.id='{$domain_id}' and account='{$custid}' and domain_id=domains.id");
@@ -293,10 +293,10 @@ function add_dns_domain($domain, $ip)
     $domain = strtolower($domain);
     //myadmin_log('dns', 'info', "new db_mdb2(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
     $db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-    $custid = $GLOBALS['tf']->session->account_id;
+    $custid = \MyAdmin\App::session()->account_id;
     $module = get_module_name('default');
     $settings = get_module_settings($module);
-    $data = $GLOBALS['tf']->accounts->read($custid);
+    $data = \MyAdmin\App::accounts()->read($custid);
     if (!valid_domain($domain)) {
         $return['status_text'] = 'Invalid Domain Name';
         return $return;
@@ -315,15 +315,15 @@ function add_dns_domain($domain, $ip)
     if ($result) {
         if ($db->num_rows() > 0) {
             $db->next_record(MYSQLI_ASSOC);
-            if ($GLOBALS['tf']->ima == 'admin') {
-                $return['status_text'] = 'That Domain Is Already Setup On Our Servers under ' . $GLOBALS['tf']->accounts->cross_reference($db->Record['account']) . ', Try Another Or Contact support@interserver.net';
+            if (\MyAdmin\App::ima() == 'admin') {
+                $return['status_text'] = 'That Domain Is Already Setup On Our Servers under ' . \MyAdmin\App::accounts()->cross_reference($db->Record['account']) . ', Try Another Or Contact support@interserver.net';
             } else {
                 $return['status_text'] = 'That Domain Is Already Setup On Our Servers, Try Another Or Contact support@interserver.net';
             }
             return $return;
         }
     }
-    if ($GLOBALS['tf']->ima != 'admin') {
+    if (\MyAdmin\App::ima() != 'admin') {
         $query = "select count(*) from domains where domains.account='{$custid}'";
         $result = $db->query($query);
         $db->next_record(MYSQL_NUM);

@@ -14,12 +14,12 @@ function dns_delete()
 {
     page_title(_('Delete DNS Record'));
     $db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-    $domain_id = $db->real_escape($GLOBALS['tf']->variables->request['id']);
+    $domain_id = $db->real_escape(\MyAdmin\App::variables()->request['id']);
     $table = new TFTable;
     function_requirements('get_dns_domain');
     $result = get_dns_domain($domain_id);
     if ($result !== false) {
-        if (isset($GLOBALS['tf']->variables->request['confirm']) && $GLOBALS['tf']->variables->request['confirm'] == 'yes' && verify_csrf('dns_delete')) {
+        if (isset(\MyAdmin\App::variables()->request['confirm']) && \MyAdmin\App::variables()->request['confirm'] == 'yes' && verify_csrf('dns_delete')) {
             function_requirements('delete_dns_domain');
             delete_dns_domain($domain_id);
             flash_message('success', 'Domain DNS removed.', 'dns_manager');

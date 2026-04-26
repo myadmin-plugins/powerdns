@@ -16,11 +16,11 @@
     require_once __DIR__.'/../../../../include/functions.inc.php';
 
     function_requirements('add_dns_domain');
-    $custid = $GLOBALS['tf']->accounts->cross_reference($account);
+    $custid = \MyAdmin\App::accounts()->cross_reference($account);
     $webpage = false;
     define('VERBOSE_MODE', false);
-    $GLOBALS['tf']->session->create($custid, 'admin');
-    $sid = $GLOBALS['tf']->session->sessionid;
+    \MyAdmin\App::session()->create($custid, 'admin');
+    $sid = \MyAdmin\App::session()->sessionid;
     function_requirements('add_dns_domain');
     print_r(add_dns_domain($dns_domain, $dns_ip));
-    $GLOBALS['tf']->session->destroy();
+    \MyAdmin\App::session()->destroy();

@@ -11,7 +11,7 @@
 
     require_once __DIR__.'/../../../../include/functions.inc.php';
 
-    $db = clone $GLOBALS['tf']->db;
+    $db = clone \MyAdmin\App::db();
     $db->query("select history_owner, history_new_value from history_log where history_type='dns_manager' and history_new_value like '%new%'");
     while ($db->next_record(MYSQL_ASSOC)) {
         $data = myadmin_unstringify($db->Record['history_new_value']);
