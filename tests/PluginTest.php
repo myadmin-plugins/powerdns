@@ -10,8 +10,6 @@ use MyAdmin\Plugins\Testing\PluginContractTestCase;
 /** Contract assertions for the PowerDNS plugin. */
 class PluginTest extends PluginContractTestCase
 {
-    use DeferredPhase5Defects;
-
     /** @return string */
     protected function pluginClass()
     {
