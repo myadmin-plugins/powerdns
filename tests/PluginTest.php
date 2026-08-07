@@ -140,13 +140,20 @@ class PluginTest extends TestCase
     }
 
     /**
-     * Test that getHooks contains the system.settings hook.
+     * The plugin contributes no settings, so it must not register system.settings.
+     *
+     * It did until this commit, pointing at a getSettings() whose entire body was
+     * commented out — the settings page rendered empty. This asserts the removal
+     * rather than the old registration, which was a lock on the defect.
      */
-    public function testGetHooksContainsSystemSettings(): void
+    public function testGetHooksDoesNotRegisterSystemSettings(): void
     {
-        $hooks = Plugin::getHooks();
-        $this->assertArrayHasKey('system.settings', $hooks);
-        $this->assertSame([Plugin::class, 'getSettings'], $hooks['system.settings']);
+        $this->assertArrayNotHasKey('system.settings', Plugin::getHooks());
+        $this->assertFalse(
+            method_exists(Plugin::class, 'getSettings'),
+            'getSettings() was removed with its hook; re-adding one without the other'
+            .' is what produced the empty settings page.'
+        );
     }
 
     /**
@@ -201,19 +208,6 @@ class PluginTest extends TestCase
     public function testGetRequirementsMethodSignature(): void
     {
         $method = $this->reflection->getMethod('getRequirements');
-        $params = $method->getParameters();
-        $this->assertCount(1, $params);
-        $type = $params[0]->getType();
-        $this->assertNotNull($type);
-        $this->assertSame(GenericEvent::class, $type->getName());
-    }
-
-    /**
-     * Test that getSettings accepts a GenericEvent parameter.
-     */
-    public function testGetSettingsMethodSignature(): void
-    {
-        $method = $this->reflection->getMethod('getSettings');
         $params = $method->getParameters();
         $this->assertCount(1, $params);
         $type = $params[0]->getType();

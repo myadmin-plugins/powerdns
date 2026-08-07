@@ -31,7 +31,6 @@ class Plugin
         return [
             'api.register' => [__CLASS__, 'apiRegister'],
             'function.requirements' => [__CLASS__, 'getRequirements'],
-            'system.settings' => [__CLASS__, 'getSettings'],
             //'ui.menu' => [__CLASS__, 'getMenu'],
         ];
     }
@@ -118,7 +117,6 @@ class Plugin
         $loader->add_page_requirement('is_valid_search', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
         $loader->add_page_requirement('is_valid_spf', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
         $loader->add_page_requirement('is_valid_loc', '/../vendor/detain/myadmin-powerdns/src/pdns.functions.inc.php');
-        $loader->add_page_requirement('add_domain', '/../vendor/detain/myadmin-powerdns/src/add_domain.php');
         $loader->add_page_requirement('basic_dns_editor', '/../vendor/detain/myadmin-powerdns/src/basic_dns_editor.php');
         $loader->add_page_requirement('dns_add', '/../vendor/detain/myadmin-powerdns/src/dns_add.php');
         $loader->add_requirement('add_dns_default_domain', '/../vendor/detain/myadmin-powerdns/src/dns_default_domains.php');
@@ -128,20 +126,6 @@ class Plugin
         $loader->add_page_requirement('dns_list', '/../vendor/detain/myadmin-powerdns/src/dns_list.php');
         $loader->add_page_requirement('dns_manager', '/../vendor/detain/myadmin-powerdns/src/dns_manager.php');
         $loader->add_page_requirement('dns_resolvers', '/../vendor/detain/myadmin-powerdns/src/dns_resolvers.php');
-        $loader->add_page_requirement('list_domains', '/../vendor/detain/myadmin-powerdns/src/list_domains.php');
     }
 
-    /**
-     * @param \Symfony\Component\EventDispatcher\GenericEvent $event
-     */
-    public static function getSettings(GenericEvent $event)
-    {
-        /**
-         * @var \MyAdmin\Settings $settings
-         **/
-        $settings = $event->getSubject();
-        //		$settings->add_text_setting(_('Support'), _('PowerDNS'), 'kayako_api_url', _('PowerDNS API URL'), _('PowerDNS API URL'), POWERDNS_API_URL);
-//		$settings->add_password_setting(_('Support'), _('PowerDNS'), 'kayako_api_key', _('PowerDNS API Key'), _('PowerDNS API Key'), POWERDNS_API_KEY);
-//		$settings->add_password_setting(_('Support'), _('PowerDNS'), 'kayako_api_secret', _('PowerDNS API Secret'), _('PowerDNS API Secret'), POWERDNS_API_SECRET);
-    }
 }
