@@ -30,6 +30,10 @@ function dns_editor()
     breadcrums(['home' => 'Home', 'dns_editor' => 'Advanced DNS Editor']);
     if (\MyAdmin\App::ima() == 'admin') {
         add_output(_('Domain Owner') . ':' . \MyAdmin\App::accounts()->cross_reference($domain['account']) . '<br>');
+        add_output('<link rel="stylesheet" href="/lib/@sweetalert2/theme-bootstrap-4/bootstrap-4.min.css">');
+        add_output('<script src="/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>');
+        add_output('<link rel="stylesheet" href="/templates/adminlte/custom_styles.css">');
+        add_output('<link rel="stylesheet" href="/lib/@fortawesome/fontawesome-free/css/all.min.css">');
     }
     add_output($smarty->fetch('dns/dns_editor.tpl'));
 }
