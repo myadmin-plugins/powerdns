@@ -284,16 +284,19 @@ function delete_dns_domain($domain_id)
 * @see API
 * @param string $domain domain name to host
 * @param string $ip ip address to assign it to.
+* @param int|null $custid optional, the account to own the dns. Defaults to the session account; pass it when
+*                         called from a background/service context (eg service activation) where the session
+*                         belongs to a service account rather than the customer.
 * @return array array with status and status_text
 */
-function add_dns_domain($domain, $ip)
+function add_dns_domain($domain, $ip, $custid = null)
 {
     $return['status'] = 'error';
     $return['status_text'] = '';
     $domain = strtolower($domain);
     //myadmin_log('dns', 'info', "new db_mdb2(" . POWERDNS_DB . ", " . POWERDNS_USER . ", " . POWERDNS_PASSWORD . ", " . POWERDNS_HOST . ");", __LINE__, __FILE__);
     $db = new db_mdb2(POWERDNS_DB, POWERDNS_USER, POWERDNS_PASSWORD, POWERDNS_HOST);
-    $custid = \MyAdmin\App::session()->account_id;
+    $custid = $custid === null ? \MyAdmin\App::session()->account_id : (int)$custid;
     $module = get_module_name('default');
     $settings = get_module_settings($module);
     $data = \MyAdmin\App::accounts()->read($custid);
