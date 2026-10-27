@@ -73,7 +73,7 @@ function basic_dns_editor()
             }
             if (isset(\MyAdmin\App::variables()->request['record']) && \MyAdmin\App::variables()->request['record'] == $record['id']) {
                 $table->add_hidden('update', $record['id']);
-                $table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="' . trim(str_replace($domain['name'], '', $record['name']), '.') . '" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
+                $table->add_field('<table cellspacing=0 cellpadding=0><tr><td><input type="text" name="name" value="' . htmlspecial(trim(str_replace($domain['name'], '', $record['name']), '.')) . '" class="input"></td><td>.' . $domain['name'] . '</td></tr></table>');
                 $sel = "<select name=\"type\">\n";
                 foreach ($types as $type_available => $type_desc) {
                     if ($type_available == $record['type']) {
@@ -93,15 +93,15 @@ function basic_dns_editor()
                 $table->add_field($table->make_submit('Update') . $table->make_link('choice=none.basic_dns_editor&amp;edit=' . $domain_id, '<input type=button value=Cancel>'));
                 $table->add_row();
             } else {
-                $table->add_field($record['name']);
+                $table->add_field(htmlspecial($record['name']));
                 if (isset($types[$record['type']])) {
                     $type = $types[$record['type']];
                 }
                 $table->add_field($type);
                 if (mb_strlen($record['content']) > 30) {
-                    $table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . mb_substr($record['content'], 0, 30) . '...</a>');
+                    $table->add_field('<a href="#" title="' . htmlspecial($record['content']) . '">' . htmlspecial(mb_substr($record['content'], 0, 30)) . '...</a>');
                 } else {
-                    $table->add_field($record['content']);
+                    $table->add_field(htmlspecial($record['content']));
                 }
                 //$table->add_field($record['ttl']);
                 if (in_array($record['type'], ['MX', 'SRV'])) {
