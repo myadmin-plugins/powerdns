@@ -917,4 +917,118 @@ class PdnsPureFunctionsTest extends TestCase
     {
         $this->assertFalse(is_valid_loc('not a location'));
     }
+
+    // ---------------------------------------------------------------
+    // TXT names / is_valid_rr_typed_content()
+    // ---------------------------------------------------------------
+
+    /**
+     * Record data pasted into the name field (the DKIM-in-hostname case) is
+     * not a hostname, while the usual TXT owner names are.
+     */
+    public function testTxtRecordDataIsNotAValidHostname(): void
+    {
+        $name = '"v=dkim1;k=rsa;p=migfma0gcsqgsib3dqebaquaa4gnadcbiqkbgqcx4nb1v6tt1ya42ehvgjg03ndisbh3/rics8ydkjo4hcdii/5i5nonbwx7oeojwp9vgdeykjm0kuyfpt7gjxq3lhhnkbz0enk+oo6japr9d1ug12n/zify5is8gymjsgxzn2yrdh2somoeu5txarwphjsu9u8bq0d4ljdr8feluqidaqab".emagreceragora.com.br';
+        $error = '';
+        $this->assertFalse(is_valid_hostname_fqdn($name, 1, $error));
+        $this->assertNotSame('', $error);
+        foreach (['_dmarc.example.com', 'default._domainkey.example.com', 'example.com', '*.example.com'] as $name) {
+            $this->assertTrue(is_valid_hostname_fqdn($name, 1), $name);
+        }
+    }
+
+    /**
+     * @dataProvider validTypedContentProvider
+     */
+    public function testIsValidRrTypedContentAcceptsValid(string $type, string $content): void
+    {
+        $error = '';
+        $this->assertTrue(is_valid_rr_typed_content($type, $content, $error), $type.': '.$error);
+    }
+
+    public function validTypedContentProvider(): array
+    {
+        return [
+            'A6 full' => ['A6', '0 2001:db8::1'],
+            'A6 prefix' => ['A6', '64 ::1 prefix.example.com'],
+            'AFSDB' => ['AFSDB', '1 afsdb.example.com'],
+            'ALIAS' => ['ALIAS', 'target.example.com.'],
+            'CAA issue' => ['CAA', '0 issue "letsencrypt.org"'],
+            'CAA deny' => ['CAA', '0 issue ";"'],
+            'CAA iodef' => ['CAA', '0 iodef "mailto:security@example.com"'],
+            'CDNSKEY' => ['CDNSKEY', '257 3 13 mdsswUyr3DPW132mOi8V9xESWE8jTo0dxCjjnopKl+GqJxpVXckHAeF+KkxLbxILfDLUT0rAK9iUzy1L53eKGQ=='],
+            'DNSKEY' => ['DNSKEY', '256 3 8 AwEAAb4N 53kPbdRl'],
+            'KEY' => ['KEY', '256 3 5 AQPSKmynfzW4kyBv015MUG2DeIQ3'],
+            'DS sha256' => ['DS', '60485 5 2 D4B7D520E7BB5F0F67674A0CCEB1E3E0614B93C4F9E99B8383F6A1E4469DA50A'],
+            'DS sha1' => ['DS', '60485 5 1 2BB183AF5F22588179A53B0A98631FAD1A292118'],
+            'CDS delete' => ['CDS', '0 0 0 00'],
+            'CERT' => ['CERT', 'PGP 0 0 mQGiBDrGSBcRBADiuCsBmEN1R1v2'],
+            'DHCID' => ['DHCID', 'AAIBY2/AuCccgoJbsaxcQc9TUapptP69lOjxfNuVAA2kjEA='],
+            'DNAME' => ['DNAME', 'other.example.com'],
+            'EUI48' => ['EUI48', '00-00-5e-00-53-2a'],
+            'EUI64' => ['EUI64', '00-00-5e-ef-10-00-00-2a'],
+            'IPSECKEY none' => ['IPSECKEY', '10 0 2 . AQNRU3mG7TVTO2BkR47usntb102uFJtugbo6BSGvgqt4AQ=='],
+            'IPSECKEY v4' => ['IPSECKEY', '10 1 2 192.0.2.38 AQNRU3mG7TVTO2BkR47usntb102uFJtugbo6BSGvgqt4AQ=='],
+            'IPSECKEY host' => ['IPSECKEY', '10 3 2 gw.example.com'],
+            'KX' => ['KX', '10 kx.example.com'],
+            'MINFO' => ['MINFO', 'admin.example.com errors.example.com'],
+            'MR' => ['MR', 'mail.example.com'],
+            'NAPTR' => ['NAPTR', '100 10 "U" "E2U+sip" "!^.*$!sip:info@example.com!" .'],
+            'NAPTR replacement' => ['NAPTR', '100 50 "s" "SIPS+D2T" "" _sips._tcp.example.com'],
+            'NSEC' => ['NSEC', 'host.example.com A MX RRSIG NSEC TYPE1234'],
+            'NSEC3' => ['NSEC3', '1 1 12 aabbccdd 2vptu5timamqttgl4luu9kg21e0aor3s A RRSIG'],
+            'NSEC3PARAM' => ['NSEC3PARAM', '1 0 0 -'],
+            'OPENPGPKEY' => ['OPENPGPKEY', 'mQINBFit2jsBEADrbl5vjVxYeAE0g0IDYCBpHirv1Sjlqxx5gjtPhb2YhvyDMXjq'],
+            'RP' => ['RP', 'admin.example.com .'],
+            'RRSIG' => ['RRSIG', 'A 8 3 86400 20260101000000 20251201000000 12345 example.com. oJB1W6WNGv+ldvQ3WDG0MQkg5IEhjRip8WTr'],
+            'SSHFP sha256' => ['SSHFP', '4 2 123456789abcdef67890123456789abcdef67890123456789abcdef123456789'],
+            'SSHFP sha1' => ['SSHFP', '2 1 123456789abcdef67890123456789abcdef67890'],
+            'TLSA' => ['TLSA', '3 1 1 0d6fce3b3be3b5a8b6d6a8e1d8e8a4ef7bbd1d3e6bd5c5f0e7c1b7d3e1a9e4f2'],
+            'URI' => ['URI', '10 1 "https://www.example.com/"'],
+            'URL' => ['URL', 'https://www.example.com/path'],
+            'MBOXFW' => ['MBOXFW', 'user@example.com'],
+            'WKS' => ['WKS', '192.0.2.1 tcp smtp 80 domain'],
+        ];
+    }
+
+    /**
+     * @dataProvider invalidTypedContentProvider
+     */
+    public function testIsValidRrTypedContentRejectsInvalid(string $type, string $content): void
+    {
+        $error = '';
+        $this->assertFalse(is_valid_rr_typed_content($type, $content, $error), $type);
+        $this->assertStringContainsString($type, $error);
+    }
+
+    public function invalidTypedContentProvider(): array
+    {
+        return [
+            'A6 missing prefix name' => ['A6', '64 ::1'],
+            'AFSDB no host' => ['AFSDB', '1'],
+            'ALIAS ip' => ['ALIAS', 'not a host!'],
+            'CAA bad flags' => ['CAA', '300 issue "ca.example.net"'],
+            'CAA bad iodef' => ['CAA', '0 iodef "ftp://example.com"'],
+            'DNSKEY wrong protocol' => ['DNSKEY', '256 2 8 AwEAAb4N'],
+            'DNSKEY bad key' => ['DNSKEY', '256 3 8 not*base64'],
+            'DS short digest' => ['DS', '60485 5 2 D4B7D520'],
+            'DS keytag range' => ['DS', '70000 5 1 2BB183AF5F22588179A53B0A98631FAD1A292118'],
+            'DHCID not base64' => ['DHCID', 'hello world!'],
+            'EUI48 colons' => ['EUI48', '00:00:5e:00:53:2a'],
+            'EUI64 short' => ['EUI64', '00-00-5e-ef-10-00'],
+            'IPSECKEY type mismatch' => ['IPSECKEY', '10 1 2 2001:db8::1'],
+            'KX no pref' => ['KX', 'kx.example.com'],
+            'MINFO one name' => ['MINFO', 'admin.example.com'],
+            'NAPTR unquoted' => ['NAPTR', '100 10 U E2U+sip regex .'],
+            'NSEC bad type' => ['NSEC', 'host.example.com A BOGUS'],
+            'NSEC3PARAM salt' => ['NSEC3PARAM', '1 0 0 xyz'],
+            'RRSIG short' => ['RRSIG', 'A 8 3 86400'],
+            'SSHFP length' => ['SSHFP', '4 2 abcd'],
+            'TLSA not hex' => ['TLSA', '3 1 1 zzzz'],
+            'URI unquoted' => ['URI', '10 1 https://www.example.com/'],
+            'URL scheme' => ['URL', 'javascript:alert(1)'],
+            'MBOXFW' => ['MBOXFW', 'not-an-email'],
+            'WKS ip' => ['WKS', '999.0.0.1 tcp smtp'],
+        ];
+    }
 }

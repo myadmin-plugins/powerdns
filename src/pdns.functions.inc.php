@@ -341,6 +341,18 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
     }
 
+    // records.name is VARCHAR(255) and records.content VARCHAR(64000) in the
+    // PowerDNS schema; types without a name validator would otherwise reach
+    // the INSERT and fail there instead of with a usable message
+    if (strlen($name) > 255) {
+        $error = _('The hostname is too long.');
+        return false;
+    }
+    if (strlen($content) > 64000) {
+        $error = _('The record content is too long.');
+        return false;
+    }
+
     switch ($type) {
 
       case 'A':
@@ -355,7 +367,13 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'A6': // TODO: implement validation.
+      case 'A6':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'AAAA':
@@ -370,22 +388,61 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'AFSDB': // TODO: implement validation.
+      case 'AFSDB':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'ALIAS': // TODO: implement validation.
+      case 'ALIAS':
+        if (!is_valid_rr_cname_exists($name, $rid, $error)) {
+            return false;
+        }
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'CAA': // TODO: implement validation.
+      case 'CAA':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'CDNSKEY': // TODO: implement validation.
+      case 'CDNSKEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'CDS': // TODO: implement validation.
+      case 'CDS':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'CERT': // TODO: implement validation.
+      case 'CERT':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'CNAME':
@@ -406,25 +463,67 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
         break;
 
-      case 'DHCID': // TODO: implement validation
+      case 'DHCID':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'DLV': // TODO: implement validation
+      case 'DLV':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'DNAME': // TODO: implement validation.
+      case 'DNAME':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'DNSKEY': // TODO: implement validation
+      case 'DNSKEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'DS': // TODO: implement validation
+      case 'DS':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'EUI48': // TODO: implement validation
+      case 'EUI48':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'EUI64': // TODO: implement validation
+      case 'EUI64':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'HINFO':
@@ -436,13 +535,31 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'IPSECKEY': // TODO: implement validation
+      case 'IPSECKEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'KEY': // TODO: implement validation
+      case 'KEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'KX': // TODO: implement validation
+      case 'KX':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'LOC':
@@ -454,16 +571,40 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'MAILA': // TODO: implement validation.
+      case 'MAILA':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'MAILB': // TODO: implement validation.
+      case 'MAILB':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'MINFO': // TODO: implement validation
+      case 'MINFO':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'MR': // TODO: implement validation
+      case 'MR':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'MX':
@@ -478,7 +619,13 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'NAPTR': // TODO: implement validation
+      case 'NAPTR':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'NS':
@@ -493,19 +640,49 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'NSEC': // TODO: implement validation
+      case 'NSEC':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'NSEC3': // TODO: implement validation
+      case 'NSEC3':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'NSEC3PARAM': // TODO: implement validation
+      case 'NSEC3PARAM':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'OPENPGPKEY': // TODO: implement validation.
+      case 'OPENPGPKEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'OPT': // TODO: implement validation
+      case 'OPT':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'PTR':
@@ -517,16 +694,40 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'RKEY': // TODO: implement validation
+      case 'RKEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'RP': // TODO: implement validation
+      case 'RP':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'RRSIG': // TODO: implement validation
+      case 'RRSIG':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'SIG': // TODO: implement validation.
+      case 'SIG':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'SOA':
@@ -543,6 +744,9 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
       break;
 
       case 'SPF':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
         if (!is_valid_spf($content, $error)) {
             return false;
         }
@@ -557,20 +761,46 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'SSHFP': // TODO: implement validation
+      case 'SSHFP':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'TKEY': // TODO: implement validation.
+      case 'TKEY':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'TLSA': // TODO: implement validation
+      case 'TLSA':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'TSIG': // TODO: implement validation
+      case 'TSIG':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       case 'TXT':
-        if (!is_valid_printable($name, $error)) {
+        // _dmarc / selector._domainkey style names pass ('_' is allowed);
+        // record data pasted into the name field (quotes, ';', '=', '+') does not
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
             return false;
         }
         if (!is_valid_printable($content, $error)) {
@@ -578,13 +808,40 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         }
       break;
 
-      case 'WKS': // TODO: implement validation
+      case 'URI':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'MBOXFW': // TODO: implement validation
+      case 'WKS':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
-      case 'URL': // TODO: implement validation.
+      case 'MBOXFW':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
+      break;
+
+      case 'URL':
+        if (!is_valid_hostname_fqdn($name, 1, $error)) {
+            return false;
+        }
+        if (!is_valid_rr_typed_content($type, $content, $error)) {
+            return false;
+        }
       break;
 
       default:
@@ -599,6 +856,359 @@ function validate_input($rid, $zid, $type, &$content, &$name, &$prio, &$ttl, &$e
         return false;
     }
 
+    return true;
+}
+
+/** Split record content into presentation-format fields
+ *
+ * Whitespace separates fields; a "quoted string" (with \" escapes) is kept as one field.
+ *
+ * @param string $content record content
+ *
+ * @return string[] fields
+ */
+function split_rr_fields($content)
+{
+    preg_match_all('/"(?:[^"\\\\]|\\\\.)*"|[^\s"]+/', trim($content), $matches);
+    return $matches[0];
+}
+
+/** Test if a field is an unsigned integer no larger than $max
+ *
+ * @param string $value field
+ * @param int $max maximum value
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_uint($value, $max)
+{
+    return is_string($value) && strlen($value) <= 10 && ctype_digit($value) && (int) $value <= $max;
+}
+
+/** Test if a field is a domain name target (optionally the root ".")
+ *
+ * @param string $target domain name
+ * @param boolean $allowRoot accept "." as well
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_target($target, $allowRoot = false)
+{
+    if ($target === '.') {
+        return $allowRoot;
+    }
+    $error = '';
+    return is_string($target) && $target !== '' && is_valid_hostname_fqdn($target, 0, $error);
+}
+
+/** Test if a string is base64 data (whitespace between chunks allowed)
+ *
+ * @param string $data data
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_base64($data)
+{
+    $data = preg_replace('/\s+/', '', (string) $data);
+    return $data !== '' && strlen($data) % 4 == 0 && preg_match('/^[A-Za-z0-9+\/]+={0,2}$/', $data) && base64_decode($data, true) !== false;
+}
+
+/** Test if a string is hex data (whitespace between chunks allowed)
+ *
+ * @param string $data data
+ * @param int $length optional, required number of hex digits
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_hex($data, $length = 0)
+{
+    $data = preg_replace('/\s+/', '', (string) $data);
+    if ($data === '' || strlen($data) % 2 != 0 || !ctype_xdigit($data)) {
+        return false;
+    }
+    return $length == 0 || strlen($data) == $length;
+}
+
+/** Test if a field names a record type (mnemonic or TYPEnnn)
+ *
+ * @param string $value field
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_type_mnemonic($value)
+{
+    // not $rtypes: this file is often included from function scope, where it is not a global
+    static $known = ['A', 'A6', 'AAAA', 'AFSDB', 'ALIAS', 'APL', 'CAA', 'CDNSKEY', 'CDS', 'CERT', 'CNAME', 'CSYNC', 'DHCID', 'DLV', 'DNAME', 'DNSKEY', 'DS', 'EUI48', 'EUI64', 'HINFO', 'HTTPS', 'IPSECKEY', 'KEY', 'KX', 'L32', 'L64', 'LOC', 'LP', 'MINFO', 'MR', 'MX', 'NAPTR', 'NID', 'NS', 'NSEC', 'NSEC3', 'NSEC3PARAM', 'NXT', 'OPENPGPKEY', 'PTR', 'RKEY', 'RP', 'RRSIG', 'SIG', 'SMIMEA', 'SOA', 'SPF', 'SRV', 'SSHFP', 'SVCB', 'TLSA', 'TXT', 'URI', 'WKS', 'ZONEMD'];
+    if (preg_match('/^TYPE(\d{1,5})$/i', $value, $matches)) {
+        return (int) $matches[1] <= 65535;
+    }
+    return in_array(strtoupper($value), $known);
+}
+
+/** Test if a field is a DNSSEC timestamp (YYYYMMDDHHmmSS or seconds since the epoch)
+ *
+ * @param string $value field
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_sig_time($value)
+{
+    if (preg_match('/^\d{14}$/', $value)) {
+        return checkdate((int) substr($value, 4, 2), (int) substr($value, 6, 2), (int) substr($value, 0, 4));
+    }
+    return is_valid_rr_uint($value, 4294967295);
+}
+
+/** Expected content format per record type, shown when validation fails
+ *
+ * @return string[]
+ */
+function get_rr_content_formats()
+{
+    return [
+        'A6' => 'prefix-length [address-suffix] [prefix-name]',
+        'AFSDB' => 'subtype hostname',
+        'ALIAS' => 'hostname',
+        'CAA' => 'flags tag "value"  (e.g. 0 issue "letsencrypt.org")',
+        'CDNSKEY' => 'flags 3 algorithm base64-key',
+        'CDS' => 'key-tag algorithm digest-type hex-digest',
+        'CERT' => 'cert-type key-tag algorithm base64-certificate',
+        'DHCID' => 'base64-data',
+        'DLV' => 'key-tag algorithm digest-type hex-digest',
+        'DNAME' => 'hostname',
+        'DNSKEY' => 'flags 3 algorithm base64-key',
+        'DS' => 'key-tag algorithm digest-type hex-digest',
+        'EUI48' => 'xx-xx-xx-xx-xx-xx',
+        'EUI64' => 'xx-xx-xx-xx-xx-xx-xx-xx',
+        'IPSECKEY' => 'precedence gateway-type algorithm gateway [base64-key]',
+        'KEY' => 'flags protocol algorithm base64-key',
+        'KX' => 'preference hostname',
+        'MAILA' => 'printable text',
+        'MAILB' => 'printable text',
+        'MBOXFW' => 'email address',
+        'MINFO' => 'responsible-mailbox error-mailbox',
+        'MR' => 'hostname',
+        'NAPTR' => 'order preference "flags" "service" "regexp" replacement',
+        'NSEC' => 'next-hostname type [type ...]',
+        'NSEC3' => 'algorithm flags iterations salt next-hashed-owner [type ...]',
+        'NSEC3PARAM' => 'algorithm flags iterations salt',
+        'OPENPGPKEY' => 'base64-key',
+        'OPT' => 'printable text',
+        'RKEY' => 'flags protocol algorithm base64-key',
+        'RP' => 'mailbox-hostname txt-hostname',
+        'RRSIG' => 'type algorithm labels original-ttl expiration inception key-tag signer base64-signature',
+        'SIG' => 'type algorithm labels original-ttl expiration inception key-tag signer base64-signature',
+        'SSHFP' => 'algorithm fingerprint-type hex-fingerprint',
+        'TKEY' => 'printable text',
+        'TLSA' => 'usage selector matching-type hex-data',
+        'TSIG' => 'printable text',
+        'URI' => 'priority weight "target"',
+        'URL' => 'http(s) URL',
+        'WKS' => 'ipv4-address protocol service [service ...]',
+    ];
+}
+
+/** Check record content against the presentation format of its type
+ *
+ * Covers the types that have no dedicated validator of their own.
+ *
+ * @param string $type record type
+ * @param string $content record content; single-hostname content is normalized (trailing dot removed)
+ * @param string $error optional, Any error text will get stored here
+ *
+ * @return boolean true if valid, false otherwise
+ */
+function is_valid_rr_typed_content($type, &$content, &$error = '')
+{
+    $content = trim((string) $content);
+    $f = split_rr_fields($content);
+    $count = count($f);
+    switch ($type) {
+        case 'A6':
+            $valid = $count > 0 && is_valid_rr_uint($f[0], 128);
+            if ($valid) {
+                $prefixLen = (int) $f[0];
+                $expected = 1 + ($prefixLen < 128 ? 1 : 0) + ($prefixLen > 0 ? 1 : 0);
+                $valid = $count == $expected
+                    && ($prefixLen == 128 || is_valid_ipv6($f[1], false))
+                    && ($prefixLen == 0 || is_valid_rr_target($f[$expected - 1]));
+            }
+            break;
+
+        case 'AFSDB':
+        case 'KX':
+            $valid = $count == 2 && is_valid_rr_uint($f[0], 65535) && is_valid_rr_target($f[1]);
+            break;
+
+        case 'ALIAS':
+        case 'DNAME':
+        case 'MR':
+            $valid = $count == 1 && is_valid_hostname_fqdn($content, 0);
+            break;
+
+        case 'CAA':
+            $valid = $count == 3 && is_valid_rr_uint($f[0], 255) && preg_match('/^[A-Za-z0-9]{1,15}$/', $f[1]);
+            if ($valid) {
+                $value = preg_match('/^".*"$/s', $f[2]) ? substr($f[2], 1, -1) : $f[2];
+                if (strtolower($f[1]) == 'iodef') {
+                    $valid = (bool) preg_match('#^(mailto:\S+@\S+|https?://\S+)$#i', $value);
+                } elseif (in_array(strtolower($f[1]), ['issue', 'issuewild'])) {
+                    $valid = (bool) preg_match('/^[A-Za-z0-9.\-]*\s*(;.*)?$/s', $value);
+                }
+            }
+            break;
+
+        case 'CDNSKEY':
+        case 'DNSKEY':
+        case 'KEY':
+        case 'RKEY':
+            $valid = $count >= 4 && is_valid_rr_uint($f[0], 65535) && is_valid_rr_uint($f[1], 255) && is_valid_rr_uint($f[2], 255)
+                && (!in_array($type, ['DNSKEY', 'CDNSKEY']) || $f[1] === '3')
+                && is_valid_rr_base64(implode('', array_slice($f, 3)));
+            break;
+
+        case 'CDS':
+        case 'DLV':
+        case 'DS':
+            $valid = $count >= 4 && is_valid_rr_uint($f[0], 65535) && is_valid_rr_uint($f[1], 255) && is_valid_rr_uint($f[2], 255);
+            if ($valid) {
+                // SHA-1, SHA-256, GOST, SHA-384 digest lengths; type 0 is the CDS delete form
+                $digestLengths = [1 => 40, 2 => 64, 3 => 64, 4 => 96];
+                $valid = is_valid_rr_hex(implode('', array_slice($f, 3)), $digestLengths[(int) $f[2]] ?? 0);
+            }
+            break;
+
+        case 'CERT':
+            $valid = $count >= 4
+                && (is_valid_rr_uint($f[0], 65535) || in_array(strtoupper($f[0]), ['PKIX', 'SPKI', 'PGP', 'IPKIX', 'ISPKI', 'IPGP', 'ACPKIX', 'IACPKIX', 'URI', 'OID']))
+                && is_valid_rr_uint($f[1], 65535)
+                && (is_valid_rr_uint($f[2], 255) || preg_match('/^[A-Z][A-Z0-9\-]*$/i', $f[2]))
+                && is_valid_rr_base64(implode('', array_slice($f, 3)));
+            break;
+
+        case 'DHCID':
+        case 'OPENPGPKEY':
+            $valid = $count >= 1 && is_valid_rr_base64($content);
+            break;
+
+        case 'EUI48':
+            $valid = (bool) preg_match('/^[0-9a-f]{2}(-[0-9a-f]{2}){5}$/i', $content);
+            break;
+
+        case 'EUI64':
+            $valid = (bool) preg_match('/^[0-9a-f]{2}(-[0-9a-f]{2}){7}$/i', $content);
+            break;
+
+        case 'IPSECKEY':
+            $valid = ($count == 4 || $count >= 5) && is_valid_rr_uint($f[0], 255) && is_valid_rr_uint($f[1], 3) && is_valid_rr_uint($f[2], 255);
+            if ($valid) {
+                switch ((int) $f[1]) {
+                    case 0:
+                        $valid = $f[3] === '.';
+                        break;
+                    case 1:
+                        $valid = is_valid_ipv4($f[3], false);
+                        break;
+                    case 2:
+                        $valid = is_valid_ipv6($f[3], false);
+                        break;
+                    default:
+                        $valid = is_valid_rr_target($f[3]);
+                }
+                $valid = $valid && ($count == 4 || is_valid_rr_base64(implode('', array_slice($f, 4))));
+            }
+            break;
+
+        case 'MINFO':
+        case 'RP':
+            $valid = $count == 2 && is_valid_rr_target($f[0], true) && is_valid_rr_target($f[1], true);
+            break;
+
+        case 'NAPTR':
+            $valid = $count == 6 && is_valid_rr_uint($f[0], 65535) && is_valid_rr_uint($f[1], 65535)
+                && preg_match('/^"[A-Za-z0-9]*"$/', $f[2])
+                && preg_match('/^"[^"]*"$/', $f[3])
+                && preg_match('/^"(?:[^"\\\\]|\\\\.)*"$/', $f[4])
+                && is_valid_rr_target($f[5], true);
+            break;
+
+        case 'NSEC':
+            $valid = $count >= 1 && is_valid_rr_target($f[0], true);
+            for ($i = 1; $valid && $i < $count; $i++) {
+                $valid = is_valid_rr_type_mnemonic($f[$i]);
+            }
+            break;
+
+        case 'NSEC3':
+            $valid = $count >= 5 && is_valid_rr_uint($f[0], 255) && is_valid_rr_uint($f[1], 255) && is_valid_rr_uint($f[2], 65535)
+                && ($f[3] === '-' || is_valid_rr_hex($f[3]))
+                && preg_match('/^[0-9A-Va-v]+$/', $f[4]);
+            for ($i = 5; $valid && $i < $count; $i++) {
+                $valid = is_valid_rr_type_mnemonic($f[$i]);
+            }
+            break;
+
+        case 'NSEC3PARAM':
+            $valid = $count == 4 && is_valid_rr_uint($f[0], 255) && is_valid_rr_uint($f[1], 255) && is_valid_rr_uint($f[2], 65535)
+                && ($f[3] === '-' || is_valid_rr_hex($f[3]));
+            break;
+
+        case 'RRSIG':
+        case 'SIG':
+            $valid = $count >= 9 && is_valid_rr_type_mnemonic($f[0]) && is_valid_rr_uint($f[1], 255) && is_valid_rr_uint($f[2], 255)
+                && is_valid_rr_uint($f[3], 4294967295) && is_valid_rr_sig_time($f[4]) && is_valid_rr_sig_time($f[5])
+                && is_valid_rr_uint($f[6], 65535) && is_valid_rr_target($f[7], true)
+                && is_valid_rr_base64(implode('', array_slice($f, 8)));
+            break;
+
+        case 'SSHFP':
+            $valid = $count >= 3 && is_valid_rr_uint($f[0], 255) && is_valid_rr_uint($f[1], 255);
+            if ($valid) {
+                $fingerprintLengths = [1 => 40, 2 => 64];
+                $valid = is_valid_rr_hex(implode('', array_slice($f, 2)), $fingerprintLengths[(int) $f[1]] ?? 0);
+            }
+            break;
+
+        case 'TLSA':
+            $valid = $count >= 4 && is_valid_rr_uint($f[0], 255) && is_valid_rr_uint($f[1], 255) && is_valid_rr_uint($f[2], 255);
+            if ($valid) {
+                // matching type 0 is the full certificate/key, 1 SHA-256, 2 SHA-512
+                $digestLengths = [1 => 64, 2 => 128];
+                $valid = is_valid_rr_hex(implode('', array_slice($f, 3)), $digestLengths[(int) $f[2]] ?? 0);
+            }
+            break;
+
+        case 'URI':
+            $valid = $count == 3 && is_valid_rr_uint($f[0], 65535) && is_valid_rr_uint($f[1], 65535) && preg_match('/^"\S+"$/', $f[2]);
+            break;
+
+        case 'URL':
+            $valid = filter_var($content, FILTER_VALIDATE_URL) !== false && preg_match('#^https?://#i', $content);
+            break;
+
+        case 'MBOXFW':
+            $valid = is_valid_email($content);
+            break;
+
+        case 'WKS':
+            $valid = $count >= 3 && is_valid_ipv4($f[0], false) && (is_valid_rr_uint($f[1], 255) || preg_match('/^[A-Za-z]+$/', $f[1]));
+            for ($i = 2; $valid && $i < $count; $i++) {
+                $valid = is_valid_rr_uint($f[$i], 65535) || preg_match('/^[A-Za-z][A-Za-z0-9\-]*$/', $f[$i]);
+            }
+            break;
+
+        default:
+            // MAILA, MAILB, OPT, TKEY, TSIG are query/meta types with no zone-file format
+            $valid = is_valid_printable($content);
+    }
+    if (!$valid) {
+        $formats = get_rr_content_formats();
+        $error = sprintf(_('Invalid content for a %s record.'), $type);
+        if (isset($formats[$type])) {
+            $error .= ' '.sprintf(_('Expected: %s'), $formats[$type]);
+        }
+        return false;
+    }
     return true;
 }
 
